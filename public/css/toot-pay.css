@@ -1,0 +1,44 @@
+/*!
+ * Toot Pay (http://toot.pay)
+ * Author: Klarizon Emar Motol
+ * Copyright 2016 Toot Pay
+ */
+
+body {
+    font-family: 'ProductSans';
+    padding-bottom: 20px;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+footer {
+    margin-top: 100px;
+}
+
+.welcome {
+    margin-top: -20px;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+.huge {
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.fa-btn {
+    margin-right: 6px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
