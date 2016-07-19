@@ -12,7 +12,8 @@
 */
 
 Route::get('dd', function () {
-    return dd(count(config('static.users')));
+
+    return dd(json_decode('', true));
 });
 
 Route::auth();

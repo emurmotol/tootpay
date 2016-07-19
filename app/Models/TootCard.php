@@ -19,6 +19,10 @@ class TootCard extends Model
             'user_toot_card', 'toot_card_id', 'user_id');
     }
 
+    public function setPinCodeAttribute($value) {
+        $this->attributes['pin_code'] = bcrypt($value);
+    }
+
     public static function getId($user_id) {
         $toot_card = User::find($user_id)->tootCards()->first();
         return $toot_card->pivot->toot_card_id;

@@ -16,6 +16,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
     public function roles() {
         return $this->belongsToMany('App\Models\Role',
             'user_role', 'user_id', 'role_id')->withTimestamps();

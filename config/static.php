@@ -11,7 +11,7 @@ return [
         ],
     ],
 
-    'toot_card_count' => 50,
+    'toot_card_count' => 20,
 
     'settings' => [
         [
@@ -24,17 +24,12 @@ return [
         ],
     ],
 
-    'administrator' => [
+    'admin' => [
         'id' => '00420130131',
         'name' => 'Klarizon Emar Motol',
         'email' => 'klarizonemar@gmail.com',
         'password' => '123qwe',
         'phone_number' => '09261951315',
-    ],
-
-    'demo' => [
-        'password' => '123qwe',
-        'pin_code' => '123456',
     ],
 
     'roles' => [
