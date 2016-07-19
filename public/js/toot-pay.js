@@ -1,4 +1,4 @@
 /*!
- * Toot Pay (http://toot.pay)
+ * Toot Pay (https://github.com/klarizonemar/tootpay)
  * Author: Klarizon Emar Motol
  */
