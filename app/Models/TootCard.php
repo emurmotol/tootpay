@@ -52,6 +52,6 @@ class TootCard extends Model
     }
 
     public function renewed() {
-        return 0;
+        return 0; // todo added a joke
     }
 }
