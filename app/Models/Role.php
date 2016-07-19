@@ -17,8 +17,8 @@ class Role extends Model
     }
 
     public static function json($index = null) {
-        $json  = storage_path('app/public/seeds/') . 'roles.json';
-        $roles = json_decode(file_get_contents($json), true);
+        $path  = resource_path('assets/json/roles.json');
+        $roles = json_decode(file_get_contents($path), true);
 
         if (is_null($index)) {
             return $roles;

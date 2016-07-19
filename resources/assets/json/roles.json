@@ -1,0 +1,17 @@
+[
+  {
+    "id": 111111,
+    "name": "Administrator",
+    "description": "The administrator account is a blah blah blah."
+  },
+  {
+    "id": 222222,
+    "name": "Cashier",
+    "description": "The cashier account is a blah blah blah."
+  },
+  {
+    "id": 333333,
+    "name": "Cardholder",
+    "description": "The cardholder account is a blah blah blah."
+  }
+]

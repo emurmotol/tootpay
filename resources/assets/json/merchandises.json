@@ -1,0 +1,86 @@
+[
+  {
+    "name": "COKE (MISMO)",
+    "price": 15
+  },
+  {
+    "name": "TAPSILOG",
+    "price": 45
+  },
+  {
+    "name": "TOCILOG",
+    "price": 45
+  },
+  {
+    "name": "HOTSILOG",
+    "price": 30
+  },
+  {
+    "name": "RICE",
+    "price": 10
+  },
+  {
+    "name": "CANDY",
+    "price": 1
+  },
+  {
+    "name": "SKY FLAKES",
+    "price": 10
+  },
+  {
+    "name": "BULALO",
+    "price": 60
+  },
+  {
+    "name": "MACARONI SALAD",
+    "price": 20
+  },
+  {
+    "name": "KOPIKO",
+    "price": 10
+  },
+  {
+    "name": "TURON",
+    "price": 10
+  },
+  {
+    "name": "BENG-BENG",
+    "price": 10
+  },
+  {
+    "name": "BALL PEN (HBW)",
+    "price": 12
+  },
+  {
+    "name": "SPRITE (MISMO)",
+    "price": 15
+  },
+  {
+    "name": "PANCIT CANTON",
+    "price": 15
+  },
+  {
+    "name": "TOKWA'T BABOY",
+    "price": 50
+  },
+  {
+    "name": "PARES",
+    "price": 30
+  },
+  {
+    "name": "SIOMAI",
+    "price": 20
+  },
+  {
+    "name": "CALDERETA",
+    "price": 45
+  },
+  {
+    "name": "SPAGHETTI",
+    "price": 20
+  },
+  {
+    "name": "SOPAS",
+    "price": 20
+  }
+]

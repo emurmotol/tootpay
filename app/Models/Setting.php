@@ -19,8 +19,8 @@ class Setting extends Model
     }
 
     public static function json($index = null) {
-        $json  = storage_path('app/public/seeds/') . 'settings.json';
-        $settings = json_decode(file_get_contents($json), true);
+        $path  = resource_path('assets/json/settings.json');
+        $settings = json_decode(file_get_contents($path), true);
 
         if (is_null($index)) {
             return $settings;

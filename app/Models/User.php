@@ -53,8 +53,8 @@ class User extends Authenticatable
     }
 
     public static function adminJson($field = null) {
-        $json  = storage_path('app/public/seeds/') . 'admin.json';
-        $admin = json_decode(file_get_contents($json), true);
+        $path  = resource_path('assets/json/admin.json');
+        $admin = json_decode(file_get_contents($path), true);
 
         if (is_null($field)) {
             return $admin;
@@ -63,8 +63,8 @@ class User extends Authenticatable
     }
 
     public static function cashiersJson($index = null) {
-        $json  = storage_path('app/public/seeds/') . 'cashiers.json';
-        $cashiers = json_decode(file_get_contents($json), true);
+        $path  = resource_path('assets/json/cashiers.json');
+        $cashiers = json_decode(file_get_contents($path), true);
 
         if (is_null($index)) {
             return $cashiers;
@@ -73,8 +73,8 @@ class User extends Authenticatable
     }
 
     public static function cardholdersJson($index = null) {
-        $json  = storage_path('app/public/seeds/') . 'cardholders.json';
-        $cardholders = json_decode(file_get_contents($json), true);
+        $path  = resource_path('assets/json/cardholders.json');
+        $cardholders = json_decode(file_get_contents($path), true);
 
         if (is_null($index)) {
             return $cardholders;
