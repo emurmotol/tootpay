@@ -7,12 +7,15 @@ class MerchandisesTableSeeder extends Seeder
 {
     public function run()
     {
-        foreach (config('static.merchandises') as $merchandise) {
-            $merchandises = new Merchandise();
-            $merchandises->name = $merchandise['name'];
-            $merchandises->price = $merchandise['price'];
-            $merchandises->available = rand(0, 1);
-            $merchandises->save();
+        $merchandises_json  = storage_path('app/public/seeds/') . 'merchandises.json';
+        $merchandises = json_decode(file_get_contents($merchandises_json), true);
+
+        foreach ($merchandises as $merchandise) {
+            $_merchandises = new Merchandise();
+            $_merchandises->name = $merchandise['name'];
+            $_merchandises->price = $merchandise['price'];
+            $_merchandises->available = rand(0, 1);
+            $_merchandises->save();
         }
     }
 }

@@ -7,7 +7,10 @@ class SettingsTableSeeder extends Seeder
 {
     public function run()
     {
-        foreach (config('static.settings') as $setting) {
+        $settings_json  = storage_path('app/public/seeds/') . 'settings.json';
+        $settings = json_decode(file_get_contents($settings_json), true);
+
+        foreach ($settings as $setting) {
             Setting::create($setting);
         }
     }

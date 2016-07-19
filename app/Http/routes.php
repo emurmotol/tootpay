@@ -12,8 +12,12 @@
 */
 
 Route::get('dd', function () {
-
-    return dd(json_decode('', true));
+    $json  = storage_path('app/public/seeds/') . 'roles.json';
+    $roles = json_decode(file_get_contents($json), true);
+    $admin = $roles[0]['id'];
+    $cashier = $roles[1]['id'];
+    $cardholder = $roles[2]['id'];
+    return dd($admin);
 });
 
 Route::auth();
@@ -23,9 +27,11 @@ Route::get('home', 'HomeController@home');
 Route::get('faq', 'HomeController@faq');
 
 Route::group(['middleware' => 'roles'], function () {
-    $admin = config('static.roles')[0]['id'];
-    $cashier = config('static.roles')[1]['id'];
-    $cardholder = config('static.roles')[2]['id'];
+    $roles_json  = storage_path('app/public/seeds/') . 'roles.json';
+    $roles = json_decode(file_get_contents($roles_json), true);
+    $admin = $roles[0]['id'];
+    $cashier = $roles[1]['id'];
+    $cardholder = $roles[2]['id'];
 
     Route::get('cashier', [
         'uses' => 'DashboardController@cashier',

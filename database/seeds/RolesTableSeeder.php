@@ -7,7 +7,10 @@ class RolesTableSeeder extends Seeder
 {
     public function run()
     {
-        foreach (config('static.roles') as $role) {
+        $roles_json  = storage_path('app/public/seeds/') . 'roles.json';
+        $roles = json_decode(file_get_contents($roles_json), true);
+
+        foreach ($roles as $role) {
             Role::create($role);
         }
     }
