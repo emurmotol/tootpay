@@ -46,7 +46,7 @@
                                         <input type="checkbox" name="remember"> Remember me
                                     </label>
                                 </div>
-                                <a class="btn btn-link pull-right" href="{{ url('password/reset') }}">Forgot your password?</a>
+                                <a class="btn btn-link pull-right" href="{{ url('password/reset') }}">I forgot my password</a>
                             </div>
                         </div>
 

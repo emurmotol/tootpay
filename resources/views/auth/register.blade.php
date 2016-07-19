@@ -86,7 +86,7 @@
                                 <button type="submit" id="btn-register" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
                                     <i class="fa fa-btn fa-user"></i> Register
                                 </button>
-                                <a class="btn btn-link" href="{{ url('login') }}">Already have an account?</a>
+                                <a class="btn btn-link" href="{{ url('login') }}">I already have an account</a>
                             </div>
                         </div>
                     {!! Form::close() !!}
