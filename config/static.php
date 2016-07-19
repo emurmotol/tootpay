@@ -10,5 +10,4 @@ return [
             'keywords' => 'rfid, smart card, payment, digital, electronic, food',
         ],
     ],
-
 ];

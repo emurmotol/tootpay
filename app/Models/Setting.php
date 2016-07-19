@@ -20,10 +20,10 @@ class Setting extends Model
 
     public static function json($index = null) {
         $path  = resource_path('assets/json/settings.json');
-        $settings = json_decode(file_get_contents($path), true);
+        $settings = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
-            return $settings;
+            return $settings->all();
         }
         return $settings[$index]['id'];
     }

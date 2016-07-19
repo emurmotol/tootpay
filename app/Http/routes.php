@@ -12,7 +12,7 @@
 */
 
 Route::get('dd', function () {
-    return dd(( new \App\Models\User)->cardholders());
+    return dd(\App\Models\Role::json());
 });
 
 Route::auth();

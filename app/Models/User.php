@@ -54,30 +54,30 @@ class User extends Authenticatable
 
     public static function adminJson($field = null) {
         $path  = resource_path('assets/json/admin.json');
-        $admin = json_decode(file_get_contents($path), true);
+        $admin = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($field)) {
-            return $admin;
+            return $admin->all();
         }
         return $admin[$field];
     }
 
     public static function cashiersJson($index = null) {
         $path  = resource_path('assets/json/cashiers.json');
-        $cashiers = json_decode(file_get_contents($path), true);
+        $cashiers = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
-            return $cashiers;
+            return $cashiers->all();
         }
         return $cashiers[$index];
     }
 
     public static function cardholdersJson($index = null) {
         $path  = resource_path('assets/json/cardholders.json');
-        $cardholders = json_decode(file_get_contents($path), true);
+        $cardholders = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
-            return $cardholders;
+            return $cardholders->all();
         }
         return $cardholders[$index];
     }

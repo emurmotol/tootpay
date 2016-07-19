@@ -24,10 +24,10 @@ class Merchandise extends Model
 
     public static function json($index = null) {
         $path  = resource_path('assets/json/merchandises.json');
-        $merchandises = json_decode(file_get_contents($path), true);
+        $merchandises = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
-            return $merchandises;
+            return $merchandises->all();
         }
         return $merchandises[$index]['id'];
     }

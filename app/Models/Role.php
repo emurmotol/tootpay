@@ -18,10 +18,10 @@ class Role extends Model
 
     public static function json($index = null) {
         $path  = resource_path('assets/json/roles.json');
-        $roles = json_decode(file_get_contents($path), true);
+        $roles = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
-            return $roles;
+            return $roles->all();
         }
         return $roles[$index]['id'];
     }
