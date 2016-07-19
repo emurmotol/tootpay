@@ -40,7 +40,7 @@ class Merchandise extends Model
                 $available->push($merchandise);
             }
         }
-        return $available;
+        return $available->all();
     }
 
     public function unavailable() {
@@ -51,7 +51,7 @@ class Merchandise extends Model
                 $unavailable->push($merchandise);
             }
         }
-        return $unavailable;
+        return $unavailable->all();
     }
 
     public function imageUrl($merchandise_id) {

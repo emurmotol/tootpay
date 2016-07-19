@@ -90,7 +90,7 @@ class User extends Authenticatable
                 $administrators->push($user);
             }
         }
-        return $administrators;
+        return $administrators->all();
     }
 
     public function cashiers() {
@@ -101,7 +101,7 @@ class User extends Authenticatable
                 $cashiers->push($user);
             }
         }
-        return $cashiers;
+        return $cashiers->all();
     }
 
     public function cardholders() {
@@ -112,6 +112,6 @@ class User extends Authenticatable
                 $cardholders->push($user);
             }
         }
-        return $cardholders;
+        return $cardholders->all();
     }
 }

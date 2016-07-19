@@ -37,7 +37,7 @@ class TootCard extends Model
                 $expired->push($toot_card);
             }
         }
-        return $expired;
+        return $expired->all();
     }
 
     public function active() {
@@ -48,7 +48,7 @@ class TootCard extends Model
                 $active->push($toot_card);
             }
         }
-        return $active;
+        return $active->all();
     }
 
     public function renewed() {
