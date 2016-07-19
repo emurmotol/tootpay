@@ -56,6 +56,10 @@ return [
         ],
     ],
 
+    'users' => [
+        ''
+    ],
+
     'merchandises' => [
         [
             'name' => 'COKE (MISMO)',
