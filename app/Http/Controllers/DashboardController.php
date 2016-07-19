@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -10,21 +11,15 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index() {
-        $roles_json  = storage_path('app/public/seeds/') . 'roles.json';
-        $roles = json_decode(file_get_contents($roles_json), true);
-        $admin = $roles[0]['id'];
-        $cashier = $roles[1]['id'];
-        $cardholder = $roles[2]['id'];
-
-        if (Auth::user()->hasRole($admin)) {
+        if (Auth::user()->hasRole(Role::json(0))) {
             return $this->admin();
         }
 
-        if (Auth::user()->hasRole($cashier)) {
+        if (Auth::user()->hasRole(Role::json(1))) {
             return $this->cashier();
         }
 
-        if (Auth::user()->hasRole($cardholder)) {
+        if (Auth::user()->hasRole(Role::json(2))) {
             return $this->cardholder();
         }
     }

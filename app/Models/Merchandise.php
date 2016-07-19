@@ -22,7 +22,17 @@ class Merchandise extends Model
         $this->attributes['available'] = ($value == 'on') ? true : false;
     }
 
-    public function getAvailable() {
+    public static function json($index = null) {
+        $json  = storage_path('app/public/seeds/') . 'merchandises.json';
+        $merchandises = json_decode(file_get_contents($json), true);
+
+        if (is_null($index)) {
+            return $merchandises;
+        }
+        return $merchandises[$index]['id'];
+    }
+
+    public function available() {
         $available = collect();
 
         foreach ($this->all() as $merchandise) {
@@ -33,7 +43,7 @@ class Merchandise extends Model
         return $available;
     }
 
-    public function getUnavailable() {
+    public function unavailable() {
         $unavailable = collect();
 
         foreach ($this->all() as $merchandise) {
@@ -44,7 +54,7 @@ class Merchandise extends Model
         return $unavailable;
     }
 
-    public function getImageUrl($merchandise_id) {
+    public function imageUrl($merchandise_id) {
         $id = ($merchandise_id === 0 || $this->findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
         return url('img/merchandise/' . $id . '.jpg');
     }

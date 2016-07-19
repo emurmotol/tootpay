@@ -52,11 +52,41 @@ class User extends Authenticatable
         return false;
     }
 
+    public static function adminJson($field = null) {
+        $json  = storage_path('app/public/seeds/') . 'admin.json';
+        $admin = json_decode(file_get_contents($json), true);
+
+        if (is_null($field)) {
+            return $admin;
+        }
+        return $admin[$field];
+    }
+
+    public static function cashiersJson($index = null) {
+        $json  = storage_path('app/public/seeds/') . 'cashiers.json';
+        $cashiers = json_decode(file_get_contents($json), true);
+
+        if (is_null($index)) {
+            return $cashiers;
+        }
+        return $cashiers[$index];
+    }
+
+    public static function cardholdersJson($index = null) {
+        $json  = storage_path('app/public/seeds/') . 'cardholders.json';
+        $cardholders = json_decode(file_get_contents($json), true);
+
+        if (is_null($index)) {
+            return $cardholders;
+        }
+        return $cardholders[$index];
+    }
+
     public function administrators() {
         $administrators = collect();
 
         foreach ($this->all() as $user) {
-            if ($user->hasRole(config('static.roles')[0]['id'])) {
+            if ($user->hasRole(Role::json(0))) {
                 $administrators->push($user);
             }
         }
@@ -67,7 +97,7 @@ class User extends Authenticatable
         $cashiers = collect();
 
         foreach ($this->all() as $user) {
-            if ($user->hasRole(config('static.roles')[1]['id'])) {
+            if ($user->hasRole(Role::json(1))) {
                 $cashiers->push($user);
             }
         }
@@ -78,7 +108,7 @@ class User extends Authenticatable
         $cardholders = collect();
 
         foreach ($this->all() as $user) {
-            if ($user->hasRole(config('static.roles')[2]['id'])) {
+            if ($user->hasRole(Role::json(2))) {
                 $cardholders->push($user);
             }
         }

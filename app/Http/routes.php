@@ -12,7 +12,7 @@
 */
 
 Route::get('dd', function () {
-    return dd(true);
+    return dd(( new \App\Models\User)->cardholders());
 });
 
 Route::auth();
@@ -22,11 +22,9 @@ Route::get('home', 'HomeController@home');
 Route::get('faq', 'HomeController@faq');
 
 Route::group(['middleware' => 'roles'], function () {
-    $roles_json  = storage_path('app/public/seeds/') . 'roles.json';
-    $roles = json_decode(file_get_contents($roles_json), true);
-    $admin = $roles[0]['id'];
-    $cashier = $roles[1]['id'];
-    $cardholder = $roles[2]['id'];
+    $admin = \App\Models\Role::json(0);
+    $cashier = \App\Models\Role::json(1);
+    $cardholder = \App\Models\Role::json(2);
 
     Route::get('cashier', [
         'uses' => 'DashboardController@cashier',

@@ -19,21 +19,17 @@ class TootCard extends Model
             'user_toot_card', 'toot_card_id', 'user_id');
     }
 
-    public function setPinCodeAttribute($value) {
-        $this->attributes['pin_code'] = bcrypt($value);
-    }
-
-    public static function getId($user_id) {
+    public static function id($user_id) {
         $toot_card = User::find($user_id)->tootCards()->first();
         return $toot_card->pivot->toot_card_id;
     }
 
-    public static function getUserId($toot_card_id) {
+    public static function userId($toot_card_id) {
         $toot_card = self::find($toot_card_id)->users()->first();
         return $toot_card->pivot->user_id;
     }
 
-    public function getExpired() {
+    public function expired() {
         $expired = collect();
 
         foreach ($this->all() as $toot_card) {
@@ -44,7 +40,7 @@ class TootCard extends Model
         return $expired;
     }
 
-    public function getActive() {
+    public function active() {
         $active = collect();
 
         foreach ($this->all() as $toot_card) {
@@ -55,7 +51,7 @@ class TootCard extends Model
         return $active;
     }
 
-    public function getRenewed() {
+    public function renewed() {
         return 0;
     }
 }
