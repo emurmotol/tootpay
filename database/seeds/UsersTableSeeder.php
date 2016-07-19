@@ -12,44 +12,38 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        $roles_json  = storage_path('app/public/seeds/') . 'roles.json';
+        $seeds_path = storage_path('app/public/seeds/');
+
+        $roles_json  = $seeds_path . 'roles.json';
         $roles = json_decode(file_get_contents($roles_json), true);
-        $admin = $roles[0]['id'];
-        $cashier = $roles[1]['id'];
-        $cardholder = $roles[2]['id'];
 
-        $admin_json  = storage_path('app/public/seeds/') . 'admin.json';
-        $admin_data = json_decode(file_get_contents($admin_json), true);
+        $admin_json  = $seeds_path . 'admin.json';
+        $admin = json_decode(file_get_contents($admin_json), true);
 
-        $password = $admin_data['password'];
-        $toot_card_count = config('static.toot_card_count');
+        $user = new User();
+        $user->fill($admin)->save();
+        $user->roles()->attach(Role::find($roles[0]['id']));
+
+        $cashier_json  = $seeds_path . 'cashiers.json';
+        $cashiers = json_decode(file_get_contents($cashier_json), true);
+
+        foreach ($cashiers as $cashier) {
+            $user = new User();
+            $user->fill($cashier);
+            $user->save();
+            $user->roles()->attach(Role::find($roles[1]['id']));
+        }
 
         $faker = Faker::create();
 
-        $user = new User();
-        $user->fill($admin_data)->save();
-        $user->roles()->attach(Role::find($admin));
+        $cardholder_json  = $seeds_path . 'cardholders.json';
+        $cardholders = json_decode(file_get_contents($cardholder_json), true);
 
-        for ($_cashier = 1; $_cashier <= 2; $_cashier++) {
+        foreach ($cardholders as $cardholder) {
             $user = new User();
-            $user->id = '00' . $faker->randomDigitNotNull . $faker->date('Y') . $faker->randomNumber(4, true);
-            $user->name = $faker->name;
-            $user->email = $faker->email;
-            $user->phone_number = '09' . $faker->randomNumber(9);
-            $user->password = $password;
+            $user->fill($cardholder);
             $user->save();
-            $user->roles()->attach(Role::find($cashier));
-        }
-
-        for ($_cardholder = 1; $_cardholder <= $toot_card_count; $_cardholder++) {
-            $user = new User();
-            $user->id = '00' . $faker->randomDigitNotNull . $faker->date('Y') . $faker->randomNumber(4, true);
-            $user->name = $faker->name;
-            $user->email = $faker->email;
-            $user->phone_number = '09' . $faker->randomNumber(9);
-            $user->password = $password;
-            $user->save();
-            $user->roles()->attach(Role::find($cardholder));
+            $user->roles()->attach(Role::find($roles[2]['id']));
 
             $toot_card = new TootCard();
             $toot_card->id = $faker->creditCardNumber;

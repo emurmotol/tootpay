@@ -11,5 +11,4 @@ return [
         ],
     ],
 
-    'toot_card_count' => 20,
 ];

@@ -21,6 +21,6 @@ class CheckRole
     }
 
     private function response() {
-        return response('Insufficient permission', 401);
+        return response('Wala kang karapatan!', 401);
     }
 }

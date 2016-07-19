@@ -12,12 +12,7 @@
 */
 
 Route::get('dd', function () {
-    $json  = storage_path('app/public/seeds/') . 'roles.json';
-    $roles = json_decode(file_get_contents($json), true);
-    $admin = $roles[0]['id'];
-    $cashier = $roles[1]['id'];
-    $cardholder = $roles[2]['id'];
-    return dd($admin);
+    return dd(true);
 });
 
 Route::auth();
