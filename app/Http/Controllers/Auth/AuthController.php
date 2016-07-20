@@ -42,7 +42,7 @@ class AuthController extends Controller
             'phone_number' => $data['phone_number'],
             'password' => $data['password'],
         ]);
-        $user->roles()->attach(Role::find(config('static.roles')[2]['id']));
+        $user->roles()->attach(Role::find(Role::json(2)));
         return $user;
     }
 }
