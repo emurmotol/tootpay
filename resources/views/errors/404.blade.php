@@ -1,0 +1,1 @@
+<h1>{{ trans('response.404') }}</h1>

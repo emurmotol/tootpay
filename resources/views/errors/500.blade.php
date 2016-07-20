@@ -1,0 +1,1 @@
+<h1>{{ trans('response.500') }}</h1>
