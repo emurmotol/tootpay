@@ -8,8 +8,7 @@ class MerchandisesTableSeeder extends Seeder
     public function run()
     {
         foreach (Merchandise::json() as $merchandise) {
-            $item = new Merchandise();
-            $item->fill($merchandise)->save();
+            Merchandise::create($merchandise);
         }
     }
 }
