@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Merchandise::find(1)->merchandiseCategory->id);
+    return dd(bcrypt('123qwe'));
 });
 
 Route::auth();

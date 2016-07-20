@@ -3,14 +3,14 @@
     "id": "12345678910",
     "name": "Maria Magdalena",
     "email": "mariamagdalane23@gmail.com",
-    "password": "123qwe",
+    "password": "$2y$10$P2hb4sNpZUSmKobsJmR9LuOhaavyKkSd3Jpi5HEcimfRXyEIC1TjS",
     "phone_number": "09261123415"
   },
   {
     "id": "01987654321",
     "name": "Juan Masipag",
     "email": "juanmasipag18@gmail.com",
-    "password": "123qwe",
+    "password": "$2y$10$orS2bI.VDT4x6QeGhVXezOhxzxcvdpWrw2.v.cJgmhwfjVxyah6X.",
     "phone_number": "09261231315"
   }
 ]

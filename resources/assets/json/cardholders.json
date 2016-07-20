@@ -4,55 +4,62 @@
     "name": "Stephen Corpuz",
     "email": "corpuzstephen@gmail.com",
     "phone_number": "09268925244",
-    "password": "stephenpogi"
+    "password": "$2y$10$8DLWW5S3MpIgrIJuUct.fuut0h8cE2rGV7ABwGU3.6KRWJJtVWCSG"
   },
   {
-    "id": "00420141234",
+    "id": "00420130131",
     "name": "Klarizon Emar Motol",
     "email": "klarizonemar@gmail.com",
     "phone_number": "09261951315",
-    "password": "123qwe"
+    "password": "$2y$10$EWepty0Ogmrsb6zUZ9PdJenREhjTwiiOxB0TyH.7duux38WCDfRlK"
   },
   {
     "id": "00420130148",
     "name": "Joseph Renato Malabag",
     "email": "malabagpoginga@gmail.com",
     "phone_number": "09753143025",
-    "password": "Malabag"
+    "password": "$2y$10$RTPVHSvh4O9YZnMzMNZ0IOq/rW0TcTEDDfLGqbj3DvNzrVOKvbOL2"
   },
   {
     "id": "00420130095",
     "name": "Victor Jet Pangdan",
     "email": "jetpangdan@gmail.com",
     "phone_number": "09292948750",
-    "password": "Supremo"
+    "password": "$2y$10$i6WmfFaJM2PJFQAiSJq7OuTkzLdwSWd7eVOT5tr29B6dwg6hhvrsa"
   },
   {
     "id": "00420130036",
-    "name": "Daniel M. Gantia",
+    "name": "Daniel Gantia",
     "email": "dan_gantia@yahoo.com",
     "phone_number": "09127706528",
-    "password": "password_mo"
+    "password": "$2y$10$YQWXB34XEizJLIlSp0ofiO/CwyPcjQm4jfO1BVtZkeRSZBJGbb1wW"
   },
   {
     "id": "00420130337",
     "name": "John Paul Lloren",
     "email": "jplloren0903@gmail.com",
     "phone_number": "09359823784",
-    "password": "12345"
+    "password": "$2y$10$ON9yQLORBU1Q5fvj.GjCxuL5YhPyzPpGV31voNOcp4GtNiUv7zWbO"
   },
   {
     "id": "00420130314",
     "name": "Jameah Inojo",
     "email": "jameah.inojo@gmail.com",
     "phone_number": "09367810044",
-    "password": "password"
+    "password": "$2y$10$IB8ZFYaHQ22V3PeKy.gscewtYtN2.x0sO7F.x6VMbo6HNnLjqjilO"
+  },
+  {
+    "id": "00420130043",
+    "name": "Jasper John Papa",
+    "email": "jasper_john95@hotmail.com",
+    "phone_number": "09257812107",
+    "password": "$2y$10$7tZ4A1UmEky1ZnPdez//qOiFQ/BdVkIZ4Zjs7U/PLKz0be0ptH93m"
   },
   {
     "id": "00420130305",
     "name": "Charis Mae Aranza",
     "email": "charisaranza@ganda.com",
     "phone_number": "09759003321",
-    "password": "farrahzeusresurreccion4415"
+    "password": "$2y$10$80Bu.ZHJjJ4x1EwghrqnbuYVAE5Sn3oXxktoLVk290jKPPPrzsHOW"
   }
 ]
