@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\TootCard::userId('4556292070876860'));
+    return dd(true);
 });
 
 Route::auth();
