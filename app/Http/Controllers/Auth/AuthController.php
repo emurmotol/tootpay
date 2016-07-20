@@ -40,7 +40,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'phone_number' => $data['phone_number'],
-            'password' => $data['password'],
+            'password' => bcrypt($data['password']),
         ]);
         $user->roles()->attach(Role::find(Role::json(2)));
         return $user;
