@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(true);
+    return dd(bcrypt('123qwe'));
 });
 
 Route::auth();
