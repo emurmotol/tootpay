@@ -12,19 +12,14 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        $user = new User();
-        $user->fill(User::adminJson())->save();
-        $user->roles()->attach(Role::find(Role::json(0)));
+        User::create(User::adminJson())->roles()->attach(Role::find(Role::json(0)));
 
         foreach (User::cashiersJson() as $cashier) {
-            $user = new User();
-            $user->fill($cashier)->save();
-            $user->roles()->attach(Role::find(Role::json(1)));
+            User::create($cashier)->roles()->attach(Role::find(Role::json(1)));
         }
 
         foreach (User::cardholdersJson() as $cardholder) {
-            $user = new User();
-            $user->fill($cardholder)->save();
+            $user = User::create($cardholder);
             $user->roles()->attach(Role::find(Role::json(2)));
 
             $toot_card = new TootCard();
