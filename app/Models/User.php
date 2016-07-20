@@ -78,10 +78,10 @@ class User extends Authenticatable
         return $cardholders[$index];
     }
 
-    public function administrators() {
+    public static function administrators() {
         $administrators = collect();
 
-        foreach ($this->all() as $user) {
+        foreach (self::all() as $user) {
             if ($user->hasRole(Role::json(0))) {
                 $administrators->push($user);
             }
@@ -89,10 +89,10 @@ class User extends Authenticatable
         return $administrators->all();
     }
 
-    public function cashiers() {
+    public static function cashiers() {
         $cashiers = collect();
 
-        foreach ($this->all() as $user) {
+        foreach (self::all() as $user) {
             if ($user->hasRole(Role::json(1))) {
                 $cashiers->push($user);
             }
@@ -100,10 +100,10 @@ class User extends Authenticatable
         return $cashiers->all();
     }
 
-    public function cardholders() {
+    public static function cardholders() {
         $cardholders = collect();
 
-        foreach ($this->all() as $user) {
+        foreach (self::all() as $user) {
             if ($user->hasRole(Role::json(2))) {
                 $cardholders->push($user);
             }

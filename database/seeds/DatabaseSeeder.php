@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class); // todo toot card seeder called here
+        $this->call(MerchandiseCategoriesTableSeeder::class);
         $this->call(MerchandisesTableSeeder::class);
     }
 }

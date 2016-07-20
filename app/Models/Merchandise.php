@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Merchandise extends Model
 {
-    protected $table = 'merchandise';
-
     protected $fillable = [
         'name', 'price', 'has_image', 'available',
     ];
+
+    public function merchandiseCategory() {
+        return $this->belongsTo('App\Models\MerchandiseCategory');
+    }
 
     public function setNameAttribute($value)
     {

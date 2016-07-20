@@ -1,85 +1,101 @@
 [
   {
+    "merchandise_category_id" : 1,
     "name": "COKE (MISMO)",
     "price": 15
   },
   {
+    "merchandise_category_id" : 3,
     "name": "TAPSILOG",
     "price": 45
   },
   {
+    "merchandise_category_id" : 3,
     "name": "TOCILOG",
     "price": 45
   },
   {
+    "merchandise_category_id" : 3,
     "name": "HOTSILOG",
     "price": 30
   },
   {
+    "merchandise_category_id" : 4,
     "name": "RICE",
     "price": 10
   },
   {
+    "merchandise_category_id" : 4,
     "name": "CANDY",
     "price": 1
   },
   {
+    "merchandise_category_id" : 4,
     "name": "SKY FLAKES",
     "price": 10
   },
   {
+    "merchandise_category_id" : 2,
     "name": "BULALO",
     "price": 60
   },
   {
+    "merchandise_category_id" : 4,
     "name": "MACARONI SALAD",
     "price": 20
   },
   {
+    "merchandise_category_id" : 1,
     "name": "KOPIKO",
     "price": 10
   },
   {
+    "merchandise_category_id" : 4,
     "name": "TURON",
     "price": 10
   },
   {
+    "merchandise_category_id" : 4,
     "name": "BENG-BENG",
     "price": 10
   },
   {
-    "name": "BALL PEN (HBW)",
-    "price": 12
-  },
-  {
+    "merchandise_category_id" : 1,
     "name": "SPRITE (MISMO)",
     "price": 15
   },
   {
+    "merchandise_category_id" : 4,
     "name": "PANCIT CANTON",
     "price": 15
   },
   {
+    "merchandise_category_id" : 2,
     "name": "TOKWA'T BABOY",
     "price": 50
   },
   {
+    "merchandise_category_id" : 2,
     "name": "PARES",
     "price": 30
   },
   {
+    "merchandise_category_id" : 2,
     "name": "SIOMAI",
     "price": 20
   },
   {
+    "merchandise_category_id" : 2,
     "name": "CALDERETA",
     "price": 45
   },
   {
+    "merchandise_category_id" : 4,
     "name": "SPAGHETTI",
     "price": 20
   },
   {
+    "merchandise_category_id" : 4,
     "name": "SOPAS",
     "price": 20
   }

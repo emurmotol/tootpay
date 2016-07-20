@@ -12,6 +12,7 @@ class CreateTootCardsTable extends Migration
             $table->string('pin_code');
             $table->float('load');
             $table->float('points');
+            $table->boolean('active')->default(true);
             $table->timestamp('expires_at');
             $table->timestamps();
         });
