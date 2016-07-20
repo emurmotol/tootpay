@@ -21,6 +21,6 @@ class CheckRole
     }
 
     private function response() {
-        return response('Wala kang karapatan!', 401);
+        return abort(401);
     }
 }
