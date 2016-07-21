@@ -1,3 +1,3 @@
 <div class="panel-body">
-    <div class="alert alert-info">There are no entries in this section.</div>
+    <div class="alert alert-info">{{ trans('pagination.empty') }}</div>
 </div>

@@ -33,6 +33,15 @@ footer {
     margin-right: 6px;
 }
 
+.img-merchandise {
+    margin-bottom: 10px;
+}
+
+.img-merchandise > a > img {
+    display: block;
+    margin: 0 auto;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

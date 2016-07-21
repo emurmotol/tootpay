@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Merchandise extends Model
 {
     protected $fillable = [
-        'name', 'price', 'has_image', 'available',
+        'name', 'price', 'merchandise_category_id', 'has_image', 'available',
     ];
 
     public function merchandiseCategory() {
@@ -56,8 +56,8 @@ class Merchandise extends Model
         return $unavailable->all();
     }
 
-    public function imageUrl($merchandise_id) {
-        $id = ($merchandise_id === 0 || $this->findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
-        return url('img/merchandise/' . $id . '.jpg');
+    public static function image($merchandise_id) {
+        $id = ($merchandise_id === 0 || self::findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
+        return url('img/merchandises/' . $id . '.jpg');
     }
 }

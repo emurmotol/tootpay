@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Intervention\Image\Facades\Image;
 
 class MerchandiseController extends Controller
 {
@@ -23,9 +25,14 @@ class MerchandiseController extends Controller
         return view('dashboard.common.merchandise.create');
     }
 
-    public function store(Request $request)
+    public function store(Requests\MerchandiseRequest $request)
     {
-        //
+        $merchandise = Merchandise::create($request->all());
+
+        if ($request->hasFile('image')) {
+            $this->makeImage($request->file('image'), $merchandise);
+        }
+        return redirect()->back();
     }
 
     public function show(Merchandise $merchandise)
@@ -38,23 +45,52 @@ class MerchandiseController extends Controller
         return view('dashboard.common.merchandise.edit', compact('merchandise'));
     }
 
-    public function update(Request $request, Merchandise $merchandise)
+    public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise)
     {
-        //
+        $merchandise->update($request->all());
+
+        if ($request->hasFile('image')) {
+            $this->makeImage($request->file('image'), $merchandise);
+        }
+        return redirect()->back();
     }
 
-    public function destroy($merchandise_id)
+    public function destroy(Merchandise $merchandise)
     {
-        //
+        File::delete(public_path('img/merchandises/' . $merchandise->id . '.jpg'));
+        $merchandise->delete();
+        return redirect()->back(); // todo has 404
     }
 
-    public function available(Request $request, Merchandise $merchandise)
+    public function available(Request $request, $merchandise_id)
     {
-        //
+        $merchandise = Merchandise::findOrfail($merchandise_id);
+        $merchandise->available = $request->input('available');
+        $merchandise->save();
+        return redirect()->back();
     }
 
-    public function showAvailable()
-    {
+    public function makeImage($image, $merchandise, $text = null) {
+        $img = Image::make($image->getRealPath());
+        $img->fit(300, 300);
+
+        if (!is_null($text)) {
+            $img->text($text, 150, 100, function($font) {
+                $font->file(4);
+                $font->size(24);
+                $font->align('center');
+                $font->valign('center');
+            });
+        }
+        $img->save(public_path('img/merchandises/') . $merchandise->id . '.jpg');
+
+        if (!$merchandise->has_image) {
+            $merchandise->has_image = true;
+            $merchandise->save();
+        }
+    }
+
+    public function showAvailable() {
         $array = Merchandise::available();
         $total = count($array);
         $per_page = intval(Setting::value('per_page'));
@@ -69,8 +105,7 @@ class MerchandiseController extends Controller
         return view('dashboard.common.merchandise.available', compact('merchandises'));
     }
 
-    public function showUnavailable()
-    {
+    public function showUnavailable() {
         $array = Merchandise::unavailable();
         $total = count($array);
         $per_page = intval(Setting::value('per_page'));

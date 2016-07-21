@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class MerchandiseCategory extends Model
 {
+    protected $fillable = [
+        'name',
+    ];
+
     public function merchandises() {
         return $this->hasMany('App\Models\Merchandise');
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtoupper($value);
     }
 
     public static function json($index = null) {

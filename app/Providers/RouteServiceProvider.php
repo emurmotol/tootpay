@@ -25,6 +25,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         $router->model('merchandise', 'App\Models\Merchandise');
+        $router->pattern('merchandise', '[0-9]+');
+
+        $router->model('category', 'App\Models\MerchandiseCategory');
+        $router->pattern('category', '[0-9]+');
 
         parent::boot($router);
     }

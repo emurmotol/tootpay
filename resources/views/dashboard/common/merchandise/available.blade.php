@@ -10,7 +10,12 @@
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">@yield('title')</div>
+                    <div class="panel-heading">
+                        @yield('title')
+                        <span class="pull-right">
+                            @include('dashboard.common.merchandise._partials.create')
+                        </span>
+                    </div>
                     @if(count(\App\Models\Merchandise::available()))
                         <div class="panel-body">
                             @include('_tootpay.flash')

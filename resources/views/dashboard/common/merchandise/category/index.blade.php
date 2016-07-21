@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'All Merchandise')
+@section('title', 'Merchandise Categories')
 
 @section('content')
     <div class="container">
@@ -13,15 +13,15 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            @include('dashboard.common.merchandise._partials.create')
+                            @include('dashboard.common.merchandise.category._partials.create')
                         </span>
                     </div>
-                    @if(\App\Models\Merchandise::count())
+                    @if(\App\Models\MerchandiseCategory::count())
                         <div class="panel-body">
                             @include('_tootpay.flash')
                             @include('_tootpay.search')
                         </div>
-                        @include('dashboard.common.merchandise._partials.table')
+                        @include('dashboard.common.merchandise.category._partials.table')
                     @else
                         @include('_tootpay.empty')
                     @endif
@@ -29,4 +29,6 @@
             </div>
         </div>
     </div>
+    @include('dashboard.common.merchandise.category._modals.create')
+    @include('dashboard.common.merchandise.category._modals.edit')
 @endsection

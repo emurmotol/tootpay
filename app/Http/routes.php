@@ -15,7 +15,7 @@ Route::group(['middleware' => 'roles'], function () {
     $cashier = \App\Models\Role::json(1);
     $cardholder = \App\Models\Role::json(2);
 
-    Route::put('merchandises/available', [
+    Route::put('merchandises/available/{merchandise_id}', [
         'uses' => 'MerchandiseController@available',
         'as' => 'merchandises.available',
         'roles' => [$cashier, $admin]
@@ -29,6 +29,11 @@ Route::group(['middleware' => 'roles'], function () {
         'roles' => [$cashier, $admin]
     ]);
     Route::resource('merchandises', 'MerchandiseController', [
+        'parameters' => 'singular',
+        'roles' => [$cashier, $admin]
+    ]);
+
+    Route::resource('categories', 'MerchandiseCategoryController', [
         'parameters' => 'singular',
         'roles' => [$cashier, $admin]
     ]);
