@@ -1,7 +1,7 @@
 [
   {
     "key": "per_page",
-    "value": 30
+    "value": 10
   },
   {
     "key": "expire_year_count",

@@ -34,10 +34,10 @@ class Merchandise extends Model
         return $merchandises[$index]['id'];
     }
 
-    public function available() {
+    public static function available() {
         $available = collect();
 
-        foreach ($this->all() as $merchandise) {
+        foreach (self::all() as $merchandise) {
             if ($merchandise->available) {
                 $available->push($merchandise);
             }
@@ -45,10 +45,10 @@ class Merchandise extends Model
         return $available->all();
     }
 
-    public function unavailable() {
+    public static function unavailable() {
         $unavailable = collect();
 
-        foreach ($this->all() as $merchandise) {
+        foreach (self::all() as $merchandise) {
             if (!$merchandise->available) {
                 $unavailable->push($merchandise);
             }
