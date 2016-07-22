@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'All Merchandise')
+@section('title', 'All')
 
 @section('content')
     <div class="container">
@@ -14,6 +14,7 @@
                         @yield('title')
                         <span class="pull-right">
                             @include('dashboard.admin.merchandise._partials.create')
+                            @include('dashboard.admin.merchandise.category._partials.create')
                         </span>
                     </div>
                     @if(\App\Models\Merchandise::count())

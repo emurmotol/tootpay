@@ -14,6 +14,7 @@
                         @yield('title')
                         <span class="pull-right">
                             @include('dashboard.admin.merchandise._partials.create')
+                            @include('dashboard.admin.merchandise.category._partials.create')
                         </span>
                     </div>
                     @if(count(\App\Models\Merchandise::unavailable()))

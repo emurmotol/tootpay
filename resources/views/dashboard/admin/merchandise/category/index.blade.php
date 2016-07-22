@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Merchandise Categories')
+@section('title', 'Categories')
 
 @section('content')
     <div class="container">
@@ -13,6 +13,7 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
+                            @include('dashboard.admin.merchandise._partials.create')
                             @include('dashboard.admin.merchandise.category._partials.create')
                         </span>
                     </div>

@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
                 "pin_code" => bcrypt($faker->randomNumber(6)),
                 "load" => floatval($faker->randomNumber(3)),
                 "points" => floatval($faker->randomNumber(2)),
-                "expires_at" => Carbon::now()->addYear(Setting::value('expire_year_count')),
+                "expires_at" => Carbon::now()->addYear(intval(Setting::value('expire_year_count'))),
             ]);
             $user->tootCards()->attach($toot_card);
         }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Available Merchandise')
+@section('title', 'Show Category: ' . $merchandise_category->name)
 
 @section('content')
     <div class="container">
@@ -17,7 +17,7 @@
                             @include('dashboard.admin.merchandise.category._partials.create')
                         </span>
                     </div>
-                    @if(count(\App\Models\Merchandise::available()))
+                    @if(count(\App\Models\Merchandise::byCategory($merchandise_category->id)))
                         <div class="panel-body">
                             @include('_tootpay.flash')
                             @include('_tootpay.search')

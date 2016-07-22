@@ -1,7 +1,9 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(bcrypt('123qwe'));
+//    return dd(\App\Models\Merchandise::find(2)->merchandiseCategory->id);
+//    return dd(\App\Models\MerchandiseCategory::find(1)->merchandises);
+//    return dd(count(\App\Models\Merchandise::byCategory(2)));
 });
 
 Route::auth();
@@ -33,7 +35,7 @@ Route::group(['middleware' => 'roles'], function () {
         'roles' => [$admin]
     ]);
 
-    Route::resource('categories', 'MerchandiseCategoryController', [
+    Route::resource('merchandises/categories', 'MerchandiseCategoryController', [
         'parameters' => 'singular',
         'roles' => [$admin]
     ]);

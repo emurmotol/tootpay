@@ -56,6 +56,17 @@ class Merchandise extends Model
         return $unavailable->all();
     }
 
+    public static function byCategory($merchandise_category_id) {
+        $merchandises = collect();
+
+        foreach (self::all() as $merchandise) {
+            if ($merchandise->merchandise_category_id == $merchandise_category_id) {
+                $merchandises->push($merchandise);
+            }
+        }
+        return $merchandises->all();
+    }
+
     public static function image($merchandise_id) {
         $id = ($merchandise_id === 0 || self::findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
         return url('img/merchandises/' . $id . '.jpg');

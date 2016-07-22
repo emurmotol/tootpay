@@ -13,7 +13,7 @@
         @foreach($merchandises as $merchandise)
             <tr>
                 <td>{{ $merchandise->id }}</td>
-                <td><a href="{{ url('merchandises', $merchandise->id) }}">{{ $merchandise->name }}</a></td>
+                <td><a href="{{ route('merchandises.show', [$merchandise->id, 'redirect' => (\Illuminate\Support\Facades\Route::is('merchandises.index') || \Illuminate\Support\Facades\Request::is('merchandises/available') || \Illuminate\Support\Facades\Request::is('merchandises/unavailable')) ? url('merchandises') : url('merchandises/categories')]) }}">{{ $merchandise->name }}</a></td>
                 <td>P{{ number_format($merchandise->price, 2, '.', ',') }}</td>
                 <td>
                     {!! Form::open(['route' => ['merchandises.available', $merchandise->id], 'class' => '']) !!}

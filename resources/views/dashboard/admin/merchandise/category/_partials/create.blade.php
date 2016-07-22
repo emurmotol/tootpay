@@ -1,1 +1,1 @@
-<a href="{{ route('categories.create') }}" class="btn btn-primary btn-xs">Create category</a>
+<a href="{{ route('merchandises.categories.create') }}" class="btn btn-primary btn-xs">Create category</a>

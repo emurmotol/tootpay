@@ -1,1 +1,1 @@
-<a href="{{ url('categories') }}" class="btn btn-warning btn-xs">Cancel</a>
+<a href="{{ url('merchandises/categories') }}" class="btn btn-warning btn-xs">Cancel</a>

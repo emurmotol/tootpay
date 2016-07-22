@@ -32,7 +32,8 @@ class MerchandiseController extends Controller
         if ($request->hasFile('image')) {
             $this->makeImage($request->file('image'), $merchandise);
         }
-        return redirect()->back();
+        flash()->success(trans('merchandise.created', ['name' => $request->input('name')]));
+        return redirect('merchandises');
     }
 
     public function show(Merchandise $merchandise)
@@ -52,14 +53,20 @@ class MerchandiseController extends Controller
         if ($request->hasFile('image')) {
             $this->makeImage($request->file('image'), $merchandise);
         }
-        return redirect()->back();
+        flash()->success(trans('merchandise.updated', ['name' => $merchandise->name]));
+        return redirect('merchandises');
     }
 
     public function destroy(Merchandise $merchandise)
     {
         File::delete(public_path('img/merchandises/' . $merchandise->id . '.jpg'));
         $merchandise->delete();
-        return redirect()->back(); // todo has 404
+        flash()->success(trans('merchandise.deleted', ['name' => $merchandise->name]));
+
+        if (request()->has('redirect')) {
+            return redirect(request()->get('redirect'));
+        }
+        return redirect()->back();
     }
 
     public function available(Request $request, $merchandise_id)
@@ -67,6 +74,13 @@ class MerchandiseController extends Controller
         $merchandise = Merchandise::findOrfail($merchandise_id);
         $merchandise->available = $request->input('available');
         $merchandise->save();
+
+        if ($request->input('available') == 'on') {
+            flash()->success(trans('merchandise.available', ['name' => $merchandise->name]));
+        } else {
+            flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name]));
+        }
+
         return redirect()->back();
     }
 
@@ -91,32 +105,12 @@ class MerchandiseController extends Controller
     }
 
     public function showAvailable() {
-        $array = Merchandise::available();
-        $total = count($array);
-        $per_page = intval(Setting::value('per_page'));
-        $page = Input::get('page', 1);
-        $offset = ($page * $per_page) - $per_page;
-        $items = array_slice($array, $offset, $per_page, true);
-        $merchandises = (new LengthAwarePaginator($items, $total, $per_page, $page, [
-                'path'  => request()->url(),
-                'query' => request()->query(),
-            ]
-        ));
+        $merchandises = paginator(Merchandise::available());
         return view('dashboard.admin.merchandise.available', compact('merchandises'));
     }
 
     public function showUnavailable() {
-        $array = Merchandise::unavailable();
-        $total = count($array);
-        $per_page = intval(Setting::value('per_page'));
-        $page = Input::get('page', 1);
-        $offset = ($page * $per_page) - $per_page;
-        $items = array_slice($array, $offset, $per_page, true);
-        $merchandises = (new LengthAwarePaginator($items, $total, $per_page, $page, [
-                'path'  => request()->url(),
-                'query' => request()->query(),
-            ]
-        ));
+        $merchandises = paginator(Merchandise::unavailable());
         return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
     }
 }

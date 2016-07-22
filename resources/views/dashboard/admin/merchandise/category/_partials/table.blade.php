@@ -11,11 +11,11 @@
         @foreach($merchandise_categories as $merchandise_category)
             <tr>
                 <td>{{ $merchandise_category->id }}</td>
-                <td><a href="">{{ $merchandise_category->name }}</a></td>
+                <td><a href="{{ route('merchandises.categories.show', $merchandise_category->id) }}">{{ $merchandise_category->name }}</a></td>
                 <td>
-                    {!! Form::open(['route' => ['categories.destroy', $merchandise_category->id], 'class' => '']) !!}
+                    {!! Form::open(['route' => ['merchandises.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
                         {!! Form::hidden('_method', 'DELETE') !!}
-                        <a href="{{ route('categories.edit', $merchandise_category->id) }}" class="btn btn-default btn-xs">Edit</a>
+                        <a href="{{ route('merchandises.categories.edit', $merchandise_category->id) }}" class="btn btn-default btn-xs">Edit</a>
                         <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                     {!! Form::close() !!}
                 </td>
