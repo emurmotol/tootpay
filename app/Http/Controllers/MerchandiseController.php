@@ -17,12 +17,12 @@ class MerchandiseController extends Controller
     public function index()
     {
         $merchandises = Merchandise::paginate(Setting::value('per_page'));
-        return view('dashboard.common.merchandise.index', compact('merchandises'));
+        return view('dashboard.admin.merchandise.index', compact('merchandises'));
     }
 
     public function create()
     {
-        return view('dashboard.common.merchandise.create');
+        return view('dashboard.admin.merchandise.create');
     }
 
     public function store(Requests\MerchandiseRequest $request)
@@ -37,12 +37,12 @@ class MerchandiseController extends Controller
 
     public function show(Merchandise $merchandise)
     {
-        return view('dashboard.common.merchandise.show', compact('merchandise'));
+        return view('dashboard.admin.merchandise.show', compact('merchandise'));
     }
 
     public function edit(Merchandise $merchandise)
     {
-        return view('dashboard.common.merchandise.edit', compact('merchandise'));
+        return view('dashboard.admin.merchandise.edit', compact('merchandise'));
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise)
@@ -102,7 +102,7 @@ class MerchandiseController extends Controller
                 'query' => request()->query(),
             ]
         ));
-        return view('dashboard.common.merchandise.available', compact('merchandises'));
+        return view('dashboard.admin.merchandise.available', compact('merchandises'));
     }
 
     public function showUnavailable() {
@@ -117,6 +117,6 @@ class MerchandiseController extends Controller
                 'query' => request()->query(),
             ]
         ));
-        return view('dashboard.common.merchandise.unavailable', compact('merchandises'));
+        return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
     }
 }

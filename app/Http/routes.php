@@ -18,24 +18,24 @@ Route::group(['middleware' => 'roles'], function () {
     Route::put('merchandises/available/{merchandise_id}', [
         'uses' => 'MerchandiseController@available',
         'as' => 'merchandises.available',
-        'roles' => [$cashier, $admin]
+        'roles' => [$admin]
     ]);
     Route::get('merchandises/available', [
         'uses' => 'MerchandiseController@showAvailable',
-        'roles' => [$cashier, $admin]
+        'roles' => [$admin]
     ]);
     Route::get('merchandises/unavailable', [
         'uses' => 'MerchandiseController@showUnavailable',
-        'roles' => [$cashier, $admin]
+        'roles' => [$admin]
     ]);
     Route::resource('merchandises', 'MerchandiseController', [
         'parameters' => 'singular',
-        'roles' => [$cashier, $admin]
+        'roles' => [$admin]
     ]);
 
     Route::resource('categories', 'MerchandiseCategoryController', [
         'parameters' => 'singular',
-        'roles' => [$cashier, $admin]
+        'roles' => [$admin]
     ]);
 
     Route::get('cashier', [

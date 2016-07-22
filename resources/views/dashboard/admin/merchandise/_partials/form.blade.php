@@ -38,11 +38,11 @@
             <div class="form-group{{ $errors->has('merchandise_category_id') ? ' has-error' : '' }}">
                 <label for="merchandise_category_id">Category:</label>
                 <span class="pull-right text-muted">
-                    Not listed? <a href="{{ route('categories.create') }}">Create new category</a>
+                    Not listed? <a href="{{ route('categories.create', ['redirect' => (\Illuminate\Support\Facades\Route::is('merchandises.edit')) ? route('merchandises.edit', $merchandise->id) : route('merchandises.create')]) }}">Create new category</a>
                 </span>
                 <select id="merchandise_category_id" name="merchandise_category_id" class="form-control">
                     @foreach(\App\Models\MerchandiseCategory::all() as $category)
-                        <option value="{{ $category->id }}" {!! (\Illuminate\Support\Facades\Route::is('merchandises.edit')) ? (($merchandise->merchandiseCategory->id == $category->id) ? 'selected' : '') : '' !!}>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" {!! (\Illuminate\Support\Facades\Route::is('merchandises.edit')) ? (($merchandise->merchandiseCategory->id == $category->id) ? 'selected' : '') : ((old('merchandise_category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
                     @endforeach
                 </select>
 

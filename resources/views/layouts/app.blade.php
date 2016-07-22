@@ -20,9 +20,9 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.common.merchandise._navbar.left')
+                            @include('dashboard.admin.merchandise._navbar.left')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                            @include('dashboard.common.merchandise._navbar.left')
+                            @include('dashboard.admin.merchandise._navbar.left')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                     @endif
@@ -38,9 +38,9 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.common.merchandise._navbar.right')
+                            @include('dashboard.admin.merchandise._navbar.right')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                            @include('dashboard.common.merchandise._navbar.right')
+                            @include('dashboard.admin.merchandise._navbar.right')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                         <li class="dropdown">

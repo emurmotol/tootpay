@@ -1,27 +1,27 @@
 @extends('layouts.app')
 
-@section('title', 'Merchandise Categories')
+@section('title', 'All Merchandise')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                @include('dashboard.common.merchandise._partials.sidebar')
+                @include('dashboard.admin.merchandise._partials.sidebar')
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            @include('dashboard.common.merchandise.category._partials.create')
+                            @include('dashboard.admin.merchandise._partials.create')
                         </span>
                     </div>
-                    @if(\App\Models\MerchandiseCategory::count())
+                    @if(\App\Models\Merchandise::count())
                         <div class="panel-body">
                             @include('_tootpay.flash')
                             @include('_tootpay.search')
                         </div>
-                        @include('dashboard.common.merchandise.category._partials.table')
+                        @include('dashboard.admin.merchandise._partials.table')
                     @else
                         @include('_tootpay.empty')
                     @endif
@@ -29,6 +29,4 @@
             </div>
         </div>
     </div>
-    @include('dashboard.common.merchandise.category._modals.create')
-    @include('dashboard.common.merchandise.category._modals.edit')
 @endsection

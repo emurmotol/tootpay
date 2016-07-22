@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                @include('dashboard.common.merchandise._partials.sidebar')
+                @include('dashboard.admin.merchandise._partials.sidebar')
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
