@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 <head>
-    @include('layouts._app.meta')
+    @include('layouts._partials.app.meta')
 
     <title>@yield('title') - {{ config('static.app.name') }}</title>
 
-    @include('layouts._app.stylesheets')
+    @include('layouts._partials.app.stylesheets')
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
-            @include('layouts._app.header')
+            @include('layouts._partials.app.header')
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -20,9 +20,9 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.admin.merchandise._navbar.left')
+                            @include('dashboard.admin.merchandise._partials.navbar.left')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                            @include('dashboard.admin.merchandise._navbar.left')
+                            @include('dashboard.admin.merchandise._partials.navbar.left')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                     @endif
@@ -38,9 +38,9 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.admin.merchandise._navbar.right')
+                            @include('dashboard.admin.merchandise._partials.navbar.right')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                            @include('dashboard.admin.merchandise._navbar.right')
+                            @include('dashboard.admin.merchandise._partials.navbar.right')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                         <li class="dropdown">
@@ -65,7 +65,7 @@
         </div>
     </footer>
 
-    @include('layouts._app.scripts')
+    @include('layouts._partials.app.scripts')
 
     @yield('javascript')
 </body>

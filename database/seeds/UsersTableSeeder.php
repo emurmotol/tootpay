@@ -12,15 +12,15 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        User::create(User::adminJson())->roles()->attach(Role::find(Role::json(0)));
+        User::create(User::adminJson())->roles()->attach(Role::find(admin()));
 
         foreach (User::cashiersJson() as $cashier) {
-            User::create($cashier)->roles()->attach(Role::find(Role::json(1)));
+            User::create($cashier)->roles()->attach(Role::find(cashier()));
         }
 
         foreach (User::cardholdersJson() as $cardholder) {
             $user = User::create($cardholder);
-            $user->roles()->attach(Role::find(Role::json(2)));
+            $user->roles()->attach(Role::find(cardholder()));
 
             $faker = Faker::create();
             $toot_card = TootCard::create([

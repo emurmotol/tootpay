@@ -13,18 +13,18 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            @include('dashboard.admin.merchandise._partials.create')
-                            @include('dashboard.admin.merchandise.category._partials.create')
+                            @include('dashboard.admin.merchandise._partials.btn.create')
+                            @include('dashboard.admin.merchandise.category._partials.btn.create')
                         </span>
                     </div>
                     @if(count(\App\Models\Merchandise::byCategory($merchandise_category->id)))
                         <div class="panel-body">
-                            @include('_tootpay.flash')
-                            @include('_tootpay.search')
+                            @include('_partials.flash')
+                            @include('_partials.search')
                         </div>
                         @include('dashboard.admin.merchandise._partials.table')
                     @else
-                        @include('_tootpay.empty')
+                        @include('_partials.empty')
                     @endif
                 </div>
             </div>

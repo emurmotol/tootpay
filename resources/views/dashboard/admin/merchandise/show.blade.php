@@ -22,7 +22,7 @@
                         </span>
                     </div>
                     <div class="panel-body">
-                        @include('_tootpay.flash')
+                        @include('_partials.flash')
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="img-merchandise">

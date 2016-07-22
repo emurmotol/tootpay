@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Merchandise;
 
+use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
 use App\Models\MerchandiseCategory;
 use App\Models\Setting;

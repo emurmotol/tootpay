@@ -13,11 +13,11 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            @include('dashboard.admin.merchandise.category._partials.cancel')
+                            @include('dashboard.admin.merchandise.category._partials.btn.cancel')
                         </span>
                     </div>
                     <div class="panel-body">
-                        @include('_tootpay.flash')
+                        @include('_partials.flash')
                         @include('dashboard.admin.merchandise.category._partials.form')
                     </div>
                 </div>
