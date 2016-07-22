@@ -32,7 +32,7 @@ class MerchandiseCategoryController extends Controller
         if ($request->has('redirect')) {
             return redirect($request->get('redirect'));
         }
-        return redirect('categories');
+        return redirect('merchandises/categories');
     }
 
     public function show(MerchandiseCategory $merchandise_category)
@@ -50,7 +50,7 @@ class MerchandiseCategoryController extends Controller
     {
         $merchandise_category->update($request->only('name'));
         flash()->success(trans('category.updated', ['name' => $merchandise_category->name]));
-        return redirect('categories');
+        return redirect('merchandises/categories');
     }
 
     public function destroy(MerchandiseCategory $merchandise_category)

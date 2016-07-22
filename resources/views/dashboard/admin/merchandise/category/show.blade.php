@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Show Category: ' . $merchandise_category->name)
+@section('title', 'Category / ' . $merchandise_category->name)
 
 @section('content')
     <div class="container">
