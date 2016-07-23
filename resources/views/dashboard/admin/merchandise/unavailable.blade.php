@@ -17,11 +17,7 @@
                             @include('dashboard.admin.merchandise.category._partials.btn.create')
                         </span>
                     </div>
-                    @if(count(\App\Models\Merchandise::unavailable()))
-                        <div class="panel-body">
-                            @include('_partials.flash')
-                            @include('_partials.search')
-                        </div>
+                    @if(count(\App\Models\Merchandise::unavailable()->get()))
                         @include('dashboard.admin.merchandise._partials.table')
                     @else
                         @include('_partials.empty')

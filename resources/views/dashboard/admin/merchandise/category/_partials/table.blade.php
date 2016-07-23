@@ -4,6 +4,7 @@
         <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Count</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -12,6 +13,7 @@
             <tr>
                 <td>{{ $merchandise_category->id }}</td>
                 <td><a href="{{ route('merchandises.categories.show', $merchandise_category->id) }}">{{ $merchandise_category->name }}</a></td>
+                <td>{{ count(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()) }}</td>
                 <td>
                     {!! Form::open(['route' => ['merchandises.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
                         {!! Form::hidden('_method', 'DELETE') !!}

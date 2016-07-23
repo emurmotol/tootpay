@@ -3,15 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
 
 class Merchandise extends Model
 {
+    use Eloquence;
+
+    protected $searchableColumns = [
+        'name', 'price',
+    ];
+
     protected $fillable = [
         'name', 'price', 'merchandise_category_id', 'has_image', 'available',
     ];
 
     public function merchandiseCategory() {
-        return $this->belongsTo('App\Models\MerchandiseCategory');
+        return $this->belongsTo(MerchandiseCategory::class);
     }
 
     public function setNameAttribute($value)
@@ -35,36 +42,15 @@ class Merchandise extends Model
     }
 
     public static function available() {
-        $available = collect();
-
-        foreach (self::all() as $merchandise) {
-            if ($merchandise->available) {
-                $available->push($merchandise);
-            }
-        }
-        return $available->all();
+        return self::where('available', true);
     }
 
     public static function unavailable() {
-        $unavailable = collect();
-
-        foreach (self::all() as $merchandise) {
-            if (!$merchandise->available) {
-                $unavailable->push($merchandise);
-            }
-        }
-        return $unavailable->all();
+        return self::where('available', false);
     }
 
     public static function byCategory($merchandise_category_id) {
-        $merchandises = collect();
-
-        foreach (self::all() as $merchandise) {
-            if ($merchandise->merchandise_category_id == $merchandise_category_id) {
-                $merchandises->push($merchandise);
-            }
-        }
-        return $merchandises->all();
+        return self::where('merchandise_category_id', $merchandise_category_id);
     }
 
     public static function image($merchandise_id) {

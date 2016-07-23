@@ -18,10 +18,6 @@
                         </span>
                     </div>
                     @if(count(\App\Models\Merchandise::byCategory($merchandise_category->id)))
-                        <div class="panel-body">
-                            @include('_partials.flash')
-                            @include('_partials.search')
-                        </div>
                         @include('dashboard.admin.merchandise._partials.table')
                     @else
                         @include('_partials.empty')

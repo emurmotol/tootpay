@@ -33,7 +33,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" id="btn-pwd-reset-link" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
+                                <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
                                     <i class="fa fa-btn fa-envelope"></i> Send password reset link
                                 </button>
                             </div>
@@ -46,15 +46,4 @@
 </div>
 @endsection
 
-@section('javascript')
-    <script>
-        $(function() {
-            $("#btn-pwd-reset-link").click(function(){
-                $(this).button('loading').delay(5000).queue(function() {
-                    $(this).button('reset');
-                    $(this).dequeue();
-                });
-            });
-        });
-    </script>
-@endsection
+@include('_partials.spinner')

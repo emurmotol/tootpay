@@ -4,7 +4,9 @@ Route::get('dd', function () {
 //    return dd(\App\Models\Merchandise::find(2)->merchandiseCategory->id);
 //    return dd(\App\Models\MerchandiseCategory::find(1)->merchandises);
 //    return dd(count(\App\Models\Merchandise::byCategory(2)));
-    return dd(admin());
+//    return dd(search('log', \App\Models\Merchandise::available()));
+
+    return dd(\App\Models\User::search('0926195')->get());
 });
 
 Route::auth();
@@ -14,7 +16,9 @@ Route::get('home', 'HomeController@home');
 Route::get('faq', 'HomeController@faq');
 
 Route::group(['middleware' => 'roles'], function () {
+
     Route::group(['namespace' => 'Merchandise'], function() {
+
         // Merchandises
         Route::put('merchandises/available/{merchandise_id}', [
             'uses' => 'MerchandiseController@available',

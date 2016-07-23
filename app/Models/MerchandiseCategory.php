@@ -3,15 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
 
 class MerchandiseCategory extends Model
 {
+    use Eloquence;
+
+    protected $searchableColumns = [
+        'name',
+    ];
+
     protected $fillable = [
         'name',
     ];
 
     public function merchandises() {
-        return $this->hasMany('App\Models\Merchandise');
+        return $this->hasMany(Merchandise::class);
     }
 
     public function setNameAttribute($value)

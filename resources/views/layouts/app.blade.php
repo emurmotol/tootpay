@@ -28,6 +28,10 @@
                     @endif
                 </ul>
 
+                @unless(!Auth::check())
+                    @include('_partials.search')
+                @endunless
+
                 <ul class="nav navbar-nav navbar-right">
                     @if(Auth::guest())
                         <li {!! (Request::is('login') ? 'class="active"' : '') !!}>
@@ -57,6 +61,10 @@
         </div>
     </nav>
 
+    <div class="container">
+        @include('_partials.flash')
+    </div>
+
     @yield('content')
 
     <footer>
@@ -67,6 +75,9 @@
 
     @include('layouts._partials.app.scripts')
 
-    @yield('javascript')
+    @yield('flash')
+    @yield('search')
+    @yield('image')
+    @yield('spinner')
 </body>
 </html>

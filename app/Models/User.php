@@ -3,9 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Sofa\Eloquence\Eloquence;
 
 class User extends Authenticatable
 {
+    use Eloquence;
+
+    protected $searchableColumns = [
+        'id', 'name', 'email', 'phone_number',
+    ];
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -17,12 +24,12 @@ class User extends Authenticatable
     ];
 
     public function roles() {
-        return $this->belongsToMany('App\Models\Role',
+        return $this->belongsToMany(Role::class,
             'user_role', 'user_id', 'role_id')->withTimestamps();
     }
 
     public function tootCards() {
-        return $this->belongsToMany('App\Models\TootCard',
+        return $this->belongsToMany(TootCard::class,
             'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
     }
 

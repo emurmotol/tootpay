@@ -15,7 +15,7 @@
         <div class="col-md-9">
             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
                 <label for="image">Upload Image:</label>
-                <input type="file" onchange="readImageUrl(this);" class="form-control" id="image" name="image">
+                <input type="file" onchange="loadImage(this);" class="form-control" id="image" name="image">
 
                 @if ($errors->has('image'))
                     <span class="help-block">
@@ -78,9 +78,23 @@
                        data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="default"
                        data-size="mini">
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
                 {{ (Route::is('merchandises.edit')) ? 'Update ' : 'Create ' }}merchandise
             </button>
         </div>
     {!! Form::close() !!}
 </div>
+
+@section('image')
+    <script>
+        function loadImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image-merchandise').attr('src', e.target.result)
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+@endsection

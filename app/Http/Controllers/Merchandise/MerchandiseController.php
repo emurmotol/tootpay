@@ -17,7 +17,7 @@ class MerchandiseController extends Controller
 {
     public function index()
     {
-        $merchandises = Merchandise::paginate(Setting::value('per_page'));
+        $merchandises = Merchandise::paginate(intval(Setting::value('per_page')));
         return view('dashboard.admin.merchandise.index', compact('merchandises'));
     }
 
@@ -106,12 +106,12 @@ class MerchandiseController extends Controller
     }
 
     public function showAvailable() {
-        $merchandises = paginator(Merchandise::available());
+        $merchandises = Merchandise::available()->paginate(intval(Setting::value('per_page')));
         return view('dashboard.admin.merchandise.available', compact('merchandises'));
     }
 
     public function showUnavailable() {
-        $merchandises = paginator(Merchandise::unavailable());
+        $merchandises = Merchandise::unavailable()->paginate(intval(Setting::value('per_page')));
         return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
     }
 }

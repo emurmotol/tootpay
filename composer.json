@@ -9,6 +9,7 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "^5.2",
         "intervention/image": "^2.3",
+        "sofa/eloquence": "~5.2@dev",
         "laracasts/flash": "^2.0"
     },
     "require-dev": {

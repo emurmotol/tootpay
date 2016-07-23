@@ -83,7 +83,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" id="btn-register" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
+                                <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
                                     <i class="fa fa-btn fa-user"></i> Register
                                 </button>
                                 <a class="btn btn-link" href="{{ url('login') }}">I already have an account</a>
@@ -97,15 +97,4 @@
 </div>
 @endsection
 
-@section('javascript')
-    <script>
-        $(function() {
-            $("#btn-register").click(function(){
-                $(this).button('loading').delay(5000).queue(function() {
-                    $(this).button('reset');
-                    $(this).dequeue();
-                });
-            });
-        });
-    </script>
-@endsection
+@include('_partials.spinner')

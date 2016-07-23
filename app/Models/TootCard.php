@@ -3,9 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
 
 class TootCard extends Model
 {
+    use Eloquence;
+
+    protected $searchableColumns = [
+        'id',
+    ];
+
     public $incrementing = false;
 
     protected $dates = ['expires_at'];
@@ -15,7 +22,7 @@ class TootCard extends Model
     ];
 
     public function users() {
-        return $this->belongsToMany('App\Models\User',
+        return $this->belongsToMany(User::class,
             'user_toot_card', 'toot_card_id', 'user_id');
     }
 

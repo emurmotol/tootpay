@@ -17,7 +17,6 @@
                         </span>
                     </div>
                     <div class="panel-body">
-                        @include('_partials.flash')
                         @include('dashboard.admin.merchandise._partials.form')
                     </div>
                 </div>
@@ -26,6 +25,4 @@
     </div>
 @endsection
 
-@section('javascript')
-    @include('dashboard.admin.merchandise._partials.javascript')
-@endsection
+@include('_partials.spinner')

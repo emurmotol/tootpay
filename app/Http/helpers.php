@@ -1,6 +1,12 @@
 <?php
 
-function paginator($array = array()) {
+function search($keyword, $query) {
+    if(!is_null($keyword)) {
+        return $query->search($keyword)->get();
+    }
+}
+
+function paginate($array = array()) {
     $total = count($array);
     $per_page = intval(\App\Models\Setting::value('per_page'));
     $page = \Illuminate\Support\Facades\Input::get('page', 1);

@@ -16,7 +16,7 @@ class MerchandiseCategoryController extends Controller
 {
     public function index()
     {
-        $merchandise_categories = MerchandiseCategory::paginate(Setting::value('per_page'));
+        $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
         return view('dashboard.admin.merchandise.category.index', compact('merchandise_categories'));
     }
 
@@ -38,7 +38,7 @@ class MerchandiseCategoryController extends Controller
 
     public function show(MerchandiseCategory $merchandise_category)
     {
-        $merchandises = paginator(Merchandise::byCategory($merchandise_category->id));
+        $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
         return view('dashboard.admin.merchandise.category.show', compact('merchandises'), compact('merchandise_category'));
     }
 
