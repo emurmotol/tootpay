@@ -74,10 +74,6 @@
     </footer>
 
     @include('layouts._partials.app.scripts')
-
-    @yield('flash')
-    @yield('search')
-    @yield('image')
-    @yield('spinner')
+    @include('_partials.javascript')
 </body>
 </html>

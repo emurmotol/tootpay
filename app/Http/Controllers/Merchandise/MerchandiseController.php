@@ -18,6 +18,7 @@ class MerchandiseController extends Controller
     public function index()
     {
         $merchandises = Merchandise::paginate(intval(Setting::value('per_page')));
+        $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.index', compact('merchandises'));
     }
 
@@ -34,6 +35,10 @@ class MerchandiseController extends Controller
             $this->makeImage($request->file('image'), $merchandise);
         }
         flash()->success(trans('merchandise.created', ['name' => $request->input('name')]));
+
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
+        }
         return redirect('merchandises');
     }
 
@@ -55,6 +60,10 @@ class MerchandiseController extends Controller
             $this->makeImage($request->file('image'), $merchandise);
         }
         flash()->success(trans('merchandise.updated', ['name' => $merchandise->name]));
+
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
+        }
         return redirect('merchandises');
     }
 
@@ -65,7 +74,7 @@ class MerchandiseController extends Controller
         flash()->success(trans('merchandise.deleted', ['name' => $merchandise->name]));
 
         if (request()->has('redirect')) {
-            return redirect(request()->get('redirect'));
+            return redirect()->to(request()->get('redirect'));
         }
         return redirect()->back();
     }
@@ -107,11 +116,13 @@ class MerchandiseController extends Controller
 
     public function showAvailable() {
         $merchandises = Merchandise::available()->paginate(intval(Setting::value('per_page')));
+        $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.available', compact('merchandises'));
     }
 
     public function showUnavailable() {
         $merchandises = Merchandise::unavailable()->paginate(intval(Setting::value('per_page')));
+        $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
     }
 }

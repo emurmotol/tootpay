@@ -1,0 +1,5 @@
+@yield('flash')
+@yield('search')
+@yield('image')
+@yield('spinner')
+@yield('sort')

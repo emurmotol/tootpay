@@ -1,12 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-//    return dd(\App\Models\Merchandise::find(2)->merchandiseCategory->id);
-//    return dd(\App\Models\MerchandiseCategory::find(1)->merchandises);
-//    return dd(count(\App\Models\Merchandise::byCategory(2)));
-//    return dd(search('log', \App\Models\Merchandise::available()));
-
-    return dd(\App\Models\User::search('0926195')->get());
+    return dd();
 });
 
 Route::auth();

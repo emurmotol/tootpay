@@ -17,6 +17,7 @@ class MerchandiseCategoryController extends Controller
     public function index()
     {
         $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
+        $merchandise_categories->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.category.index', compact('merchandise_categories'));
     }
 
@@ -31,7 +32,7 @@ class MerchandiseCategoryController extends Controller
 
         flash()->success(trans('category.created', ['name' => $request->input('name')]));
         if ($request->has('redirect')) {
-            return redirect($request->get('redirect'));
+            return redirect()->to($request->get('redirect'));
         }
         return redirect('merchandises/categories');
     }
@@ -39,6 +40,7 @@ class MerchandiseCategoryController extends Controller
     public function show(MerchandiseCategory $merchandise_category)
     {
         $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+        $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.category.show', compact('merchandises'), compact('merchandise_category'));
     }
 
@@ -51,6 +53,10 @@ class MerchandiseCategoryController extends Controller
     {
         $merchandise_category->update($request->only('name'));
         flash()->success(trans('category.updated', ['name' => $merchandise_category->name]));
+
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
+        }
         return redirect('merchandises/categories');
     }
 
@@ -61,6 +67,10 @@ class MerchandiseCategoryController extends Controller
         } else {
             $merchandise_category->delete();
             flash()->success(trans('category.deleted', ['name' => $merchandise_category->name]));
+        }
+
+        if (request()->has('redirect')) {
+            return redirect()->to(request()->get('redirect'));
         }
         return redirect()->back();
     }

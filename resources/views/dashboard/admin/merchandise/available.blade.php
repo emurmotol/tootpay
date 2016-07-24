@@ -12,12 +12,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @yield('title')
+                        @include('_partials.sort')
                         <span class="pull-right">
                             @include('dashboard.admin.merchandise._partials.btn.create')
                             @include('dashboard.admin.merchandise.category._partials.btn.create')
                         </span>
                     </div>
-                    @if(count(\App\Models\Merchandise::available()->get()))
+                    @if(\App\Models\Merchandise::available()->get()->count())
                         @include('dashboard.admin.merchandise._partials.table')
                     @else
                         @include('_partials.empty')

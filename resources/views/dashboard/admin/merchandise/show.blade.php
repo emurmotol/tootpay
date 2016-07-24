@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Show Merchandise')
+@section('title', $merchandise->name)
 
 @section('content')
     <div class="container">
@@ -13,9 +13,12 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            {!! Form::open(['route' => ['merchandises.destroy', $merchandise->id, 'redirect=' . request()->get('redirect')], 'class' => '']) !!}
+                            {!! Form::open([
+                                'route' => ['merchandises.destroy', $merchandise->id,
+                                'redirect=' . request()->get('redirect')],
+                                'class' => '']) !!}
                                 {!! Form::hidden('_method', 'DELETE') !!}
-                                <a href="{{ route('merchandises.edit', $merchandise->id) }}" class="btn btn-default btn-xs">Edit</a>
+                                <a href="{{ route('merchandises.edit', $merchandise->id, ['redirect' => request()->get('redirect')]) }}" class="btn btn-default btn-xs">Edit</a>
                                 <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                             {!! Form::close() !!}
                         </span>
@@ -32,6 +35,7 @@
                             </div>
                             <div class="col-md-9">
                                 <ul class="list-unstyled">
+                                    <li>ID: <strong>{{ $merchandise->id }}</strong></li>
                                     <li>Name: <strong>{{ $merchandise->name }}</strong></li>
                                     <li>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></li>
                                     <li>Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong></li>

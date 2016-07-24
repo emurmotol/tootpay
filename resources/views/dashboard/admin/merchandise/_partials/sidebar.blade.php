@@ -6,10 +6,10 @@
             All <span class="badge">{{ \App\Models\Merchandise::count() }}</span>
         </a>
         <a href="{{ url('merchandises/available') }}" class="list-group-item {!! Request::is('merchandises/available') ? 'active' : '' !!}">
-            Available <span class="badge">{{ count(\App\Models\Merchandise::available()->get()) }}</span>
+            Available <span class="badge">{{ \App\Models\Merchandise::available()->get()->count() }}</span>
         </a>
         <a href="{{ url('merchandises/unavailable') }}" class="list-group-item {!! Request::is('merchandises/unavailable') ? 'active' : '' !!}">
-            Unavailable <span class="badge">{{ count(\App\Models\Merchandise::unavailable()->get()) }}</span>
+            Unavailable <span class="badge">{{ \App\Models\Merchandise::unavailable()->get()->count() }}</span>
         </a>
         <a href="{{ url('merchandises/categories') }}" class="list-group-item {!! Request::is('merchandises/categories') ? 'active' : '' !!}">
             Categories <span class="badge">{{ \App\Models\MerchandiseCategory::count() }}</span>

@@ -1,5 +1,18 @@
 <div class="row">
-    {!! Form::open(['route' => (Route::is('merchandises.edit')) ? ['merchandises.update', $merchandise->id] : 'merchandises.store', 'files' => true, 'class' => '']) !!}
+    @if(request()->has('redirect'))
+        {!! Form::open([
+            'route' => (Route::is('merchandises.edit')) ? ['merchandises.update', $merchandise->id, 'redirect=' . request()->get('redirect')] : ['merchandises.store', 'redirect=' . request()->get('redirect')],
+            'files' => true,
+            'class' => ''
+        ]) !!}
+    @else
+        {!! Form::open([
+            'route' => (Route::is('merchandises.edit')) ? ['merchandises.update', $merchandise->id] : 'merchandises.store',
+            'files' => true,
+            'class' => ''
+        ]) !!}
+    @endif
+
         @if(Route::is('merchandises.edit'))
             {{ Form::hidden('_method', 'PUT') }}
         @endif

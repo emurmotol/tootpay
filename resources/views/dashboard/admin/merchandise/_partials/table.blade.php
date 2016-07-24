@@ -13,7 +13,7 @@
         @foreach($merchandises as $merchandise)
             <tr>
                 <td>{{ $merchandise->id }}</td>
-                <td><a href="{{ route('merchandises.show', [$merchandise->id, 'redirect' => Route::is('merchandises.categories.show') ? url('merchandises/categories') : url('merchandises')]) }}">{{ $merchandise->name }}</a></td>
+                <td><a href="{{ route('merchandises.show', [$merchandise->id, 'redirect' => Request::url()]) }}">{{ $merchandise->name }}</a></td>
                 <td>P{{ number_format($merchandise->price, 2, '.', ',') }}</td>
                 <td>
                     {!! Form::open(['route' => ['merchandises.available', $merchandise->id], 'class' => '']) !!}
@@ -25,7 +25,7 @@
                 <td>
                     {!! Form::open(['route' => ['merchandises.destroy', $merchandise->id], 'class' => '']) !!}
                         {!! Form::hidden('_method', 'DELETE') !!}
-                        <a href="{{ route('merchandises.edit', $merchandise->id) }}" class="btn btn-default btn-xs">Edit</a>
+                        <a href="{{ route('merchandises.edit', [$merchandise->id, 'redirect' => Request::url()]) }}" class="btn btn-default btn-xs">Edit</a>
                         <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                     {!! Form::close() !!}
                 </td>

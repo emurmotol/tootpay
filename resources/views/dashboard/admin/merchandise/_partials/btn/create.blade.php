@@ -1,1 +1,1 @@
-<a href="{{ url('merchandises/create') }}" class="btn btn-primary btn-xs">Create merchandise</a>
+<a href="{{ route('merchandises.create', ['redirect' => Request::url()]) }}" class="btn btn-primary btn-xs">Create merchandise</a>
