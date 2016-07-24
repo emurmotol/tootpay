@@ -16,7 +16,11 @@ class MerchandiseCategoryController extends Controller
 {
     public function index()
     {
-        $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
+        if (request()->has('sort')) {
+            $merchandise_categories = MerchandiseCategory::sort(request()->get('sort'))->paginate(intval(Setting::value('per_page')));
+        } else {
+            $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
+        }
         $merchandise_categories->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.category.index', compact('merchandise_categories'));
     }
@@ -29,8 +33,8 @@ class MerchandiseCategoryController extends Controller
     public function store(Requests\MerchandiseCategoryRequest $request)
     {
         MerchandiseCategory::create($request->only('name'));
-
         flash()->success(trans('category.created', ['name' => $request->input('name')]));
+
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
         }
@@ -39,7 +43,11 @@ class MerchandiseCategoryController extends Controller
 
     public function show(MerchandiseCategory $merchandise_category)
     {
-        $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+        if (request()->has('sort')) {
+            $merchandises = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id))->paginate(intval(Setting::value('per_page')));
+        } else {
+            $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+        }
         $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.category.show', compact('merchandises'), compact('merchandise_category'));
     }

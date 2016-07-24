@@ -1,8 +1,7 @@
 <div class="row">
     @if(request()->has('redirect'))
         {!! Form::open([
-            'route' => (Route::is('merchandises.categories.edit')) ? ['merchandises.categories.update', $merchandise_category->id] : 'merchandises.categories.store',
-            'redirect=' . request()->get('redirect'),
+            'route' => (Route::is('merchandises.categories.edit')) ? ['merchandises.categories.update', $merchandise_category->id, 'redirect' => request()->get('redirect')] : ['merchandises.categories.store', 'redirect' => request()->get('redirect')],
             'class' => ''
         ]) !!}
     @else

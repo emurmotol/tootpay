@@ -39,7 +39,7 @@
                                     <li>Name: <strong>{{ $merchandise->name }}</strong></li>
                                     <li>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></li>
                                     <li>Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong></li>
-                                    <li>Available: <strong>{{ $merchandise->available ? 'Yes' : 'No' }}</strong></li>
+                                    <li>Available: <strong>{{ $merchandise->available ? 'YES' : 'NO' }}</strong></li>
                                     <li>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></li>
                                 </ul>
                             </div>

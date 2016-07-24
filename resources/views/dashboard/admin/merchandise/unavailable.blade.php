@@ -12,7 +12,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @yield('title')
-                        @include('_partials.sort')
+                        @include('dashboard.admin.merchandise._partials.btn.sort')
                         <span class="pull-right">
                             @include('dashboard.admin.merchandise._partials.btn.create')
                             @include('dashboard.admin.merchandise.category._partials.btn.create')

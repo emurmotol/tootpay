@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd();
+    return dd(\App\Models\Merchandise::byCategory(4)->toSql());
 });
 
 Route::auth();
