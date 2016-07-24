@@ -17,7 +17,12 @@ class MerchandiseController extends Controller
 {
     public function index() {
         if (request()->has('sort')) {
-            $merchandises = Merchandise::sort(request()->get('sort'))->paginate(intval(Setting::value('per_page')));
+            $sort = Merchandise::sort(request()->get('sort'));
+
+            if (is_null($sort)) {
+                return redirect()->back();
+            }
+            $merchandises = $sort->paginate(intval(Setting::value('per_page')));
         } else {
             $merchandises = Merchandise::paginate(intval(Setting::value('per_page')));
         }
@@ -40,7 +45,7 @@ class MerchandiseController extends Controller
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
         }
-        return redirect('merchandises');
+        return redirect()->route('merchandises.index');
     }
 
     public function show(Merchandise $merchandise) {
@@ -62,7 +67,7 @@ class MerchandiseController extends Controller
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
         }
-        return redirect('merchandises');
+        return redirect()->route('merchandises.index');
     }
 
     public function destroy(Merchandise $merchandise) {
@@ -86,7 +91,6 @@ class MerchandiseController extends Controller
         } else {
             flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name]));
         }
-
         return redirect()->back();
     }
 
@@ -112,7 +116,12 @@ class MerchandiseController extends Controller
 
     public function showAvailable() {
         if (request()->has('sort')) {
-            $merchandises = Merchandise::sort(request()->get('sort'), Merchandise::available())->paginate(intval(Setting::value('per_page')));
+            $sort = Merchandise::sort(request()->get('sort'), Merchandise::available());
+
+            if (is_null($sort)) {
+                return redirect()->back();
+            }
+            $merchandises = $sort->paginate(intval(Setting::value('per_page')));
         } else {
             $merchandises = Merchandise::available()->paginate(intval(Setting::value('per_page')));
         }
@@ -122,7 +131,12 @@ class MerchandiseController extends Controller
 
     public function showUnavailable() {
         if (request()->has('sort')) {
-            $merchandises = Merchandise::sort(request()->get('sort'), Merchandise::unavailable())->paginate(intval(Setting::value('per_page')));
+            $sort = Merchandise::sort(request()->get('sort'), Merchandise::unavailable());
+
+            if (is_null($sort)) {
+                return redirect()->back();
+            }
+            $merchandises = $sort->paginate(intval(Setting::value('per_page')));
         } else {
             $merchandises = Merchandise::unavailable()->paginate(intval(Setting::value('per_page')));
         }

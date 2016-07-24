@@ -18,7 +18,7 @@
                                 'redirect=' . request()->get('redirect')],
                                 'class' => '']) !!}
                                 {!! Form::hidden('_method', 'DELETE') !!}
-                                <a href="{{ route('merchandises.edit', $merchandise->id, ['redirect' => request()->get('redirect')]) }}" class="btn btn-default btn-xs">Edit</a>
+                                <a href="{{ route('merchandises.edit', [$merchandise->id, 'redirect' => Request::fullUrl()]) }}" class="btn btn-default btn-xs">Edit</a>
                                 <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                             {!! Form::close() !!}
                         </span>
@@ -34,14 +34,17 @@
                                 </div>
                             </div>
                             <div class="col-md-9">
-                                <ul class="list-unstyled">
-                                    <li>ID: <strong>{{ $merchandise->id }}</strong></li>
-                                    <li>Name: <strong>{{ $merchandise->name }}</strong></li>
-                                    <li>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></li>
-                                    <li>Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong></li>
-                                    <li>Available: <strong>{{ $merchandise->available ? 'YES' : 'NO' }}</strong></li>
-                                    <li>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></li>
-                                </ul>
+                                <div class="merchandise-details">
+                                    <ul class="list-unstyled">
+                                        <li>ID: <strong>{{ $merchandise->id }}</strong></li>
+                                        <li>Name: <strong>{{ $merchandise->name }}</strong></li>
+                                        <li>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></li>
+                                        <li>Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong></li>
+                                        <li>Available: <strong>{{ $merchandise->available ? 'YES' : 'NO' }}</strong></li>
+                                        <li>Created At: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong></li>
+                                        <li>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

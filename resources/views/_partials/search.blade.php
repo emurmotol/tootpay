@@ -2,7 +2,6 @@
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Search">
     </div>
-    <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
 </form>
 
 @section('search')

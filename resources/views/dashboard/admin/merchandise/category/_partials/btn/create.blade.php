@@ -1,1 +1,1 @@
-<a href="{{ route('merchandises.categories.create', ['redirect' => Request::url()]) }}" class="btn btn-primary btn-xs">Create category</a>
+<a href="{{ route('merchandises.categories.create', ['redirect' => Request::fullUrl()]) }}" class="btn btn-primary btn-xs">Create category</a>
