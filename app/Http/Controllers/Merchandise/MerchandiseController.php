@@ -81,7 +81,7 @@ class MerchandiseController extends Controller
         $merchandise->available = $request->input('available');
         $merchandise->save();
 
-        if ($request->input('available') == 'on') {
+        if ($merchandise->available) {
             flash()->success(trans('merchandise.available', ['name' => $merchandise->name]));
         } else {
             flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name]));

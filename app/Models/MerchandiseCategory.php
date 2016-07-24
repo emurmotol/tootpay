@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Sofa\Eloquence\Eloquence;
 
 class MerchandiseCategory extends Model
@@ -35,22 +36,28 @@ class MerchandiseCategory extends Model
         return $merchandise_category[$index];
     }
 
+    public static function withNumberOfEntries() {
+        return self::select('merchandise_categories.*', DB::raw('count(*) as number_of_entries'))
+            ->leftJoin('merchandises', 'merchandises.merchandise_category_id', '=', 'merchandise_categories.id')
+            ->groupBy('merchandise_categories.id');
+    }
+
     public static function sort($sort, $model = null) {
         if (!is_null($model)) {
             if ($sort == str_slug(trans('sort.name'))) {
-                return $model->orderBy('name', 'asc');
+                return $model->orderBy('merchandise_categories.name', 'asc');
             }
 
             if ($sort == str_slug(trans('sort.recently_updated'))) {
-                return $model->orderBy('updated_at', 'desc');
+                return $model->orderBy('merchandise_categories.updated_at', 'desc');
             }
 
             if ($sort == str_slug(trans('sort.most_entries'))) {
-                // do left join
+                return $model->orderBy('number_of_entries', 'desc');
             }
 
             if ($sort == str_slug(trans('sort.fewest_entries'))) {
-                // do left join
+                return $model->orderBy('number_of_entries', 'asc');
             }
         } else {
             if ($sort == str_slug(trans('sort.name'))) {
@@ -62,11 +69,11 @@ class MerchandiseCategory extends Model
             }
 
             if ($sort == str_slug(trans('sort.most_entries'))) {
-                // do left join
+                return self::withNumberOfEntries()->orderBy('number_of_entries', 'desc');
             }
 
             if ($sort == str_slug(trans('sort.fewest_entries'))) {
-                // do left join
+                return self::withNumberOfEntries()->orderBy('number_of_entries', 'asc');
             }
         }
     }

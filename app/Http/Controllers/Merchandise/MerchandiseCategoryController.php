@@ -17,7 +17,7 @@ class MerchandiseCategoryController extends Controller
     public function index()
     {
         if (request()->has('sort')) {
-            $merchandise_categories = MerchandiseCategory::sort(request()->get('sort'))->paginate(intval(Setting::value('per_page')));
+            $merchandise_categories = MerchandiseCategory::sort(request()->get('sort'), MerchandiseCategory::withNumberOfEntries())->paginate(intval(Setting::value('per_page')));
         } else {
             $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
         }
