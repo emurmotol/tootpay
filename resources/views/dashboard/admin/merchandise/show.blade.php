@@ -34,17 +34,15 @@
                                 </div>
                             </div>
                             <div class="col-md-9">
-                                <div class="merchandise-details">
-                                    <ul class="list-unstyled">
-                                        <li>ID: <strong>{{ $merchandise->id }}</strong></li>
-                                        <li>Name: <strong>{{ $merchandise->name }}</strong></li>
-                                        <li>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></li>
-                                        <li>Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong></li>
-                                        <li>Available: <strong>{{ $merchandise->available ? 'YES' : 'NO' }}</strong></li>
-                                        <li>Created At: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong></li>
-                                        <li>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></li>
-                                    </ul>
-                                </div>
+                                <ul class="list-unstyled">
+                                    <li>ID: <strong>{{ $merchandise->id }}</strong></li>
+                                    <li>Name: <strong>{{ $merchandise->name }}</strong></li>
+                                    <li>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></li>
+                                    <li>Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong></li>
+                                    <li>Available: <strong>{{ $merchandise->available ? 'YES' : 'NO' }}</strong></li>
+                                    <li>Created At: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong></li>
+                                    <li>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></li>
+                                </ul>
                             </div>
                         </div>
                     </div>

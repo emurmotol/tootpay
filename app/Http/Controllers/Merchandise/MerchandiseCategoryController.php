@@ -74,7 +74,7 @@ class MerchandiseCategoryController extends Controller
 
     public function destroy(MerchandiseCategory $merchandise_category) {
         if (count($merchandise_category->merchandises)) {
-            flash()->error(trans('category.not_empty', ['name' => $merchandise_category->name]));
+            flash()->error(trans('category.not_empty', ['name' => $merchandise_category->name]))->important();
         } else {
             $merchandise_category->delete();
             flash()->success(trans('category.deleted', ['name' => $merchandise_category->name]));

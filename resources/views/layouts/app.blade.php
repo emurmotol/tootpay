@@ -13,6 +13,7 @@
             @include('layouts._partials.app.header')
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
+
                 <ul class="nav navbar-nav">
                     @if(Auth::guest())
                         <li {!! (Request::is('faq') ? 'class="active"' : '') !!}>
