@@ -2,23 +2,28 @@
     <table class="table table-hover table-striped">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
-            <th>No. of Entries</th>
-            <th>Actions</th>
+            <th class="text-center"># of Entries</th>
+            <th class="text-center">Actions</th>
         </tr>
         </thead>
         <tbody>
         @foreach($merchandise_categories as $merchandise_category)
             <tr>
-                <td>{{ $merchandise_category->id }}</td>
-                <td><a href="{{ route('merchandises.categories.show', [$merchandise_category->id, 'redirect' => Request::fullUrl()]) }}">{{ $merchandise_category->name }}</a></td>
-                <td>{{ \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() }}</td>
                 <td>
-                    {!! Form::open(['route' => ['merchandises.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
-                        {!! Form::hidden('_method', 'DELETE') !!}
-                        <a href="{{ route('merchandises.categories.edit', [$merchandise_category->id, 'redirect' => Request::fullUrl()]) }}" class="btn btn-default btn-xs">Edit</a>
-                        <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                    <a href="{{ route('merchandise.categories.show', $merchandise_category->id) }}">
+                        {{ $merchandise_category->name }}
+                    </a>
+                </td>
+                <td class="text-center">{{ \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() }}</td>
+                <td class="text-center">
+                    {!! Form::open(['route' => ['merchandise.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
+                    {!! Form::hidden('_method', 'DELETE') !!}
+                    <div class="btn-group btn-group-xs" role="group" aria-label="Actions">
+                        <a href="{{ route('merchandise.categories.edit', $merchandise_category->id) }}"
+                           class="btn btn-default">Edit</a>
+                        <button type="submit" class="btn btn-danger" {!! \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() ? 'disabled' : '' !!}>Delete</button>
+                    </div>
                     {!! Form::close() !!}
                 </td>
             </tr>

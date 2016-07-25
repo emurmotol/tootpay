@@ -13,12 +13,29 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            @include('dashboard.admin.merchandise.category._partials.btn.cancel')
+                            @include('_partials.cancel', ['url' => route('merchandise.categories.index')])
                         </span>
                     </div>
                     <div class="panel-body">
                         @include('dashboard.admin.merchandise.category._partials.form')
                     </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ $merchandise_category->name . ' - ' . \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() . ' entries' }}
+                    </div>
+                    @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
+                        <div class="panel-body">
+                            @include('_partials.search')
+                            @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
+                                @include('dashboard.admin.merchandise._partials.sort')
+                            @endif
+                        </div>
+                        @include('dashboard.admin.merchandise._partials.table_edit_category')
+                    @else
+                        @include('_partials.empty')
+                    @endif
                 </div>
             </div>
         </div>

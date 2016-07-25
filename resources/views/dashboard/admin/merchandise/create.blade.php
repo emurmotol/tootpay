@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            @include('dashboard.admin.merchandise._partials.btn.cancel')
+                            @include('_partials.cancel', ['url' => route('merchandises.index')])
                         </span>
                     </div>
                     <div class="panel-body">

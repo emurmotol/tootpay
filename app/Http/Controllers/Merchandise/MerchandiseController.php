@@ -40,7 +40,7 @@ class MerchandiseController extends Controller
         if ($request->hasFile('image')) {
             $this->makeImage($request->file('image'), $merchandise);
         }
-        flash()->success(trans('merchandise.created', ['name' => $request->input('name')]));
+        flash()->success(trans('merchandise.created', ['name' => $merchandise->name]));
 
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
@@ -91,6 +91,15 @@ class MerchandiseController extends Controller
         } else {
             flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name]));
         }
+        return redirect()->back();
+    }
+
+    public function category($merchandise_id) {
+        $merchandise = Merchandise::findOrfail($merchandise_id);
+        $merchandise->merchandise_category_id = null;
+        $merchandise->save();
+
+        flash()->success(trans('merchandise.removed_from_category', ['name' => $merchandise->name]));
         return redirect()->back();
     }
 

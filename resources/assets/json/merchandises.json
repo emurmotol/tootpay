@@ -1,10 +1,5 @@
 [
   {
-    "merchandise_category_id" : 1,
-    "name": "COKE (MISMO)",
-    "price": 15
-  },
-  {
     "merchandise_category_id" : 3,
     "name": "TAPSILOG",
     "price": 45
@@ -25,16 +20,6 @@
     "price": 10
   },
   {
-    "merchandise_category_id" : 4,
-    "name": "CANDY",
-    "price": 1
-  },
-  {
-    "merchandise_category_id" : 4,
-    "name": "SKY FLAKES",
-    "price": 10
-  },
-  {
     "merchandise_category_id" : 2,
     "name": "BULALO",
     "price": 60
@@ -43,26 +28,6 @@
     "merchandise_category_id" : 4,
     "name": "MACARONI SALAD",
     "price": 20
-  },
-  {
-    "merchandise_category_id" : 1,
-    "name": "KOPIKO",
-    "price": 10
-  },
-  {
-    "merchandise_category_id" : 4,
-    "name": "TURON",
-    "price": 10
-  },
-  {
-    "merchandise_category_id" : 4,
-    "name": "BENG-BENG",
-    "price": 10
-  },
-  {
-    "merchandise_category_id" : 1,
-    "name": "SPRITE (MISMO)",
-    "price": 15
   },
   {
     "merchandise_category_id" : 4,

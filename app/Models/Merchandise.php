@@ -57,18 +57,16 @@ class Merchandise extends Model
         return $this->belongsTo(MerchandiseCategory::class);
     }
 
-    public function setNameAttribute($value)
-    {
+    public function setNameAttribute($value) {
         $this->attributes['name'] = strtoupper($value);
     }
 
-    public function setAvailableAttribute($value)
-    {
+    public function setAvailableAttribute($value) {
         $this->attributes['available'] = ($value == 'on') ? true : false;
     }
 
     public static function json($index = null) {
-        $path  = resource_path('assets/json/merchandises.json');
+        $path = resource_path('assets/json/merchandises.json');
         $merchandises = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {

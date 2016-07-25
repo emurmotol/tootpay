@@ -2,6 +2,7 @@
 
 return [
 
+    'id' => 'ID',
     'name' => 'Name',
     'recently_updated' => 'Recently updated',
     'highest_price' => 'Highest price',

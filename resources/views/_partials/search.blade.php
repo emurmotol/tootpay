@@ -1,4 +1,4 @@
-<form class="navbar-form navbar-left" role="search">
+<form role="search">
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Search">
     </div>

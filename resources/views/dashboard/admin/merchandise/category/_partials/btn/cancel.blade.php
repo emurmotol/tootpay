@@ -1,1 +1,0 @@
-<a href="{{ route('merchandises.categories.index', ['redirect' => request()->get('redirect')]) }}" class="btn btn-warning btn-xs">Cancel</a>

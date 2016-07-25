@@ -21,17 +21,13 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.admin.merchandise._partials.navbar.left')
+                            @include('dashboard.admin.merchandise._partials.navbar')
+                            {{--@include('dashboard.admin.toot_card._partials.navbar')--}}
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                            @include('dashboard.admin.merchandise._partials.navbar.left')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                     @endif
                 </ul>
-
-                @unless(!Auth::check())
-                    @include('_partials.search')
-                @endunless
 
                 <ul class="nav navbar-nav navbar-right">
                     @if(Auth::guest())
@@ -43,9 +39,7 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.admin.merchandise._partials.navbar.right')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                            @include('dashboard.admin.merchandise._partials.navbar.right')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                         <li class="dropdown">

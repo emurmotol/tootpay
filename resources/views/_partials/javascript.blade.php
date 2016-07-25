@@ -3,3 +3,4 @@
 @yield('image')
 @yield('spinner')
 @yield('sort')
+@yield('checkbox')

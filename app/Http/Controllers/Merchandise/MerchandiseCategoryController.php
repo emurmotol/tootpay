@@ -34,13 +34,13 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function store(Requests\MerchandiseCategoryRequest $request) {
-        MerchandiseCategory::create($request->only('name'));
-        flash()->success(trans('category.created', ['name' => $request->input('name')]));
+        $merchandise_category = MerchandiseCategory::create($request->only('name'));
+        flash()->success(trans('category.created', ['name' => $merchandise_category->name]));
 
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
         }
-        return redirect()->route('merchandises.categories.index');
+        return redirect()->route('merchandise.categories.index');
     }
 
     public function show(MerchandiseCategory $merchandise_category) {
@@ -59,7 +59,18 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function edit(MerchandiseCategory $merchandise_category) {
-        return view('dashboard.admin.merchandise.category.edit', compact('merchandise_category'));
+        if (request()->has('sort')) {
+            $sort = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
+
+            if (is_null($sort)) {
+                return redirect()->back();
+            }
+            $merchandises = $sort->paginate(intval(Setting::value('per_page')));
+        } else {
+            $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+        }
+        $merchandises->appends(request()->except('page'));
+        return view('dashboard.admin.merchandise.category.edit', compact('merchandises'), compact('merchandise_category'));
     }
 
     public function update(Requests\MerchandiseCategoryRequest $request, MerchandiseCategory $merchandise_category) {
@@ -69,7 +80,7 @@ class MerchandiseCategoryController extends Controller
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
         }
-        return redirect()->route('merchandises.categories.index');
+        return redirect()->route('merchandise.categories.index');
     }
 
     public function destroy(MerchandiseCategory $merchandise_category) {

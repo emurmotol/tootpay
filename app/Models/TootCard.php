@@ -36,6 +36,18 @@ class TootCard extends Model
         return $toot_card->pivot->user_id;
     }
 
+    public static function sort($sort, $model = null) {
+        if (!is_null($model)) {
+            if ($sort == str_slug(trans('sort.recently_updated'))) {
+                return $model->orderBy('updated_at', 'desc');
+            }
+        } else {
+            if ($sort == str_slug(trans('sort.recently_updated'))) {
+                return self::orderBy('id', 'desc');
+            }
+        }
+    }
+
     public function expired() {
         $expired = collect();
 
