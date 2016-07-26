@@ -37,6 +37,10 @@ footer {
     margin-right: 6px;
 }
 
+.menu-merchandise-item li ul li img {
+    height: 50px;
+}
+
 .img-merchandise {
     margin-bottom: 10px;
 }

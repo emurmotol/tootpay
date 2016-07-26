@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
 
@@ -87,25 +88,28 @@ class Merchandise extends Model
         return $merchandises[$index]['id'];
     }
 
-    public static function available() { // todo fix static problem
-        return self::whereIn('id', self::availability(true));
+    public static function availableEvery($day) {
+        return self::whereIn('id', self::availability($day));
     }
 
-    public function availability($available) {
-        $operator = $available ? '=' : '<>';
-        return $this->operationDays()->wherePivot('operation_day_id', $operator, date("w", strtotime(Carbon::now())))->get('id');
+    public static function available() {
+        return self::whereIn('id', self::availability(date("w", strtotime(Carbon::now()))));
+    }
+
+    public static function availability($day) {
+        return OperationDay::find($day)->merchandises()->getRelatedIds()->all();
     }
 
     public static function unavailable() {
-        return self::whereIn('id', self::availability(false));
+        return self::whereNotIn('id', self::availability(date("w", strtotime(Carbon::now()))));
     }
 
     public static function byCategory($merchandise_category_id) {
         return self::where('merchandise_category_id', $merchandise_category_id);
     }
 
-    public static function image($merchandise_id) {
-        $id = ($merchandise_id === 0 || self::findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
+    public function image($merchandise_id) {
+        $id = ($merchandise_id === 0 || $this->findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
         return url('img/merchandises/' . $id . '.jpg');
     }
 }

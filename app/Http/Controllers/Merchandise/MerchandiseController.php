@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Merchandise;
 
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
+use App\Models\OperationDay;
 use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -51,7 +52,8 @@ class MerchandiseController extends Controller
     }
 
     public function create() {
-        return view('dashboard.admin.merchandise.create');
+        $operation_days = OperationDay::all();
+        return view('dashboard.admin.merchandise.create', compact('operation_days'));
     }
 
     public function store(Requests\MerchandiseRequest $request) {
@@ -73,11 +75,13 @@ class MerchandiseController extends Controller
     }
 
     public function show(Merchandise $merchandise) {
-        return view('dashboard.admin.merchandise.show', compact('merchandise'));
+        $operation_days = OperationDay::all();
+        return view('dashboard.admin.merchandise.show', compact('merchandise', 'operation_days'));
     }
 
     public function edit(Merchandise $merchandise) {
-        return view('dashboard.admin.merchandise.edit', compact('merchandise'));
+        $operation_days = OperationDay::all();
+        return view('dashboard.admin.merchandise.edit', compact('merchandise', 'operation_days'));
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise) {
@@ -149,8 +153,10 @@ class MerchandiseController extends Controller
     }
 
     public function showAvailable() {
+        $available_merchandises = (new Merchandise())->available();
+
         if (request()->has('search')) {
-            $results = Merchandise::searchFor(request()->get('search'), Merchandise::available());
+            $results = Merchandise::searchFor(request()->get('search'), $available_merchandises);
 
             if (!$results->count()) {
                 flash()->error(trans('search.empty', ['search' => request()->get('search')]));
@@ -168,14 +174,14 @@ class MerchandiseController extends Controller
             }
         } else {
             if (request()->has('sort')) {
-                $sorted = Merchandise::sort(request()->get('sort'), Merchandise::available());
+                $sorted = Merchandise::sort(request()->get('sort'), $available_merchandises);
 
                 if (is_null($sorted)) {
                     return redirect()->back();
                 }
                 $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
             } else {
-                $merchandises = Merchandise::available()->paginate(intval(Setting::value('per_page')));
+                $merchandises = $available_merchandises->paginate(intval(Setting::value('per_page')));
             }
         }
         $merchandises->appends(request()->except('page'));
@@ -183,8 +189,10 @@ class MerchandiseController extends Controller
     }
 
     public function showUnavailable() {
+        $unavailable_merchandises = (new Merchandise())->unavailable();
+
         if (request()->has('search')) {
-            $results = Merchandise::searchFor(request()->get('search'), Merchandise::unavailable());
+            $results = Merchandise::searchFor(request()->get('search'), $unavailable_merchandises);
 
             if (!$results->count()) {
                 flash()->error(trans('search.empty', ['search' => request()->get('search')]));
@@ -202,17 +210,22 @@ class MerchandiseController extends Controller
             }
         } else {
             if (request()->has('sort')) {
-                $sorted = Merchandise::sort(request()->get('sort'), Merchandise::unavailable());
+                $sorted = Merchandise::sort(request()->get('sort'), $unavailable_merchandises);
 
                 if (is_null($sorted)) {
                     return redirect()->back();
                 }
                 $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
             } else {
-                $merchandises = Merchandise::unavailable()->paginate(intval(Setting::value('per_page')));
+                $merchandises = $unavailable_merchandises->paginate(intval(Setting::value('per_page')));
             }
         }
         $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
+    }
+
+    public function showMenu() {
+        $operation_days = OperationDay::all();
+        return view('dashboard.admin.merchandise.daily_menu', compact('operation_days'));
     }
 }

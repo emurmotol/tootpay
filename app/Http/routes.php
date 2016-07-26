@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\Carbon\Carbon::now()->toFormattedDateString());
+    return dd(\App\Models\Merchandise::availableEvery(3)->get());
 });
 
 Route::auth();
@@ -49,6 +49,11 @@ Route::group(['middleware' => 'roles'], function () {
         Route::get('merchandises/unavailable', [
             'uses' => 'MerchandiseController@showUnavailable',
             'as' => 'merchandises.unavailable.index',
+            'roles' => [admin()]
+        ]);
+        Route::get('merchandises/daily_menu', [
+            'uses' => 'MerchandiseController@showMenu',
+            'as' => 'merchandises.daily_menu.index',
             'roles' => [admin()]
         ]);
         Route::resource('merchandises', 'MerchandiseController', [

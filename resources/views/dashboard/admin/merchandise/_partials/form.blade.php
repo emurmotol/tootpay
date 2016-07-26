@@ -20,7 +20,7 @@
     <div class="col-md-3">
         <div class="img-merchandise">
             <a href="#">
-                <img src="{{ \App\Models\Merchandise::image((Route::is('merchandises.edit')) ? $merchandise->id : 0) }}"
+                <img src="{{ (new \App\Models\Merchandise())->image((Route::is('merchandises.edit')) ? $merchandise->id : 0) }}"
                      id="image-merchandise"
                      class="img-responsive img-rounded"
                      alt="{{ (Route::is('merchandises.edit')) ? $merchandise->name : 'Default Image' }}">
@@ -92,7 +92,7 @@
             <label for="day">Available Every:</label>
 
             @if (Route::is('merchandises.edit'))
-                @foreach(\App\Models\OperationDay::all() as $day)
+                @foreach($operation_days->all() as $day)
                     <div class="checkbox">
                         <label><input type="checkbox" value="{{ $day->id }}" name="day[]" id="day"
                                     {{ in_array($day->id, $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' }}>{{ $day->day }}
@@ -100,7 +100,7 @@
                     </div>
                 @endforeach
             @else
-                @foreach(\App\Models\OperationDay::all() as $day)
+                @foreach($operation_days->all() as $day)
                     <div class="checkbox">
                         <label><input type="checkbox" value="{{ $day->id }}" name="day[]" id="day"
                                     {{ !is_null(old('day')) ? (in_array($day->id, old('day')) ? 'checked' : '') : '' }}>{{ $day->day }}

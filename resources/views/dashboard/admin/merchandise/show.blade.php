@@ -28,8 +28,8 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="img-merchandise">
-                                    <a href="{{ \App\Models\Merchandise::image($merchandise->id) }}">
-                                        <img src="{{ \App\Models\Merchandise::image($merchandise->id) }}"
+                                    <a href="{{ $merchandise->image($merchandise->id) }}">
+                                        <img src="{{ $merchandise->image($merchandise->id) }}"
                                              id="image-merchandise"
                                              class="img-responsive img-rounded" alt="{{ $merchandise->name }}">
                                     </a>
@@ -38,33 +38,33 @@
                             <div class="col-md-9">
                                 <ul class="list-unstyled">
                                     <li>
-                                        Name: <strong>{{ $merchandise->name }}</strong>
+                                        <h4>Name: <strong>{{ $merchandise->name }}</strong></h4>
                                     </li>
                                     <li>
-                                        Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong>
+                                        <h4>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></h4>
                                     </li>
                                     <li>
-                                        Category:
-                                        <strong>{{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}</strong>
+                                        <h4>Category: <strong>{{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}</strong></h4>
                                     </li>
                                     <li>
-                                        Available Every:
-                                        <strong>
-                                            @if($merchandise->operationDays()->getRelatedIds()->count())
-                                                @foreach($merchandise->operationDays()->getRelatedIds()->all() as $day)
-                                                    {{ \App\Models\OperationDay::find($day)->day }},
-                                                @endforeach
-                                            @else
-                                                Not set
-                                            @endif
-                                        </strong>
+                                        <h4>
+                                            Available Every:
+                                            <strong>
+                                                @if($merchandise->operationDays()->getRelatedIds()->count())
+                                                    @foreach($merchandise->operationDays()->getRelatedIds()->all() as $day)
+                                                        {{ $operation_days->find($day)->day }},
+                                                    @endforeach
+                                                @else
+                                                    Not set
+                                                @endif
+                                            </strong>
+                                        </h4>
                                     </li>
                                     <li>
-                                        Created:
-                                        <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong>
+                                        <h4>Created: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong></h4>
                                     </li>
                                     <li>
-                                        Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong>
+                                        <h4>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></h4>
                                     </li>
                                 </ul>
                             </div>
