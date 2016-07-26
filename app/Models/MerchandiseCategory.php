@@ -44,36 +44,36 @@ class MerchandiseCategory extends Model
 
     public static function sort($sort, $model = null) {
         if (!is_null($model)) {
-            if ($sort == str_slug(trans('sort.name'))) {
+            if ($sort == str_slug(trans('sort.categories')[0])) {
                 return $model->orderBy('merchandise_categories.name', 'asc');
             }
 
-            if ($sort == str_slug(trans('sort.recently_updated'))) {
+            if ($sort == str_slug(trans('sort.categories')[1])) {
                 return $model->orderBy('merchandise_categories.updated_at', 'desc');
             }
 
-            if ($sort == str_slug(trans('sort.most_entries'))) {
+            if ($sort == str_slug(trans('sort.categories')[2])) {
                 return $model->orderBy('number_of_entries', 'desc');
             }
 
-            if ($sort == str_slug(trans('sort.fewest_entries'))) {
+            if ($sort == str_slug(trans('sort.categories')[3])) {
                 return $model->orderBy('number_of_entries', 'asc');
             }
         }
 
-        if ($sort == str_slug(trans('sort.name'))) {
+        if ($sort == str_slug(trans('sort.categories')[0])) {
             return self::orderBy('name', 'asc');
         }
 
-        if ($sort == str_slug(trans('sort.recently_updated'))) {
+        if ($sort == str_slug(trans('sort.categories')[1])) {
             return self::orderBy('updated_at', 'desc');
         }
 
-        if ($sort == str_slug(trans('sort.most_entries'))) {
+        if ($sort == str_slug(trans('sort.categories')[2])) {
             return self::withNumberOfEntries()->orderBy('number_of_entries', 'desc');
         }
 
-        if ($sort == str_slug(trans('sort.fewest_entries'))) {
+        if ($sort == str_slug(trans('sort.categories')[3])) {
             return self::withNumberOfEntries()->orderBy('number_of_entries', 'asc');
         }
     }

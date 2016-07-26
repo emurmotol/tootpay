@@ -51,9 +51,11 @@
                                             Available Every:
                                             <strong>
                                                 @if($merchandise->operationDays()->getRelatedIds()->count())
-                                                    @foreach($merchandise->operationDays()->getRelatedIds()->all() as $day)
-                                                        {{ $operation_days->find($day)->day }},
-                                                    @endforeach
+                                                    <ul class="list-inline days-merchandise">
+                                                        @foreach($merchandise->operationDays()->getRelatedIds()->all() as $day)
+                                                            <li>{{ $operation_days->find($day)->day }},</li>
+                                                        @endforeach
+                                                    </ul>
                                                 @else
                                                     Not set
                                                 @endif

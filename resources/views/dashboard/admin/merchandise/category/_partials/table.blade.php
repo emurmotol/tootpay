@@ -15,12 +15,11 @@
                         <strong>{{ $merchandise_category->name }}</strong>
                     </a>
                 </td>
-                <td class="text-center">{{ \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() }}</td>
+                <td class="text-center">{{ $merchandise_category->number_of_entries }}</td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['merchandise.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}
                     <a href="{{ route('merchandise.categories.edit', $merchandise_category->id) }}" class="btn btn-default btn-xs">Edit</a>
-                    {{--<button type="submit" class="btn btn-danger btn-xs" {!! \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() ? 'disabled' : '' !!}>Delete</button>--}}
                     <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                     {!! Form::close() !!}
                 </td>

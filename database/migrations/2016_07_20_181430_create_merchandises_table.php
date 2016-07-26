@@ -13,7 +13,6 @@ class CreateMerchandisesTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->boolean('has_image')->default(false);
-            $table->boolean('available')->default(false);
             $table->timestamps();
 
             $table->foreign('merchandise_category_id')

@@ -37,8 +37,21 @@ footer {
     margin-right: 6px;
 }
 
-.menu-merchandise-item li ul li img {
+.menu-merchandise li ul li img {
     height: 50px;
+}
+
+.panel-actions li {
+    margin-top: 10px;
+}
+
+.panel-actions {
+    margin-top: -25px;
+    margin-bottom: 0px;
+}
+
+.days-merchandise li {
+    margin-top: 10px;
 }
 
 .img-merchandise {

@@ -1,3 +1,3 @@
-<a href="{{ $url }}" class="btn btn-primary btn-xs">
+<a href="{{ $url }}" class="btn btn-default btn-sm">
     Create {{ $what }}
 </a>

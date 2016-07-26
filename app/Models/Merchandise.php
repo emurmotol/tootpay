@@ -32,36 +32,36 @@ class Merchandise extends Model
 
     public static function sort($sort, $model = null) {
         if (!is_null($model)) {
-            if ($sort == str_slug(trans('sort.name'))) {
+            if ($sort == str_slug(trans('sort.merchandises')[0])) {
                 return $model->orderBy('name', 'asc');
             }
 
-            if ($sort == str_slug(trans('sort.recently_updated'))) {
+            if ($sort == str_slug(trans('sort.merchandises')[1])) {
                 return $model->orderBy('updated_at', 'desc');
             }
 
-            if ($sort == str_slug(trans('sort.highest_price'))) {
+            if ($sort == str_slug(trans('sort.merchandises')[2])) {
                 return $model->orderBy('price', 'desc');
             }
 
-            if ($sort == str_slug(trans('sort.lowest_price'))) {
+            if ($sort == str_slug(trans('sort.merchandises')[3])) {
                 return $model->orderBy('price', 'asc');
             }
         }
 
-        if ($sort == str_slug(trans('sort.name'))) {
+        if ($sort == str_slug(trans('sort.merchandises')[0])) {
             return self::orderBy('name', 'asc');
         }
 
-        if ($sort == str_slug(trans('sort.recently_updated'))) {
+        if ($sort == str_slug(trans('sort.merchandises')[1])) {
             return self::orderBy('updated_at', 'desc');
         }
 
-        if ($sort == str_slug(trans('sort.highest_price'))) {
+        if ($sort == str_slug(trans('sort.merchandises')[2])) {
             return self::orderBy('price', 'desc');
         }
 
-        if ($sort == str_slug(trans('sort.lowest_price'))) {
+        if ($sort == str_slug(trans('sort.merchandises')[3])) {
             return self::orderBy('price', 'asc');
         }
     }
@@ -72,10 +72,6 @@ class Merchandise extends Model
 
     public function setNameAttribute($value) {
         $this->attributes['name'] = ucwords(strtolower($value));
-    }
-
-    public function setAvailableAttribute($value) {
-        $this->attributes['available'] = ($value == 'on') ? true : false;
     }
 
     public static function json($index = null) {

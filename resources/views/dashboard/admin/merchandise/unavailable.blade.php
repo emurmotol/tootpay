@@ -16,14 +16,20 @@
                     </div>
                     @if(\App\Models\Merchandise::unavailable()->get()->count())
                         <div class="panel-body">
-                            @if(\App\Models\Merchandise::unavailable()->get()->count())
-                                @include('dashboard.admin.merchandise._partials.sort')
-                            @endif
-                            <span class="pull-right">
-                                @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
-                                @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
-                            </span>
-                            @include('_partials.search', ['what' => 'unavailable'])
+                            <ul class="list-inline panel-actions">
+                                <li>
+                                    @include('_partials.search', ['what' => 'unavailable'])
+                                </li>
+                                <li>
+                                    @include('_partials.sort', ['sort_by' => trans('sort.merchandises')])
+                                </li>
+                                <li>
+                                    @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
+                                </li>
+                                <li>
+                                    @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
+                                </li>
+                            </ul>
                         </div>
                         @include('dashboard.admin.merchandise._partials.table')
                     @else

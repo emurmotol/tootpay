@@ -16,14 +16,20 @@
                     </div>
                     @if(\App\Models\MerchandiseCategory::count())
                         <div class="panel-body">
-                            @if(\App\Models\MerchandiseCategory::count())
-                                @include('dashboard.admin.merchandise.category._partials.sort')
-                            @endif
-                            <span class="pull-right">
-                                @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
-                                @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
-                            </span>
-                            @include('_partials.search', ['what' => 'categories'])
+                            <ul class="list-inline panel-actions">
+                                <li>
+                                    @include('_partials.search', ['what' => 'categories'])
+                                </li>
+                                <li>
+                                    @include('_partials.sort', ['sort_by' => trans('sort.categories')])
+                                </li>
+                                <li>
+                                    @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
+                                </li>
+                                <li>
+                                    @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
+                                </li>
+                            </ul>
                         </div>
                         @include('dashboard.admin.merchandise.category._partials.table')
                     @else

@@ -129,6 +129,7 @@ class MerchandiseController extends Controller
             $merchandise->operationDays()->detach($int_day);
             flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name, 'day' => $day]));
         }
+        $merchandise->touch();
         return redirect()->back();
     }
 
@@ -153,7 +154,7 @@ class MerchandiseController extends Controller
     }
 
     public function showAvailable() {
-        $available_merchandises = (new Merchandise())->available();
+        $available_merchandises = Merchandise::available();
 
         if (request()->has('search')) {
             $results = Merchandise::searchFor(request()->get('search'), $available_merchandises);
@@ -189,7 +190,7 @@ class MerchandiseController extends Controller
     }
 
     public function showUnavailable() {
-        $unavailable_merchandises = (new Merchandise())->unavailable();
+        $unavailable_merchandises = Merchandise::unavailable();
 
         if (request()->has('search')) {
             $results = Merchandise::searchFor(request()->get('search'), $unavailable_merchandises);

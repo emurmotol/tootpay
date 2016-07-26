@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Input;
 class MerchandiseCategoryController extends Controller
 {
     public function index() {
+        $category_with_number_of_entries = MerchandiseCategory::withNumberOfEntries();
+
         if (request()->has('search')) {
-            $results = Merchandise::searchFor(request()->get('search'), MerchandiseCategory::withNumberOfEntries());
+            $results = Merchandise::searchFor(request()->get('search'), $category_with_number_of_entries);
 
             if (!$results->count()) {
                 flash()->error(trans('search.empty', ['search' => request()->get('search')]));
@@ -34,14 +36,14 @@ class MerchandiseCategoryController extends Controller
             }
         } else {
             if (request()->has('sort')) {
-                $sorted = Merchandise::sort(request()->get('sort'), MerchandiseCategory::withNumberOfEntries());
+                $sorted = Merchandise::sort(request()->get('sort'), $category_with_number_of_entries);
 
                 if (is_null($sorted)) {
                     return redirect()->back();
                 }
                 $merchandise_categories = $sorted->paginate(intval(Setting::value('per_page')));
             } else {
-                $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
+                $merchandise_categories = $category_with_number_of_entries->paginate(intval(Setting::value('per_page')));
             }
         }
         $merchandise_categories->appends(request()->except('page'));
@@ -63,8 +65,10 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function show(MerchandiseCategory $merchandise_category) {
+        $merchandise_by_category = Merchandise::byCategory($merchandise_category->id);
+
         if (request()->has('search')) {
-            $results = Merchandise::searchFor(request()->get('search'), Merchandise::byCategory($merchandise_category->id));
+            $results = Merchandise::searchFor(request()->get('search'), $merchandise_by_category);
 
             if (!$results->count()) {
                 flash()->error(trans('search.empty', ['search' => request()->get('search')]));
@@ -82,14 +86,14 @@ class MerchandiseCategoryController extends Controller
             }
         } else {
             if (request()->has('sort')) {
-                $sorted = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
+                $sorted = Merchandise::sort(request()->get('sort'), $merchandise_by_category);
 
                 if (is_null($sorted)) {
                     return redirect()->back();
                 }
                 $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
             } else {
-                $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+                $merchandises = $merchandise_by_category->paginate(intval(Setting::value('per_page')));
             }
         }
         $merchandises->appends(request()->except('page'));
