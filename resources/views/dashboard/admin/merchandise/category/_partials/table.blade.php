@@ -12,7 +12,7 @@
             <tr>
                 <td>
                     <a href="{{ route('merchandise.categories.show', $merchandise_category->id) }}">
-                        {{ $merchandise_category->name }}
+                        <strong>{{ $merchandise_category->name }}</strong>
                     </a>
                 </td>
                 <td class="text-center">{{ \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() }}</td>
@@ -20,7 +20,8 @@
                     {!! Form::open(['route' => ['merchandise.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}
                     <a href="{{ route('merchandise.categories.edit', $merchandise_category->id) }}" class="btn btn-default btn-xs">Edit</a>
-                    <button type="submit" class="btn btn-danger btn-xs" {!! \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() ? 'disabled' : '' !!}>Delete</button>
+                    {{--<button type="submit" class="btn btn-danger btn-xs" {!! \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() ? 'disabled' : '' !!}>Delete</button>--}}
+                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                     {!! Form::close() !!}
                 </td>
             </tr>

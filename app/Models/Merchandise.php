@@ -17,12 +17,16 @@ class Merchandise extends Model
         'name', 'price', 'merchandise_category_id', 'has_image', 'available',
     ];
 
+    public function operationDays() {
+        return $this->belongsToMany(OperationDay::class,
+            'merchandise_operation_day', 'merchandise_id', 'operation_day_id')->withTimestamps();
+    }
 
     public static function searchFor($keyword, $model = null) {
         if (!is_null($model)) {
-            return $model->search($keyword);
+            return $model->search(strtolower($keyword));
         }
-        return self::search($keyword);
+        return self::search(strtolower($keyword));
     }
 
     public static function sort($sort, $model = null) {
@@ -83,12 +87,17 @@ class Merchandise extends Model
         return $merchandises[$index]['id'];
     }
 
-    public static function available() {
-        return self::where('available', true);
+    public static function available() { // todo fix static problem
+        return self::whereIn('id', self::availability(true));
+    }
+
+    public function availability($available) {
+        $operator = $available ? '=' : '<>';
+        return $this->operationDays()->wherePivot('operation_day_id', $operator, date("w", strtotime(Carbon::now())))->get('id');
     }
 
     public static function unavailable() {
-        return self::where('available', false);
+        return self::whereIn('id', self::availability(false));
     }
 
     public static function byCategory($merchandise_category_id) {

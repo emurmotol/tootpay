@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Merchandise::searchFor('silog')->get());
+    return dd(\Carbon\Carbon::now()->toFormattedDateString());
 });
 
 Route::auth();

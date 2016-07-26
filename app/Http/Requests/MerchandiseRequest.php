@@ -18,6 +18,7 @@ class MerchandiseRequest extends Request
             'price' => 'required',
             'merchandise_category_id' => 'required',
             'image' => '',
+            'day' => '',
         ];
     }
 }

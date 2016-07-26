@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Merchandise;
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -54,7 +55,11 @@ class MerchandiseController extends Controller
     }
 
     public function store(Requests\MerchandiseRequest $request) {
-        $merchandise = Merchandise::create($request->all());
+        $merchandise = Merchandise::create($request->except('day'));
+
+        if ($request->has('day')) {
+            $merchandise->operationDays()->sync($request->get('day'));
+        }
 
         if ($request->hasFile('image')) {
             $this->makeImage($request->file('image'), $merchandise);
@@ -76,7 +81,13 @@ class MerchandiseController extends Controller
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise) {
-        $merchandise->update($request->all());
+        $merchandise->update($request->except('day'));
+
+        if ($request->has('day')) {
+            $merchandise->operationDays()->sync($request->get('day'));
+        } else {
+            $merchandise->operationDays()->detach($merchandise->operationDays()->getRelatedIds()->all());
+        }
 
         if ($request->hasFile('image')) {
             $this->makeImage($request->file('image'), $merchandise);
@@ -91,6 +102,7 @@ class MerchandiseController extends Controller
 
     public function destroy(Merchandise $merchandise) {
         File::delete(public_path('img/merchandises/' . $merchandise->id . '.jpg'));
+        $merchandise->operationDays()->detach($merchandise->operationDays()->getRelatedIds()->all());
         $merchandise->delete();
         flash()->success(trans('merchandise.deleted', ['name' => $merchandise->name]));
 
@@ -102,13 +114,16 @@ class MerchandiseController extends Controller
 
     public function available(Request $request, $merchandise_id) {
         $merchandise = Merchandise::findOrfail($merchandise_id);
-        $merchandise->available = $request->input('available');
-        $merchandise->save();
+        $now = strtotime(Carbon::now());
+        $int_day = date("w", $now);
+        $day = date("l", $now);
 
-        if ($merchandise->available) {
-            flash()->success(trans('merchandise.available', ['name' => $merchandise->name]));
+        if ($request->input('available') == 'on') {
+            $merchandise->operationDays()->attach($int_day);
+            flash()->success(trans('merchandise.available', ['name' => $merchandise->name, 'day' => $day]));
         } else {
-            flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name]));
+            $merchandise->operationDays()->detach($int_day);
+            flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name, 'day' => $day]));
         }
         return redirect()->back();
     }

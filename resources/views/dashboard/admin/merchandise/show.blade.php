@@ -44,13 +44,24 @@
                                         Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong>
                                     </li>
                                     <li>
-                                        Category: <strong>{{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}</strong>
+                                        Category:
+                                        <strong>{{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}</strong>
                                     </li>
                                     <li>
-                                        Available Every: <strong>Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday</strong>
+                                        Available Every:
+                                        <strong>
+                                            @if($merchandise->operationDays()->getRelatedIds()->count())
+                                                @foreach($merchandise->operationDays()->getRelatedIds()->all() as $day)
+                                                    {{ \App\Models\OperationDay::find($day)->day }},
+                                                @endforeach
+                                            @else
+                                                Not set
+                                            @endif
+                                        </strong>
                                     </li>
                                     <li>
-                                        Created: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong>
+                                        Created:
+                                        <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong>
                                     </li>
                                     <li>
                                         Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong>

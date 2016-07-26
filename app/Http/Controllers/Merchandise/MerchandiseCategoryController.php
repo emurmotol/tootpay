@@ -93,7 +93,7 @@ class MerchandiseCategoryController extends Controller
             }
         }
         $merchandises->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.category.show', compact('merchandises'), compact('merchandise_category'));
+        return view('dashboard.admin.merchandise.category.show', compact('merchandises', 'merchandise_category'));
     }
 
     public function edit(MerchandiseCategory $merchandise_category) {

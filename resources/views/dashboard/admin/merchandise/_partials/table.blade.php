@@ -5,7 +5,7 @@
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
-            <th class="text-center">Available Today?</th>
+            <th class="text-center">Make Available Today?</th>
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -26,7 +26,7 @@
                     {!! Form::hidden('_method', 'PUT') !!}
                     <input type="hidden" name="available" value="off">
                     <input type="checkbox" onchange="this.form.submit();"
-                           {!! $merchandise->available ? 'checked' : '' !!} id="available" name="available"
+                           {!! in_array(date("w", strtotime(\Carbon\Carbon::now())), $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' !!} id="available" name="available"
                            data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success"
                            data-offstyle="default" data-size="mini">
                     {!! Form::close() !!}

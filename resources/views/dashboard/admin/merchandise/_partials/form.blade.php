@@ -90,28 +90,26 @@
 
         <div class="form-group">
             <label for="day">Available Every:</label>
-            <div class="checkbox">
-                <label><input type="checkbox" value="1" name="week_day[]" id="week_day">Monday</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="2" name="week_day[]" id="week_day">Tuesday</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="3" name="week_day[]" id="week_day">Wednesday</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="4" name="week_day[]" id="week_day">Thursday</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="5" name="week_day[]" id="week_day">Friday</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="6" name="week_day[]" id="week_day">Saturday</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="7" name="week_day[]" id="week_day">Sunday</label>
-            </div>
+
+            @if (Route::is('merchandises.edit'))
+                @foreach(\App\Models\OperationDay::all() as $day)
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="{{ $day->id }}" name="day[]" id="day"
+                                    {{ in_array($day->id, $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' }}>{{ $day->day }}
+                        </label>
+                    </div>
+                @endforeach
+            @else
+                @foreach(\App\Models\OperationDay::all() as $day)
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="{{ $day->id }}" name="day[]" id="day"
+                                    {{ !is_null(old('day')) ? (in_array($day->id, old('day')) ? 'checked' : '') : '' }}>{{ $day->day }}
+                        </label>
+                    </div>
+                @endforeach
+            @endif
         </div>
+
         <button type="submit" id="btn-submit" class="btn btn-primary"
                 data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
             {{ (Route::is('merchandises.edit')) ? 'Update' : 'Create' }} merchandise
