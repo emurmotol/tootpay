@@ -15,7 +15,7 @@
                     </div>
                     @if(\App\Models\Merchandise::available()->get()->count())
                         <div class="panel-body">
-                            @include('_partials.search')
+                            @include('_partials.search', ['url' => url('merchandises/available'), 'type' => 'GET'])
                             @if(\App\Models\Merchandise::available()->get()->count())
                                 @include('dashboard.admin.merchandise._partials.sort')
                             @endif

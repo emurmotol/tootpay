@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd();
+    return dd(\App\Models\Merchandise::searchFor('silog')->get());
 });
 
 Route::auth();
@@ -39,11 +39,6 @@ Route::group(['middleware' => 'roles'], function () {
         Route::put('merchandises/available/{merchandise_id}', [
             'uses' => 'MerchandiseController@available',
             'as' => 'merchandises.available',
-            'roles' => [admin()]
-        ]);
-        Route::put('merchandises/category/{merchandise_id}', [
-            'uses' => 'MerchandiseController@category',
-            'as' => 'merchandises.category',
             'roles' => [admin()]
         ]);
         Route::get('merchandises/available', [

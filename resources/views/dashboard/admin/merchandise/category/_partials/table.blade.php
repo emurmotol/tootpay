@@ -19,11 +19,8 @@
                 <td class="text-center">
                     {!! Form::open(['route' => ['merchandise.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}
-                    <div class="btn-group btn-group-xs" role="group" aria-label="Actions">
-                        <a href="{{ route('merchandise.categories.edit', $merchandise_category->id) }}"
-                           class="btn btn-default">Edit</a>
-                        <button type="submit" class="btn btn-danger" {!! \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() ? 'disabled' : '' !!}>Delete</button>
-                    </div>
+                    <a href="{{ route('merchandise.categories.edit', $merchandise_category->id) }}" class="btn btn-default btn-xs">Edit</a>
+                    <button type="submit" class="btn btn-danger btn-xs" {!! \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() ? 'disabled' : '' !!}>Delete</button>
                     {!! Form::close() !!}
                 </td>
             </tr>

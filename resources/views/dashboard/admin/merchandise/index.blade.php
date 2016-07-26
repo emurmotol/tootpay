@@ -15,7 +15,7 @@
                     </div>
                     @if(\App\Models\Merchandise::count())
                         <div class="panel-body">
-                            @include('_partials.search')
+                            @include('_partials.search', ['url' => route('merchandises.index'), 'type' => 'GET'])
                             @if(\App\Models\Merchandise::count())
                                 @include('dashboard.admin.merchandise._partials.sort')
                             @endif

@@ -23,7 +23,7 @@ class MerchandiseCategory extends Model
     }
 
     public function setNameAttribute($value) {
-        $this->attributes['name'] = strtoupper($value);
+        $this->attributes['name'] = ucwords(strtolower($value));
     }
 
     public static function json($index = null) {
@@ -59,22 +59,22 @@ class MerchandiseCategory extends Model
             if ($sort == str_slug(trans('sort.fewest_entries'))) {
                 return $model->orderBy('number_of_entries', 'asc');
             }
-        } else {
-            if ($sort == str_slug(trans('sort.name'))) {
-                return self::orderBy('name', 'asc');
-            }
+        }
 
-            if ($sort == str_slug(trans('sort.recently_updated'))) {
-                return self::orderBy('updated_at', 'desc');
-            }
+        if ($sort == str_slug(trans('sort.name'))) {
+            return self::orderBy('name', 'asc');
+        }
 
-            if ($sort == str_slug(trans('sort.most_entries'))) {
-                return self::withNumberOfEntries()->orderBy('number_of_entries', 'desc');
-            }
+        if ($sort == str_slug(trans('sort.recently_updated'))) {
+            return self::orderBy('updated_at', 'desc');
+        }
 
-            if ($sort == str_slug(trans('sort.fewest_entries'))) {
-                return self::withNumberOfEntries()->orderBy('number_of_entries', 'asc');
-            }
+        if ($sort == str_slug(trans('sort.most_entries'))) {
+            return self::withNumberOfEntries()->orderBy('number_of_entries', 'desc');
+        }
+
+        if ($sort == str_slug(trans('sort.fewest_entries'))) {
+            return self::withNumberOfEntries()->orderBy('number_of_entries', 'asc');
         }
     }
 }

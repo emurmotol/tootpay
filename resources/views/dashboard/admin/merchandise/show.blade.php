@@ -44,10 +44,10 @@
                                         Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong>
                                     </li>
                                     <li>
-                                        Category: <strong>{{ $merchandise->merchandiseCategory->name }}</strong>
+                                        Category: <strong>{{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}</strong>
                                     </li>
                                     <li>
-                                        Available Every: days of the week here
+                                        Available Every: <strong>Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday</strong>
                                     </li>
                                     <li>
                                         Created: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong>

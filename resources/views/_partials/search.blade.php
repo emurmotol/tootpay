@@ -1,19 +1,20 @@
 <form role="search">
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
+        <input type="text" id="search" name="search" class="form-control"
+               onkeyup="searchFor(this.value, '{!! $url !!}', '{!! $type !!}')" placeholder="Search">
     </div>
 </form>
 
 @section('search')
     <script>
-        function search(search, url, type) {
+        function searchFor(keyword, url, type) {
             $.ajax({
                 type: type,
                 url: url,
-                data: { 'search' : search },
-                success: function(response){
-                    $('#merchandises').html(response);
-                    console.log(response);
+                data: {'search': keyword},
+                success: function (result) {
+                    $('.table-responsive').html(result);
+                    console.log(result);
                 }
             });
         }

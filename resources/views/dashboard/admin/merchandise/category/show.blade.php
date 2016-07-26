@@ -19,7 +19,7 @@
                     </div>
                     @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
                         <div class="panel-body">
-                            @include('_partials.search')
+                            @include('_partials.search', ['url' => route('merchandise.categories.show', $merchandise_category->id), 'type' => 'GET'])
                             @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
                                 @include('dashboard.admin.merchandise._partials.sort')
                             @endif

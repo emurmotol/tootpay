@@ -16,12 +16,12 @@ class MerchandiseCategoryController extends Controller
 {
     public function index() {
         if (request()->has('sort')) {
-            $sort = MerchandiseCategory::sort(request()->get('sort'), MerchandiseCategory::withNumberOfEntries());
+            $sorted = MerchandiseCategory::sort(request()->get('sort'), MerchandiseCategory::withNumberOfEntries());
 
-            if (is_null($sort)) {
+            if (is_null($sorted)) {
                 return redirect()->back();
             }
-            $merchandise_categories = $sort->paginate(intval(Setting::value('per_page')));
+            $merchandise_categories = $sorted->paginate(intval(Setting::value('per_page')));
         } else {
             $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
         }
@@ -45,12 +45,12 @@ class MerchandiseCategoryController extends Controller
 
     public function show(MerchandiseCategory $merchandise_category) {
         if (request()->has('sort')) {
-            $sort = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
+            $sorted = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
 
-            if (is_null($sort)) {
+            if (is_null($sorted)) {
                 return redirect()->back();
             }
-            $merchandises = $sort->paginate(intval(Setting::value('per_page')));
+            $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
         } else {
             $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
         }
@@ -59,18 +59,7 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function edit(MerchandiseCategory $merchandise_category) {
-        if (request()->has('sort')) {
-            $sort = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
-
-            if (is_null($sort)) {
-                return redirect()->back();
-            }
-            $merchandises = $sort->paginate(intval(Setting::value('per_page')));
-        } else {
-            $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
-        }
-        $merchandises->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.category.edit', compact('merchandises'), compact('merchandise_category'));
+        return view('dashboard.admin.merchandise.category.edit', compact('merchandise_category'));
     }
 
     public function update(Requests\MerchandiseCategoryRequest $request, MerchandiseCategory $merchandise_category) {

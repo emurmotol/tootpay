@@ -60,7 +60,7 @@
                 </span>
             <select id="merchandise_category_id" name="merchandise_category_id" class="form-control">
                 @foreach(\App\Models\MerchandiseCategory::all() as $category)
-                    <option value="{{ $category->id }}" {!! (Route::is('merchandises.edit')) ? (($merchandise->merchandiseCategory->id == $category->id) ? 'selected' : '') : ((old('merchandise_category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {!! (Route::is('merchandises.edit')) ? ((is_null($merchandise->merchandiseCategory) ?: ($merchandise->merchandiseCategory->id == $category->id)) ? 'selected' : '') : ((old('merchandise_category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
                 @endforeach
             </select>
 
@@ -89,11 +89,32 @@
         </div>
 
         <div class="form-group">
-            Available Every: days of the week here
+            <label for="day">Available Every:</label>
+            <div class="checkbox">
+                <label><input type="checkbox" value="1" name="week_day[]" id="week_day">Monday</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="2" name="week_day[]" id="week_day">Tuesday</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="3" name="week_day[]" id="week_day">Wednesday</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="4" name="week_day[]" id="week_day">Thursday</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="5" name="week_day[]" id="week_day">Friday</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="6" name="week_day[]" id="week_day">Saturday</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="7" name="week_day[]" id="week_day">Sunday</label>
+            </div>
         </div>
         <button type="submit" id="btn-submit" class="btn btn-primary"
                 data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
-            {{ (Route::is('merchandises.edit')) ? 'Update ' : 'Create ' }}merchandise
+            {{ (Route::is('merchandises.edit')) ? 'Update ' . strtolower($merchandise->name) : 'Create merchandise' }}
         </button>
     </div>
     {!! Form::close() !!}
