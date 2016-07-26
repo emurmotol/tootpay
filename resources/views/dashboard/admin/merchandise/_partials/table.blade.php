@@ -22,7 +22,7 @@
                     {{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}
                 </td>
                 <td class="text-center">
-                    {!! Form::open(['route' => ['merchandises.available', $merchandise->id], 'class' => '']) !!}
+                    {!! Form::open(['route' => ['merchandises.available.update', $merchandise->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'PUT') !!}
                     <input type="hidden" name="available" value="off">
                     <input type="checkbox" onchange="this.form.submit();"

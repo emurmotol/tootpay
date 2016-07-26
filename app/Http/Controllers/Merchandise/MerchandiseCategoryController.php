@@ -15,15 +15,34 @@ use Illuminate\Support\Facades\Input;
 class MerchandiseCategoryController extends Controller
 {
     public function index() {
-        if (request()->has('sort')) {
-            $sorted = MerchandiseCategory::sort(request()->get('sort'), MerchandiseCategory::withNumberOfEntries());
+        if (request()->has('search')) {
+            $results = Merchandise::searchFor(request()->get('search'), MerchandiseCategory::withNumberOfEntries());
 
-            if (is_null($sorted)) {
-                return redirect()->back();
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
             }
-            $merchandise_categories = $sorted->paginate(intval(Setting::value('per_page')));
+
+            if (request()->has('sort')) {
+                $sorted_results = Merchandise::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $merchandise_categories = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandise_categories = $results->paginate(intval(Setting::value('per_page')));
+            }
         } else {
-            $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
+            if (request()->has('sort')) {
+                $sorted = Merchandise::sort(request()->get('sort'), MerchandiseCategory::withNumberOfEntries());
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $merchandise_categories = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandise_categories = MerchandiseCategory::paginate(intval(Setting::value('per_page')));
+            }
         }
         $merchandise_categories->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.category.index', compact('merchandise_categories'));
@@ -44,15 +63,34 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function show(MerchandiseCategory $merchandise_category) {
-        if (request()->has('sort')) {
-            $sorted = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
+        if (request()->has('search')) {
+            $results = Merchandise::searchFor(request()->get('search'), Merchandise::byCategory($merchandise_category->id));
 
-            if (is_null($sorted)) {
-                return redirect()->back();
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
             }
-            $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+
+            if (request()->has('sort')) {
+                $sorted_results = Merchandise::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = $results->paginate(intval(Setting::value('per_page')));
+            }
         } else {
-            $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+            if (request()->has('sort')) {
+                $sorted = Merchandise::sort(request()->get('sort'), Merchandise::byCategory($merchandise_category->id));
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = Merchandise::byCategory($merchandise_category->id)->paginate(intval(Setting::value('per_page')));
+            }
         }
         $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.category.show', compact('merchandises'), compact('merchandise_category'));

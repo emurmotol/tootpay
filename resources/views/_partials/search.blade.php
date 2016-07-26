@@ -1,22 +1,6 @@
-<form role="search">
+{!! Form::open(['url' => Request::fullurl(), 'method' => 'GET', 'class' => 'form-inline', 'id' => 'search-form']) !!}
     <div class="form-group">
-        <input type="text" id="search" name="search" class="form-control"
-               onkeyup="searchFor(this.value, '{!! $url !!}', '{!! $type !!}')" placeholder="Search">
+        <input type="text" id="search" name="search" class="form-control" placeholder="Search {!! $what !!}" value="{{ request()->get('search') }}">
     </div>
-</form>
-
-@section('search')
-    <script>
-        function searchFor(keyword, url, type) {
-            $.ajax({
-                type: type,
-                url: url,
-                data: {'search': keyword},
-                success: function (result) {
-                    $('.table-responsive').html(result);
-                    console.log(result);
-                }
-            });
-        }
-    </script>
-@endsection
+    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+{!! Form::close() !!}

@@ -114,7 +114,7 @@
         </div>
         <button type="submit" id="btn-submit" class="btn btn-primary"
                 data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
-            {{ (Route::is('merchandises.edit')) ? 'Update ' . strtolower($merchandise->name) : 'Create merchandise' }}
+            {{ (Route::is('merchandises.edit')) ? 'Update' : 'Create' }} merchandise
         </button>
     </div>
     {!! Form::close() !!}

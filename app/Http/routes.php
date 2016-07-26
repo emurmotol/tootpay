@@ -38,15 +38,17 @@ Route::group(['middleware' => 'roles'], function () {
         // Merchandises
         Route::put('merchandises/available/{merchandise_id}', [
             'uses' => 'MerchandiseController@available',
-            'as' => 'merchandises.available',
+            'as' => 'merchandises.available.update',
             'roles' => [admin()]
         ]);
         Route::get('merchandises/available', [
             'uses' => 'MerchandiseController@showAvailable',
+            'as' => 'merchandises.available.index',
             'roles' => [admin()]
         ]);
         Route::get('merchandises/unavailable', [
             'uses' => 'MerchandiseController@showUnavailable',
+            'as' => 'merchandises.unavailable.index',
             'roles' => [admin()]
         ]);
         Route::resource('merchandises', 'MerchandiseController', [

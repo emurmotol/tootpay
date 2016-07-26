@@ -8,10 +8,10 @@
         <a href="#" class="list-group-item">
             Menu <span class="badge">12</span>
         </a>
-        <a href="{{ url('merchandises/available') }}" class="list-group-item {!! Request::is('merchandises/available') ? 'active' : '' !!}">
+        <a href="{{ route('merchandises.available.index') }}" class="list-group-item {!! Route::is('merchandises.available.index') ? 'active' : '' !!}">
             Available <span class="badge">{{ \App\Models\Merchandise::available()->get()->count() }}</span>
         </a>
-        <a href="{{ url('merchandises/unavailable') }}" class="list-group-item {!! Request::is('merchandises/unavailable') ? 'active' : '' !!}">
+        <a href="{{ route('merchandises.unavailable.index') }}" class="list-group-item {!! Route::is('merchandises.unavailable.index') ? 'active' : '' !!}">
             Unavailable <span class="badge">{{ \App\Models\Merchandise::unavailable()->get()->count() }}</span>
         </a>
         <a href="{{ route('merchandise.categories.index') }}" class="list-group-item {!! Route::is('merchandise.categories.index') ? 'active' : '' !!}">

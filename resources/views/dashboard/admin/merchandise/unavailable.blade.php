@@ -12,10 +12,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @yield('title')
+                        <span class="pull-right">Results: {{ $merchandises->total() }}</span>
                     </div>
                     @if(\App\Models\Merchandise::unavailable()->get()->count())
                         <div class="panel-body">
-                            @include('_partials.search', ['url' => url('merchandises/unavailable'), 'type' => 'GET'])
                             @if(\App\Models\Merchandise::unavailable()->get()->count())
                                 @include('dashboard.admin.merchandise._partials.sort')
                             @endif
@@ -23,6 +23,7 @@
                                 @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
                                 @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
                             </span>
+                            @include('_partials.search', ['what' => 'unavailable'])
                         </div>
                         @include('dashboard.admin.merchandise._partials.table')
                     @else

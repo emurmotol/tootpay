@@ -13,13 +13,13 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
+                            Results: {{ $merchandises->total() }}
                             <a href="{{ route('merchandise.categories.edit', [$merchandise_category->id, 'redirect' => Request::fullUrl()]) }}"
                                class="btn btn-default btn-xs">Edit</a>
                         </span>
                     </div>
                     @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
                         <div class="panel-body">
-                            @include('_partials.search', ['url' => route('merchandise.categories.show', $merchandise_category->id), 'type' => 'GET'])
                             @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
                                 @include('dashboard.admin.merchandise._partials.sort')
                             @endif
@@ -27,6 +27,7 @@
                                 @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
                                 @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
                             </span>
+                            @include('_partials.search', ['what' => strtolower($merchandise_category->name)])
                         </div>
                         @include('dashboard.admin.merchandise._partials.table')
                     @else

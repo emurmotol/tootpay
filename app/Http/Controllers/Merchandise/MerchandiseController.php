@@ -16,15 +16,34 @@ use Intervention\Image\Facades\Image;
 class MerchandiseController extends Controller
 {
     public function index() {
-        if (request()->has('sort')) {
-            $sorted = Merchandise::sort(request()->get('sort'));
+        if (request()->has('search')) {
+            $results = Merchandise::searchFor(request()->get('search'));
 
-            if (is_null($sorted)) {
-                return redirect()->back();
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
             }
-            $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+
+            if (request()->has('sort')) {
+                $sorted_results = Merchandise::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = $results->paginate(intval(Setting::value('per_page')));
+            }
         } else {
-            $merchandises = Merchandise::paginate(intval(Setting::value('per_page')));
+            if (request()->has('sort')) {
+                $sorted = Merchandise::sort(request()->get('sort'));
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = Merchandise::paginate(intval(Setting::value('per_page')));
+            }
         }
         $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.index', compact('merchandises'));
@@ -115,30 +134,68 @@ class MerchandiseController extends Controller
     }
 
     public function showAvailable() {
-        if (request()->has('sort')) {
-            $sorted = Merchandise::sort(request()->get('sort'), Merchandise::available());
+        if (request()->has('search')) {
+            $results = Merchandise::searchFor(request()->get('search'), Merchandise::available());
 
-            if (is_null($sorted)) {
-                return redirect()->back();
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
             }
-            $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+
+            if (request()->has('sort')) {
+                $sorted_results = Merchandise::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = $results->paginate(intval(Setting::value('per_page')));
+            }
         } else {
-            $merchandises = Merchandise::available()->paginate(intval(Setting::value('per_page')));
+            if (request()->has('sort')) {
+                $sorted = Merchandise::sort(request()->get('sort'), Merchandise::available());
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = Merchandise::available()->paginate(intval(Setting::value('per_page')));
+            }
         }
         $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.available', compact('merchandises'));
     }
 
     public function showUnavailable() {
-        if (request()->has('sort')) {
-            $sorted = Merchandise::sort(request()->get('sort'), Merchandise::unavailable());
+        if (request()->has('search')) {
+            $results = Merchandise::searchFor(request()->get('search'), Merchandise::unavailable());
 
-            if (is_null($sorted)) {
-                return redirect()->back();
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
             }
-            $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+
+            if (request()->has('sort')) {
+                $sorted_results = Merchandise::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = $results->paginate(intval(Setting::value('per_page')));
+            }
         } else {
-            $merchandises = Merchandise::unavailable()->paginate(intval(Setting::value('per_page')));
+            if (request()->has('sort')) {
+                $sorted = Merchandise::sort(request()->get('sort'), Merchandise::unavailable());
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $merchandises = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $merchandises = Merchandise::unavailable()->paginate(intval(Setting::value('per_page')));
+            }
         }
         $merchandises->appends(request()->except('page'));
         return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
