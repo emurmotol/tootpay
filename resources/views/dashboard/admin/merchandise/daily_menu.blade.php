@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            {{ \Carbon\Carbon::now()->toDayDateTimeString() }}
+                            <strong>{{ \Carbon\Carbon::now()->toDayDateTimeString() }}</strong>
                         </span>
                     </div>
                     <div class="panel-body">
@@ -29,7 +29,7 @@
                             @foreach($operation_days as $day)
                                 <div id="{{ strtolower($day->day) }}" class="tab-pane fade in {{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'active' : '' }}">
                                     <h4><strong>{{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'Today\'s Menu' : $day->day }}</strong></h4>
-                                    <ul class="list-inline menu-merchandise">
+                                    <ul class="list-unstyled menu-merchandise">
                                         @if(\App\Models\Merchandise::availableEvery($day->id)->get()->count())
                                             @foreach(\App\Models\Merchandise::availableEvery($day->id)->get() as $merchandise)
                                                 <li>

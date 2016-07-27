@@ -36,7 +36,7 @@ class MerchandiseCategoryController extends Controller
             }
         } else {
             if (request()->has('sort')) {
-                $sorted = Merchandise::sort(request()->get('sort'), $category_with_number_of_entries);
+                $sorted = MerchandiseCategory::sort(request()->get('sort'), $category_with_number_of_entries);
 
                 if (is_null($sorted)) {
                     return redirect()->back();
