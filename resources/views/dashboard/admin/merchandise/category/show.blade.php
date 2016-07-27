@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            Results: {{ $merchandises->total() }}
+                            <strong>Results: {{ $merchandises->total() }}</strong>
                             <a href="{{ route('merchandise.categories.edit', [$merchandise_category->id, 'redirect' => Request::fullUrl()]) }}"
                                class="btn btn-default btn-xs">Edit</a>
                         </span>

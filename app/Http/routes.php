@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\MerchandiseCategory::sort('most-entries', \App\Models\MerchandiseCategory::withNumberOfEntries())->get());
+    return dd(explode('_', '1_5'));
 });
 
 Route::auth();

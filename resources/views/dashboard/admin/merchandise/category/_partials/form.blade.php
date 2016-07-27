@@ -28,6 +28,18 @@
             @endif
         </div>
 
+        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+            <label for="description">Description:</label>
+            <input type="text" class="form-control" id="description" name="description"
+                   value="{{ (Route::is('merchandise.categories.edit')) ? $merchandise_category->description : old('description') }}">
+
+            @if ($errors->has('description'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('description') }}</strong>
+                </span>
+            @endif
+        </div>
+
         <button type="submit" id="btn-submit" class="btn btn-primary"
                 data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
             {{ (Route::is('merchandise.categories.edit')) ? 'Update ' : 'Create ' }}category

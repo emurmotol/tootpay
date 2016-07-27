@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Merchandise;
 
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
+use App\Models\MerchandiseCategory;
 use App\Models\OperationDay;
 use App\Models\Setting;
 use Carbon\Carbon;
@@ -14,6 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
+use Mockery\CountValidator\Exception;
 
 class MerchandiseController extends Controller
 {
@@ -105,7 +107,7 @@ class MerchandiseController extends Controller
     }
 
     public function destroy(Merchandise $merchandise) {
-        File::delete(public_path('img/merchandises/' . $merchandise->id . '.jpg'));
+        File::delete(public_path('img/merchandises/' . str_slug($merchandise->name) . '.jpg'));
         $merchandise->operationDays()->detach($merchandise->operationDays()->getRelatedIds()->all());
         $merchandise->delete();
         flash()->success(trans('merchandise.deleted', ['name' => $merchandise->name]));
@@ -134,7 +136,11 @@ class MerchandiseController extends Controller
     }
 
     public function makeImage($image, $merchandise, $text = null) {
-        $img = Image::make($image->getRealPath());
+        if (is_string($image)) {
+            $img = Image::make($image);
+        } else {
+            $img = Image::make($image->getRealPath());
+        }
         $img->fit(300, 300);
 
         if (!is_null($text)) {
@@ -145,7 +151,7 @@ class MerchandiseController extends Controller
                 $font->valign('center');
             });
         }
-        $img->save(public_path('img/merchandises/') . $merchandise->id . '.jpg');
+        $img->save(public_path('img/merchandises/') . str_slug($merchandise->name) . '.jpg');
 
         if (!$merchandise->has_image) {
             $merchandise->has_image = true;
@@ -226,7 +232,8 @@ class MerchandiseController extends Controller
     }
 
     public function showMenu() {
+        $merchandise_categories = MerchandiseCategory::all();
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandise.daily_menu', compact('operation_days'));
+        return view('dashboard.admin.merchandise.daily_menu', compact('operation_days', 'merchandise_categories'));
     }
 }

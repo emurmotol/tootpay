@@ -55,7 +55,7 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function store(Requests\MerchandiseCategoryRequest $request) {
-        $merchandise_category = MerchandiseCategory::create($request->only('name'));
+        $merchandise_category = MerchandiseCategory::create($request->all());
         flash()->success(trans('category.created', ['name' => $merchandise_category->name]));
 
         if ($request->has('redirect')) {
@@ -105,7 +105,7 @@ class MerchandiseCategoryController extends Controller
     }
 
     public function update(Requests\MerchandiseCategoryRequest $request, MerchandiseCategory $merchandise_category) {
-        $merchandise_category->update($request->only('name'));
+        $merchandise_category->update($request->all());
         flash()->success(trans('category.updated', ['name' => $merchandise_category->name]));
 
         if ($request->has('redirect')) {

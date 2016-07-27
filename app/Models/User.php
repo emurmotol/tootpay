@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     public static function adminJson($field = null) {
-        $path  = resource_path('assets/json/admin.json');
+        $path  = resource_path('assets/json/users/admin.json');
         $admin = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($field)) {
@@ -66,7 +66,7 @@ class User extends Authenticatable
     }
 
     public static function cashiersJson($index = null) {
-        $path  = resource_path('assets/json/cashiers.json');
+        $path  = resource_path('assets/json/users/cashiers.json');
         $cashiers = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
@@ -76,7 +76,7 @@ class User extends Authenticatable
     }
 
     public static function cardholdersJson($index = null) {
-        $path  = resource_path('assets/json/cardholders.json');
+        $path  = resource_path('assets/json/users/cardholders.json');
         $cardholders = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {

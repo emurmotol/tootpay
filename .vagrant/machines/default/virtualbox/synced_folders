@@ -1,1 +1,0 @@
-{"virtualbox":{"/home/vagrant/tootpay":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/tootpay","hostpath":"C:/tootpay","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/tootpay","disabled":false,"__vagrantfile":true}}}

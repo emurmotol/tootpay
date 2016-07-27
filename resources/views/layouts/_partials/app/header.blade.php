@@ -8,6 +8,6 @@
     </button>
 
     <a class="navbar-brand" href="{{ url('/') }}">
-        Toot <i class="fa fa-credit-card" aria-hidden="true"></i> Pay
+        {{ config('static.app.name') }} <i class="fa fa-credit-card" aria-hidden="true"></i>
     </a>
 </div>

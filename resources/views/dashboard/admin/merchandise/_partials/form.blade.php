@@ -23,7 +23,7 @@
                 <img src="{{ (new \App\Models\Merchandise())->image((Route::is('merchandises.edit')) ? $merchandise->id : 0) }}"
                      id="image-merchandise"
                      class="img-responsive img-rounded"
-                     alt="{{ (Route::is('merchandises.edit')) ? $merchandise->name : 'Default Image' }}">
+                     alt="{{ (Route::is('merchandises.edit')) ? $merchandise->name : 'Default Merchandise Image' }}">
             </a>
         </div>
     </div>

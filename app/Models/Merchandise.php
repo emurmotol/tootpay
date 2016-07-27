@@ -74,14 +74,10 @@ class Merchandise extends Model
         $this->attributes['name'] = ucwords(strtolower($value));
     }
 
-    public static function json($index = null) {
-        $path = resource_path('assets/json/merchandises.json');
+    public static function json($name) {
+        $path = resource_path('assets/json/merchandises/' . $name . '.json');
         $merchandises = collect(json_decode(file_get_contents($path), true));
-
-        if (is_null($index)) {
-            return $merchandises->all();
-        }
-        return $merchandises[$index]['id'];
+        return $merchandises->all();
     }
 
     public static function availableEvery($day) {
@@ -105,7 +101,13 @@ class Merchandise extends Model
     }
 
     public function image($merchandise_id) {
-        $id = ($merchandise_id === 0 || $this->findOrFail($merchandise_id)->has_image) ? $merchandise_id : 0;
-        return url('img/merchandises/' . $id . '.jpg');
+        $default_image_name = config('static.merchandises.default_image_name');
+
+        if (!$merchandise_id) {
+            return url('img/merchandises/' . $default_image_name . '.jpg');
+        }
+        $merchandise = $this->findOrFail($merchandise_id);
+        $file_name = $merchandise->has_image ? str_slug($merchandise->name) : $default_image_name;
+        return url('img/merchandises/' . $file_name . '.jpg');
     }
 }

@@ -12,7 +12,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @yield('title')
-                        <span class="pull-right">Results: {{ $merchandise_categories->total() }}</span>
+                        <span class="pull-right">
+                            <strong>Results: {{ $merchandise_categories->total() }}</strong>
+                        </span>
                     </div>
                     @if(\App\Models\MerchandiseCategory::count())
                         <div class="panel-body">

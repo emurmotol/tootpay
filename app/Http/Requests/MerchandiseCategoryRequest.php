@@ -15,6 +15,7 @@ class MerchandiseCategoryRequest extends Request
     {
         return [
             'name' => 'required',
+            'description' => '',
         ];
     }
 }

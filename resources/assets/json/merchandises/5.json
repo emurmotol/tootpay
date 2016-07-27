@@ -1,0 +1,17 @@
+[
+  {
+    "merchandise_category_id" : 2,
+    "name": "Lechong Paksiw",
+    "price": 35
+  },
+  {
+    "merchandise_category_id" : 2,
+    "name": "Tortang Giniling",
+    "price": 25
+  },
+  {
+    "merchandise_category_id" : 2,
+    "name": "Pork Hidalgo",
+    "price": 35
+  }
+]

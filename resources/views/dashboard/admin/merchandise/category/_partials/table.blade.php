@@ -3,6 +3,7 @@
         <thead>
         <tr>
             <th>Name</th>
+            <th>Description</th>
             <th class="text-center"># of Entries</th>
             <th class="text-center">Actions</th>
         </tr>
@@ -15,7 +16,8 @@
                         <strong>{{ $merchandise_category->name }}</strong>
                     </a>
                 </td>
-                <td class="text-center">{{ $merchandise_category->number_of_entries }}</td>
+                <td>{{ $merchandise_category->description }}</td>
+                <td class="text-center">{{ \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() }}</td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['merchandise.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}

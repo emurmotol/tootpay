@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Unavailable Merchandise')
+@section('title', 'Unavailable Today')
 
 @section('content')
     <div class="container">
@@ -12,7 +12,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @yield('title')
-                        <span class="pull-right">Results: {{ $merchandises->total() }}</span>
+                        <span class="pull-right">
+                            <strong>Results: {{ $merchandises->total() }}</strong>
+                        </span>
                     </div>
                     @if(\App\Models\Merchandise::unavailable()->get()->count())
                         <div class="panel-body">

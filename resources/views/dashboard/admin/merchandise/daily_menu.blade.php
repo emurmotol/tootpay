@@ -29,29 +29,36 @@
                             @foreach($operation_days as $day)
                                 <div id="{{ strtolower($day->day) }}" class="tab-pane fade in {{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'active' : '' }}">
                                     <h4><strong>{{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'Today\'s Menu' : $day->day }}</strong></h4>
-                                    <ul class="list-unstyled menu-merchandise">
-                                        @if(\App\Models\Merchandise::availableEvery($day->id)->get()->count())
-                                            @foreach(\App\Models\Merchandise::availableEvery($day->id)->get() as $merchandise)
-                                                <li>
-                                                    <ul class="list-inline">
-                                                        <li>
-                                                            <a href="{{ $merchandise->image($merchandise->id) }}">
-                                                                <img class="img-responsive img-rounded" src="{{ $merchandise->image($merchandise->id) }}" alt="{{ $merchandise->name }}">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <h4><a href="{{ route('merchandises.show', $merchandise->id) }}"><strong>{{ $merchandise->name }}</strong></a></h4>
-                                                            <h4>P{{ number_format($merchandise->price, 2, '.', ',') }}</h4>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            @endforeach
-                                        @else
-                                            <div class="row">
-                                                @include('_partials.empty')
-                                            </div>
-                                        @endif
-                                    </ul>
+                                    @if(\App\Models\Merchandise::availableEvery($day->id)->get()->count())
+                                        @foreach($merchandise_categories as $category)
+                                            @if(in_array($category->id, collect(\App\Models\Merchandise::availableEvery($day->id)->get())->pluck('merchandise_category_id')->toArray()))
+                                                <h4>{{ $category->name }}</h4>
+                                                <ul class="list-unstyled menu-merchandise">
+                                                    @foreach(\App\Models\Merchandise::availableEvery($day->id)->get() as $merchandise)
+                                                        @if($merchandise->merchandiseCategory->id == $category->id)
+                                                            <li>
+                                                                <ul class="list-inline">
+                                                                    <li>
+                                                                        <a href="{{ $merchandise->image($merchandise->id) }}">
+                                                                            <img class="img-responsive img-rounded" src="{{ $merchandise->image($merchandise->id) }}" alt="{{ $merchandise->name }}">
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <h4><a href="{{ route('merchandises.show', [$merchandise->id, 'redirect' => Request::fullUrl()]) }}"><strong>{{ $merchandise->name }}</strong></a></h4>
+                                                                        <h4>P{{ number_format($merchandise->price, 2, '.', ',') }}</h4>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <div class="row">
+                                            @include('_partials.empty')
+                                        </div>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>

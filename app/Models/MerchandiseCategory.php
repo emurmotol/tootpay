@@ -11,11 +11,11 @@ class MerchandiseCategory extends Model
     use Eloquence;
 
     protected $searchableColumns = [
-        'name',
+        'name', 'description',
     ];
 
     protected $fillable = [
-        'name',
+        'name', 'description'
     ];
 
     public function merchandises() {
@@ -27,7 +27,7 @@ class MerchandiseCategory extends Model
     }
 
     public static function json($index = null) {
-        $path = resource_path('assets/json/merchandise_categories.json');
+        $path = resource_path('assets/json/merchandises/categories.json');
         $merchandise_category = collect(json_decode(file_get_contents($path), true));
 
         if (is_null($index)) {
