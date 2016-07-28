@@ -24,7 +24,7 @@ class MerchandiseController extends Controller
             $results = Merchandise::searchFor(request()->get('search'));
 
             if (!$results->count()) {
-                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
             }
 
             if (request()->has('sort')) {
@@ -50,12 +50,12 @@ class MerchandiseController extends Controller
             }
         }
         $merchandises->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.index', compact('merchandises'));
+        return view('dashboard.admin.merchandises.index', compact('merchandises'));
     }
 
     public function create() {
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandise.create', compact('operation_days'));
+        return view('dashboard.admin.merchandises.create', compact('operation_days'));
     }
 
     public function store(Requests\MerchandiseRequest $request) {
@@ -78,12 +78,12 @@ class MerchandiseController extends Controller
 
     public function show(Merchandise $merchandise) {
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandise.show', compact('merchandise', 'operation_days'));
+        return view('dashboard.admin.merchandises.show', compact('merchandise', 'operation_days'));
     }
 
     public function edit(Merchandise $merchandise) {
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandise.edit', compact('merchandise', 'operation_days'));
+        return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days'));
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise) {
@@ -166,7 +166,7 @@ class MerchandiseController extends Controller
             $results = Merchandise::searchFor(request()->get('search'), $available_merchandises);
 
             if (!$results->count()) {
-                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
             }
 
             if (request()->has('sort')) {
@@ -192,7 +192,7 @@ class MerchandiseController extends Controller
             }
         }
         $merchandises->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.available', compact('merchandises'));
+        return view('dashboard.admin.merchandises.available', compact('merchandises'));
     }
 
     public function showUnavailable() {
@@ -202,7 +202,7 @@ class MerchandiseController extends Controller
             $results = Merchandise::searchFor(request()->get('search'), $unavailable_merchandises);
 
             if (!$results->count()) {
-                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
             }
 
             if (request()->has('sort')) {
@@ -228,12 +228,12 @@ class MerchandiseController extends Controller
             }
         }
         $merchandises->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.unavailable', compact('merchandises'));
+        return view('dashboard.admin.merchandises.unavailable', compact('merchandises'));
     }
 
     public function showMenu() {
         $merchandise_categories = MerchandiseCategory::all();
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandise.daily_menu', compact('operation_days', 'merchandise_categories'));
+        return view('dashboard.admin.merchandises.daily_menu', compact('operation_days', 'merchandise_categories'));
     }
 }

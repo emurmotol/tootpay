@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                @include('dashboard.admin.merchandise._partials.sidebar')
+                @include('dashboard.admin.merchandises._partials.sidebar')
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
@@ -66,7 +66,7 @@
                                         <h4>Created: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong></h4>
                                     </li>
                                     <li>
-                                        <h4>Last Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></h4>
+                                        <h4>Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></h4>
                                     </li>
                                 </ul>
                             </div>

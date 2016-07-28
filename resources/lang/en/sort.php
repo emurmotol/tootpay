@@ -16,8 +16,12 @@ return [
         'Most entries',
         'Fewest entries',
     ],
-
-
-    'id' => 'ID',
+    'toot_cards' => [
+        'Recently updated',
+    ],
+    'users' => [
+        'Name',
+        'Recently updated',
+    ],
 
 ];

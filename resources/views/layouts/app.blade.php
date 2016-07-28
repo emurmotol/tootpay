@@ -21,8 +21,9 @@
                         </li>
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                            @include('dashboard.admin.merchandise._partials.navbar')
-                            {{--@include('dashboard.admin.toot_card._partials.navbar')--}}
+                            @include('dashboard.admin.merchandises._partials.navbar')
+                            @include('dashboard.admin.toot_cards._partials.navbar')
+                            @include('dashboard.admin.users._partials.navbar')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Edit - ' . $merchandise->name)
+@section('title', 'Create Merchandise')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                @include('dashboard.admin.merchandise._partials.sidebar')
+                @include('dashboard.admin.merchandises._partials.sidebar')
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
@@ -17,7 +17,7 @@
                         </span>
                     </div>
                     <div class="panel-body">
-                        @include('dashboard.admin.merchandise._partials.form')
+                        @include('dashboard.admin.merchandises._partials.form')
                     </div>
                 </div>
             </div>

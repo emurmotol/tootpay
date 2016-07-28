@@ -21,7 +21,7 @@ class MerchandiseCategoryController extends Controller
             $results = Merchandise::searchFor(request()->get('search'), $category_with_number_of_entries);
 
             if (!$results->count()) {
-                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
             }
 
             if (request()->has('sort')) {
@@ -47,11 +47,11 @@ class MerchandiseCategoryController extends Controller
             }
         }
         $merchandise_categories->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.category.index', compact('merchandise_categories'));
+        return view('dashboard.admin.merchandises.category.index', compact('merchandise_categories'));
     }
 
     public function create() {
-        return view('dashboard.admin.merchandise.category.create');
+        return view('dashboard.admin.merchandises.category.create');
     }
 
     public function store(Requests\MerchandiseCategoryRequest $request) {
@@ -71,7 +71,7 @@ class MerchandiseCategoryController extends Controller
             $results = Merchandise::searchFor(request()->get('search'), $merchandise_by_category);
 
             if (!$results->count()) {
-                flash()->error(trans('search.empty', ['search' => request()->get('search')]));
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
             }
 
             if (request()->has('sort')) {
@@ -97,11 +97,11 @@ class MerchandiseCategoryController extends Controller
             }
         }
         $merchandises->appends(request()->except('page'));
-        return view('dashboard.admin.merchandise.category.show', compact('merchandises', 'merchandise_category'));
+        return view('dashboard.admin.merchandises.category.show', compact('merchandises', 'merchandise_category'));
     }
 
     public function edit(MerchandiseCategory $merchandise_category) {
-        return view('dashboard.admin.merchandise.category.edit', compact('merchandise_category'));
+        return view('dashboard.admin.merchandises.category.edit', compact('merchandise_category'));
     }
 
     public function update(Requests\MerchandiseCategoryRequest $request, MerchandiseCategory $merchandise_category) {

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', $merchandise_category->name . ' - ' . \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() . ' entries')
+@section('title', 'Unavailable Today')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                @include('dashboard.admin.merchandise._partials.sidebar')
+                @include('dashboard.admin.merchandises._partials.sidebar')
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
@@ -14,15 +14,13 @@
                         @yield('title')
                         <span class="pull-right">
                             <strong>Results: {{ $merchandises->total() }}</strong>
-                            <a href="{{ route('merchandise.categories.edit', [$merchandise_category->id, 'redirect' => Request::fullUrl()]) }}"
-                               class="btn btn-default btn-xs">Edit</a>
                         </span>
                     </div>
-                    @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
+                    @if(\App\Models\Merchandise::unavailable()->get()->count())
                         <div class="panel-body">
                             <ul class="list-inline panel-actions">
                                 <li>
-                                    @include('_partials.search', ['what' => strtolower($merchandise_category->name)])
+                                    @include('_partials.search', ['what' => 'unavailable'])
                                 </li>
                                 <li>
                                     @include('_partials.sort', ['sort_by' => trans('sort.merchandises')])
@@ -35,7 +33,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @include('dashboard.admin.merchandise._partials.table')
+                        @include('dashboard.admin.merchandises._partials.table')
                     @else
                         @include('_partials.empty')
                     @endif

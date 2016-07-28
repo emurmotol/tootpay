@@ -2,26 +2,26 @@
   {
     "merchandise_category_id" : 2,
     "name": "Adobong Isaw",
-    "price": 35
+    "price": 40
   },
   {
     "merchandise_category_id" : 2,
     "name": "Bicol Express",
-    "price": 35
+    "price": 40
   },
   {
     "merchandise_category_id" : 2,
     "name": "Guisadong Togue",
-    "price": 25
+    "price": 20
   },
   {
     "merchandise_category_id" : 2,
     "name": "Sweet And Sour Meatballs",
-    "price": 35
+    "price": 40
   },
   {
     "merchandise_category_id" : 2,
     "name": "Kaldereta",
-    "price": 35
+    "price": 40
   }
 ]

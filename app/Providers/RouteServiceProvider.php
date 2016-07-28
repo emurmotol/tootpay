@@ -33,6 +33,9 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('toot_card', 'App\Models\TootCard');
         $router->pattern('toot_card', '[0-9]+');
 
+        $router->model('user', 'App\Models\User');
+        $router->pattern('user', '[0-9]+');
+
         parent::boot($router);
     }
 

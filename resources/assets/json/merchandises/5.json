@@ -1,17 +1,22 @@
 [
   {
     "merchandise_category_id" : 2,
+    "name": "Chicken Pastel",
+    "price": 40
+  },
+  {
+    "merchandise_category_id" : 2,
     "name": "Lechong Paksiw",
-    "price": 35
+    "price": 40
   },
   {
     "merchandise_category_id" : 2,
     "name": "Tortang Giniling",
-    "price": 25
+    "price": 20
   },
   {
     "merchandise_category_id" : 2,
     "name": "Pork Hidalgo",
-    "price": 35
+    "price": 40
   }
 ]

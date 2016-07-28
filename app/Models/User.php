@@ -33,6 +33,10 @@ class User extends Authenticatable
             'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
     }
 
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = ucwords(strtolower($value));
+    }
+
     public function hasAnyRole($roles) {
         if (is_array($roles)) {
             foreach ($roles as $role) {
@@ -53,6 +57,33 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public static function searchFor($keyword, $model = null) {
+        if (!is_null($model)) {
+            return $model->search(strtolower($keyword));
+        }
+        return self::search(strtolower($keyword));
+    }
+
+    public static function sort($sort, $model = null) {
+        if (!is_null($model)) {
+            if ($sort == str_slug(trans('sort.users')[0])) {
+                return $model->orderBy('name', 'asc');
+            }
+
+            if ($sort == str_slug(trans('sort.users')[1])) {
+                return $model->orderBy('updated_at', 'desc');
+            }
+        } else {
+            if ($sort == str_slug(trans('sort.users')[0])) {
+                return self::orderBy('name', 'asc');
+            }
+
+            if ($sort == str_slug(trans('sort.users')[1])) {
+                return self::orderBy('updated_at', 'desc');
+            }
+        }
     }
 
     public static function adminJson($field = null) {

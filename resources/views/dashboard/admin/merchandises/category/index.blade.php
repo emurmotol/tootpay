@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Merchandise Categories')
+@section('title', 'Categories')
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                @include('dashboard.admin.merchandise._partials.sidebar')
+                @include('dashboard.admin.merchandises._partials.sidebar')
             </div>
             <div class="col-md-9">
                 <div class="panel panel-default">
@@ -33,7 +33,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @include('dashboard.admin.merchandise.category._partials.table')
+                        @include('dashboard.admin.merchandises.category._partials.table')
                     @else
                         @include('_partials.empty')
                     @endif
