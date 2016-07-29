@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Merchandises</div>
+    <div class="panel-heading"><i class="fa fa-cutlery" aria-hidden="true"></i> Merchandises</div>
 
     <ul class="list-group">
         <a href="{{ route('merchandises.daily_menu.index') }}" class="list-group-item {!! Route::is('merchandises.daily_menu.index') ? 'active' : '' !!}">

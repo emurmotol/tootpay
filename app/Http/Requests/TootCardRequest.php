@@ -13,8 +13,19 @@ class TootCardRequest extends Request
 
     public function rules()
     {
-        return [
-            'id' => 'required',
-        ];
+        if($this->method() == 'POST') {
+            return [
+                'id' => 'required|numeric|unique:toot_cards',
+                'load' => 'required',
+                'points' => 'required',
+            ];
+        } elseif ($this->method() == 'PUT') {
+            return [
+                'id' => 'required|numeric',
+                'load' => 'required',
+                'points' => 'required',
+                'is_active' => '',
+            ];
+        }
     }
 }

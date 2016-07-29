@@ -68,20 +68,28 @@ class TootCardController extends Controller
     }
 
     public function update(Requests\TootCardRequest $request, TootCard $toot_card) {
-        // todo fails if associated to user
-        $toot_card->update($request->all());
-        flash()->success(trans('toot_card.updated', ['id' => $toot_card->id]));
-        return redirect()->route('toot_cards.index');
+        try {
+            $toot_card->update($request->all());
+            flash()->success(trans('toot_card.updated', ['id' => $toot_card->id]));
+        } catch (\Exception $e) {
+            flash()->error(trans('toot_card.exception', ['error' => $e->getMessage()]))->important();
+        } finally {
+            return redirect()->route('toot_cards.index');
+        }
     }
 
     public function destroy(TootCard $toot_card) {
-        // todo fails if associated to user
-        $toot_card->delete();
-        flash()->success(trans('toot_card.deleted', ['id' => $toot_card->id]));
-
-        if (request()->has('redirect')) {
-            return redirect()->to(request()->get('redirect'));
+        // todo check if the card is associated to a user before delete
+        try {
+            $toot_card->delete();
+            flash()->success(trans('toot_card.deleted', ['id' => $toot_card->id]));
+        } catch (\Exception $e) {
+            flash()->error(trans('toot_card.exception', ['error' => $e->getMessage()]))->important();
+        } finally {
+            if (request()->has('redirect')) {
+                return redirect()->to(request()->get('redirect'));
+            }
+            return redirect()->route('toot_cards.index');
         }
-        return redirect()->back();
     }
 }

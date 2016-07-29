@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @yield('title')
+                        <i class="fa fa-user" aria-hidden="true"></i> @yield('title')
                         <span class="pull-right">
                             {!! Form::open([
                                 'route' => ['users.destroy', $user->id,
@@ -32,12 +32,16 @@
                                         <h4>User ID: <strong>{{ $user->id }}</strong></h4>
                                         <h4>Name: <strong>{{ $user->name }}</strong></h4>
                                         <h4>Role: <strong>{{ $user->roles()->first()->name }}</strong></h4>
-                                        @if($user->hasRole(\App\Models\Role::json(2)))
+                                        @if($user->hasRole(cardholder()))
                                             <h4>
                                                 Toot Card ID:
-                                                <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                                                    <strong>{{ $user->tootCards()->first()->id }}</strong>
-                                                </a>
+                                                @if(is_null($user->tootCards()->first()))
+                                                    <strong>Not set</strong>
+                                                @else
+                                                    <a href="{{ route('toot_cards.show', $user->tootCards()->first()->id) }}">
+                                                        <strong>{{ $user->tootCards()->first()->id }}</strong>
+                                                    </a>
+                                                @endif
                                             </h4>
                                         @endif
                                         <h4>E-Mail Address: <strong>{{ $user->email }}</strong></h4>

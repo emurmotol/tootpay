@@ -54,11 +54,11 @@ class MerchandiseCategory extends Model
 
             if ($sort == str_slug(trans('sort.categories')[2])) {
                 return $model->orderBy('number_of_entries', 'desc');
-            }
+            } // todo not sorting properly
 
             if ($sort == str_slug(trans('sort.categories')[3])) {
                 return $model->orderBy('number_of_entries', 'asc');
-            }
+            } // todo not sorting properly
         }
 
         if ($sort == str_slug(trans('sort.categories')[0])) {
@@ -71,10 +71,10 @@ class MerchandiseCategory extends Model
 
         if ($sort == str_slug(trans('sort.categories')[2])) {
             return self::withNumberOfEntries()->orderBy('number_of_entries', 'desc');
-        }
+        } // todo not sorting properly
 
         if ($sort == str_slug(trans('sort.categories')[3])) {
             return self::withNumberOfEntries()->orderBy('number_of_entries', 'asc');
-        }
+        } // todo not sorting properly
     }
 }

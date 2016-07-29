@@ -24,12 +24,6 @@ Route::group(['middleware' => 'roles'], function () {
             'parameters' => 'singular',
             'roles' => [admin()]
         ]);
-
-        // Users Toot Cards
-        Route::resource('users.toot_cards', 'TootCardController', [
-            'parameters' => 'singular',
-            'roles' => [admin()]
-        ]);
     });
 
     Route::group(['namespace' => 'Merchandise'], function() {

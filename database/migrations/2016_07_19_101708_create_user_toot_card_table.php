@@ -15,11 +15,15 @@ class CreateUserTootCardTable extends Migration
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('toot_card_id')
                 ->references('id')
-                ->on('toot_cards');
+                ->on('toot_cards')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

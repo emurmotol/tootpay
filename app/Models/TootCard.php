@@ -10,7 +10,7 @@ class TootCard extends Model
     use Eloquence;
 
     protected $searchableColumns = [
-        'id',
+        'id', 'load', 'points',
     ];
 
     public $incrementing = false;
@@ -18,12 +18,16 @@ class TootCard extends Model
     protected $dates = ['expires_at'];
 
     protected $fillable = [
-        'id', 'pin_code', 'load', 'points', 'expires_at',
+        'id', 'pin_code', 'load', 'points', 'is_active', 'expires_at',
     ];
 
     public function users() {
         return $this->belongsToMany(User::class,
             'user_toot_card', 'toot_card_id', 'user_id');
+    }
+
+    public function setIsActiveAttribute($value) {
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
 
     public static function searchFor($keyword, $model = null) {

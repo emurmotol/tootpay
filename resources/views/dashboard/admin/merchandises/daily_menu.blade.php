@@ -13,6 +13,7 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
                             <strong>{{ \Carbon\Carbon::now()->toDayDateTimeString() }}</strong>
                         </span>
                     </div>

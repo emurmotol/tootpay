@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @yield('title')
+                        <i class="fa fa-cutlery" aria-hidden="true"></i> @yield('title')
                         <span class="pull-right">
                             {!! Form::open([
                                 'route' => ['merchandises.destroy', $merchandise->id,

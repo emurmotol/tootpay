@@ -5,6 +5,8 @@
             <th>User ID</th>
             <th>Name</th>
             <th>Role</th>
+            <th class="text-center">Toot Card</th>
+            <th class="text-center">Online?</th>
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -12,15 +14,27 @@
         @foreach($users as $user)
             <tr>
                 <td>
-                    <strong>{{ $user->id }}</strong>
-                </td>
-                <td>
                     <a href="{{ route('users.show', [$user->id, 'redirect' => Request::fullUrl()]) }}">
-                        <strong>{{ $user->name }}</strong>
+                        <strong>{{ $user->id }}</strong>
                     </a>
                 </td>
                 <td>
+                    <strong>{{ $user->name }}</strong>
+                </td>
+                <td class="text-muted">
                     {{ $user->roles()->first()->name }}
+                </td>
+                <td class="text-center">
+                    @if(is_null($user->tootCards()->first()))
+                        <strong>Not set</strong>
+                    @else
+                        <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                        </a>
+                    @endif
+                </td>
+                <td class="text-center">
+                    {{ '?' }}
                 </td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'class' => '']) !!}

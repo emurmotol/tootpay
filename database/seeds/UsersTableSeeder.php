@@ -24,11 +24,12 @@ class UsersTableSeeder extends Seeder
 
             $faker = Faker::create();
             $toot_card = TootCard::create([
-                "id" => $faker->creditCardNumber,
-                "pin_code" => bcrypt($faker->randomNumber(6)),
-                "load" => floatval($faker->randomNumber(3)),
-                "points" => floatval($faker->randomNumber(2)),
-                "expires_at" => Carbon::now()->addYear(intval(Setting::value('expire_year_count'))),
+                'id' => $faker->creditCardNumber,
+                'pin_code' => bcrypt($faker->randomNumber(6)),
+                'load' => floatval($faker->randomNumber(3)),
+                'points' => floatval($faker->randomNumber(2)),
+                'is_active' => 'on',
+                'expires_at' => Carbon::now()->addYear(intval(Setting::value('expire_year_count'))),
             ]);
             $user->tootCards()->attach($toot_card);
         }

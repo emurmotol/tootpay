@@ -13,11 +13,20 @@ class UserRequest extends Request
 
     public function rules()
     {
-        return [
-            'id' => 'required|numeric',
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'phone_number' => 'required|numeric',
-        ];
+        if($this->method() == 'POST') {
+            return [
+                'id' => 'required|numeric|unique:users',
+                'email' => 'required|email|max:255|unique:users',
+                'name' => 'required|max:255',
+                'phone_number' => 'required|numeric',
+            ];
+        } elseif ($this->method() == 'PUT') {
+            return [
+                'id' => 'required|numeric',
+                'email' => 'required|email|max:255',
+                'name' => 'required|max:255',
+                'phone_number' => 'required|numeric',
+            ];
+        }
     }
 }

@@ -11,8 +11,7 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         if (request()->has('search')) {
             $results = User::searchFor(request()->get('search'));
 
@@ -46,13 +45,11 @@ class UserController extends Controller
         return view('dashboard.admin.users.index', compact('users'));
     }
 
-    public function create()
-    {
+    public function create() {
         return view('dashboard.admin.users.create');
     }
 
-    public function store(Requests\UserRequest $request)
-    {
+    public function store(Requests\UserRequest $request) {
         $user = User::create($request->all());
 
         flash()->success(trans('user.created', ['name' => $user->name]));
@@ -63,33 +60,37 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function show(User $user)
-    {
+    public function show(User $user) {
         return view('dashboard.admin.users.show', compact('user'));
     }
 
-    public function edit(User $user)
-    {
+    public function edit(User $user) {
         return view('dashboard.admin.users.edit', compact('user'));
     }
 
-    public function update(Requests\UserRequest $request, User $user)
-    {
-        // todo fails if associated to toot card
-        $user->update($request->all());
-        flash()->success(trans('user.updated', ['name' => $user->name]));
-        return redirect()->route('users.index');
+    public function update(Requests\UserRequest $request, User $user) {
+        try {
+            $user->update($request->all());
+            flash()->success(trans('user.updated', ['name' => $user->name]));
+        } catch (\Exception $e) {
+            flash()->error(trans('user.exception', ['error' => $e->getMessage()]))->important();
+        } finally {
+            return redirect()->route('users.index');
+        }
     }
 
-    public function destroy(User $user)
-    {
-        // todo fails if associated to toot card
-        $user->delete();
-        flash()->success(trans('user.deleted', ['name' => $user->name]));
-
-        if (request()->has('redirect')) {
-            return redirect()->to(request()->get('redirect'));
+    public function destroy(User $user) {
+        // todo check if the user is associated to a card before delete
+        try {
+            $user->delete();
+            flash()->success(trans('user.deleted', ['name' => $user->name]));
+        } catch (\Exception $e) {
+            flash()->error(trans('user.exception', ['error' => $e->getMessage()]))->important();
+        } finally {
+            if (request()->has('redirect')) {
+                return redirect()->to(request()->get('redirect'));
+            }
+            return redirect()->route('users.index');
         }
-        return redirect()->back();
     }
 }

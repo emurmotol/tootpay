@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @yield('title')
+                        <i class="fa fa-credit-card" aria-hidden="true"></i> @yield('title')
                         <span class="pull-right">
                             {!! Form::open([
                                 'route' => ['toot_cards.destroy', $toot_card->id,
@@ -31,13 +31,17 @@
                                     <li>
                                         <h4>Toot Card ID: <strong>{{ $toot_card->id }}</strong></h4>
                                         <h4>Cardholder:
-                                            <a href="{{ route('users.show', [$toot_card->users()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                                                <strong>{{ $toot_card->users()->first()->id }}</strong>
-                                            </a>
+                                            @if(is_null($toot_card->users()->first()))
+                                                <strong>Not associated</strong>
+                                            @else
+                                                <a href="{{ route('users.show', $toot_card->users()->first()->id) }}">
+                                                    <strong>{{ $toot_card->users()->first()->name }}</strong>
+                                                </a>
+                                            @endif
                                         </h4>
                                         <h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
                                         <h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
-                                        <h4>Active? <strong>{{ $toot_card->active ? 'Yes' : 'No' }}</strong></h4>
+                                        <h4>Active? <strong>{{ $toot_card->is_active ? 'Yes' : 'No' }}</strong></h4>
                                         <h4>Expiration Date: <strong>{{ $toot_card->expires_at->toFormattedDateString() }}</strong></h4>
                                         <h4>Created: <strong>{{ $toot_card->created_at->toFormattedDateString() }}</strong></h4>
                                         <h4>Updated: <strong>{{ $toot_card->updated_at->diffForHumans() }}</strong></h4>
