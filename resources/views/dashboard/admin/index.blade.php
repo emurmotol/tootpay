@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Administrator Dashboard')
+@section('title', Auth::user()->name . ' (Administrator)')
 
 @section('content')
     <div class="container">

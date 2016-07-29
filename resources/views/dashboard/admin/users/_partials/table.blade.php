@@ -4,6 +4,7 @@
         <tr>
             <th>User ID</th>
             <th>Name</th>
+            <th>Role</th>
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -17,6 +18,9 @@
                     <a href="{{ route('users.show', [$user->id, 'redirect' => Request::fullUrl()]) }}">
                         <strong>{{ $user->name }}</strong>
                     </a>
+                </td>
+                <td>
+                    {{ $user->roles()->first()->name }}
                 </td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'class' => '']) !!}

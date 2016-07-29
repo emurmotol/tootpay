@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use App\Models\TootCard;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -50,7 +51,6 @@ class TootCardController extends Controller
 
     public function store(Requests\TootCardRequest $request) {
         $toot_card = TootCard::create($request->all());
-
         flash()->success(trans('toot_card.created', ['id' => $toot_card->id]));
 
         if ($request->has('redirect')) {

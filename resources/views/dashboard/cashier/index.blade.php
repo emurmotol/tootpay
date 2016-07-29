@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cashier Dashboard')
+@section('title', Auth::user()->name . ' (Cashier)')
 
 @section('content')
     <div class="container">

@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index() {
-        if (Auth::user()->hasRole(Role::json(0))) {
+        if (Auth::user()->hasRole(admin())) {
             return $this->admin();
         }
 
-        if (Auth::user()->hasRole(Role::json(1))) {
+        if (Auth::user()->hasRole(cashier())) {
             return $this->cashier();
         }
 
-        if (Auth::user()->hasRole(Role::json(2))) {
+        if (Auth::user()->hasRole(cardholder())) {
             return $this->cardholder();
         }
     }

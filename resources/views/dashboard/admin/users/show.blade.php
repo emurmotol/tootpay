@@ -31,12 +31,31 @@
                                     <li>
                                         <h4>User ID: <strong>{{ $user->id }}</strong></h4>
                                         <h4>Name: <strong>{{ $user->name }}</strong></h4>
+                                        <h4>Role: <strong>{{ $user->roles()->first()->name }}</strong></h4>
+                                        @if($user->hasRole(\App\Models\Role::json(2)))
+                                            <h4>
+                                                Toot Card ID:
+                                                <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
+                                                    <strong>{{ $user->tootCards()->first()->id }}</strong>
+                                                </a>
+                                            </h4>
+                                        @endif
                                         <h4>E-Mail Address: <strong>{{ $user->email }}</strong></h4>
                                         <h4>Phone Number: <strong>{{ $user->phone_number }}</strong></h4>
+                                        <h4>Created: <strong>{{ $user->created_at->toFormattedDateString() }}</strong></h4>
+                                        <h4>Updated: <strong>{{ $user->updated_at->diffForHumans() }}</strong></h4>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Payment History
+                    </div>
+                    <div class="panel-body">
+
                     </div>
                 </div>
             </div>

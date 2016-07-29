@@ -71,7 +71,10 @@
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" placeholder="Your password">
+                                <div class="input-group">
+                                    <input id="password" type="password" class="form-control" name="password" placeholder="Your password">
+                                    <span class="input-group-addon"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                </div>
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -98,3 +101,4 @@
 @endsection
 
 @include('_partials.spinner')
+@include('_partials.password')

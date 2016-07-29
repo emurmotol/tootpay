@@ -30,6 +30,17 @@
                                 <ul class="list-unstyled">
                                     <li>
                                         <h4>Toot Card ID: <strong>{{ $toot_card->id }}</strong></h4>
+                                        <h4>Cardholder:
+                                            <a href="{{ route('users.show', [$toot_card->users()->first()->id, 'redirect' => Request::fullUrl()]) }}">
+                                                <strong>{{ $toot_card->users()->first()->id }}</strong>
+                                            </a>
+                                        </h4>
+                                        <h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
+                                        <h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
+                                        <h4>Active? <strong>{{ $toot_card->active ? 'Yes' : 'No' }}</strong></h4>
+                                        <h4>Expiration Date: <strong>{{ $toot_card->expires_at->toFormattedDateString() }}</strong></h4>
+                                        <h4>Created: <strong>{{ $toot_card->created_at->toFormattedDateString() }}</strong></h4>
+                                        <h4>Updated: <strong>{{ $toot_card->updated_at->diffForHumans() }}</strong></h4>
                                     </li>
                                 </ul>
                             </div>

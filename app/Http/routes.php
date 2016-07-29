@@ -1,7 +1,6 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(explode('_', '1_5'));
 });
 
 Route::auth();

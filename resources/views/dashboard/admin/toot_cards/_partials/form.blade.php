@@ -22,7 +22,7 @@
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
             <label for="id">Toot Card ID:</label>
-            <input type="text" class="form-control" id="id" name="id"
+            <input type="number" class="form-control" id="id" name="id"
                    value="{{ (Route::is('toot_cards.edit')) ? $toot_card->id : old('id') }}">
 
             @if ($errors->has('id'))
