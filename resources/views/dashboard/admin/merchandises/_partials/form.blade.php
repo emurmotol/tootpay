@@ -59,7 +59,7 @@
                     </a>
                 </span>
             <select id="merchandise_category_id" name="merchandise_category_id" class="form-control">
-                @foreach(\App\Models\MerchandiseCategory::all() as $category)
+                @foreach($merchandise_category as $category)
                     <option value="{{ $category->id }}" {!! (Route::is('merchandises.edit')) ? ((is_null($merchandise->merchandiseCategory) ?: ($merchandise->merchandiseCategory->id == $category->id)) ? 'selected' : '') : ((old('merchandise_category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
                 @endforeach
             </select>

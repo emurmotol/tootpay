@@ -19,6 +19,7 @@ class UserRequest extends Request
                 'email' => 'required|email|max:255|unique:users',
                 'name' => 'required|max:255',
                 'phone_number' => 'required|numeric',
+                'role' => 'required',
             ];
         } elseif ($this->method() == 'PUT') {
             return [

@@ -25,6 +25,11 @@ Route::group(['middleware' => 'roles'], function () {
             'as' => 'users.remove_card',
             'roles' => [admin()]
         ]);
+        Route::post('users/{user}/attach_card', [
+            'uses' => 'UserController@attach_card',
+            'as' => 'users.attach_card',
+            'roles' => [admin()]
+        ]);
 
         Route::resource('users', 'UserController', [
             'parameters' => 'singular',

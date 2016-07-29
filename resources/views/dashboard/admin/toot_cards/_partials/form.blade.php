@@ -19,7 +19,7 @@
         @if(Route::is('toot_cards.edit'))
             <div class="form-group">
                 @if(is_null($toot_card->users()->first()))
-                    <span class="help-block">{{ trans('toot_card.no_user') }}</span>
+                    <p class="help-block">{{ trans('toot_card.no_user') }}</p>
                 @else
                     <label>This card is associated to:</label>
                     <p class="form-control-static">

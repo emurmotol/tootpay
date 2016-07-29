@@ -55,7 +55,8 @@ class MerchandiseController extends Controller
 
     public function create() {
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandises.create', compact('operation_days'));
+        $merchandise_category = MerchandiseCategory::all();
+        return view('dashboard.admin.merchandises.create', compact('operation_days', 'merchandise_category'));
     }
 
     public function store(Requests\MerchandiseRequest $request) {
@@ -83,7 +84,8 @@ class MerchandiseController extends Controller
 
     public function edit(Merchandise $merchandise) {
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days'));
+        $merchandise_category = MerchandiseCategory::all();
+        return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days', 'merchandise_category'));
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise) {

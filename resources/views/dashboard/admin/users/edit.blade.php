@@ -17,10 +17,10 @@
                         </span>
                     </div>
                     <div class="panel-body">
-                        @include('dashboard.admin.users._partials.form-remove-card')
                         @include('dashboard.admin.users._partials.form')
                     </div>
                 </div>
+                @include('dashboard.admin.users._partials.form-toot-card')
             </div>
         </div>
     </div>

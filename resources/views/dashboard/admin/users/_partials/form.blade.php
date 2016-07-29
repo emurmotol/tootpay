@@ -16,6 +16,23 @@
     @endif
 
     <div class="col-md-6">
+        @if(Route::is('users.create'))
+            <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                <label for="role">Role:</label>
+                <select id="role" name="role" class="form-control">
+                    @foreach($roles as $role)
+                        <option value="{{ $role->id }}" {{ (old('role') == $role->id) ? 'selected' : '' }}>{{ $role->name }}</option>
+                    @endforeach
+                </select>
+
+                @if ($errors->has('role'))
+                    <span class="help-block">
+                    <strong>{{ $errors->first('role') }}</strong>
+                </span>
+                @endif
+            </div>
+        @endif
+
         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
             <label for="id">User ID:</label>
             <input type="number" class="form-control" id="id" name="id"

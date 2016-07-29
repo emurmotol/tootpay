@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Role;
 use App\Models\Setting;
 use App\Models\TootCard;
 use App\Models\User;
@@ -47,12 +48,13 @@ class UserController extends Controller
     }
 
     public function create() {
-        return view('dashboard.admin.users.create');
+        $roles = Role::all();
+        return view('dashboard.admin.users.create', compact('roles'));
     }
 
     public function store(Requests\UserRequest $request) {
-        $user = User::create($request->all());
-
+        $user = User::create($request->except('role'));
+        $user->roles()->attach($request->input('role'));
         flash()->success(trans('user.created', ['name' => $user->name]));
 
         if ($request->has('redirect')) {
@@ -104,7 +106,22 @@ class UserController extends Controller
 
     public function remove_card(User $user, TootCard $toot_card) {
         $user->tootCards()->detach($toot_card);
-        flash()->success(trans('user.card_removed', ['toot_card' => $toot_card->id, 'user_name' => $user->name]));
+        $toot_card->is_active = 'off';
+        $toot_card->save();
+        flash()->success(trans('user.card_removed', ['toot_card' => $toot_card->id, 'name' => $user->name]));
+
+        if (request()->has('redirect')) {
+            return redirect()->to(request()->get('redirect'));
+        }
+        return redirect()->back();
+    }
+
+    public function attach_card(Request $request, User $user) {
+        $user->tootCards()->attach($request->input('toot_card_id'));
+        $toot_card = TootCard::find($request->input('toot_card_id'));
+        $toot_card->is_active = 'on';
+        $toot_card->save();
+        flash()->success(trans('user.card_attached', ['toot_card' => $toot_card->id, 'name' => $user->name]));
 
         if (request()->has('redirect')) {
             return redirect()->to(request()->get('redirect'));
