@@ -29,7 +29,6 @@
                             <div class="col-md-12">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <h4>User ID: <strong>{{ $user->id }}</strong></h4>
                                         <h4>Name: <strong>{{ $user->name }}</strong></h4>
                                         <h4>Role: <strong>{{ $user->roles()->first()->name }}</strong></h4>
                                         @if($user->hasRole(cardholder()))
@@ -44,6 +43,7 @@
                                                 @endif
                                             </h4>
                                         @endif
+                                        <h4>User ID: <strong>{{ $user->id }}</strong></h4>
                                         <h4>E-Mail Address: <strong>{{ $user->email }}</strong></h4>
                                         <h4>Phone Number: <strong>{{ $user->phone_number }}</strong></h4>
                                         <h4>Created: <strong>{{ $user->created_at->toFormattedDateString() }}</strong></h4>
@@ -54,14 +54,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Payment History
+                @unless(is_null($user->tootCards()->first()))
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Payment History
+                        </div>
+                        {{--<div class="panel-body">--}}
+                            {{--<div class="row">--}}
+                                {{--<div class="col-md-12">--}}
+                                    {{----}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        @include('_partials.empty')
                     </div>
-                    <div class="panel-body">
-
-                    </div>
-                </div>
+                @endunless
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Setting;
+use App\Models\TootCard;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -80,10 +81,17 @@ class UserController extends Controller
     }
 
     public function destroy(User $user) {
-        // todo check if the user is associated to a card before delete
         try {
-            $user->delete();
-            flash()->success(trans('user.deleted', ['name' => $user->name]));
+            $toot_card = $user->tootCards()->first();
+            if(!is_null($toot_card)) {
+                flash()->error(trans('user.delete_fail_card_is_set', [
+                    'name' => $user->name,
+                    'toot_card_link' => '<a href="' . route('toot_cards.edit', $toot_card->id) . '"><strong>' . $toot_card->id . '</strong></a>'
+                ]))->important();
+            } else {
+                $user->delete();
+                flash()->success(trans('user.deleted', ['name' => $user->name]));
+            }
         } catch (\Exception $e) {
             flash()->error(trans('user.exception', ['error' => $e->getMessage()]))->important();
         } finally {
@@ -92,5 +100,15 @@ class UserController extends Controller
             }
             return redirect()->route('users.index');
         }
+    }
+
+    public function remove_card(User $user, TootCard $toot_card) {
+        $user->tootCards()->detach($toot_card);
+        flash()->success(trans('user.card_removed', ['toot_card' => $toot_card->id, 'user_name' => $user->name]));
+
+        if (request()->has('redirect')) {
+            return redirect()->to(request()->get('redirect'));
+        }
+        return redirect()->back();
     }
 }

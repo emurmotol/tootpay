@@ -118,8 +118,7 @@ class MerchandiseController extends Controller
         return redirect()->back();
     }
 
-    public function available(Request $request, $merchandise_id) {
-        $merchandise = Merchandise::findOrfail($merchandise_id);
+    public function available(Request $request, Merchandise $merchandise) {
         $now = strtotime(Carbon::now());
         $int_day = date("w", $now);
         $day = date("l", $now);

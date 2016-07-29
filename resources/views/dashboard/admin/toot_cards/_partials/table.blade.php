@@ -23,7 +23,7 @@
                         <strong>Not associated</strong>
                     @else
                         <a href="{{ route('users.show', [$toot_card->users()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <i class="fa fa-user" aria-hidden="true"></i> Profile
                         </a>
                     @endif
                 </td>

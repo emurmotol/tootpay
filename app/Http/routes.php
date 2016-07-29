@@ -20,6 +20,12 @@ Route::group(['middleware' => 'roles'], function () {
     Route::group(['namespace' => 'User'], function() {
 
         // Users
+        Route::post('users/{user}/remove_card/{toot_card}', [
+            'uses' => 'UserController@remove_card',
+            'as' => 'users.remove_card',
+            'roles' => [admin()]
+        ]);
+
         Route::resource('users', 'UserController', [
             'parameters' => 'singular',
             'roles' => [admin()]
@@ -29,7 +35,7 @@ Route::group(['middleware' => 'roles'], function () {
     Route::group(['namespace' => 'Merchandise'], function() {
 
         // Merchandises
-        Route::put('merchandises/available/{merchandise_id}', [
+        Route::put('merchandises/available/{merchandise}', [
             'uses' => 'MerchandiseController@available',
             'as' => 'merchandises.available.update',
             'roles' => [admin()]

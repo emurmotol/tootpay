@@ -29,7 +29,7 @@
                         <strong>Not set</strong>
                     @else
                         <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            Show <i class="fa fa-credit-card" aria-hidden="true"></i>
                         </a>
                     @endif
                 </td>

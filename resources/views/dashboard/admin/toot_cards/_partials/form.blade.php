@@ -2,16 +2,12 @@
     @if(request()->has('redirect'))
         {!! Form::open([
             'route' => (Route::is('toot_cards.edit')) ? ['toot_cards.update', $toot_card->id, 'redirect' => request()->get('redirect')] : ['toot_cards.store', 'redirect' => request()->get('redirect')],
-            'files' => true,
             'class' => ''
-            // todo will fail on update
         ]) !!}
     @else
         {!! Form::open([
             'route' => (Route::is('toot_cards.edit')) ? ['toot_cards.update', $toot_card->id] : 'toot_cards.store',
-            'files' => true,
             'class' => ''
-            // todo will fail on update
         ]) !!}
     @endif
 
@@ -20,6 +16,21 @@
     @endif
 
     <div class="col-md-6">
+        @if(Route::is('toot_cards.edit'))
+            <div class="form-group">
+                @if(is_null($toot_card->users()->first()))
+                    <span class="help-block">{{ trans('toot_card.no_user') }}</span>
+                @else
+                    <label>This card is associated to:</label>
+                    <p class="form-control-static">
+                        <a href="{{ route('users.edit', $toot_card->users()->first()->id) }}">
+                            <strong>{{ $toot_card->users()->first()->name }}</strong>
+                        </a>
+                    </p>
+                @endif
+            </div>
+        @endif
+
         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
             <label for="id">Toot Card ID:</label>
             <input type="number" class="form-control" id="id" name="id"

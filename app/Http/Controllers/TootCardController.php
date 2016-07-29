@@ -79,10 +79,19 @@ class TootCardController extends Controller
     }
 
     public function destroy(TootCard $toot_card) {
-        // todo check if the card is associated to a user before delete
         try {
-            $toot_card->delete();
-            flash()->success(trans('toot_card.deleted', ['id' => $toot_card->id]));
+            $user = $toot_card->users()->first();
+            if(!is_null($user)) {
+                flash()->error(trans('toot_card.delete_fail_associated', [
+                    'id' => $toot_card->id,
+                    'user_link' => '<a href="' . route('users.edit', $user->id) . '"><strong>' . $user->name . '</strong></a>'
+                ]))->important();
+            } elseif ($toot_card->is_active) {
+                flash()->error(trans('toot_card.delete_fail_active', ['id' => $toot_card->id]))->important();
+            } else {
+                $toot_card->delete();
+                flash()->success(trans('toot_card.deleted', ['id' => $toot_card->id]));
+            }
         } catch (\Exception $e) {
             flash()->error(trans('toot_card.exception', ['error' => $e->getMessage()]))->important();
         } finally {

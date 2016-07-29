@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit - ' . $user->name)
+@section('title', 'Edit - ' . $user->name . ' (' . $user->roles()->first()->name .  ')')
 
 @section('content')
     <div class="container">
@@ -17,6 +17,7 @@
                         </span>
                     </div>
                     <div class="panel-body">
+                        @include('dashboard.admin.users._partials.form-remove-card')
                         @include('dashboard.admin.users._partials.form')
                     </div>
                 </div>

@@ -29,7 +29,6 @@
                             <div class="col-md-12">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <h4>Toot Card ID: <strong>{{ $toot_card->id }}</strong></h4>
                                         <h4>Cardholder:
                                             @if(is_null($toot_card->users()->first()))
                                                 <strong>Not associated</strong>
@@ -39,6 +38,7 @@
                                                 </a>
                                             @endif
                                         </h4>
+                                        <h4>Toot Card ID: <strong>{{ $toot_card->id }}</strong></h4>
                                         <h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
                                         <h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
                                         <h4>Active? <strong>{{ $toot_card->is_active ? 'Yes' : 'No' }}</strong></h4>

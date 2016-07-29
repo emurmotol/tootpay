@@ -2,13 +2,11 @@
     @if(request()->has('redirect'))
         {!! Form::open([
             'route' => (Route::is('users.edit')) ? ['users.update', $user->id, 'redirect' => request()->get('redirect')] : ['users.store', 'redirect' => request()->get('redirect')],
-            'files' => true,
             'class' => ''
         ]) !!}
     @else
         {!! Form::open([
             'route' => (Route::is('users.edit')) ? ['users.update', $user->id] : 'users.store',
-            'files' => true,
             'class' => ''
         ]) !!}
     @endif
