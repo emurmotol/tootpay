@@ -54,8 +54,14 @@ footer {
     margin-top: 10px;
 }
 
-.img-merchandise {
+.img-merchandise-list-item {
     margin-bottom: 10px;
+}
+
+.img-merchandise-list-item a img {
+    height: 100px;
+    display: block;
+    margin: 0 auto;
 }
 
 .img-merchandise a img {

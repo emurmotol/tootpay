@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
             $faker = Faker::create();
             $toot_card = TootCard::create([
                 'id' => $faker->creditCardNumber,
-                'pin_code' => bcrypt($faker->randomNumber(6)),
+                'pin_code' => $faker->randomNumber(4),
                 'load' => floatval($faker->randomNumber(3)),
                 'points' => floatval($faker->randomNumber(2)),
                 'is_active' => 'on',

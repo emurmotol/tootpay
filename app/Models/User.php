@@ -33,6 +33,10 @@ class User extends Authenticatable
             'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
     }
 
+    public function merchandises() {
+        return $this->belongsToMany(Merchandise::class, 'purchases');
+    }
+
     public function setNameAttribute($value) {
         $this->attributes['name'] = ucwords(strtolower($value));
     }

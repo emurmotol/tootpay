@@ -23,6 +23,14 @@ class Merchandise extends Model
             'merchandise_operation_day', 'merchandise_id', 'operation_day_id')->withTimestamps();
     }
 
+    public function tootCards() {
+        return $this->belongsToMany(TootCard::class, 'purchases');
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'purchases');
+    }
+
     public static function searchFor($keyword, $model = null) {
         if (!is_null($model)) {
             return $model->search(strtolower($keyword));

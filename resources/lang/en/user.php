@@ -7,7 +7,7 @@ return [
     'updated' => '<strong>:Name</strong> has been successfully updated!',
     'deleted' => '<strong>:Name</strong> has been successfully deleted!',
     'card_removed' => 'The card <strong>:toot_card</strong> has been successfully removed from <strong>:Name</strong>!',
-    'card_attached' => 'The card <strong>:toot_card</strong> has been successfully attached to <strong>:Name</strong>!',
+    'card_associated' => 'The card <strong>:toot_card</strong> has been successfully associated to <strong>:Name</strong>!',
     'exception' => ':Error',
     'delete_fail_card_is_set' => 'Unable to delete <strong>:Name</strong>. The user is still owns a card :toot_card_link.',
 

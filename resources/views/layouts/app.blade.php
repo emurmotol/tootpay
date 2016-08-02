@@ -6,14 +6,19 @@
     <title>@yield('title') - {{ config('static.app.name') }}</title>
 
     @include('layouts._partials.app.stylesheets')
+
+    @if(Route::is('client.index') || Route::is('client.order'))
+        @include('layouts._partials.client.stylesheets')
+    @endif
 </head>
 <body id="app-layout">
+@if(Route::is('client.index') || Route::is('client.order'))
+    @yield('content')
+@else
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
-            @include('layouts._partials.app.header')
-
+            @include('layouts._partials.app.header', ['url' => url('/')])
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-
                 <ul class="nav navbar-nav">
                     @if(Auth::guest())
                         <li {!! (Request::is('faq') ? 'class="active"' : '') !!}>
@@ -29,7 +34,6 @@
                         @endif
                     @endif
                 </ul>
-
                 <ul class="nav navbar-nav navbar-right">
                     @if(Auth::guest())
                         <li {!! (Request::is('login') ? 'class="active"' : '') !!}>
@@ -44,7 +48,8 @@
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
                         @endif
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -62,14 +67,16 @@
     </div>
 
     @yield('content')
+    @include('layouts._partials.app.footer')
+@endif
 
-    <footer>
-        <div class="container text-muted text-center">
-            <hr><i class="fa fa-copyright" aria-hidden="true"></i> {{ date('Y') }} {{ config('static.app.company') }}
-        </div>
-    </footer>
+@include('layouts._partials.app.scripts')
+@include('_partials.javascript')
 
-    @include('layouts._partials.app.scripts')
-    @include('_partials.javascript')
+@if(Route::is('client.index') || Route::is('client.order'))
+    @include('layouts._partials.client.scripts')
+@endif
+
+@yield('javascript')
 </body>
 </html>

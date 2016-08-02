@@ -74,6 +74,9 @@ class TootCardController extends Controller
         } catch (\Exception $e) {
             flash()->error(trans('toot_card.exception', ['error' => $e->getMessage()]))->important();
         } finally {
+            if (request()->has('redirect')) {
+                return redirect()->to(request()->get('redirect'));
+            }
             return redirect()->route('toot_cards.index');
         }
     }

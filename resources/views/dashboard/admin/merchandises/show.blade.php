@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-cutlery" aria-hidden="true"></i> @yield('title')
+                        @yield('title')
                         <span class="pull-right">
                             {!! Form::open([
                                 'route' => ['merchandises.destroy', $merchandise->id,
@@ -26,7 +26,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="img-merchandise">
                                     <a href="{{ $merchandise->image($merchandise->id) }}">
                                         <img src="{{ $merchandise->image($merchandise->id) }}"
@@ -35,7 +35,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <ul class="list-unstyled">
                                     <li>
                                         <h4>Name: <strong>{{ $merchandise->name }}</strong></h4>

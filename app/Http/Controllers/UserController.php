@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\Setting;
@@ -78,6 +78,9 @@ class UserController extends Controller
         } catch (\Exception $e) {
             flash()->error(trans('user.exception', ['error' => $e->getMessage()]))->important();
         } finally {
+            if (request()->has('redirect')) {
+                return redirect()->to(request()->get('redirect'));
+            }
             return redirect()->route('users.index');
         }
     }
@@ -116,12 +119,12 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function attach_card(Request $request, User $user) {
+    public function associate_card(Request $request, User $user) {
         $user->tootCards()->attach($request->input('toot_card_id'));
         $toot_card = TootCard::find($request->input('toot_card_id'));
         $toot_card->is_active = 'on';
         $toot_card->save();
-        flash()->success(trans('user.card_attached', ['toot_card' => $toot_card->id, 'name' => $user->name]));
+        flash()->success(trans('user.card_associated', ['toot_card' => $toot_card->id, 'name' => $user->name]));
 
         if (request()->has('redirect')) {
             return redirect()->to(request()->get('redirect'));

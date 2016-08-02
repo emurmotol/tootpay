@@ -74,11 +74,27 @@
             @endif
         </div>
 
+        <div class="form-group{{ $errors->has('pin_code') ? ' has-error' : '' }}">
+            <label for="pin_code">Pin Code:</label>
+
+            <div class="input-group">
+                <input type="password" class="form-control" id="password" name="pin_code" value="{{ (Route::is('toot_cards.edit')) ? $toot_card->pin_code : old('pin_code') }}" placeholder="">
+                <span class="input-group-addon"><i class="fa fa-eye" aria-hidden="true"></i></span>
+            </div>
+
+            @if ($errors->has('pin_code'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('pin_code') }}</strong>
+                </span>
+            @endif
+        </div>
+
         @if(Route::is('toot_cards.edit'))
             <div class="checkbox">
                 <input type="hidden" value="off" name="is_active">
                 <label for="is_active">
-                    <input type="checkbox" value="on" name="is_active" id="is_active" {{ $toot_card->is_active ? 'checked' : '' }}> Active
+                    <input type="checkbox" value="on" name="is_active"
+                           id="is_active" {{ $toot_card->is_active ? 'checked' : '' }}> Active
                 </label>
             </div>
         @endif
@@ -90,3 +106,5 @@
     </div>
     {!! Form::close() !!}
 </div>
+
+@include('_partials.password')

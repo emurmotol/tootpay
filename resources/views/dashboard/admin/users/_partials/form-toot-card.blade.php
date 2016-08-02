@@ -39,39 +39,45 @@
     @if(is_null($user->tootCards()->first()))
         <div class="panel panel-default">
             <div class="panel-heading">
-                Attach a toot card to {{ $user->name }}
+                Associate toot card to {{ $user->name }}
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6">
-                        @if(request()->has('redirect'))
-                            {!! Form::open([
-                                'route' => ['users.attach_card', $user->id, 'redirect' => request()->get('redirect')],
-                                'class' => ''
-                            ]) !!}
-                        @else
-                            {!! Form::open([
-                                'route' => ['users.attach_card', $user->id],
-                                'class' => ''
-                            ]) !!}
-                        @endif
-                        <div class="form-group{{ $errors->has('toot_card_id') ? ' has-error' : '' }}">
-                            <label for="toot_card_id">Select Toot Card:</label>
-                            <select id="toot_card_id" name="toot_card_id" class="form-control">
-                                {{--Add condition if not active and not associated--}}
-                                @foreach(\App\Models\TootCard::where('is_active', false)->get() as $toot_card)
-                                    <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->id }}</option>
-                                @endforeach
-                            </select>
-
-                            @if ($errors->has('toot_card_id'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('toot_card_id') }}</strong>
-                                </span>
+                        @if(\App\Models\TootCard::where('is_active', false)->count())
+                            @if(request()->has('redirect'))
+                                {!! Form::open([
+                                    'route' => ['users.associate_card', $user->id, 'redirect' => request()->get('redirect')],
+                                    'class' => ''
+                                ]) !!}
+                            @else
+                                {!! Form::open([
+                                    'route' => ['users.associate_card', $user->id],
+                                    'class' => ''
+                                ]) !!}
                             @endif
-                        </div>
-                        <button type="submit" class="btn btn-primary">Attach card</button>
-                        {!! Form::close() !!}
+
+                            <div class="form-group{{ $errors->has('toot_card_id') ? ' has-error' : '' }}">
+                                <label for="toot_card_id">Select Toot Card:</label>
+                                <select id="toot_card_id" name="toot_card_id" class="form-control">
+                                    {{--Add condition if not active and not associated--}}
+                                    @foreach(\App\Models\TootCard::where('is_active', false)->get() as $toot_card)
+                                        <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->id }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('toot_card_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('toot_card_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <button type="submit" class="btn btn-primary">Associate card</button>
+                            {!! Form::close() !!}
+                        @else
+                            <span class="help-block">{{ trans('toot_card.no_available') }}</span>
+                            @include('_partials.create', ['url' => route('toot_cards.create', ['redirect' => Request::fullUrl()]), 'what' => 'toot card'])
+                        @endif
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}
                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-default btn-xs">Edit</a>
-                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                    <button type="submit" class="btn btn-danger btn-xs" {{ (Auth::id() == $user->id) ? 'disabled' : '' }}>Delete</button>
                     {!! Form::close() !!}
                 </td>
             </tr>

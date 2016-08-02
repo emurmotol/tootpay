@@ -18,12 +18,14 @@ class TootCardRequest extends Request
                 'id' => 'required|numeric|unique:toot_cards',
                 'load' => 'required',
                 'points' => 'required',
+                'pin_code' => 'required',
             ];
         } elseif ($this->method() == 'PUT') {
             return [
                 'id' => 'required|numeric',
                 'load' => 'required',
                 'points' => 'required',
+                'pin_code' => 'required',
                 'is_active' => '',
             ];
         }

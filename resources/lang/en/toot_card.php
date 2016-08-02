@@ -2,6 +2,7 @@
 
 return [
 
+    'no_available' => 'There are no available cards.',
     'no_user' => 'This card is not associated to any user.',
     'created' => '<strong>:id</strong> has been successfully created!',
     'updated' => '<strong>:id</strong> has been successfully updated!',

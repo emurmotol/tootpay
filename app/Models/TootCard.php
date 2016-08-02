@@ -26,9 +26,17 @@ class TootCard extends Model
             'user_toot_card', 'toot_card_id', 'user_id');
     }
 
+    public function merchandises() {
+        return $this->belongsToMany(Merchandise::class, 'purchases');
+    }
+
     public function setIsActiveAttribute($value) {
         $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
+
+//    public function setPinCodeAttribute($value) {
+//        $this->attributes['pin_code'] = bcrypt($value);
+//    }
 
     public static function searchFor($keyword, $model = null) {
         if (!is_null($model)) {

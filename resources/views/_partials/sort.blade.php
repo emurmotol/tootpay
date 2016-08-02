@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
         <span class="text-muted">Sort:</span>
         <span id="sort">{{ str_replace('-', ' ', ucfirst(request()->get('sort'))) }}</span>
