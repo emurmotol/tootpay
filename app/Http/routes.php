@@ -16,7 +16,7 @@ Route::get('dd', function () {
 //    return dd(\App\Models\User::find('00420130023'));//->with('merchandises', 'tootcards')->get());
 //    return dd(\App\Models\TootCard::find('6011983972698196')->users()->getRelatedIds());
 
-    return dd(cashier());
+    return dd(slideIdle());
 });
 
 Route::auth();
@@ -92,18 +92,6 @@ Route::group(['middleware' => 'roles'], function () {
 
     Route::group(['roles' => [cardholder(), admin()]], function () {
 
-        Route::get('client/order', [
-            'uses' => 'ClientController@order',
-            'as' => 'client.order'
-        ]);
-        Route::post('client/todays_menu', [
-            'uses' => 'ClientController@todaysMenu',
-            'as' => 'client.todays_menu'
-        ]);
-    });
-
-    Route::group(['roles' => [cardholder(), admin()]], function () {
-
         // Cardholder Dashboard
         Route::get('cardholder', [
             'uses' => 'DashboardController@cardholder'
@@ -113,8 +101,16 @@ Route::group(['middleware' => 'roles'], function () {
 
 // Client
 Route::get('client', [
-    'uses' => 'DashboardController@client',
+    'uses' => 'ClientController@index',
     'as' => 'client.index'
+]);
+Route::get('client/idle', [
+    'uses' => 'ClientController@idle',
+    'as' => 'client.idle'
+]);
+Route::get('client/guest', [
+    'uses' => 'ClientController@guest',
+    'as' => 'client.guest'
 ]);
 Route::post('client/check_toot_card', [
     'uses' => 'ClientController@checkTootCard',
@@ -123,4 +119,12 @@ Route::post('client/check_toot_card', [
 Route::post('client/auth_toot_card', [
     'uses' => 'ClientController@authTootCard',
     'as' => 'client.auth_toot_card'
+]);
+Route::get('client/order', [
+    'uses' => 'ClientController@order',
+    'as' => 'client.order'
+]);
+Route::post('client/todays_menu', [
+    'uses' => 'ClientController@todaysMenu',
+    'as' => 'client.todays_menu'
 ]);

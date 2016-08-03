@@ -6,52 +6,105 @@
 .panel-heading, .panel-footer, .panel-body, .table {
     font-size: 20px;
 }
+
 .huge-total, .modal-body, .modal-title {
     font-size: 25px;
 }
+
 .merchandise-category-list {
     overflow-x: scroll;
     overflow-y: hidden;
 }
+
 .category-name {
     padding-bottom: 10px;
 }
+
 .merchandise-list {
     padding-top: 5px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
 .merchandise-item a img {
     height: 100px;
 }
+
 .merchandise-item .modal .modal-dialog .modal-content .modal-body .row .col-md-6 img {
     height: 250px;
 }
+
 .list-inline {
     white-space: nowrap;
 }
+
 .client-order .col-md-6 .order .panel-body {
     position: absolute;
     width: 100%;
     bottom: 0;
 }
+
 .client-order .col-md-6 .order {
     position: relative;
 }
+
 .qty {
     padding-left: 10px;
     padding-right: 10px;
 }
+
 .table-cell-qty {
     width: 100%;
 }
-html, body, .client-order, .col-md-6, .panel {
+
+html, body, .client-order, .col-md-6, .panel, .carousel, .item, .active, .carousel-inner {
     height: 100%;
 }
+
 .order-actions {
     padding-top: 10px;
 }
+
 body {
     padding-top: 20px;
-    padding-bottom: 20px;
+}
+
+.carousel-inner .item img {
+    width: 100%;
+    height: 100%;
+}
+
+.rfid-symbol-animated {
+    padding-top: 150px;
+    padding-bottom: 130px;
+    display: block;
+    margin: auto;
+}
+
+.huge {
+    font-size: 30px;
+    height: auto;
+}
+
+.huge-md {
+    font-size: 40px;
+    height: auto;
+}
+
+.input-unstyled {
+    border: #fff;
+    outline: none;
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+}
+.bs-input-unstyled {
+    outline: none;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+#pin_code {
+    margin-bottom: 15px;
 }

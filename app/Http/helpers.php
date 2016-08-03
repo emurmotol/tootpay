@@ -6,10 +6,9 @@ function search($keyword, $query) {
     }
 }
 
-//function sort($sort, $model) {
-//    $sorted = $model->sort($sort);
-//    return $sorted;
-//}
+function slideIdle() {
+    return glob('img/idle/*.png');
+}
 
 function paginate($array = array()) {
     $total = count($array);

@@ -35,8 +35,4 @@ class DashboardController extends Controller
     public function cardholder() {
         return view('dashboard.cardholder.index');
     }
-
-    public function client() {
-        return view('dashboard.client.index');
-    }
 }

@@ -24,7 +24,7 @@
                                                     <i class="fa fa-times fa-2x"
                                                        aria-hidden="true"></i>
                                                 </button>
-                                                <div class="modal-title">
+                                                <div class="modal-title huge">
                                                     <strong>{{ $merchandise->name }}</strong>
                                                 </div>
                                             </div>
@@ -35,8 +35,8 @@
                                                              src="{{ $merchandise->image($merchandise->id) }}"
                                                              alt="{{ $merchandise->name }}">
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        Quantity:
+                                                    <div class="col-md-6 huge">
+                                                        Qty:
                                                         <button class="btn btn-default btn-lg minus">
                                                             <i class="fa fa-minus"></i>
                                                         </button>
@@ -49,11 +49,11 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button"
-                                                        class="btn btn-info btn-lg pull-left"
+                                                        class="btn btn-info btn-lg pull-left huge"
                                                         data-dismiss="modal">Back
                                                 </button>
                                                 <button type="button"
-                                                        class="btn btn-primary btn-lg pull-right btn-add-order"
+                                                        class="btn btn-primary btn-lg pull-right btn-add-order huge"
                                                         data-dismiss="modal"
                                                         data-id="merchandise-item-{{ $merchandise->id }}"
                                                         data-name="{{ $merchandise->name }}"
