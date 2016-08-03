@@ -25,11 +25,15 @@
 
 @section('javascript')
     <script>
+        setTimeout(function () {
+            window.location.href = '{{ route('client.index') }}';
+        }, 60000);
+
         function todaysMenu() {
             $.post('todays_menu', function (response) {
 
                 $('#todays_menu').html(response);
-                 setTimeout(todaysMenu, 60000);
+                setTimeout(todaysMenu, 60000);
 
                 $('.modal-footer').on('click', 'button.btn-add-order', function () {
                     var name = $(this).data('name');
@@ -58,7 +62,7 @@
         $(function () {
             todaysMenu();
 
-            window.addOrder = (function(name, price, qty)  {
+            window.addOrder = (function (name, price, qty) {
                 $('#table_orders').append(
                         '<tr class="row-order">' +
                         '<td><span class="name">' + name + '</span></td>' +

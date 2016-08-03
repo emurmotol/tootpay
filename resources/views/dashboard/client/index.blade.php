@@ -11,7 +11,8 @@
 
         </div>
     </div>
-    <input type="number" id="toot_card_id"  pattern="[0-9]{10}" maxlength="10" autofocus>
+    <input type="number" style="border: #fff; outline: none; color: #fff; -webkit-text-fill-color: #fff;"
+           id="toot_card_id" pattern="[0-9]{10}" maxlength="10" autofocus>
 
     @include('dashboard.client._partials.pin')
 @endsection
@@ -22,8 +23,8 @@
         $('#enter_pin_code').on('hidden.bs.modal', function () {
             location.reload();
         });
-        $('#backspace').click(function(){
-            pin_code.val(function(index, value){
+        $('#backspace').click(function () {
+            pin_code.val(function (index, value) {
                 return value.substr(0, value.length - 1);
             });
         });
@@ -32,12 +33,18 @@
         });
 
         var toot_card_id = $('#toot_card_id');
-        toot_card_id.change(function() {
-            if($(this).val().length == 10) {
+        toot_card_id.focus();
+        toot_card_id.blur(function () {
+            setTimeout(function () {
+                toot_card_id.focus();
+            }, 0);
+        });
+        toot_card_id.change(function () {
+            if ($(this).val().length == 10) {
                 $.post('client/check_toot_card', {
                     toot_card: $(this).val()
-                }, function(response) {
-                    if(response) {
+                }, function (response) {
+                    if (response) {
                         $('#id').val(toot_card_id.val());
                         $('#enter_pin_code').modal('show');
                     }
@@ -50,7 +57,7 @@
             $.post('client/auth_toot_card', {
                 id: $('#id').val(),
                 pin_code: pin_code.val()
-            }, function(response) {
+            }, function (response) {
 //                $('#enter_pin_code').modal('toggle');
                 window.location.replace(response);
                 console.log(response);

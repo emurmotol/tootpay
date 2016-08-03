@@ -33,7 +33,7 @@ class ClientController extends Controller
 
     public function authTootCard(Requests\PinCodeRequest $request) {
         if ($request->ajax()) {
-            $toot_card = TootCard::find($request->get('id'));
+            $toot_card = TootCard::findOrFail($request->get('id'));
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
                 Auth::loginUsingId($toot_card->users()->first()->id);
