@@ -20,7 +20,7 @@
     @include('dashboard.client._partials.invalid_card')
     @include('dashboard.client._partials.wrong_pin')
     @include('dashboard.client._partials.menu')
-    @include('dashboard.client._partials.loading', ['text' => 'Loading delicious food options'])
+    @include('dashboard.client._partials.loading', ['text' => 'Loading yummy food options'])
     @include('dashboard.client._partials.empty_pin')
 @endsection
 
