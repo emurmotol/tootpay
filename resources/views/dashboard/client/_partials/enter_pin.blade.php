@@ -1,4 +1,4 @@
-<div id="enter_pin_code" class="modal fade" role="dialog">
+<div id="enter_pin" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,6 +9,7 @@
             <div class="modal-body">
                 <div class="table-responsive">
                     <div class="input-pin-code">
+                        <input type="hidden" id="menu_id" value="0">
                         <input type="hidden" id="id" name="id">
                         <input id="pin_code" name="pin_code" type="password" class="form-control input-lg text-center huge-md bs-input-unstyled"
                                placeholder="pin code" pattern="[0-9]{4}" maxlength="4">

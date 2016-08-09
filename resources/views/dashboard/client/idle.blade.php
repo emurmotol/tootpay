@@ -15,9 +15,13 @@
             </div>
         </div>
     </div>
-    @include('dashboard.client._partials.identity_prompt')
-    @include('dashboard.client._partials.tap')
-    @include('dashboard.client._partials.pin')
+    @include('dashboard.client._partials.tap_card')
+    @include('dashboard.client._partials.enter_pin')
+    @include('dashboard.client._partials.invalid_card')
+    @include('dashboard.client._partials.wrong_pin')
+    @include('dashboard.client._partials.menu')
+    @include('dashboard.client._partials.please_wait')
+    @include('dashboard.client._partials.empty_pin')
 @endsection
 
 @section('style')
@@ -36,18 +40,24 @@
 @section('javascript')
     <script>
         $('#toot_idle').on('click', function () {
-            $('#identity_prompt').modal('show');
+            $('#menu').modal('show');
+            console.log('showing menu modal');
         });
 
-        $('#identity_prompt_no').on('click', function () {
+        $('#menu_order').on('click', function () {
+            $('#please_wait').modal('show');
+            console.log('showing please_wait modal');
+            $('#menu').modal('toggle');
+            console.log('route to order!');
             window.location.replace('{{ route('client.index') }}/');
         });
-        $('#identity_prompt_yes').on('click', function () {
-            $('#identity_prompt').modal('toggle');
-            $('#tap').modal('show');
-        });
 
-        $('#enter_pin_code').on('hidden.bs.modal', function () {
+        $('#enter_pin').on('hidden.bs.modal', function () {
+            console.log('page reloading!');
+            location.reload();
+        });
+        $('#invalid_card').on('hidden.bs.modal', function () {
+            console.log('page reloading!');
             location.reload();
         });
 
@@ -61,6 +71,22 @@
             pin_code.val((pin_code.val()) + (this.value));
         });
 
+        var menu_id = $('#menu_id');
+        $('#menu_reload').on('click', function () {
+            $('#menu').modal('toggle');
+            $('#tap_card').modal('show');
+            console.log('showing tap_card modal');
+            menu_id.val(1);
+            console.log('menu_id set to 1!');
+        });
+        $('#menu_balance').on('click', function () {
+            $('#menu').modal('toggle');
+            $('#tap_card').modal('show');
+            console.log('showing tap_card modal');
+            menu_id.val(2);
+            console.log('menu_id set to 2!');
+        });
+
         var toot_card_id = $('#toot_card_id');
         toot_card_id.focus();
         toot_card_id.blur(function () {
@@ -68,43 +94,65 @@
                 toot_card_id.focus();
             }, 0);
         });
-
-        $('#tap').on('shown.bs.modal', function () {
-            toot_card_id.focus();
-        });
-
         toot_card_id.change(function () {
             if ($(this).val().length == 10) {
                 $.post('check_toot_card', {
                     toot_card: $(this).val()
                 }, function (response) {
+                    $('#tap_card').modal('toggle');
                     if (response == 'true') {
-                        $('#tap').modal('toggle');
+                        console.log(toot_card_id.val() + ' is valid!');
                         $('#id').val(toot_card_id.val());
-                        $('#enter_pin_code').modal('show');
+                        $('#enter_pin').modal('show');
+                        console.log('showing enter_pin modal');
                     } else {
-                        location.reload();
+                        console.log(toot_card_id.val() + ' is not valid!');
+                        $('#invalid_card').modal('show');
+                        console.log('showing invalid_card modal');
                     }
-                    console.log(toot_card_id.val() + ' valid? ' + response);
                 });
             }
         });
 
+        $('#tap_card').on('shown.bs.modal', function () {
+            toot_card_id.focus();
+            console.log('toot_card_id is on focus!');
+        });
+
         $('#submit_check').on('click', function () {
-            $(this).button('loading').delay(5000).queue(function() {
+            $(this).button('loading').delay(1000).queue(function() {
                 $(this).button('reset');
                 $(this).dequeue();
             });
 
-            $.post('auth_toot_card', {
-                id: $('#id').val(),
-                pin_code: pin_code.val()
-            }, function (response) {
-                if (response == 'true') {
-                    window.location.replace('{{ route('client.index') }}/');
-                }
-                console.log(response);
-            });
+            if (pin_code.val().length < 1) {
+                $('#empty_pin').modal('show');
+                console.log('showing empty_pin modal');
+            } else {
+                $.post('auth_toot_card', {
+                    id: $('#id').val(),
+                    pin_code: pin_code.val()
+                }, function (response) {
+                    if (response == 'true') {
+                        console.log('correct pin!');
+                        if (menu_id.val() == 1) {
+                            console.log('showing reload modal');
+                        } else if (menu_id.val() == 2) {
+                            console.log('showing check_balance modal');
+                        } else {
+                            // default action
+                            $('#please_wait').modal('show');
+                            console.log('showing please_wait modal');
+                            window.location.replace('{{ route('client.index') }}/');
+                            console.log('route to order!');
+                        }
+                    } else {
+                        console.log('incorrect pin!');
+                        $('#wrong_pin').modal('show');
+                        console.log('showing wrong_pin modal');
+                    }
+                });
+            }
         });
 
         $('#touch').blink();

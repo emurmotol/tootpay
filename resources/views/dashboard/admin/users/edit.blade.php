@@ -20,7 +20,7 @@
                         @include('dashboard.admin.users._partials.form')
                     </div>
                 </div>
-                @include('dashboard.admin.users._partials.form-toot-card')
+                @include('dashboard.admin.users._partials.form_toot_card')
             </div>
         </div>
     </div>

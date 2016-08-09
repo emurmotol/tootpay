@@ -100,7 +100,7 @@
         @endif
 
         <button type="submit" id="btn-submit" class="btn btn-primary"
-                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
+                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">
             {{ (Route::is('toot_cards.edit')) ? 'Update' : 'Create' }} toot card
         </button>
     </div>
