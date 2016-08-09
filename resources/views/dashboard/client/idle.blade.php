@@ -5,8 +5,8 @@
 @section('content')
     <div id="toot_idle" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            @foreach(glob('img/idle/*.png') as $img)
-                <div class="item {{ (glob('img/idle/*.png')[0] == $img) ? 'active' : '' }}">
+            @foreach(glob('img/slides/*.png') as $img)
+                <div class="item {{ (glob('img/slides/*.png')[0] == $img) ? 'active' : '' }}">
                     <img src="{{ asset($img) }}" class="img-responsive">
                 </div>
             @endforeach
@@ -20,7 +20,7 @@
     @include('dashboard.client._partials.invalid_card')
     @include('dashboard.client._partials.wrong_pin')
     @include('dashboard.client._partials.menu')
-    @include('dashboard.client._partials.please_wait')
+    @include('dashboard.client._partials.loading', ['text' => 'Loading delicious food options'])
     @include('dashboard.client._partials.empty_pin')
 @endsection
 
@@ -45,8 +45,8 @@
         });
 
         $('#menu_order').on('click', function () {
-            $('#please_wait').modal('show');
-            console.log('showing please_wait modal');
+            $('#loading').modal('show');
+            console.log('showing loading modal');
             $('#menu').modal('toggle');
             console.log('route to order!');
             window.location.replace('{{ route('client.index') }}/');
@@ -141,8 +141,8 @@
                             console.log('showing check_balance modal');
                         } else {
                             // default action
-                            $('#please_wait').modal('show');
-                            console.log('showing please_wait modal');
+                            $('#loading').modal('show');
+                            console.log('showing loading modal');
                             window.location.replace('{{ route('client.index') }}/');
                             console.log('route to order!');
                         }

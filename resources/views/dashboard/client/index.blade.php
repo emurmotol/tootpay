@@ -14,7 +14,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading clearfix">
                     <span class="pull-left">
-                        <strong>Today's Menu</strong>
+                        <strong>Today's Menu ({{ date('l') }})</strong>
                     </span>
                     <span class="pull-right">
                         <i class="fa fa-question-circle" aria-hidden="true"></i>

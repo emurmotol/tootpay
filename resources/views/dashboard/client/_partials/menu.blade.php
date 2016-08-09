@@ -5,35 +5,23 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
-                <h4 class="modal-title huge">
-                    <strong>Menu</strong>
+                <h4 class="modal-title huge text-center">
+                    <strong>Hello, welcome to Kuya Franz!</strong>
                 </h4>
             </div>
             <div class="modal-body huge menu">
                 <div class="row">
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge" id="menu_order">Order</button>
+                    <div class="col-md-4">
+                        <img id="menu_order" src="{{ asset('img/menu/order.png') }}" class="img-thumbnail">
+                        <div class="huge text-center text-primary">Order Food</div>
                     </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge" id="menu_reload">Reload</button>
+                    <div class="col-md-4">
+                        <img id="menu_reload" src="{{ asset('img/menu/reload.png') }}" class="img-thumbnail">
+                        <div class="huge text-center text-primary">Reload Card</div>
                     </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge"  id="menu_balance">Balance</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge">Menu 4</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge">Menu 5</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge">Menu 6</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge">Menu 7</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-block btn-lg huge">Menu 8</button>
+                    <div class="col-md-4">
+                        <img id="menu_balance" src="{{ asset('img/menu/balance.png') }}" class="img-thumbnail">
+                        <div class="huge text-center text-primary">Check Balance</div>
                     </div>
                 </div>
             </div>

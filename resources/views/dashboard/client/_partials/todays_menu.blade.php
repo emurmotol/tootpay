@@ -24,7 +24,7 @@
                                                     <i class="fa fa-times fa-2x"
                                                        aria-hidden="true"></i>
                                                 </button>
-                                                <div class="modal-title huge">
+                                                <div class="modal-title huge text-center">
                                                     <strong>{{ $merchandise->name }}</strong>
                                                 </div>
                                             </div>

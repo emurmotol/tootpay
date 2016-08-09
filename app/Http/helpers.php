@@ -7,7 +7,7 @@ function search($keyword, $query) {
 }
 
 function slideIdle() {
-    return glob('img/idle/*.png');
+    return glob('img/slides/*.png');
 }
 
 function paginate($array = array()) {
