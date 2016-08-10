@@ -89,7 +89,28 @@ Route::group(['middleware' => 'roles'], function () {
 
         // Cashier Dashboard
         Route::get('cashier', [
-            'uses' => 'DashboardController@cashier'
+            'uses' => 'DashboardController@cashier',
+            'as' => 'cashier.index'
+        ]);
+        Route::get('cashier/reloads', [
+            'uses' => 'CashierController@reloads',
+            'as' => 'cashier.reloads'
+        ]);
+        Route::post('cashier/pending_reload', [
+            'uses' => 'CashierController@pendingReload',
+            'as' => 'cashier.pending_reload'
+        ]);
+        Route::post('cashier/paid_reload', [
+            'uses' => 'CashierController@paidReload',
+            'as' => 'cashier.paid_reload'
+        ]);
+        Route::post('cashier/cancel_reload', [
+            'uses' => 'CashierController@cancelReload',
+            'as' => 'cashier.cancel_reload'
+        ]);
+        Route::get('cashier/queue', [
+            'uses' => 'CashierController@queue',
+            'as' => 'cashier.queue'
         ]);
     });
 

@@ -192,7 +192,7 @@
                                         var interval = setInterval(function() {
                                             $.post('reload_status', {
                                                 id: $('#id').val(),
-                                                reload_id: response,
+                                                reload_id: response
                                             }, function(response) {
 
                                                 if (response == 'pending') {

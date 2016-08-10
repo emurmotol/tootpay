@@ -42,7 +42,7 @@
             </div>
             <ul class="list-inline order-actions">
                 <li>
-                    <button class="btn btn-warning btn-lg" id="btn_cancel"  data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">Cancel Order</button>
+                    <button class="btn btn-warning btn-lg" id="btn_cancel" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">Cancel Order</button>
                 </li>
                 @if(Auth::check())
                     <li>

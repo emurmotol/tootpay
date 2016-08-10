@@ -1,8 +1,3 @@
-/*!
- * Toot Pay (https://github.com/klarizonemar/tootpay)
- * Author: Klarizon Emar Motol
- */
-
 (function ($) {
     $.fn.blink = function (options) {
         var defaults = {delay: 500};
