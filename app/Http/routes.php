@@ -19,11 +19,7 @@ Route::get('dd', function () {
     $toot_card = \App\Models\TootCard::find('0001246344');
     $user = $toot_card->users()->first();
 
-    return dd($user->reload()->save($toot_card, [
-        'user_id' => $user->id,
-        'amount' => 12,
-        'status' => 'pending',
-    ])->with('users')->get());
+    return dd(\Illuminate\Support\Facades\DB::table($user->reload()->getTable())->orderBy('id', 'desc')->get());
 });
 
 Route::auth();

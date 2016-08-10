@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title huge text-center">
-                    <strong>Please pay P<span id="_amount"></span>.00 to cashier.</strong>
+                    <strong><i class="fa fa-info-circle" aria-hidden="true"></i> Pay P<span id="_amount"></span>.00 to cashier.</strong>
                 </h4>
             </div>
             <div class="modal-body text-center">

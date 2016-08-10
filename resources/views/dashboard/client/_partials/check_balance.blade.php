@@ -6,7 +6,7 @@
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
                 <h4 class="modal-title huge text-center">
-                    <strong>Your toot card details.</strong>
+                    <strong>Your toot card balance information.</strong>
                 </h4>
             </div>
             <div class="modal-body">

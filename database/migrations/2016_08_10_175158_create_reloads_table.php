@@ -11,7 +11,7 @@ class CreateReloadsTable extends Migration
             $table->increments('id');
             $table->string('toot_card_id')->index();
             $table->string('user_id')->index();
-            $table->string('status');
+            $table->boolean('paid')->nullable();
             $table->float('amount');
             $table->timestamps();
 

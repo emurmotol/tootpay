@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -26,9 +27,9 @@ class ClientController extends Controller
     public function checkTootCard(Request $request) {
         if ($request->ajax()) {
             if (!is_null(TootCard::where('id', $request->get('toot_card'))->first())) {
-                return response()->make('true');
+                return response()->make('valid');
             }
-            return response()->make('false');
+            return response()->make('invalid');
         }
     }
 
@@ -38,9 +39,9 @@ class ClientController extends Controller
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
                 // Auth::loginUsingId($toot_card->users()->first()->id);
-                return response()->make('true');
+                return response()->make('correct');
             }
-            return response()->make('false');
+            return response()->make('incorrect');
         }
     }
 
@@ -63,19 +64,30 @@ class ClientController extends Controller
             $user->reload()->save($toot_card, [
                 'user_id' => $user->id,
                 'amount' => $request->get('amount'),
-                'status' => $request->get('status'),
             ]);
 
-            return $user->reload()->wherePivot('status', $request->get('status'))
-                ->latest()->withPivot('id')->first()->pivot->id;
+            return DB::table($user->reload()->getTable())->orderBy('id', 'desc')->first()->id;
         }
     }
 
     public function reloadStatus(Request $request) {
         if ($request->ajax()) {
-            return response()->make(TootCard::find($request->get('id'))
-                ->reload()->wherePivot('id', $request->get('reload_id'))
-                ->withPivot('status')->first()->pivot->status);
+            $toot_card = TootCard::find($request->get('id'));
+            $paid = $toot_card->reload()->wherePivot('id', $request->get('reload_id'))
+                ->withPivot('paid')->first()->pivot->paid;
+            if (is_null($paid)) {
+                return response()->make('pending');
+            } else {
+                if ($paid) {
+                    $load_amount = $toot_card->load + $toot_card->reload()
+                            ->wherePivot('id', $request->get('reload_id'))
+                            ->withPivot('amount')->first()->pivot->amount;
+                    $toot_card->load = $load_amount;
+                    $toot_card->save();
+                    return response()->make('paid');
+                }
+                return response()->make('canceled');
+            }
         }
     }
 }

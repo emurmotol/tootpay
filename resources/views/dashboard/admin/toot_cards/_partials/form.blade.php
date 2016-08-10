@@ -49,8 +49,7 @@
             <div class="input-group">
                 <span class="input-group-addon">P</span>
                 <input type="text" class="form-control" id="load" name="load"
-                       value="{{ number_format((Route::is('toot_cards.edit')) ? $toot_card->load : old('load'), 2, '.', ',') }}"
-                       pattern="^\d+\.\d{2}$" placeholder="">
+                       value="{{ (Route::is('toot_cards.edit')) ? $toot_card->load : old('load') }}" placeholder="">
             </div>
 
             @if ($errors->has('load'))
@@ -64,8 +63,7 @@
             <label for="points">Points:</label>
 
             <input type="text" class="form-control" id="points" name="points"
-                   value="{{ number_format((Route::is('toot_cards.edit')) ? $toot_card->points : old('points'), 2, '.', ',') }}"
-                   pattern="^\d+\.\d{2}$" placeholder="">
+                   value="{{ (Route::is('toot_cards.edit')) ? $toot_card->points : old('points') }}" placeholder="">
 
             @if ($errors->has('points'))
                 <span class="help-block">

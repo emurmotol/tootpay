@@ -76,9 +76,8 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input type="text" class="form-control" id="price" name="price"
-                       value="{{ number_format((Route::is('merchandises.edit')) ? $merchandise->price : old('price'), 2, '.', ',') }}"
-                       pattern="^\d+\.\d{2}$" placeholder="">
+                <input type="number" class="form-control" id="price" name="price"
+                       value="{{ (Route::is('merchandises.edit')) ? $merchandise->price : old('price') }}" placeholder="">
             </div>
 
             @if ($errors->has('price'))

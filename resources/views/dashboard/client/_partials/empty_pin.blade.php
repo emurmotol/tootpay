@@ -6,7 +6,7 @@
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
                 <h4 class="modal-title huge text-danger text-center">
-                    <strong>Whoops! The pin code is required.</strong>
+                    <strong>The pin code is required.</strong>
                 </h4>
             </div>
         </div>
