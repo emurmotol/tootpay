@@ -26,6 +26,11 @@ class TootCard extends Model
             'user_toot_card', 'toot_card_id', 'user_id');
     }
 
+    public function reload() {
+        return $this->belongsToMany(User::class,
+            'reloads', 'toot_card_id', 'user_id');
+    }
+
     public function merchandises() {
         return $this->belongsToMany(Merchandise::class, 'purchases');
     }
@@ -34,26 +39,12 @@ class TootCard extends Model
         $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
 
-//    public function setPinCodeAttribute($value) {
-//        $this->attributes['pin_code'] = bcrypt($value);
-//    }
-
     public static function searchFor($keyword, $model = null) {
         if (!is_null($model)) {
             return $model->search(strtolower($keyword));
         }
         return self::search(strtolower($keyword));
     }
-
-//    public static function id($user_id) {
-//        $toot_card = User::find($user_id)->tootCards()->first();
-//        return $toot_card->pivot->toot_card_id;
-//    }
-//
-//    public static function userId($toot_card_id) {
-//        $toot_card = self::find($toot_card_id)->users()->first();
-//        return $toot_card->pivot->user_id;
-//    }
 
     public static function sort($sort, $model = null) {
         if (!is_null($model)) {
@@ -66,26 +57,4 @@ class TootCard extends Model
             }
         }
     }
-
-//    public function expired() {
-//        $expired = collect();
-//
-//        foreach ($this->all() as $toot_card) {
-//            if ($toot_card->expires_at->lte($toot_card->created_at)) {
-//                $expired->push($toot_card);
-//            }
-//        }
-//        return $expired->all();
-//    }
-//
-//    public function active() {
-//        $active = collect();
-//
-//        foreach ($this->all() as $toot_card) {
-//            if ($toot_card->expires_at->gt($toot_card->created_at)) {
-//                $active->push($toot_card);
-//            }
-//        }
-//        return $active->all();
-//    }
 }

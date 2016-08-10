@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MerchandiseCategory;
 use App\Models\TootCard;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -18,7 +19,7 @@ class ClientController extends Controller
     public function todaysMenu(Request $request) {
         if ($request->ajax()) {
             $merchandise_category = MerchandiseCategory::all();
-            return (String) view('dashboard.client._partials.todays_menu', compact('merchandise_category'));
+            return (String)view('dashboard.client._partials.todays_menu', compact('merchandise_category'));
         }
     }
 
@@ -48,7 +49,33 @@ class ClientController extends Controller
     }
 
     public function checkBalance(Request $request) {
-        $toot_card = TootCard::where('id', $request->get('id'))->first();
-        return (String) view('dashboard.client._partials.toot_card_details', compact('toot_card'));
+        if ($request->ajax()) {
+            $toot_card = TootCard::where('id', $request->get('id'))->first();
+            return (String) view('dashboard.client._partials.toot_card_details', compact('toot_card'));
+        }
+    }
+
+    public function reloadPending(Request $request) {
+        if ($request->ajax()) {
+            $toot_card = TootCard::find($request->get('id'));
+            $user = $toot_card->users()->first();
+
+            $user->reload()->save($toot_card, [
+                'user_id' => $user->id,
+                'amount' => $request->get('amount'),
+                'status' => $request->get('status'),
+            ]);
+
+            return $user->reload()->wherePivot('status', $request->get('status'))
+                ->latest()->withPivot('id')->first()->pivot->id;
+        }
+    }
+
+    public function reloadStatus(Request $request) {
+        if ($request->ajax()) {
+            return response()->make(TootCard::find($request->get('id'))
+                ->reload()->wherePivot('id', $request->get('reload_id'))
+                ->withPivot('status')->first()->pivot->status);
+        }
     }
 }

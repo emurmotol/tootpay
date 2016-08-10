@@ -16,7 +16,14 @@ Route::get('dd', function () {
 //    return dd(\App\Models\User::find('00420130023'));//->with('merchandises', 'tootcards')->get());
 //    return dd(\App\Models\TootCard::find('6011983972698196')->users()->getRelatedIds());
 
-    return dd(slideIdle());
+    $toot_card = \App\Models\TootCard::find('0001246344');
+    $user = $toot_card->users()->first();
+
+    return dd($user->reload()->save($toot_card, [
+        'user_id' => $user->id,
+        'amount' => 12,
+        'status' => 'pending',
+    ])->with('users')->get());
 });
 
 Route::auth();
@@ -107,6 +114,14 @@ Route::get('client', [
 Route::post('client/check_balance', [
     'uses' => 'ClientController@checkBalance',
     'as' => 'client.check_balance'
+]);
+Route::post('client/reload_pending', [
+    'uses' => 'ClientController@reloadPending',
+    'as' => 'client.reload_pending'
+]);
+Route::post('client/reload_status', [
+    'uses' => 'ClientController@reloadStatus',
+    'as' => 'client.reload_status'
 ]);
 Route::get('client/idle', [
     'uses' => 'ClientController@idle',

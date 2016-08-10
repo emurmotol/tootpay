@@ -43,6 +43,8 @@
 
 @section('javascript')
     <script>
+        $('#touch').blink();
+
         $('#toot_idle').on('click', function () {
             $('#menu').modal('show');
             console.log('showing menu modal');
@@ -162,9 +164,39 @@
                             console.log('correct pin!');
                             $('#enter_pin').modal('toggle');
                             if (menu_id.val() == 1) {
-                                $('#_amount').text(load_amount.val());
-                                $('#waiting_for_payment').modal({backdrop: 'static'});
-                                console.log('showing waiting_for_payment modal');
+                                $.post('reload_pending', {
+                                    id: $('#id').val(),
+                                    amount: load_amount.val(),
+                                    status: 'pending'
+                                }, function(response) {
+                                    if (response != null) {
+                                        console.log('reload_id is ' + response + '!');
+                                        var time = setInterval(function() {
+                                            $.post('reload_status', {
+                                                id: $('#id').val(),
+                                                reload_id: response,
+                                            }, function(response) {
+                                                if (response == 'pending') {
+                                                    console.log('reload status is ' + response + '!');
+                                                    var waiting_for_payment = $('#waiting_for_payment');
+                                                    if (!waiting_for_payment.hasClass('in')) {
+                                                        $('#_amount').text(load_amount.val());
+                                                        console.log('_amount is set to ' + load_amount.val() + '!');
+                                                        waiting_for_payment.modal({backdrop: 'static'});
+                                                        console.log('showing waiting_for_payment modal');
+                                                    }
+                                                }
+
+                                                if (response == 'paid') {
+                                                    $('#waiting_for_payment').modal('toggle');
+                                                    console.log('reload status is ' + response + '!');
+                                                    clearInterval(time);
+                                                    console.log('showing status_paid modal');
+                                                }
+                                            });
+                                        }, 1000);
+                                    }
+                                });
                             } else if (menu_id.val() == 2) {
                                 $.post('check_balance', { id: $('#id').val() }, function(response) {
                                     $('#toot_card_details').html(response);
@@ -198,7 +230,5 @@
                 }
             }
         });
-
-        $('#touch').blink();
     </script>
 @endsection

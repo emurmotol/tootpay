@@ -33,6 +33,11 @@ class User extends Authenticatable
             'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
     }
 
+    public function reload() {
+        return $this->belongsToMany(TootCard::class,
+            'reloads', 'user_id', 'toot_card_id')->withTimestamps();
+    }
+
     public function merchandises() {
         return $this->belongsToMany(Merchandise::class, 'purchases');
     }
@@ -120,36 +125,36 @@ class User extends Authenticatable
         return $cardholders[$index];
     }
 
-    public static function administrators() {
-        $administrators = collect();
-
-        foreach (self::all() as $user) {
-            if ($user->hasRole(Role::json(0))) {
-                $administrators->push($user);
-            }
-        }
-        return $administrators->all();
-    }
-
-    public static function cashiers() {
-        $cashiers = collect();
-
-        foreach (self::all() as $user) {
-            if ($user->hasRole(Role::json(1))) {
-                $cashiers->push($user);
-            }
-        }
-        return $cashiers->all();
-    }
-
-    public static function cardholders() {
-        $cardholders = collect();
-
-        foreach (self::all() as $user) {
-            if ($user->hasRole(Role::json(2))) {
-                $cardholders->push($user);
-            }
-        }
-        return $cardholders->all();
-    }
+//    public static function administrators() {
+//        $administrators = collect();
+//
+//        foreach (self::all() as $user) {
+//            if ($user->hasRole(Role::json(0))) {
+//                $administrators->push($user);
+//            }
+//        }
+//        return $administrators->all();
+//    }
+//
+//    public static function cashiers() {
+//        $cashiers = collect();
+//
+//        foreach (self::all() as $user) {
+//            if ($user->hasRole(Role::json(1))) {
+//                $cashiers->push($user);
+//            }
+//        }
+//        return $cashiers->all();
+//    }
+//
+//    public static function cardholders() {
+//        $cardholders = collect();
+//
+//        foreach (self::all() as $user) {
+//            if ($user->hasRole(Role::json(2))) {
+//                $cardholders->push($user);
+//            }
+//        }
+//        return $cardholders->all();
+//    }
 }
