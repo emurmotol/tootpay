@@ -31,12 +31,12 @@ class ClientController extends Controller
         }
     }
 
-    public function authTootCard(Requests\PinCodeRequest $request) {
+    public function authTootCard(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('id'))->first();
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
-                Auth::loginUsingId($toot_card->users()->first()->id);
+                // Auth::loginUsingId($toot_card->users()->first()->id);
                 return response()->make('true');
             }
             return response()->make('false');
@@ -45,5 +45,10 @@ class ClientController extends Controller
 
     public function idle() {
         return view('dashboard.client.idle');
+    }
+
+    public function checkBalance(Request $request) {
+        $toot_card = TootCard::where('id', $request->get('id'))->first();
+        return (String) view('dashboard.client._partials.toot_card_details', compact('toot_card'));
     }
 }

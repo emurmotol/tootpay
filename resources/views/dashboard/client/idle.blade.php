@@ -22,6 +22,10 @@
     @include('dashboard.client._partials.menu')
     @include('dashboard.client._partials.loading', ['text' => 'Loading yummy food options'])
     @include('dashboard.client._partials.empty_pin')
+    @include('dashboard.client._partials.check_balance')
+    @include('dashboard.client._partials.enter_load_amount')
+    @include('dashboard.client._partials.empty_load_amount')
+    @include('dashboard.client._partials.waiting_for_payment')
 @endsection
 
 @section('style')
@@ -53,8 +57,12 @@
         });
 
         $('#enter_pin').on('hidden.bs.modal', function () {
+            // console.log('page reloading!');
+            // location.reload();
+        });
+        $('#check_balance').on('hidden.bs.modal', function () {
             console.log('page reloading!');
-            location.reload();
+             location.reload();
         });
         $('#invalid_card').on('hidden.bs.modal', function () {
             console.log('page reloading!');
@@ -62,20 +70,36 @@
         });
 
         var pin_code = $('#pin_code');
-        $('#backspace').click(function () {
-            pin_code.val(function (index, value) {
-                return value.substr(0, value.length - 1);
-            });
+        var load_amount = $('#load_amount');
+        var enter_load_amount = $('#enter_load_amount');
+        $('.backspace').click(function () {
+            if ($('#enter_pin').hasClass('in')) {
+                pin_code.val(function (index, value) {
+                    return value.substr(0, value.length - 1);
+                });
+            }
+
+            if (enter_load_amount.hasClass('in')) {
+                load_amount.val(function (index, value) {
+                    return value.substr(0, value.length - 1);
+                });
+            }
         });
         $('.key').on('click', function () {
-            pin_code.val((pin_code.val()) + (this.value));
+            if ($('#enter_pin').hasClass('in')) {
+                pin_code.val((pin_code.val()) + (this.value));
+            }
+
+            if (enter_load_amount.hasClass('in')) {
+                load_amount.val((load_amount.val()) + (this.value));
+            }
         });
 
         var menu_id = $('#menu_id');
         $('#menu_reload').on('click', function () {
             $('#menu').modal('toggle');
-            $('#tap_card').modal('show');
-            console.log('showing tap_card modal');
+            $('#enter_load_amount').modal('show');
+            console.log('showing enter_load_amount modal');
             menu_id.val(1);
             console.log('menu_id set to 1!');
         });
@@ -119,39 +143,59 @@
             console.log('toot_card_id is on focus!');
         });
 
-        $('#submit_check').on('click', function () {
+        $('.submit-check').on('click', function () {
             $(this).button('loading').delay(1000).queue(function() {
                 $(this).button('reset');
                 $(this).dequeue();
             });
 
-            if (pin_code.val().length < 1) {
-                $('#empty_pin').modal('show');
-                console.log('showing empty_pin modal');
-            } else {
-                $.post('auth_toot_card', {
-                    id: $('#id').val(),
-                    pin_code: pin_code.val()
-                }, function (response) {
-                    if (response == 'true') {
-                        console.log('correct pin!');
-                        if (menu_id.val() == 1) {
-                            console.log('showing reload modal');
-                        } else if (menu_id.val() == 2) {
-                            console.log('showing check_balance modal');
+            if ($('#enter_pin').hasClass('in')) {
+                if (pin_code.val().length < 1) {
+                    $('#empty_pin').modal('show');
+                    console.log('showing empty_pin modal');
+                } else {
+                    $.post('auth_toot_card', {
+                        id: $('#id').val(),
+                        pin_code: pin_code.val()
+                    }, function (response) {
+                        if (response == 'true') {
+                            console.log('correct pin!');
+                            $('#enter_pin').modal('toggle');
+                            if (menu_id.val() == 1) {
+                                $('#_amount').text(load_amount.val());
+                                $('#waiting_for_payment').modal({backdrop: 'static'});
+                                console.log('showing waiting_for_payment modal');
+                            } else if (menu_id.val() == 2) {
+                                $.post('check_balance', { id: $('#id').val() }, function(response) {
+                                    $('#toot_card_details').html(response);
+                                });
+                                $('#check_balance').modal('show');
+                                console.log('showing check_balance modal');
+                            } else {
+                                // default action
+                                $('#loading').modal('show');
+                                console.log('showing loading modal');
+                                window.location.replace('{{ route('client.index') }}/');
+                                console.log('route to order!');
+                            }
                         } else {
-                            // default action
-                            $('#loading').modal('show');
-                            console.log('showing loading modal');
-                            window.location.replace('{{ route('client.index') }}/');
-                            console.log('route to order!');
+                            console.log('incorrect pin!');
+                            $('#wrong_pin').modal('show');
+                            console.log('showing wrong_pin modal');
                         }
-                    } else {
-                        console.log('incorrect pin!');
-                        $('#wrong_pin').modal('show');
-                        console.log('showing wrong_pin modal');
-                    }
-                });
+                    });
+                }
+            }
+
+            if (enter_load_amount.hasClass('in')) {
+                if (load_amount.val().length < 1) {
+                    $('#empty_load_amount').modal('show');
+                    console.log('showing empty_load_amount modal');
+                } else {
+                    enter_load_amount.modal('toggle');
+                    $('#tap_card').modal('show');
+                    console.log('showing tap_card modal');
+                }
             }
         });
 

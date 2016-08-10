@@ -104,6 +104,10 @@ Route::get('client', [
     'uses' => 'ClientController@index',
     'as' => 'client.index'
 ]);
+Route::post('client/check_balance', [
+    'uses' => 'ClientController@checkBalance',
+    'as' => 'client.check_balance'
+]);
 Route::get('client/idle', [
     'uses' => 'ClientController@idle',
     'as' => 'client.idle'

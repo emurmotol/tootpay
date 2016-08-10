@@ -1,4 +1,4 @@
-<div id="enter_pin" class="modal fade" role="dialog">
+<div id="enter_load_amount" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,16 +6,14 @@
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
                 <h4 class="modal-title huge text-center">
-                    <strong>Nice tap! Enter your pin code.</strong>
+                    <strong>Enter load amount.</strong>
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <div class="input-pin-code">
-                        <input type="hidden" id="menu_id" value="0">
-                        <input type="hidden" id="id" name="id">
-                        <input id="pin_code" name="pin_code" type="password" class="form-control input-lg text-center huge-md bs-input-unstyled"
-                               placeholder="Pin code" pattern="[0-9]{4}" maxlength="4">
+                    <div class="input-load-amount">
+                        <input id="load_amount" name="load" type="number" class="form-control input-lg text-center huge-md bs-input-unstyled"
+                               placeholder="Load amount" pattern="[0-9]">
                     </div>
                     <table class="table">
                         <tbody>
