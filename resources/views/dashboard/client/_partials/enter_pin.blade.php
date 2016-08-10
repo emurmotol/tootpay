@@ -2,7 +2,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title huge">
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                </button>
+                <h4 class="modal-title huge text-center">
                     <strong>Nice tap! Enter your pin code.</strong>
                 </h4>
             </div>
