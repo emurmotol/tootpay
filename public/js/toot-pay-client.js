@@ -227,6 +227,8 @@ $('.submit-check').on('click', function () {
                             $('#check_balance').modal('show');
                             console.log('showing check_balance modal');
                         });
+                    } else if (menu_id.val() == 3) {
+                        alert('pay using toot card');
                     }
                 } else if (response == 'incorrect') {
                     console.log('incorrect pin!');
@@ -251,16 +253,18 @@ $('.submit-check').on('click', function () {
 });
 
 $('#btn_cancel').on('click', function () {
-    $(this).button('loading').delay(2000).queue(function() {
+    $(this).button('loading').delay(2000).queue(function () {
         $(this).button('reset');
         $(this).dequeue();
     });
     window.location.href = 'http://toot.pay/client/idle';
 });
-$('#btn_pay_using_toot_card').on('click', function() {
+$('#btn_pay_using_toot_card').on('click', function () {
+    menu_id.val(3);
+    console.log('menu_id set to 3!');
     $('#tap_card').modal('show');
 });
-$('#btn_pay_using_cash').on('click', function() {
+$('#btn_pay_using_cash').on('click', function () {
     alert('cash');
 });
 
@@ -335,52 +339,24 @@ $(function () {
         var grand_total = 0.00;
         var decimal_place = 2;
         var row_count = $('#table_orders tbody tr.row-order').length;
-        var user = '{{ Auth::check() }}';
 
-        if(user != '') {
-            var sub_total = 0.00;
-            $('tr.row-order').each(function () {
-                var qty = parseFloat($('span.qty', this).text());
-                var each_value = $('span.each', this);
-                var each = parseFloat(each_value.text());
-                each_value.text(each.toFixed(decimal_place));
-                var total = qty * each;
-                $('span.total', this).text(total.toFixed(decimal_place));
-                sub_total += total;
-            });
-            var discount_value = $('#discount');
-            var discount = parseFloat(discount_value.text());
-            discount_value.text(discount.toFixed(decimal_place));
-            $('#sub_total').text(sub_total.toFixed(decimal_place));
-            grand_total = sub_total - discount;
-            $("#grand_total").text(grand_total.toFixed(decimal_place));
+        $('tr.row-order').each(function () {
+            var qty = parseFloat($('span.qty', this).text());
+            var each_value = $('span.each', this);
+            var each = parseFloat(each_value.text());
+            each_value.text(each.toFixed(decimal_place));
+            var total = qty * each;
+            $('span.total', this).text(total.toFixed(decimal_place));
+            grand_total += total;
+        });
+        $("#grand_total").text(grand_total.toFixed(decimal_place));
 
-            if (row_count < 1) {
-                $('#btn_pay_using_toot_card').attr('disabled', 'disabled');
-                $('#btn_pay_using_cash').attr('disabled', 'disabled');
-            } else {
-                $('#btn_pay_using_toot_card').removeAttr('disabled');
-                $('#btn_pay_using_cash').removeAttr('disabled');
-            }
+        if (row_count < 1) {
+            $('#btn_pay_using_toot_card').attr('disabled', 'disabled');
+            $('#btn_pay_using_cash').attr('disabled', 'disabled');
         } else {
-            $('tr.row-order').each(function () {
-                var qty = parseFloat($('span.qty', this).text());
-                var each_value = $('span.each', this);
-                var each = parseFloat(each_value.text());
-                each_value.text(each.toFixed(decimal_place));
-                var total = qty * each;
-                $('span.total', this).text(total.toFixed(decimal_place));
-                grand_total += total;
-            });
-            $("#grand_total").text(grand_total.toFixed(decimal_place));
-
-            if (row_count < 1) {
-                $('#btn_pay_using_toot_card').attr('disabled', 'disabled');
-                $('#btn_pay_using_cash').attr('disabled', 'disabled');
-            } else {
-                $('#btn_pay_using_toot_card').removeAttr('disabled');
-                $('#btn_pay_using_cash').removeAttr('disabled');
-            }
+            $('#btn_pay_using_toot_card').removeAttr('disabled');
+            $('#btn_pay_using_cash').removeAttr('disabled');
         }
     });
 });
