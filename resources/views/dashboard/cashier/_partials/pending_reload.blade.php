@@ -1,9 +1,10 @@
+<div class="sr-only">{{ $priority = 1 }}</div>
 @foreach($reloads as $reload)
     <div class="col-md-4">
         <div class="panel panel-default cashier-huge">
             <div class="panel-heading clearfix">
                 <div class="pull-left">
-                    <strong>#1</strong>
+                    <strong>#{{ $priority++ }}</strong>
                 </div>
                 <div class="pull-right">
                     <span data-livestamp="{{ strtotime($reload->created_at) }}"></span>

@@ -15,12 +15,15 @@
 
 @section('javascript')
     <script>
-        function pendingReload() {
+        pendingReload(2000);
+
+        function pendingReload(timeout) {
             var interval = setInterval(function() {
                 console.log('interval started!');
+
                 $.post('pending_reload', null, function(response) {
                     $('#reloads').html(response);
-                }).done(function(response) {
+
                     if (response != '') {
                         $('.paid').on('click', function() {
                             $(this).button('loading').delay(2000).queue(function() {
@@ -31,7 +34,7 @@
                             var id = $(this).data('id');
                             $.post('paid_reload', { id: id }, function(response) {
                                 console.log(response);
-                            }).done(pendingReload);
+                            }).done(function() { pendingReload(15000); });
                         });
 
                         $('.cancel').on('click', function() {
@@ -43,15 +46,13 @@
                             var id = $(this).data('id');
                             $.post('cancel_reload',  { id: id }, function(response) {
                                 console.log(response);
-                            }).done(pendingReload);
+                            }).done(function() { pendingReload(15000); });
                         });
-                        clearInterval(interval);
-                        console.log('interval stopped!');
+                        // clearInterval(interval);
+                        // console.log('interval stopped!');
                     }
                 });
-            }, 1000);
+            }, timeout);
         }
-
-        pendingReload();
     </script>
 @endsection

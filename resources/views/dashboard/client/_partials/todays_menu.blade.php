@@ -36,14 +36,17 @@
                                                              alt="{{ $merchandise->name }}">
                                                     </div>
                                                     <div class="col-md-6 huge">
-                                                        Qty:
-                                                        <button class="btn btn-default btn-lg minus">
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
-                                                        <span class="qty">1</span>
-                                                        <button class="btn btn-default btn-lg plus">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
+                                                        <p>Price: P{{ number_format($merchandise->price, 2, '.', ',') }}</p>
+                                                        <p>
+                                                            Qty:
+                                                            <button class="btn btn-default btn-lg minus">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
+                                                            <span class="qty">1</span>
+                                                            <button class="btn btn-default btn-lg plus">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>

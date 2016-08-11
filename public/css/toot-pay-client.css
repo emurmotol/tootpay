@@ -2,6 +2,10 @@
     font-size: 20px;
 }
 
+.table th, .table td, .table-responsive {
+    border: none !important;
+}
+
 .huge-total, .modal-body, .modal-title {
     font-size: 25px;
 }
@@ -9,6 +13,10 @@
 .merchandise-category-list {
     overflow-x: scroll;
     overflow-y: hidden;
+}
+
+.grand_total {
+    font-size: 40px;
 }
 
 .category-name {
@@ -22,7 +30,7 @@
 }
 
 .merchandise-item a img {
-    height: 100px;
+    height: 120px;
 }
 
 .merchandise-item .modal .modal-dialog .modal-content .modal-body .row .col-md-6 img {
