@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Merchandise;
 use App\Models\MerchandiseCategory;
 use App\Models\TootCard;
 use App\Models\User;
@@ -97,9 +98,9 @@ class ClientController extends Controller
             $toot_card = TootCard::find($table_data->first()['toot_card_id']);
 
             foreach ($table_data as $row) {
-                $toot_card->merchandises()->save($toot_card->users()->first(), [
-                    'toot_card_id' => $toot_card->id,
-                    'merchandise_id' => $row['merchandise_id'],
+                Merchandise::find($row['merchandise_id'])->tootCards()->save($toot_card, [
+                    'order_id' => $row['order_id'],
+                    'user_id' => $toot_card->users()->first()->id,
                     'quantity' => $row['quantity'],
                     'total' => $row['total']
                 ]);

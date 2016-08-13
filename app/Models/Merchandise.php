@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Sofa\Eloquence\Eloquence;
 
 class Merchandise extends Model
@@ -24,11 +25,11 @@ class Merchandise extends Model
     }
 
     public function tootCards() {
-        return $this->belongsToMany(TootCard::class, 'purchases');
+        return $this->belongsToMany(TootCard::class, 'purchases')->withTimestamps();
     }
 
     public function users() {
-        return $this->belongsToMany(User::class, 'purchases');
+        return $this->belongsToMany(User::class, 'purchases')->withTimestamps();
     }
 
     public static function searchFor($keyword, $model = null) {
@@ -117,5 +118,14 @@ class Merchandise extends Model
         $merchandise = $this->findOrFail($merchandise_id);
         $file_name = $merchandise->has_image ? str_slug($merchandise->name) : $default_image_name;
         return url('img/merchandises/' . $file_name . '.jpg');
+    }
+
+    public static function orderId() {
+        $purchases = DB::table('purchases');
+
+        if (count($purchases->get())) {
+            return $purchases->orderBy('order_id', 'desc')->first()->order_id + 1;
+        }
+        return 1;
     }
 }

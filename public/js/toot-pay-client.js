@@ -218,6 +218,7 @@ $('.submit-check').on('click', function () {
                             var each = parseFloat(each_value.text());
                             var total = qty * each;
                             var item = {};
+                            item['order_id'] = parseInt($('#order_id').text());
                             item['toot_card_id'] = $('#id').val();
                             item['merchandise_id'] = $(this).data('merchandise_id');
                             item['quantity'] = qty;
@@ -229,7 +230,7 @@ $('.submit-check').on('click', function () {
                         console.log(JSON.stringify(table_data));
 
                         $.post('purchase',
-                            { table_data: JSON.stringify(table_data) },
+                            {table_data: JSON.stringify(table_data)},
                             function (response) {
                                 console.log(response);
                             });
@@ -288,15 +289,17 @@ function todaysMenu() {
         var modal_qty = $('.modal-body .row .col-md-6');
         modal_qty.on('click', 'button.plus', function () {
             var qty = parseInt($(this).prev('span.qty').text());
-            $(this).prev('span.qty').text(qty + 1);
+            var new_qty = qty + 1;
+            $(this).prev('span.qty').text(new_qty);
+            console.log(new_qty);
             compute();
-            return false;
         });
         modal_qty.on('click', 'button.minus', function () {
             var qty = parseInt($(this).next('span.qty').text());
-            $(this).next('span.qty').text(((qty - 1) < 1) ? 1 : qty - 1);
+            var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
+            $(this).next('span.qty').text(new_qty);
+            console.log(new_qty);
             compute();
-            return false;
         });
     });
 }
@@ -306,7 +309,7 @@ $(function () {
 
     window.addOrder = (function (merchandise_id, name, price, qty) {
         $('#table_orders').append(
-            '<tr class="row-order" data-merchandise_id="'+ merchandise_id + '">' +
+            '<tr class="row-order" data-merchandise_id="' + merchandise_id + '">' +
             '<td><span class="name">' + name + '</span></td>' +
             '<td class="text-center table-cell-qty">' +
             '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
@@ -320,23 +323,23 @@ $(function () {
         );
         compute();
 
-        var row_order = $('#table_orders tr.row-order');
-        row_order.on('click', 'td button.plus', function () {
+        $('td button.plus').on('click', function () {
             var qty = parseInt($(this).prev('span.qty').text());
-            $(this).prev('span.qty').text(qty + 1);
+            var new_qty = qty + 1;
+            $(this).prev('span.qty').text(new_qty);
+            console.log(new_qty);
             compute();
-            return false;
         });
-        row_order.on('click', 'td button.minus', function () {
+        $('td button.minus').on('click', function () {
             var qty = parseInt($(this).next('span.qty').text());
-            $(this).next('span.qty').text(((qty - 1) < 1) ? 1 : qty - 1);
+            var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
+            $(this).next('span.qty').text(new_qty);
+            console.log(new_qty);
             compute();
-            return false;
         });
-        row_order.on('click', 'button.remove', function () {
+        $('td button.remove').on('click', function () {
             $(this).closest('tr').remove();
             compute();
-            return false;
         });
     });
 
@@ -354,6 +357,7 @@ $(function () {
             $('span.total', this).text(total.toFixed(decimal_place));
             grand_total += total;
         });
+
         $("#grand_total").text(grand_total.toFixed(decimal_place));
 
         if (row_count < 1) {

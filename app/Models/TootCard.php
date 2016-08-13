@@ -32,7 +32,7 @@ class TootCard extends Model
     }
 
     public function merchandises() {
-        return $this->belongsToMany(Merchandise::class, 'purchases')->withTimestamps();
+        return $this->belongsToMany(Merchandise::class, 'purchases');
     }
 
     public function setIsActiveAttribute($value) {

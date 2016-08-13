@@ -1,7 +1,7 @@
 <div class="panel panel-primary order">
     <div class="panel-heading clearfix">
         <div class="pull-left">
-            Order: <strong>#{{ rand(100, 999) }}</strong>
+            Order: <strong>#<span id="order_id">{{ \App\Models\Merchandise::orderId() }}</span></strong>
         </div>
     </div>
     <div class="table-responsive">

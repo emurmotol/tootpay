@@ -9,6 +9,7 @@ class Purchases extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('order_id');
             $table->integer('merchandise_id')->unsigned();
             $table->string('toot_card_id')->index()->nullable();
             $table->string('user_id')->index()->nullable();
