@@ -15,8 +15,7 @@
                 <th class="text-center"><i class="fa fa-trash"></i></th>
             </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
     <div class="panel-body clearfix">

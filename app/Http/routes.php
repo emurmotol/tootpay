@@ -16,10 +16,8 @@ Route::get('dd', function () {
 //    return dd(\App\Models\User::find('00420130023'));//->with('merchandises', 'tootcards')->get());
 //    return dd(\App\Models\TootCard::find('6011983972698196')->users()->getRelatedIds());
 
-    $toot_card = \App\Models\TootCard::find('0001246344');
-    $user = $toot_card->users()->first();
-
-    return dd(\Illuminate\Support\Facades\DB::table($user->reload()->getTable())->orderBy('id', 'desc')->get());
+    $table_data = collect(json_decode('[{"toot_card_id":"0001246344","merchandise_id":1,"quantity":1,"total":40},{"toot_card_id":"0001246344","merchandise_id":2,"quantity":1,"total":40}]', true));
+    return dd($table_data->first()['merchandise_id']);
 });
 
 Route::auth();
@@ -151,6 +149,10 @@ Route::get('client/guest', [
 Route::post('client/check_toot_card', [
     'uses' => 'ClientController@checkTootCard',
     'as' => 'client.check_toot_card'
+]);
+Route::post('client/purchase', [
+    'uses' => 'ClientController@purchase',
+    'as' => 'client.purchase'
 ]);
 Route::post('client/auth_toot_card', [
     'uses' => 'ClientController@authTootCard',

@@ -59,6 +59,7 @@
                                                         class="btn btn-primary btn-lg pull-right btn-add-order huge"
                                                         data-dismiss="modal"
                                                         data-id="merchandise-item-{{ $merchandise->id }}"
+                                                        data-merchandise_id="{{ $merchandise->id }}"
                                                         data-name="{{ $merchandise->name }}"
                                                         data-price="{{ $merchandise->price }}">Add
                                                 </button>

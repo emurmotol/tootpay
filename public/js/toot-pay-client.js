@@ -210,7 +210,29 @@ $('.submit-check').on('click', function () {
                             console.log('showing check_balance modal');
                         });
                     } else if (menu_id.val() == 3) {
-                        alert('pay using toot card');
+                        var table_data = [];
+
+                        $('tr.row-order').each(function () {
+                            var qty = parseFloat($('span.qty', this).text());
+                            var each_value = $('span.each', this);
+                            var each = parseFloat(each_value.text());
+                            var total = qty * each;
+                            var item = {};
+                            item['toot_card_id'] = $('#id').val();
+                            item['merchandise_id'] = $(this).data('merchandise_id');
+                            item['quantity'] = qty;
+                            item['total'] = total;
+
+                            table_data.push(item);
+                        });
+
+                        console.log(JSON.stringify(table_data));
+
+                        $.post('purchase',
+                            { table_data: JSON.stringify(table_data) },
+                            function (response) {
+                                console.log(response);
+                            });
                     }
                 } else if (response == 'incorrect') {
                     console.log('incorrect pin!');
@@ -255,22 +277,23 @@ function todaysMenu() {
         $('#todays_menu').html(response);
 
         $('.modal-footer').on('click', 'button.btn-add-order', function () {
+            var merchandise_id = $(this).data('merchandise_id');
             var name = $(this).data('name');
             var price = $(this).data('price');
             var id = $(this).data('id');
             var qty = $('#' + id + ' .modal-dialog .modal-content .modal-body .col-md-6 span.qty').text();
-            addOrder(name, price, qty);
+            addOrder(merchandise_id, name, price, qty);
         });
 
         var modal_qty = $('.modal-body .row .col-md-6');
         modal_qty.on('click', 'button.plus', function () {
-            var qty = parseFloat($(this).prev('span.qty').text());
+            var qty = parseInt($(this).prev('span.qty').text());
             $(this).prev('span.qty').text(qty + 1);
             compute();
             return false;
         });
         modal_qty.on('click', 'button.minus', function () {
-            var qty = parseFloat($(this).next('span.qty').text());
+            var qty = parseInt($(this).next('span.qty').text());
             $(this).next('span.qty').text(((qty - 1) < 1) ? 1 : qty - 1);
             compute();
             return false;
@@ -281,9 +304,9 @@ function todaysMenu() {
 $(function () {
     todaysMenu();
 
-    window.addOrder = (function (name, price, qty) {
+    window.addOrder = (function (merchandise_id, name, price, qty) {
         $('#table_orders').append(
-            '<tr class="row-order">' +
+            '<tr class="row-order" data-merchandise_id="'+ merchandise_id + '">' +
             '<td><span class="name">' + name + '</span></td>' +
             '<td class="text-center table-cell-qty">' +
             '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
@@ -299,13 +322,13 @@ $(function () {
 
         var row_order = $('#table_orders tr.row-order');
         row_order.on('click', 'td button.plus', function () {
-            var qty = parseFloat($(this).prev('span.qty').text());
+            var qty = parseInt($(this).prev('span.qty').text());
             $(this).prev('span.qty').text(qty + 1);
             compute();
             return false;
         });
         row_order.on('click', 'td button.minus', function () {
-            var qty = parseFloat($(this).next('span.qty').text());
+            var qty = parseInt($(this).next('span.qty').text());
             $(this).next('span.qty').text(((qty - 1) < 1) ? 1 : qty - 1);
             compute();
             return false;

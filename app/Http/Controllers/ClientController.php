@@ -90,4 +90,22 @@ class ClientController extends Controller
             }
         }
     }
+
+    public function purchase(Request $request){
+        if ($request->ajax()) {
+            $table_data = collect(json_decode($request->get('table_data'), true));
+            $toot_card = TootCard::find($table_data->first()['toot_card_id']);
+
+            foreach ($table_data as $row) {
+                $toot_card->merchandises()->save($toot_card->users()->first(), [
+                    'toot_card_id' => $toot_card->id,
+                    'merchandise_id' => $row['merchandise_id'],
+                    'quantity' => $row['quantity'],
+                    'total' => $row['total']
+                ]);
+            }
+
+            return response()->make($toot_card);
+        }
+    }
 }
