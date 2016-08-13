@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
                             @foreach($operation_days as $day)
-                                <li {{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'class=active' : '' }}>
+                                <li {{ ($day->id == date('w', strtotime(\Carbon\Carbon::now()))) ? 'class=active' : '' }}>
                                     <a data-toggle="tab" href="#{{ strtolower($day->day) }}">{{ $day->day }}</a>
                                 </li>
                             @endforeach
@@ -29,9 +29,9 @@
                         <div class="tab-content">
                             @foreach($operation_days as $day)
                                 <div id="{{ strtolower($day->day) }}"
-                                     class="tab-pane fade in {{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'active' : '' }}">
+                                     class="tab-pane fade in {{ ($day->id == date('w', strtotime(\Carbon\Carbon::now()))) ? 'active' : '' }}">
                                     <h4>
-                                        <strong>{{ ($day->id == date("w", strtotime(\Carbon\Carbon::now()))) ? 'Today\'s Menu' : $day->day }}</strong>
+                                        <strong>{{ ($day->id == date('w', strtotime(\Carbon\Carbon::now()))) ? 'Today\'s Menu' : $day->day }}</strong>
                                     </h4>
                                     @if(\App\Models\Merchandise::availableEvery($day->id)->get()->count())
                                         @foreach($merchandise_categories as $category)

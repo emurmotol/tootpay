@@ -99,6 +99,8 @@ class ClientController extends Controller
             $toot_card_id = $table_data->first()['toot_card_id'];
 
             if ($toot_card_id == '') {
+                return response()->make('pending');
+
                 $now = Carbon::now();
 
                 foreach ($table_data as $row) {
@@ -111,8 +113,6 @@ class ClientController extends Controller
                         'updated_at' => $now,
                     ]);
                 }
-
-                return response()->make('pending');
             } else {
                 $toot_card = TootCard::find($toot_card_id);
                 $grand_total = $table_data->sum('total');
