@@ -15,14 +15,15 @@
             </div>
         </div>
     </div>
+
     @include('dashboard.client._partials.tap_card')
     @include('dashboard.client._partials.enter_pin')
     @include('dashboard.client._partials.menu')
-    @include('dashboard.client._partials.loading')
     @include('dashboard.client._partials.check_balance')
     @include('dashboard.client._partials.enter_load_amount')
-    @include('dashboard.client._partials.waiting_for_payment')
 
+    @include('dashboard.client._partials.validations.loading')
+    @include('dashboard.client._partials.validations.waiting_for_payment')
     @include('dashboard.client._partials.validations.invalid_card')
     @include('dashboard.client._partials.validations.wrong_pin')
     @include('dashboard.client._partials.validations.empty_pin')

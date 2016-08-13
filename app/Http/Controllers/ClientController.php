@@ -111,6 +111,8 @@ class ClientController extends Controller
                         'updated_at' => $now,
                     ]);
                 }
+
+                return response()->make('pending');
             } else {
                 $toot_card = TootCard::find($toot_card_id);
                 $grand_total = $table_data->sum('total');
