@@ -89,6 +89,13 @@ class MerchandiseController extends Controller
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise) {
+        if ($request->get('name') != $merchandise->name) {
+            File::move(
+                public_path('img/merchandises/' . str_slug($merchandise->name) . '.jpg'),
+                public_path('img/merchandises/' . str_slug($request->get('name')) . '.jpg')
+            );
+        }
+
         $merchandise->update($request->except('day'));
 
         if ($request->has('day')) {
