@@ -6,6 +6,7 @@ use App\Models\Merchandise;
 use App\Models\MerchandiseCategory;
 use App\Models\TootCard;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -94,17 +95,33 @@ class ClientController extends Controller
     public function purchase(Request $request){
         if ($request->ajax()) {
             $table_data = collect(json_decode($request->get('table_data'), true));
-            $toot_card = TootCard::find($table_data->first()['toot_card_id']);
+            $toot_card_id = $table_data->first()['toot_card_id'];
 
-            foreach ($table_data as $row) {
-                Merchandise::find($row['merchandise_id'])->tootCards()->save($toot_card, [
-                    'order_id' => $row['order_id'],
-                    'user_id' => $toot_card->users()->first()->id,
-                    'quantity' => $row['quantity'],
-                    'total' => $row['total']
-                ]);
+            if ($toot_card_id == '') {
+                $now = Carbon::now();
+
+                foreach ($table_data as $row) {
+                    DB::table('purchases')->insert([
+                        'order_id' => $row['order_id'],
+                        'merchandise_id' => $row['merchandise_id'],
+                        'quantity' => $row['quantity'],
+                        'total' => $row['total'],
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+                }
+            } else {
+                $toot_card = TootCard::find($toot_card_id);
+
+                foreach ($table_data as $row) {
+                    Merchandise::find($row['merchandise_id'])->tootCards()->save($toot_card, [
+                        'order_id' => $row['order_id'],
+                        'user_id' => $toot_card->users()->first()->id,
+                        'quantity' => $row['quantity'],
+                        'total' => $row['total']
+                    ]);
+                }
             }
-
             return response()->make($request->get('table_data'));
         }
     }

@@ -210,30 +210,7 @@ $('.submit-check').on('click', function () {
                             console.log('showing check_balance modal');
                         });
                     } else if (menu_id.val() == 3) {
-                        var table_data = [];
-
-                        $('tr.row-order').each(function () {
-                            var qty = parseFloat($('span.qty', this).text());
-                            var each_value = $('span.each', this);
-                            var each = parseFloat(each_value.text());
-                            var total = qty * each;
-                            var item = {};
-                            item['order_id'] = parseInt($('#order_id').text());
-                            item['toot_card_id'] = $('#id').val();
-                            item['merchandise_id'] = $(this).data('merchandise_id');
-                            item['quantity'] = qty;
-                            item['total'] = total;
-
-                            table_data.push(item);
-                        });
-
-                        $.post('purchase',
-                            {table_data: JSON.stringify(table_data)},
-                            function (response) {
-                                console.log(response);
-                            }).done(function () {
-                                window.location.href = 'http://toot.pay/client/idle';
-                            });
+                        sendPurchase();
                     }
                 } else if (response == 'incorrect') {
                     console.log('incorrect pin!');
@@ -257,6 +234,33 @@ $('.submit-check').on('click', function () {
     }
 });
 
+function sendPurchase() {
+    var table_data = [];
+
+    $('tr.row-order').each(function () {
+        var qty = parseFloat($('span.qty', this).text());
+        var each_value = $('span.each', this);
+        var each = parseFloat(each_value.text());
+        var total = qty * each;
+        var item = {};
+        item['order_id'] = parseInt($('#order_id').text());
+        item['toot_card_id'] = $('#id').val();
+        item['merchandise_id'] = $(this).data('merchandise_id');
+        item['quantity'] = qty;
+        item['total'] = total;
+
+        table_data.push(item);
+    });
+
+    $.post('purchase',
+        {table_data: JSON.stringify(table_data)},
+        function (response) {
+            console.log(response);
+        }).done(function () {
+            window.location.href = 'http://toot.pay/client/idle';
+        });
+}
+
 $('#btn_cancel').on('click', function () {
     $(this).button('loading').delay(2000).queue(function () {
         $(this).button('reset');
@@ -270,7 +274,7 @@ $('#btn_pay_using_toot_card').on('click', function () {
     $('#tap_card').modal('show');
 });
 $('#btn_pay_using_cash').on('click', function () {
-    alert('cash');
+    sendPurchase();
 });
 
 function todaysMenu() {
