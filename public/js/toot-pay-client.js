@@ -5,10 +5,6 @@ $('#toot_idle').on('click', function () {
     console.log('showing menu modal');
 });
 
-$('#enter_pin').on('hidden.bs.modal', function () {
-    // console.log('page reloading!');
-    // location.reload();
-});
 $('#check_balance').on('hidden.bs.modal', function () {
     console.log('page reloading!');
     location.reload();
@@ -18,12 +14,14 @@ $('#invalid_card').on('hidden.bs.modal', function () {
     location.reload();
 });
 
+var enter_pin = $('#enter_pin');
+var tap_card = $('#tap_card');
 var pin_code = $('#pin_code');
 var load_amount = $('#load_amount');
 var enter_load_amount = $('#enter_load_amount');
 $('.backspace').click(function () {
 
-    if ($('#enter_pin').hasClass('in')) {
+    if (enter_pin.hasClass('in')) {
         pin_code.val(function (index, value) {
             return value.substr(0, value.length - 1);
         });
@@ -37,7 +35,7 @@ $('.backspace').click(function () {
 });
 $('.key').on('click', function () {
 
-    if ($('#enter_pin').hasClass('in')) {
+    if (enter_pin.hasClass('in')) {
         pin_code.val((pin_code.val()) + (this.value));
     }
 
@@ -48,6 +46,7 @@ $('.key').on('click', function () {
 
 var menu_id = $('#menu_id');
 $('#menu_reload').on('click', function () {
+    $(this).find('#load_amount').val('');
     $('#menu').modal('toggle');
     $('#enter_load_amount').modal('show');
     console.log('showing enter_load_amount modal');
@@ -56,7 +55,7 @@ $('#menu_reload').on('click', function () {
 });
 $('#menu_balance').on('click', function () {
     $('#menu').modal('toggle');
-    $('#tap_card').modal('show');
+    tap_card.modal('show');
     console.log('showing tap_card modal');
     menu_id.val(2);
     console.log('menu_id set to 2!');
@@ -84,17 +83,17 @@ toot_card_id.change(function () {
         $.post('check_toot_card', {
             toot_card: $(this).val()
         }, function (response) {
-            $('#tap_card').modal('toggle');
+            tap_card.modal('toggle');
 
             if (response == 'valid') {
                 $('#id').val(toot_card_id.val());
-                $('#enter_pin').modal('show');
+                enter_pin.modal('show');
                 console.log('showing enter_pin modal');
             } else {
                 setTimeout(function () {
                     console.log('page reloading!');
                     location.reload();
-                }, 2000);
+                }, 3000);
                 $('#invalid_card').modal('show');
                 console.log('showing invalid_card modal');
             }
@@ -103,9 +102,18 @@ toot_card_id.change(function () {
     }
 });
 
-$('#tap_card').on('shown.bs.modal', function () {
+$('.modal').on('hidden.bs.modal', function() {
+    $(this).find('#pin_code').val('');
+});
+
+tap_card.on('shown.bs.modal', function () {
     toot_card_id.focus();
     console.log('toot_card_id is on focus!');
+});
+enter_pin.on('hidden.bs.modal', function () {
+    console.log(toot_card_id.val());
+    toot_card_id.val('')
+    console.log('toot_card_id has been reset!');
 });
 
 $('.submit-check').on('click', function () {
@@ -114,9 +122,12 @@ $('.submit-check').on('click', function () {
         $(this).dequeue();
     });
 
-    if ($('#enter_pin').hasClass('in')) {
+    if (enter_pin.hasClass('in')) {
 
         if (pin_code.val().length < 1) {
+            setTimeout(function () {
+                $('#empty_pin').modal('toggle');
+            }, 3000);
             $('#empty_pin').modal({backdrop: false});
             console.log('showing empty_pin modal');
         } else {
@@ -127,7 +138,7 @@ $('.submit-check').on('click', function () {
 
                 if (response == 'correct') {
                     console.log('correct pin!');
-                    $('#enter_pin').modal('toggle');
+                    enter_pin.modal('toggle');
 
                     if (menu_id.val() == 1) {
                         $('.modal-body p #loading_text').text('Please wait');
@@ -158,7 +169,7 @@ $('.submit-check').on('click', function () {
                                                 setTimeout(function () {
                                                     console.log('page reloading!');
                                                     location.reload();
-                                                }, 60000);
+                                                }, 120000);
                                                 waiting_for_payment.modal({backdrop: 'static'});
                                                 console.log('showing waiting_for_payment modal');
                                             }
@@ -194,7 +205,7 @@ $('.submit-check').on('click', function () {
                                         }
                                         console.log('reload status is ' + response + '!');
                                     });
-                                }, 1000);
+                                }, 3000);
                             }
                         });
                     } else if (menu_id.val() == 2) {
@@ -214,6 +225,9 @@ $('.submit-check').on('click', function () {
                     }
                 } else if (response == 'incorrect') {
                     console.log('incorrect pin!');
+                    setTimeout(function () {
+                        $('#wrong_pin').modal('toggle');
+                    }, 3000);
                     $('#wrong_pin').modal({backdrop: false});
                     console.log('showing wrong_pin modal');
                 }
@@ -224,11 +238,14 @@ $('.submit-check').on('click', function () {
     if (enter_load_amount.hasClass('in')) {
 
         if (load_amount.val().length < 1) {
-            $('#empty_load_amount').modal('show');
+            setTimeout(function () {
+                $('#empty_load_amount').modal('toggle');
+            }, 3000);
+            $('#empty_load_amount').modal({backdrop: false});
             console.log('showing empty_load_amount modal');
         } else {
             enter_load_amount.modal('toggle');
-            $('#tap_card').modal('show');
+            tap_card.modal('show');
             console.log('showing tap_card modal');
         }
     }
@@ -256,8 +273,19 @@ function sendPurchase() {
         {table_data: JSON.stringify(table_data)},
         function (response) {
             console.log(response);
-        }).done(function () {
-            window.location.href = 'http://toot.pay/client/idle';
+
+            if (response == 'insufficient_load') {
+                setTimeout(function () {
+                    $('#insufficient_load').modal('toggle');
+                }, 3000);
+                $('#insufficient_load').modal('show');
+            } else if (response == 'success') {
+                setTimeout(function () {
+                    $('#payment_success').modal('toggle');
+                }, 3000);
+                $('#payment_success').modal('show');
+                goToIdle();
+            }
         });
 }
 
@@ -266,16 +294,22 @@ $('#btn_cancel').on('click', function () {
         $(this).button('reset');
         $(this).dequeue();
     });
-    window.location.href = 'http://toot.pay/client/idle';
+    goToIdle();
 });
 $('#btn_pay_using_toot_card').on('click', function () {
     menu_id.val(3);
     console.log('menu_id set to 3!');
-    $('#tap_card').modal('show');
+    tap_card.modal('show');
 });
 $('#btn_pay_using_cash').on('click', function () {
     sendPurchase();
 });
+
+function goToIdle() {
+    setTimeout(function () {
+        window.location.href = 'http://toot.pay/client/idle';
+    }, 2000);
+}
 
 function todaysMenu() {
     $.post('todays_menu', function (response) {
@@ -288,6 +322,10 @@ function todaysMenu() {
             var id = $(this).data('id');
             var qty = $('#' + id + ' .modal-dialog .modal-content .modal-body .col-md-6 span.qty').text();
             addOrder(merchandise_id, name, price, qty);
+        });
+
+        $('.modal').on('hidden.bs.modal', function() {
+            $(this).find('span.qty').text(1);
         });
 
         var modal_qty = $('.modal-body .row .col-md-6');
@@ -338,7 +376,7 @@ $(function () {
             $(this).next('span.qty').text(new_qty);
             compute();
         });
-        order_qty.on('click', 'td button.remove', function () {
+        $('td button.remove').on('click', function () {
             $(this).closest('tr').remove();
             compute();
         });

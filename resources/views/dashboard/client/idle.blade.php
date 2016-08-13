@@ -17,17 +17,18 @@
     </div>
     @include('dashboard.client._partials.tap_card')
     @include('dashboard.client._partials.enter_pin')
-    @include('dashboard.client._partials.invalid_card')
-    @include('dashboard.client._partials.wrong_pin')
-    @include('dashboard.client._partials.empty_pin')
     @include('dashboard.client._partials.menu')
     @include('dashboard.client._partials.loading')
     @include('dashboard.client._partials.check_balance')
     @include('dashboard.client._partials.enter_load_amount')
-    @include('dashboard.client._partials.empty_load_amount')
     @include('dashboard.client._partials.waiting_for_payment')
-    @include('dashboard.client._partials.reload_paid')
-    @include('dashboard.client._partials.reload_canceled')
+
+    @include('dashboard.client._partials.validations.invalid_card')
+    @include('dashboard.client._partials.validations.wrong_pin')
+    @include('dashboard.client._partials.validations.empty_pin')
+    @include('dashboard.client._partials.validations.empty_load_amount')
+    @include('dashboard.client._partials.validations.reload_paid')
+    @include('dashboard.client._partials.validations.reload_canceled')
 @endsection
 
 @section('style')

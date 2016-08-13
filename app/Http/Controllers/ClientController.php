@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Merchandise;
 use App\Models\MerchandiseCategory;
+use App\Models\Setting;
 use App\Models\TootCard;
 use App\Models\User;
 use Carbon\Carbon;
@@ -112,6 +113,16 @@ class ClientController extends Controller
                 }
             } else {
                 $toot_card = TootCard::find($toot_card_id);
+                $grand_total = $table_data->sum('total');
+                $per_point = intval(Setting::value('per_point'));
+
+                if ($toot_card->load < $grand_total) {
+                    return response()->make('insufficient_load');
+                }
+
+                $toot_card->load = $toot_card->load - $grand_total;
+                $toot_card->points = $toot_card->points + ($grand_total / $per_point);
+                $toot_card->save();
 
                 foreach ($table_data as $row) {
                     Merchandise::find($row['merchandise_id'])->tootCards()->save($toot_card, [
@@ -122,7 +133,7 @@ class ClientController extends Controller
                     ]);
                 }
             }
-            return response()->make($request->get('table_data'));
+            return response()->make('success');
         }
     }
 }

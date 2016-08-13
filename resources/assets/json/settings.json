@@ -4,6 +4,10 @@
     "value": 30
   },
   {
+    "key": "per_point",
+    "value": 50
+  },
+  {
     "key": "expire_year_count",
     "value": 5
   }

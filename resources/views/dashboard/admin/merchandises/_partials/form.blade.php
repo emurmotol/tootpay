@@ -27,7 +27,7 @@
             </a>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-6">
         <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
             <label for="image">Upload Image:</label>
             <input type="file" onchange="loadImage(this);" class="form-control" id="image" name="image">

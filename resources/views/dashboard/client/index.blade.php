@@ -24,7 +24,10 @@
 
     @include('dashboard.client._partials.tap_card')
     @include('dashboard.client._partials.enter_pin')
-    @include('dashboard.client._partials.invalid_card')
-    @include('dashboard.client._partials.wrong_pin')
-    @include('dashboard.client._partials.empty_pin')
+
+    @include('dashboard.client._partials.validations.invalid_card')
+    @include('dashboard.client._partials.validations.wrong_pin')
+    @include('dashboard.client._partials.validations.empty_pin')
+    @include('dashboard.client._partials.validations.insufficient_load')
+    @include('dashboard.client._partials.validations.payment_success')
 @endsection

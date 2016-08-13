@@ -17,7 +17,7 @@ Route::get('dd', function () {
 //    return dd(\App\Models\TootCard::find('6011983972698196')->users()->getRelatedIds());
 
 
-    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 2)->sum('total'));
+    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 4)->sum('total'));
 });
 
 Route::auth();
