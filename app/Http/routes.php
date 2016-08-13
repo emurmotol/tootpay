@@ -16,8 +16,8 @@ Route::get('dd', function () {
 //    return dd(\App\Models\User::find('00420130023'));//->with('merchandises', 'tootcards')->get());
 //    return dd(\App\Models\TootCard::find('6011983972698196')->users()->getRelatedIds());
 
-    $table_data = collect(json_decode('[{"toot_card_id":"0001246344","merchandise_id":1,"quantity":1,"total":40},{"toot_card_id":"0001246344","merchandise_id":2,"quantity":1,"total":40}]', true));
-    return dd($table_data->first()['merchandise_id']);
+
+    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 2)->sum('total'));
 });
 
 Route::auth();

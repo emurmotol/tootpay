@@ -39,7 +39,6 @@ class ClientController extends Controller
             $toot_card = TootCard::where('id', $request->get('id'))->first();
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
-                // Auth::loginUsingId($toot_card->users()->first()->id);
                 return response()->make('correct');
             }
             return response()->make('incorrect');
@@ -106,7 +105,7 @@ class ClientController extends Controller
                 ]);
             }
 
-            return response()->make($toot_card);
+            return response()->make($request->get('table_data'));
         }
     }
 }

@@ -227,12 +227,12 @@ $('.submit-check').on('click', function () {
                             table_data.push(item);
                         });
 
-                        console.log(JSON.stringify(table_data));
-
                         $.post('purchase',
                             {table_data: JSON.stringify(table_data)},
                             function (response) {
                                 console.log(response);
+                            }).done(function () {
+                                window.location.href = 'http://toot.pay/client/idle';
                             });
                     }
                 } else if (response == 'incorrect') {
@@ -291,14 +291,12 @@ function todaysMenu() {
             var qty = parseInt($(this).prev('span.qty').text());
             var new_qty = qty + 1;
             $(this).prev('span.qty').text(new_qty);
-            console.log(new_qty);
             compute();
         });
         modal_qty.on('click', 'button.minus', function () {
             var qty = parseInt($(this).next('span.qty').text());
             var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
             $(this).next('span.qty').text(new_qty);
-            console.log(new_qty);
             compute();
         });
     });
@@ -309,7 +307,7 @@ $(function () {
 
     window.addOrder = (function (merchandise_id, name, price, qty) {
         $('#table_orders').append(
-            '<tr class="row-order" data-merchandise_id="' + merchandise_id + '">' +
+            '<tr class="row-order" id="merchandise_' + merchandise_id + '" data-merchandise_id="' + merchandise_id + '">' +
             '<td><span class="name">' + name + '</span></td>' +
             '<td class="text-center table-cell-qty">' +
             '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
@@ -323,21 +321,20 @@ $(function () {
         );
         compute();
 
-        $('td button.plus').on('click', function () {
+        var order_qty = $('#merchandise_' + merchandise_id + '');
+        order_qty.on('click', 'td button.plus', function () {
             var qty = parseInt($(this).prev('span.qty').text());
             var new_qty = qty + 1;
             $(this).prev('span.qty').text(new_qty);
-            console.log(new_qty);
             compute();
         });
-        $('td button.minus').on('click', function () {
+        order_qty.on('click', 'td button.minus', function () {
             var qty = parseInt($(this).next('span.qty').text());
             var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
             $(this).next('span.qty').text(new_qty);
-            console.log(new_qty);
             compute();
         });
-        $('td button.remove').on('click', function () {
+        order_qty.on('click', 'td button.remove', function () {
             $(this).closest('tr').remove();
             compute();
         });
