@@ -26,7 +26,7 @@
                     {!! Form::hidden('_method', 'PUT') !!}
                     <input type="hidden" name="available" value="off">
                     <input type="checkbox" onchange="this.form.submit();"
-                           {!! in_array(date("w", strtotime(\Carbon\Carbon::now())), $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' !!} id="available" name="available"
+                           {!! in_array(date('w', strtotime(\Carbon\Carbon::now())), $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' !!} id="available" name="available"
                            data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success"
                            data-offstyle="default" data-size="mini">
                     {!! Form::close() !!}
