@@ -1,5 +1,5 @@
 @if($user->hasRole(cardholder()))
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <i class="fa fa-credit-card" aria-hidden="true"></i> Toot Card
         </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
     @if(is_null($user->tootCards()->first()))
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 Associate toot card to {{ $user->name }}
             </div>

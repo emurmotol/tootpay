@@ -9,7 +9,7 @@
                 @include('dashboard.admin.toot_cards._partials.sidebar')
             </div>
             <div class="col-md-9">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">

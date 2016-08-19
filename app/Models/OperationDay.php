@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class OperationDay extends Model
 {
@@ -29,5 +30,9 @@ class OperationDay extends Model
             return $operation_days->all();
         }
         return $operation_days[$index]['id'];
+    }
+
+    public static function purchaseDates() {
+        return DB::table('purchases')->select(DB::raw('date(created_at) as date'))->groupBy('date')->orderBy('date', 'asc')->get();
     }
 }

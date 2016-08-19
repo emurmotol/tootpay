@@ -18,7 +18,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <div class="pull-left">
                             <strong>#1</strong>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <div class="pull-left">
                             <strong>#2</strong>
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <div class="pull-left">
                             <strong>#3</strong>
@@ -156,7 +156,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <div class="pull-left">
                             <strong>#4</strong>
@@ -202,7 +202,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <div class="pull-left">
                             <strong>#5</strong>

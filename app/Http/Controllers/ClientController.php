@@ -99,7 +99,7 @@ class ClientController extends Controller
             $toot_card_id = $table_data->first()['toot_card_id'];
 
             if ($toot_card_id == '') {
-                return response()->make('pending');
+                return response()->make('pending'); // todo
 
                 $now = Carbon::now();
 

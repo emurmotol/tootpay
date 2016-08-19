@@ -9,7 +9,7 @@
                 @include('dashboard.admin.users._partials.sidebar')
             </div>
             <div class="col-md-9">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <i class="fa fa-user" aria-hidden="true"></i> @yield('title')
                         <span class="pull-right">

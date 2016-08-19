@@ -17,7 +17,9 @@ Route::get('dd', function () {
 //    return dd(\App\Models\TootCard::find('6011983972698196')->users()->getRelatedIds());
 
 
-    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 4)->sum('total'));
+//    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 4)->sum('total'));
+
+    return \App\Models\User::where();
 });
 
 Route::auth();
@@ -33,6 +35,24 @@ Route::group(['middleware' => 'roles'], function () {
         // Administrator Dashboard
         Route::get('admin', [
             'uses' => 'DashboardController@admin'
+        ]);
+
+        // Reports
+        Route::get('sales_report/daily', [
+            'uses' => 'ReportController@daily',
+            'as' => 'sales_report.daily'
+        ]);
+        Route::get('sales_report/weekly', [
+            'uses' => 'ReportController@weekly',
+            'as' => 'sales_report.weekly'
+        ]);
+        Route::get('sales_report/monthly', [
+            'uses' => 'ReportController@monthly',
+            'as' => 'sales_report.monthly'
+        ]);
+        Route::get('sales_report/yearly', [
+            'uses' => 'ReportController@yearly',
+            'as' => 'sales_report.yearly'
         ]);
 
         // Users

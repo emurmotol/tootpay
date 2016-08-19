@@ -128,4 +128,12 @@ class Merchandise extends Model
         }
         return 1;
     }
+
+    public static function byPurchaseDate($purchase_date) {
+        return DB::table('purchases')
+            ->select(DB::raw('merchandise_id as id, sum(quantity) as merchandise_quantity, sum(total) as merchandise_sales, date(created_at) as date'))
+            ->having('date', '=', $purchase_date)
+            ->groupBy('merchandise_id', 'date')
+            ->get();
+    }
 }
