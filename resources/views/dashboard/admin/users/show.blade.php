@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
+                    <div class="panel-heading clearfix">
                         <i class="fa fa-user" aria-hidden="true"></i> @yield('title')
                         <span class="pull-right">
                             {!! Form::open([
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 @unless(is_null($user->tootCards()->first()))
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             Payment History
                         </div>

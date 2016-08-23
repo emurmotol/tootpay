@@ -27,7 +27,7 @@ class ClientController extends Controller
         }
     }
 
-    public function checkTootCard(Request $request) {
+    public function tootCardCheck(Request $request) {
         if ($request->ajax()) {
             if (!is_null(TootCard::where('id', $request->get('toot_card'))->first())) {
                 return response()->make('valid');
@@ -36,7 +36,7 @@ class ClientController extends Controller
         }
     }
 
-    public function authTootCard(Request $request) {
+    public function tootCardAuthentication(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('id'))->first();
 
@@ -51,37 +51,37 @@ class ClientController extends Controller
         return view('dashboard.client.idle');
     }
 
-    public function checkBalance(Request $request) {
+    public function tootCardBalanceCheck(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('id'))->first();
             return (String) view('dashboard.client._partials.toot_card_details', compact('toot_card'));
         }
     }
 
-    public function reloadPending(Request $request) {
+    public function tootCardReloadPending(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::find($request->get('id'));
             $user = $toot_card->users()->first();
 
-            $user->reload()->save($toot_card, [
+            $user->tootCardReload()->save($toot_card, [
                 'user_id' => $user->id,
                 'amount' => $request->get('amount'),
             ]);
 
-            return DB::table($user->reload()->getTable())->orderBy('id', 'desc')->first()->id;
+            return DB::table($user->tootCardReload()->getTable())->orderBy('id', 'desc')->first()->id;
         }
     }
 
-    public function reloadStatus(Request $request) {
+    public function tootCardReloadStatus(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::find($request->get('id'));
-            $paid = $toot_card->reload()->wherePivot('id', $request->get('reload_id'))
-                ->withPivot('paid')->first()->pivot->paid;
-            if (is_null($paid)) {
+            $status= $toot_card->tootCardReload()->wherePivot('id', $request->get('reload_id'))
+                ->withPivot('status')->first()->pivot->status;
+            if (is_null($status)) {
                 return response()->make('pending');
             } else {
-                if ($paid) {
-                    $load_amount = $toot_card->load + $toot_card->reload()
+                if ($status) {
+                    $load_amount = $toot_card->load + $toot_card->tootCardReload()
                             ->wherePivot('id', $request->get('reload_id'))
                             ->withPivot('amount')->first()->pivot->amount;
                     $toot_card->load = $load_amount;
@@ -93,18 +93,18 @@ class ClientController extends Controller
         }
     }
 
-    public function purchase(Request $request){
+    public function merchandisePurchase(Request $request){
         if ($request->ajax()) {
             $table_data = collect(json_decode($request->get('table_data'), true));
             $toot_card_id = $table_data->first()['toot_card_id'];
 
             if ($toot_card_id == '') {
-                return response()->make('pending'); // todo
+//                return response()->make('pending'); // todo
 
                 $now = Carbon::now();
 
                 foreach ($table_data as $row) {
-                    DB::table('purchases')->insert([
+                    DB::table('merchandise_purchase')->insert([
                         'order_id' => $row['order_id'],
                         'merchandise_id' => $row['merchandise_id'],
                         'quantity' => $row['quantity'],

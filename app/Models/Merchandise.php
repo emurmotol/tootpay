@@ -25,11 +25,11 @@ class Merchandise extends Model
     }
 
     public function tootCards() {
-        return $this->belongsToMany(TootCard::class, 'purchases')->withTimestamps();
+        return $this->belongsToMany(TootCard::class, 'merchandise_purchase')->withTimestamps();
     }
 
     public function users() {
-        return $this->belongsToMany(User::class, 'purchases')->withTimestamps();
+        return $this->belongsToMany(User::class, 'merchandise_purchase')->withTimestamps();
     }
 
     public static function searchFor($keyword, $model = null) {
@@ -121,19 +121,36 @@ class Merchandise extends Model
     }
 
     public static function orderId() {
-        $purchases = DB::table('purchases');
+        $merchandise_purchase = DB::table('merchandise_purchase');
 
-        if (count($purchases->get())) {
-            return $purchases->orderBy('order_id', 'desc')->first()->order_id + 1;
+        if (count($merchandise_purchase->get())) {
+            return $merchandise_purchase->orderBy('order_id', 'desc')->first()->order_id + 1;
         }
         return 1;
     }
 
-    public static function byPurchaseDate($purchase_date) {
-        return DB::table('purchases')
-            ->select(DB::raw('merchandise_id as id, sum(quantity) as merchandise_quantity, sum(total) as merchandise_sales, date(created_at) as date'))
-            ->having('date', '=', $purchase_date)
+    public static function dailySales($date) {
+        return DB::table('merchandise_purchase')
+            ->select(DB::raw('merchandise_id as merchandise, sum(quantity) as qty, sum(total) as sales, date(created_at) as date'))
+            ->having('date', '=', $date)
             ->groupBy('merchandise_id', 'date')
+            ->get();
+    }
+
+    public static function monthlySales($month) {
+        return DB::table('merchandise_purchase')
+            ->select(DB::raw("sum(total) as sales, date(created_at) as date, DATE_FORMAT(created_at, '%Y-%m') as month"))
+            ->having('month', '=', $month)
+            ->groupBy('date')
+            ->get();
+
+    }
+
+    public static function yearlySales($year) {
+        return DB::table('merchandise_purchase')
+            ->select(DB::raw("sum(total) as sales, DATE_FORMAT(created_at,'%m') as month, DATE_FORMAT(created_at,'%Y') as year"))
+            ->having('year', '=', $year)
+            ->groupBy('month', 'year')
             ->get();
     }
 }

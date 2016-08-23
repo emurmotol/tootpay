@@ -4,4 +4,5 @@
 <script src="{{ asset('js/maintainscroll.js') }}"></script>
 <script src="{{ asset('js/moment.js') }}"></script>
 <script src="{{ asset('js/livestamp.js') }}"></script>
+<script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
 <script src="{{ asset('js/toot-pay.js') }}"></script>

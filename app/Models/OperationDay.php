@@ -33,6 +33,6 @@ class OperationDay extends Model
     }
 
     public static function purchaseDates() {
-        return DB::table('purchases')->select(DB::raw('date(created_at) as date'))->groupBy('date')->orderBy('date', 'asc')->get();
+        return DB::table('merchandise_purchase')->select(DB::raw('date(created_at) as date'))->groupBy('date')->orderBy('date', 'asc')->get();
     }
 }

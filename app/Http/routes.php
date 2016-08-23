@@ -19,7 +19,7 @@ Route::get('dd', function () {
 
 //    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 4)->sum('total'));
 
-    return \App\Models\User::where();
+    return dd(\App\Models\Merchandise::yearlySales('2016'));
 });
 
 Route::auth();
@@ -37,22 +37,22 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'DashboardController@admin'
         ]);
 
-        // Reports
-        Route::get('sales_report/daily', [
-            'uses' => 'ReportController@daily',
-            'as' => 'sales_report.daily'
+        // SAles Report
+        Route::get('sales_report', [
+            'uses' => 'SalesReportController@index',
+            'as' => 'sales_report.index'
         ]);
-        Route::get('sales_report/weekly', [
-            'uses' => 'ReportController@weekly',
-            'as' => 'sales_report.weekly'
+        Route::post('sales_report/daily_sales', [
+            'uses' => 'SalesReportController@dailySales',
+            'as' => 'sales_report.daily_sales'
         ]);
-        Route::get('sales_report/monthly', [
-            'uses' => 'ReportController@monthly',
-            'as' => 'sales_report.monthly'
+        Route::post('sales_report/monthly_sales', [
+            'uses' => 'SalesReportController@monthlySales',
+            'as' => 'sales_report.monthly_sales'
         ]);
-        Route::get('sales_report/yearly', [
-            'uses' => 'ReportController@yearly',
-            'as' => 'sales_report.yearly'
+        Route::post('sales_report/yearly_sales', [
+            'uses' => 'SalesReportController@yearlySales',
+            'as' => 'sales_report.yearly_sales'
         ]);
 
         // Users
@@ -146,17 +146,17 @@ Route::get('client', [
     'uses' => 'ClientController@index',
     'as' => 'client.index'
 ]);
-Route::post('client/check_balance', [
-    'uses' => 'ClientController@checkBalance',
-    'as' => 'client.check_balance'
+Route::post('client/toot_card_check_balance', [
+    'uses' => 'ClientController@tootCardBalanceCheck',
+    'as' => 'client.toot_card_check_balance'
 ]);
-Route::post('client/reload_pending', [
-    'uses' => 'ClientController@reloadPending',
-    'as' => 'client.reload_pending'
+Route::post('client/toot_card_reload_pending', [
+    'uses' => 'ClientController@tootCardReloadPending',
+    'as' => 'client.toot_card_reload_pending'
 ]);
-Route::post('client/reload_status', [
-    'uses' => 'ClientController@reloadStatus',
-    'as' => 'client.reload_status'
+Route::post('client/toot_card_reload_status', [
+    'uses' => 'ClientController@tootCardReloadStatus',
+    'as' => 'client.toot_card_reload_status'
 ]);
 Route::get('client/idle', [
     'uses' => 'ClientController@idle',
@@ -166,17 +166,17 @@ Route::get('client/guest', [
     'uses' => 'ClientController@guest',
     'as' => 'client.guest'
 ]);
-Route::post('client/check_toot_card', [
-    'uses' => 'ClientController@checkTootCard',
-    'as' => 'client.check_toot_card'
+Route::post('client/toot_card_check', [
+    'uses' => 'ClientController@tootCardCheck',
+    'as' => 'client.toot_card_check'
 ]);
-Route::post('client/purchase', [
-    'uses' => 'ClientController@purchase',
-    'as' => 'client.purchase'
+Route::post('client/merchandise_purchase', [
+    'uses' => 'ClientController@merchandisePurchase',
+    'as' => 'client.merchandise_purchase'
 ]);
-Route::post('client/auth_toot_card', [
-    'uses' => 'ClientController@authTootCard',
-    'as' => 'client.auth_toot_card'
+Route::post('client/toot_card_authentication', [
+    'uses' => 'ClientController@tootCardAuthentication',
+    'as' => 'client.toot_card_authentication'
 ]);
 Route::get('client/order', [
     'uses' => 'ClientController@order',

@@ -3,16 +3,16 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReloadsTable extends Migration
+class CreateTootCardPurchaseTable extends Migration
 {
     public function up()
     {
-        Schema::create('reloads', function (Blueprint $table) {
+        Schema::create('toot_card_purchase', function (Blueprint $table) {
             $table->increments('id');
             $table->string('toot_card_id')->index();
             $table->string('user_id')->index();
-            $table->boolean('paid')->nullable();
             $table->float('amount');
+            $table->string('status')->nullable();
             $table->timestamps();
 
             $table->foreign('toot_card_id')
@@ -29,6 +29,6 @@ class CreateReloadsTable extends Migration
 
     public function down()
     {
-        Schema::drop('reloads');
+        Schema::drop('toot_card_purchase');
     }
 }

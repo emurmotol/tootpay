@@ -33,13 +33,13 @@ class User extends Authenticatable
             'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
     }
 
-    public function reload() {
+    public function tootCardReload() {
         return $this->belongsToMany(TootCard::class,
-            'reloads', 'user_id', 'toot_card_id')->withTimestamps();
+            'toot_card_reload', 'user_id', 'toot_card_id')->withTimestamps();
     }
 
     public function merchandises() {
-        return $this->belongsToMany(Merchandise::class, 'purchases');
+        return $this->belongsToMany(Merchandise::class, 'merchandise_purchase');
     }
 
     public function setNameAttribute($value) {

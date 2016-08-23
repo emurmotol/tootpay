@@ -5,3 +5,4 @@
 @yield('sort')
 @yield('checkbox')
 @yield('password')
+@yield('date')

@@ -81,7 +81,7 @@ toot_card_id.change(function () {
 
     if ($(this).val().length == 10) {
 
-        $.post('check_toot_card', {
+        $.post('toot_card_check', {
             toot_card: $(this).val()
         }, function (response) {
             tap_card.modal('toggle');
@@ -132,7 +132,7 @@ $('.submit-check').on('click', function () {
             $('#empty_pin').modal({backdrop: false});
             console.log('showing empty_pin modal');
         } else {
-            $.post('auth_toot_card', {
+            $.post('toot_card_authentication', {
                 id: $('#id').val(),
                 pin_code: pin_code.val()
             }, function (response) {
@@ -145,7 +145,7 @@ $('.submit-check').on('click', function () {
                         $('.modal-body p #loading_text').text('Processing load request. Please wait');
                         $('#loading').modal('show');
 
-                        $.post('reload_pending', {
+                        $.post('toot_card_reload_pending', {
                             id: $('#id').val(),
                             amount: load_amount.val()
                         }, function (response) {
@@ -154,7 +154,7 @@ $('.submit-check').on('click', function () {
                                 console.log('reload_id is ' + response + '!');
 
                                 var interval = setInterval(function () {
-                                    $.post('reload_status', {
+                                    $.post('toot_card_reload_status', {
                                         id: $('#id').val(),
                                         reload_id: response
                                     }, function (response) {
@@ -181,7 +181,7 @@ $('.submit-check').on('click', function () {
                                                 $('#reload_paid').modal('show');
                                                 console.log('showing reload_paid modal');
 
-                                                $.post('check_balance', {id: $('#id').val()}, function (response) {
+                                                $.post('toot_card_check_balance', {id: $('#id').val()}, function (response) {
                                                     $('#toot_card_details').html(response);
                                                 }).done(function () {
                                                     setTimeout(function () {
@@ -209,7 +209,7 @@ $('.submit-check').on('click', function () {
                             }
                         });
                     } else if (menu_id.val() == 2) {
-                        $.post('check_balance', {id: $('#id').val()}, function (response) {
+                        $.post('toot_card_check_balance', {id: $('#id').val()}, function (response) {
                             $('#toot_card_details').html(response);
                         }).done(function () {
                             setTimeout(function () {
@@ -221,7 +221,7 @@ $('.submit-check').on('click', function () {
                             console.log('showing check_balance modal');
                         });
                     } else if (menu_id.val() == 3) {
-                        sendPurchase();
+                        sendMerchandisePurchase();
                     }
                 } else if (response == 'incorrect') {
                     console.log('incorrect pin!');
@@ -251,7 +251,7 @@ $('.submit-check').on('click', function () {
     }
 });
 
-function sendPurchase() {
+function sendMerchandisePurchase() {
     var table_data = [];
 
     $('tr.row-order').each(function () {
@@ -269,7 +269,7 @@ function sendPurchase() {
         table_data.push(item);
     });
 
-    $.post('purchase',
+    $.post('merchandise_purchase',
         {table_data: JSON.stringify(table_data)},
         function (response) {
             console.log(response);
@@ -305,7 +305,7 @@ function sendPurchase() {
 }
 
 $('#btn_cancel').on('click', function () {
-    $(this).button('loading').delay(2000).queue(function () {
+    $(this).button('loading').delay(5000).queue(function () {
         $(this).button('reset');
         $(this).dequeue();
     });
@@ -319,7 +319,7 @@ $('#btn_pay_using_toot_card').on('click', function () {
 $('#btn_pay_using_cash').on('click', function () {
     //$('.modal-body p #loading_text').text('Processing order request. Please wait');
     //$('#loading').modal('show');
-    sendPurchase();
+    sendMerchandisePurchase();
 });
 
 function goToIdle() {

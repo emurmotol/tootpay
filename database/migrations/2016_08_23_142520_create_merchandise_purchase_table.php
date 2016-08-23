@@ -3,18 +3,19 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Purchases extends Migration
+class CreateMerchandisePurchaseTable extends Migration
 {
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
+        Schema::create('merchandise_purchase', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order_id');
-            $table->integer('merchandise_id')->unsigned();
+            $table->integer('merchandise_id')->unsigned()->nullable();
             $table->string('toot_card_id')->index()->nullable();
             $table->string('user_id')->index()->nullable();
             $table->integer('quantity');
             $table->float('total');
+            $table->string('status')->nullable();
             $table->timestamps();
 
             $table->foreign('merchandise_id')
@@ -35,6 +36,6 @@ class Purchases extends Migration
 
     public function down()
     {
-        Schema::drop('purchases');
+        Schema::drop('merchandise_purchase');
     }
 }

@@ -6,6 +6,6 @@
         <span class="icon-bar"></span>
     </button>
     <a class="navbar-brand" href="{{ $url }}">
-        {{ config('static.app.name') }} <i class="fa fa-credit-card" aria-hidden="true"></i>
+        <img src="{{ asset('img/logo.png') }}" class="img-responsive logo" alt="Toot Card Logo">
     </a>
 </div>

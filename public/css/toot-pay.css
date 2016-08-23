@@ -102,7 +102,10 @@ input[type="number"] {
 
 .navbar-default {
     background-color: #337ab7;
-    border-color: #337ab7;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #4b9ee4;
 }
 
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand {
@@ -113,8 +116,43 @@ input[type="number"] {
     color: #ddd;
 }
 
-.navbar-default .navbar-nav > li > a:active, .navbar-default .navbar-brand:active {
-    color: #ddd;
+.navbar-default .navbar-nav > li > a:visited, .navbar-default .navbar-brand:visited {
+    color: #fff;
 }
 
-/*todo nav leave font color*/
+.loading-sales {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.page-header {
+    margin-top: -20px;
+}
+
+.calendar {
+    padding-bottom: 20px;
+}
+
+.btn-create {
+    padding-bottom: 10px;
+}
+
+.logo {
+    margin-top: -5px;
+    height: 30px;
+}
+
+.logo-welcome {
+    margin-left: -10px;
+    margin-bottom: 20px;
+    height: 60px;
+}
+
+.page-header h3 {
+    font-weight: 900;
+}
+
+.jumbotron {
+    background-color: #337ab7;
+    color: #fff;
+}

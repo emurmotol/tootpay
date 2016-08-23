@@ -8,8 +8,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                        <div class="huge">{{ config('static.app.name') }} <i class="fa fa-credit-card" aria-hidden="true"></i></div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad beatae cum cumque, dicta dolor dolore dolorem doloribus eaque excepturi exercitationem harum in inventore molestiae sint soluta suscipit, vel? Magnam, porro!</p>
+                        <img src="{{ asset('img/logo.png') }}" class="img-responsive logo-welcome" alt="Toot Card Logo">
+                        <p>A cashless payment system using digital wallet.</p>
                     </div>
                 </div>
             </div>

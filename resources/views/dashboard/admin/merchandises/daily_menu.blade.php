@@ -18,6 +18,14 @@
                         </span>
                     </div>
                     <div class="panel-body">
+                        <ul class="list-inline btn-create">
+                            <li>
+                                @include('_partials.create', ['url' => route('merchandises.create'), 'what' => 'merchandise'])
+                            </li>
+                            <li>
+                                @include('_partials.create', ['url' => route('merchandise.categories.create'), 'what' => 'category'])
+                            </li>
+                        </ul>
                         <ul class="nav nav-tabs">
                             @foreach($operation_days as $operation_day)
                                 <li {{ ($operation_day->id == date('w', strtotime(\Carbon\Carbon::now()))) ? 'class=active' : '' }}>
