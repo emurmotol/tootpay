@@ -53,7 +53,7 @@
                     setTimeout(function () {
                         console.log('page reloading!');
                         location.reload();
-                    }, 3000);
+                    }, 2000);
                     $('#invalid_card').modal('show');
                     console.log('showing invalid_card modal');
                 }
@@ -163,7 +163,7 @@
             if (pin_code.val().length < 1) {
                 setTimeout(function () {
                     $('#empty_pin').modal('toggle');
-                }, 3000);
+                }, 2000);
                 $('#empty_pin').modal({backdrop: false});
                 console.log('showing empty_pin modal');
             } else {
@@ -259,7 +259,7 @@
                         console.log('incorrect pin!');
                         setTimeout(function () {
                             $('#wrong_pin').modal('toggle');
-                        }, 3000);
+                        }, 2000);
                         $('#wrong_pin').modal({backdrop: false});
                         console.log('showing wrong_pin modal');
                     }
@@ -271,7 +271,7 @@
             if (load_amount.val().length < 1) {
                 setTimeout(function () {
                     $('#empty_load_amount').modal('toggle');
-                }, 3000);
+                }, 2000);
                 $('#empty_load_amount').modal({backdrop: false});
                 console.log('showing empty_load_amount modal');
             } else {
@@ -318,13 +318,13 @@
                         if (payment_method == '{{ config('static.payment_method')[0] }}') {
                             setTimeout(function () {
                                 transaction_complete.modal('toggle');
-                            }, 5000);
+                            }, 4000);
                             transaction_complete.modal('show');
                         } else {
                             $('#queue_number_huge').text($('#queue_number').text());
                             setTimeout(function () {
                                 transaction_complete_with_queue_number.modal('toggle');
-                            }, 5000);
+                            }, 4000);
                             transaction_complete_with_queue_number.modal('show');
                         }
                         goToIdle();
