@@ -65,7 +65,7 @@ $('#menu_order').on('click', function () {
     console.log('showing loading modal');
     $('#menu').modal('toggle');
     console.log('route to order!');
-    window.location.replace('http://toot.pay/client/');
+    window.location.replace('http://' + document.domain + '/client/');
 });
 
 $('.modal').on('hidden.bs.modal', function () {
@@ -216,7 +216,7 @@ $('.submit-check').on('click', function () {
                             console.log('showing check_balance modal');
                         });
                     } else if (menu_id.val() == 3) {
-                        sendMerchandisePurchase();
+                        sendMerchandisePurchase('paid', 'toot_card');
                     }
                 } else if (response == 'incorrect') {
                     console.log('incorrect pin!');
@@ -246,7 +246,7 @@ $('.submit-check').on('click', function () {
     }
 });
 
-function sendMerchandisePurchase() {
+function sendMerchandisePurchase(status, payment_method) {
     var table_data = [];
 
     $('tr.row-order').each(function () {
@@ -260,6 +260,8 @@ function sendMerchandisePurchase() {
         item['merchandise_id'] = $(this).data('merchandise_id');
         item['quantity'] = qty;
         item['total'] = total;
+        item['status'] = status;
+        item['payment_method'] = payment_method;
 
         table_data.push(item);
     });
@@ -280,21 +282,6 @@ function sendMerchandisePurchase() {
                 }, 3000);
                 $('#payment_success').modal('show');
                 goToIdle();
-            } else if (response == 'pending') {
-                alert(response);
-
-                //if (!waiting_for_payment.hasClass('in')) {
-                //    $('#loading').modal('toggle');
-                //    $('#_amount').text(load_amount.val());
-                //    console.log('_amount is set to ' + load_amount.val() + '!');
-                //
-                //    setTimeout(function () {
-                //        console.log('page reloading!');
-                //        location.reload();
-                //    }, 120000);
-                //    waiting_for_payment.modal({backdrop: 'static'});
-                //    console.log('showing waiting_for_payment modal');
-                //}
             }
         });
 }
@@ -312,14 +299,12 @@ $('#btn_pay_using_toot_card').on('click', function () {
     tap_card.modal('show');
 });
 $('#btn_pay_using_cash').on('click', function () {
-    //$('.modal-body p #loading_text').text('Processing order request. Please wait');
-    //$('#loading').modal('show');
-    sendMerchandisePurchase();
+    sendMerchandisePurchase('pending', 'cash');
 });
 
 function goToIdle() {
     setTimeout(function () {
-        window.location.href = 'http://toot.pay/client/idle';
+        window.location.href = 'http://' + document.domain + '/client/idle';
     }, 2000);
 }
 

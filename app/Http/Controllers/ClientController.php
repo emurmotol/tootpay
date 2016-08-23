@@ -99,8 +99,6 @@ class ClientController extends Controller
             $toot_card_id = $table_data->first()['toot_card_id'];
 
             if ($toot_card_id == '') { // '' instead of null because it came from json array
-//                return response()->make('pending'); // todo
-
                 $now = Carbon::now();
 
                 foreach ($table_data as $row) {
@@ -109,10 +107,13 @@ class ClientController extends Controller
                         'merchandise_id' => $row['merchandise_id'],
                         'quantity' => $row['quantity'],
                         'total' => $row['total'],
+                        'payment_method' => $row['payment_method'],
+                        'status' => $row['status'],
                         'created_at' => $now,
                         'updated_at' => $now,
                     ]);
                 }
+                return response()->make(config('static.status')[8]);
             } else {
                 $toot_card = TootCard::find($toot_card_id);
                 $grand_total = $table_data->sum('total');
@@ -154,7 +155,9 @@ class ClientController extends Controller
                         'order_id' => $row['order_id'],
                         'user_id' => $toot_card->users()->first()->id,
                         'quantity' => $row['quantity'],
-                        'total' => $row['total']
+                        'total' => $row['total'],
+                        'payment_method' => $row['payment_method'],
+                        'status' => config('static.status')[5],
                     ]);
                 }
             }

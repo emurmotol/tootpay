@@ -131,7 +131,8 @@ class Merchandise extends Model
 
     public static function dailySales($date) {
         return DB::table('merchandise_purchase')
-            ->select(DB::raw('merchandise_id as merchandise, sum(quantity) as qty, sum(total) as sales, date(created_at) as date'))
+            ->select(DB::raw('status, merchandise_id as merchandise, sum(quantity) as qty, sum(total) as sales, date(created_at) as date'))
+            ->where('status', '=', config('static.status')[5])
             ->having('date', '=', $date)
             ->groupBy('merchandise_id', 'date')
             ->get();
@@ -139,7 +140,8 @@ class Merchandise extends Model
 
     public static function monthlySales($month) {
         return DB::table('merchandise_purchase')
-            ->select(DB::raw("sum(total) as sales, date(created_at) as date, DATE_FORMAT(created_at, '%Y-%m') as month"))
+            ->select(DB::raw("status, sum(total) as sales, date(created_at) as date, DATE_FORMAT(created_at, '%Y-%m') as month"))
+            ->where('status', '=', config('static.status')[5])
             ->having('month', '=', $month)
             ->groupBy('date')
             ->get();
@@ -148,7 +150,8 @@ class Merchandise extends Model
 
     public static function yearlySales($year) {
         return DB::table('merchandise_purchase')
-            ->select(DB::raw("sum(total) as sales, DATE_FORMAT(created_at,'%m') as month, DATE_FORMAT(created_at,'%Y') as year"))
+            ->select(DB::raw("status, sum(total) as sales, DATE_FORMAT(created_at,'%m') as month, DATE_FORMAT(created_at,'%Y') as year"))
+            ->where('status', '=', config('static.status')[5])
             ->having('year', '=', $year)
             ->groupBy('month', 'year')
             ->get();

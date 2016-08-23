@@ -15,6 +15,7 @@ class CreateMerchandisePurchaseTable extends Migration
             $table->string('user_id')->index()->nullable();
             $table->integer('quantity');
             $table->float('total');
+            $table->string('payment_method');
             $table->string('status')->nullable();
             $table->timestamps();
 
