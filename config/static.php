@@ -26,5 +26,11 @@ return [
         'canceled',
         'insufficient_load',
         'success',
-    ]
+        'canceled',
+    ],
+
+    'payment_method' => [
+        'cash',
+        'toot_card',
+    ],
 ];

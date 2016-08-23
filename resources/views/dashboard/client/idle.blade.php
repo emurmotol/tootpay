@@ -12,6 +12,7 @@
             @endforeach
             <div class="carousel-caption">
                 <h1 id="touch">Touch the screen to interact.</h1>
+                <input type="number" class="input-unstyled" id="idle_toot_card_id" pattern="[0-9]{10}" maxlength="10" autofocus>
             </div>
         </div>
     </div>

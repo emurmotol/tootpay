@@ -98,7 +98,7 @@ class ClientController extends Controller
             $table_data = collect(json_decode($request->get('table_data'), true));
             $toot_card_id = $table_data->first()['toot_card_id'];
 
-            if ($toot_card_id == '') { // '' instead of null because it came from json array
+            if ($toot_card_id == '') {
                 $now = Carbon::now();
 
                 foreach ($table_data as $row) {
