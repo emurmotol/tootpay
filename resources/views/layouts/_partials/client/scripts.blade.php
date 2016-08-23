@@ -10,6 +10,8 @@
     var menu_id = $('#menu_id');
     var idle_toot_card_id = $('#idle_toot_card_id');
     var url = document.domain;
+    var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
+    var transaction_complete = $('#transaction_complete');
 
     $('#toot_idle').on('click', function () {
         $('#menu').modal('show');
@@ -312,10 +314,19 @@
                         }, 3000);
                         $('#insufficient_balance').modal('show');
                     } else if (response == '{{ config('static.status')[8] }}') {
-                        setTimeout(function () {
-                            $('#payment_success').modal('toggle');
-                        }, 3000);
-                        $('#payment_success').modal('show');
+
+                        if (payment_method == '{{ config('static.payment_method')[0] }}') {
+                            setTimeout(function () {
+                                transaction_complete.modal('toggle');
+                            }, 5000);
+                            transaction_complete.modal('show');
+                        } else {
+                            $('#queue_number_huge').text($('#queue_number').text());
+                            setTimeout(function () {
+                                transaction_complete_with_queue_number.modal('toggle');
+                            }, 5000);
+                            transaction_complete_with_queue_number.modal('show');
+                        }
                         goToIdle();
                     }
                 });
@@ -340,7 +351,7 @@
     function goToIdle() {
         setTimeout(function () {
             window.location.href = 'http://' + url + '/client/idle';
-        }, 2000);
+        }, 4000);
     }
 
     function todaysMenu() {

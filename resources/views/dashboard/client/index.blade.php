@@ -29,7 +29,8 @@
     @include('dashboard.client._partials.validations.wrong_pin')
     @include('dashboard.client._partials.validations.empty_pin')
     @include('dashboard.client._partials.validations.insufficient_balance')
-    @include('dashboard.client._partials.validations.payment_success')
+    @include('dashboard.client._partials.validations.transaction_complete')
+    @include('dashboard.client._partials.validations.transaction_complete_with_queue_number')
     @include('dashboard.client._partials.validations.loading')
     @include('dashboard.client._partials.validations.waiting_for_payment')
 @endsection
