@@ -24,7 +24,7 @@ return [
         'PENDING',
         'PAID',
         'CANCELED',
-        'INSUFFICIENT_LOAD',
+        'INSUFFICIENT_BALANCE',
         'SUCCESS',
         'QUEUED',
         'DONE',

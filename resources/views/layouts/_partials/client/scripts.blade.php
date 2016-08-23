@@ -9,6 +9,7 @@
     var loading = $('#loading');
     var menu_id = $('#menu_id');
     var idle_toot_card_id = $('#idle_toot_card_id');
+    var url = document.domain;
 
     $('#toot_idle').on('click', function () {
         $('#menu').modal('show');
@@ -106,7 +107,7 @@
         console.log('showing loading modal');
         $('#menu').modal('toggle');
         console.log('route to order!');
-        window.location.replace('http://' + document.domain + '/client/');
+        window.location.replace('http://' + url + '/client/');
     });
 
     enter_pin.on('hidden.bs.modal', function () {
@@ -307,9 +308,9 @@
 
                     if (response == '{{ config('static.status')[7] }}') {
                         setTimeout(function () {
-                            $('#insufficient_load').modal('toggle');
+                            $('#insufficient_balance').modal('toggle');
                         }, 3000);
-                        $('#insufficient_load').modal('show');
+                        $('#insufficient_balance').modal('show');
                     } else if (response == '{{ config('static.status')[8] }}') {
                         setTimeout(function () {
                             $('#payment_success').modal('toggle');
@@ -338,7 +339,7 @@
 
     function goToIdle() {
         setTimeout(function () {
-            window.location.href = 'http://' + document.domain + '/client/idle';
+            window.location.href = 'http://' + url + '/client/idle';
         }, 2000);
     }
 
@@ -389,7 +390,7 @@
                 }
             });
 
-            console.log(order_exist);
+            console.log('order exist on list? ' + order_exist);
 
             if (!order_exist) {
                 $('#table_orders tbody').append(
