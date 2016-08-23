@@ -15,4 +15,16 @@ return [
     'merchandises' => [
         'default_image_name' => 'default-merchandise-image',
     ],
+
+    'status' => [
+        'valid',
+        'invalid',
+        'correct',
+        'incorrect',
+        'pending',
+        'paid',
+        'canceled',
+        'insufficient_load',
+        'success',
+    ]
 ];

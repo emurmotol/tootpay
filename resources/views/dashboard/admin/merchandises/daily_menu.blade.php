@@ -49,7 +49,7 @@
                                                     @foreach(\App\Models\Merchandise::availableEvery($operation_day->id)->get() as $merchandise)
                                                         @if($merchandise->merchandiseCategory->id == $category->id)
                                                             <li class="img-merchandise-list-item">
-                                                                <a href="{{ route('merchandises.show', $merchandise->id) }}">
+                                                                <a href="{{ route('merchandises.show', [$merchandise->id, 'redirect' => Request::fullUrl()]) }}">
                                                                     <img class="img-responsive img-rounded"
                                                                          src="{{ $merchandise->image($merchandise->id) }}"
                                                                          alt="{{ $merchandise->name }}">

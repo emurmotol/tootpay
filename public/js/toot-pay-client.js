@@ -9,10 +9,6 @@ $('#check_balance').on('hidden.bs.modal', function () {
     console.log('page reloading!');
     location.reload();
 });
-$('#invalid_card').on('hidden.bs.modal', function () {
-    console.log('page reloading!');
-    location.reload();
-});
 
 var waiting_for_payment = $('#waiting_for_payment');
 var enter_pin = $('#enter_pin');
@@ -20,6 +16,8 @@ var tap_card = $('#tap_card');
 var pin_code = $('#pin_code');
 var load_amount = $('#load_amount');
 var enter_load_amount = $('#enter_load_amount');
+var toot_card_id = $('#toot_card_id');
+
 $('.backspace').click(function () {
 
     if (enter_pin.hasClass('in')) {
@@ -70,39 +68,6 @@ $('#menu_order').on('click', function () {
     window.location.replace('http://toot.pay/client/');
 });
 
-var toot_card_id = $('#toot_card_id');
-toot_card_id.focus();
-toot_card_id.blur(function () {
-    setTimeout(function () {
-        toot_card_id.focus();
-    }, 0);
-});
-toot_card_id.change(function () {
-
-    if ($(this).val().length == 10) {
-
-        $.post('toot_card_check', {
-            toot_card: $(this).val()
-        }, function (response) {
-            tap_card.modal('toggle');
-
-            if (response == 'valid') {
-                $('#id').val(toot_card_id.val());
-                enter_pin.modal('show');
-                console.log('showing enter_pin modal');
-            } else {
-                setTimeout(function () {
-                    console.log('page reloading!');
-                    location.reload();
-                }, 3000);
-                $('#invalid_card').modal('show');
-                console.log('showing invalid_card modal');
-            }
-            console.log(toot_card_id.val() + ' is ' + response + '!');
-        });
-    }
-});
-
 $('.modal').on('hidden.bs.modal', function () {
     $(this).find('#pin_code').val('');
 });
@@ -110,10 +75,40 @@ $('.modal').on('hidden.bs.modal', function () {
 tap_card.on('shown.bs.modal', function () {
     toot_card_id.focus();
     console.log('toot_card_id is on focus!');
+    toot_card_id.blur(function () {
+        setTimeout(function () {
+            toot_card_id.focus();
+        }, 0);
+    });
+    toot_card_id.change(function () {
+
+        if ($(this).val().length == 10) {
+
+            $.post('toot_card_check', {
+                toot_card: $(this).val()
+            }, function (response) {
+                tap_card.modal('toggle');
+
+                if (response == 'valid') {
+                    $('#id').val(toot_card_id.val());
+                    enter_pin.modal('show');
+                    console.log('showing enter_pin modal');
+                } else {
+                    setTimeout(function () {
+                        console.log('page reloading!');
+                        location.reload();
+                    }, 3000);
+                    $('#invalid_card').modal('show');
+                    console.log('showing invalid_card modal');
+                }
+                console.log(toot_card_id.val() + ' is ' + response + '!');
+            });
+        }
+    });
 });
 enter_pin.on('hidden.bs.modal', function () {
     console.log(toot_card_id.val());
-    toot_card_id.val('')
+    toot_card_id.val('');
     console.log('toot_card_id has been reset!');
 });
 
@@ -414,7 +409,7 @@ $(function () {
     });
 
     window.compute = (function () {
-        var grand_total = 0.00;
+        var grand_total = 0;
         var decimal_place = 2;
         var row_count = $('#table_orders tbody tr.row-order').length;
 
@@ -446,7 +441,7 @@ $(function () {
         var options = $.extend(defaults, options);
         return $(this).each(function (idx, itm) {
             setInterval(function () {
-                if ($(itm).css("visibility") === "visible") {
+                if ($(itm).css('visibility') === 'visible') {
                     $(itm).css('visibility', 'hidden');
                 }
                 else {
