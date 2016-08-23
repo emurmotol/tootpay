@@ -37,7 +37,7 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'DashboardController@admin'
         ]);
 
-        // SAles Report
+        // Sales Report
         Route::get('sales_report', [
             'uses' => 'SalesReportController@index',
             'as' => 'sales_report.index'
@@ -149,6 +149,10 @@ Route::get('client', [
 Route::post('client/toot_card_check_balance', [
     'uses' => 'ClientController@tootCardBalanceCheck',
     'as' => 'client.toot_card_check_balance'
+]);
+Route::post('client/toot_card_queued_order', [
+    'uses' => 'ClientController@tootCardQueuedOrder',
+    'as' => 'client.toot_card_queued_order'
 ]);
 Route::post('client/toot_card_reload_pending', [
     'uses' => 'ClientController@tootCardReloadPending',

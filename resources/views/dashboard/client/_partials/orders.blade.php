@@ -1,8 +1,11 @@
 <div class="panel panel-primary order">
     <div class="panel-heading clearfix">
-        <div class="pull-left">
+        <span class="pull-left">
+            Queue: <strong>#<span id="queue_number">{{ \App\Models\Merchandise::queueNumber() }}</span></strong>
+        </span>
+        <span class="pull-right">
             Order: <strong>#<span id="order_id">{{ \App\Models\Merchandise::orderId() }}</span></strong>
-        </div>
+        </span>
     </div>
     <table class="table table-responsive table-striped" id="table_orders">
         <thead>

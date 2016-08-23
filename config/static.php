@@ -17,20 +17,21 @@ return [
     ],
 
     'status' => [
-        'valid',
-        'invalid',
-        'correct',
-        'incorrect',
-        'pending',
-        'paid',
-        'canceled',
-        'insufficient_load',
-        'success',
-        'canceled',
+        'VALID',
+        'INVALID',
+        'CORRECT',
+        'INCORRECT',
+        'PENDING',
+        'PAID',
+        'CANCELED',
+        'INSUFFICIENT_LOAD',
+        'SUCCESS',
+        'QUEUED',
+        'DONE',
     ],
 
     'payment_method' => [
-        'cash',
-        'toot_card',
+        'CASH',
+        'TOOT_CARD',
     ],
 ];

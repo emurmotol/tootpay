@@ -6,9 +6,9 @@
     var load_amount = $('#load_amount');
     var enter_load_amount = $('#enter_load_amount');
     var toot_card_id = $('#toot_card_id');
-    var idle_toot_card_id = $('#idle_toot_card_id');
     var loading = $('#loading');
     var menu_id = $('#menu_id');
+    var idle_toot_card_id = $('#idle_toot_card_id');
 
     $('#toot_idle').on('click', function () {
         $('#menu').modal('show');
@@ -37,11 +37,15 @@
     idle_toot_card_id.on('change', function () {
         if ($(this).val().length == 10) {
             $.post('toot_card_check', {
-                toot_card: $(this).val()
+                id: $(this).val()
             }, function (response) {
 
                 if (response == '{{ config('static.status')[0] }}') {
-                    alert(idle_toot_card_id.val());
+                    $.post('toot_card_queued_order', {
+                        id: idle_toot_card_id.val()
+                    }, function (response) {
+                        alert(response);
+                    });
                 } else {
                     setTimeout(function () {
                         console.log('page reloading!');
@@ -51,7 +55,7 @@
                     console.log('showing invalid_card modal');
                 }
                 console.log(idle_toot_card_id.val() + ' is ' + response + '!');
-            }).done(function() {
+            }).done(function () {
                 idle_toot_card_id.val('');
                 console.log('idle_toot_card_id has been reset!');
             });
@@ -122,7 +126,7 @@
     toot_card_id.on('change', function () {
         if ($(this).val().length == 10) {
             $.post('toot_card_check', {
-                toot_card: $(this).val()
+                id: $(this).val()
             }, function (response) {
                 tap_card.modal('toggle');
 
@@ -139,7 +143,7 @@
                     console.log('showing invalid_card modal');
                 }
                 console.log(toot_card_id.val() + ' is ' + response + '!');
-            }).done(function() {
+            }).done(function () {
                 toot_card_id.val('');
                 console.log('toot_card_id has been reset!');
             });
@@ -218,7 +222,7 @@
                                                         $('#check_balance').modal('show');
                                                         console.log('showing check_balance modal');
                                                     });
-                                                } else if (response == '{{ config('static.status')[9] }}') {
+                                                } else if (response == '{{ config('static.status')[6] }}') {
                                                     setTimeout(function () {
                                                         console.log('page reloading!');
                                                         location.reload();
@@ -246,7 +250,7 @@
                                 console.log('showing check_balance modal');
                             });
                         } else if (menu_id.val() == 3) {
-                            sendMerchandisePurchase('{{ config('static.status')[5] }}', '{{ config('static.payment_method')[1] }}');
+                            sendMerchandisePurchase('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
                         }
                     } else if (response == '{{ config('static.status')[3] }}') {
                         console.log('incorrect pin!');
@@ -284,6 +288,7 @@
             var each = parseFloat(each_value.text());
             var total = qty * each;
             var item = {};
+            item['queue_number'] = parseInt($('#queue_number').text());
             item['order_id'] = parseInt($('#order_id').text());
             item['toot_card_id'] = $('#id').val();
             item['merchandise_id'] = $(this).data('merchandise_id');

@@ -9,6 +9,7 @@ class CreateMerchandisePurchaseTable extends Migration
     {
         Schema::create('merchandise_purchase', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('queue_number')->nullable();
             $table->integer('order_id');
             $table->integer('merchandise_id')->unsigned()->nullable();
             $table->string('toot_card_id')->index()->nullable();

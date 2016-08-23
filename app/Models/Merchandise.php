@@ -124,7 +124,18 @@ class Merchandise extends Model
         $merchandise_purchase = DB::table('merchandise_purchase');
 
         if (count($merchandise_purchase->get())) {
-            return $merchandise_purchase->orderBy('order_id', 'desc')->first()->order_id + 1;
+            return $merchandise_purchase->orderBy('order_id', 'desc')->groupBy('order_id')->first()->order_id + 1;
+        }
+        return 1;
+    }
+
+    public static function queueNumber() {
+        $merchandise_purchase = DB::table('merchandise_purchase')->select(DB::raw('queue_number, status, date(created_at) as date'))
+            ->where('status', '=', config('static.status')[9])
+            ->having('date', '=', Carbon::now()->toDateString());
+
+        if (count($merchandise_purchase->get())) {
+            return $merchandise_purchase->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number + 1;
         }
         return 1;
     }
@@ -132,7 +143,7 @@ class Merchandise extends Model
     public static function dailySales($date) {
         return DB::table('merchandise_purchase')
             ->select(DB::raw('status, merchandise_id as merchandise, sum(quantity) as qty, sum(total) as sales, date(created_at) as date'))
-            ->where('status', '=', config('static.status')[5])
+            ->where('status', '=', config('static.status')[10])
             ->having('date', '=', $date)
             ->groupBy('merchandise_id', 'date')
             ->get();
@@ -141,17 +152,16 @@ class Merchandise extends Model
     public static function monthlySales($month) {
         return DB::table('merchandise_purchase')
             ->select(DB::raw("status, sum(total) as sales, date(created_at) as date, DATE_FORMAT(created_at, '%Y-%m') as month"))
-            ->where('status', '=', config('static.status')[5])
+            ->where('status', '=', config('static.status')[10])
             ->having('month', '=', $month)
             ->groupBy('date')
             ->get();
-
     }
 
     public static function yearlySales($year) {
         return DB::table('merchandise_purchase')
             ->select(DB::raw("status, sum(total) as sales, DATE_FORMAT(created_at,'%m') as month, DATE_FORMAT(created_at,'%Y') as year"))
-            ->where('status', '=', config('static.status')[5])
+            ->where('status', '=', config('static.status')[10])
             ->having('year', '=', $year)
             ->groupBy('month', 'year')
             ->get();

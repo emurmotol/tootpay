@@ -29,7 +29,7 @@ class ClientController extends Controller
 
     public function tootCardCheck(Request $request) {
         if ($request->ajax()) {
-            if (!is_null(TootCard::where('id', $request->get('toot_card'))->first())) {
+            if (!is_null(TootCard::where('id', $request->get('id'))->first())) {
                 return response()->make(config('static.status')[0]);
             }
             return response()->make(config('static.status')[1]);
@@ -93,12 +93,19 @@ class ClientController extends Controller
         }
     }
 
+    public function tootCardQueuedOrder(Request $request) {
+        if ($request->ajax()) {
+            return response()->make('my_order');
+        }
+    }
+
     public function merchandisePurchase(Request $request){
         if ($request->ajax()) {
             $table_data = collect(json_decode($request->get('table_data'), true));
             $toot_card_id = $table_data->first()['toot_card_id'];
+            $payment_method = $table_data->first()['payment_method'];
 
-            if ($toot_card_id == '') {
+            if ($payment_method == config('static.payment_method')[0]) {
                 $now = Carbon::now();
 
                 foreach ($table_data as $row) {
@@ -114,7 +121,7 @@ class ClientController extends Controller
                     ]);
                 }
                 return response()->make(config('static.status')[8]);
-            } else {
+            } else if ($payment_method == config('static.payment_method')[1]) {
                 $toot_card = TootCard::find($toot_card_id);
                 $grand_total = $table_data->sum('total');
                 $per_point = intval(Setting::value('per_point'));
@@ -152,12 +159,13 @@ class ClientController extends Controller
 
                 foreach ($table_data as $row) {
                     Merchandise::find($row['merchandise_id'])->tootCards()->save($toot_card, [
+                        'queue_number' => $row['queue_number'],
                         'order_id' => $row['order_id'],
                         'user_id' => $toot_card->users()->first()->id,
                         'quantity' => $row['quantity'],
                         'total' => $row['total'],
                         'payment_method' => $row['payment_method'],
-                        'status' => config('static.status')[5],
+                        'status' => $row['status'],
                     ]);
                 }
             }
