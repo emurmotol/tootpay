@@ -101,21 +101,21 @@ class ClientController extends Controller
 
     public function merchandisePurchase(Request $request){
         if ($request->ajax()) {
-            $table_data = collect(json_decode($request->get('table_data'), true));
-            $toot_card_id = $table_data->first()['toot_card_id'];
-            $payment_method = $table_data->first()['payment_method'];
+            $orders = collect(json_decode($request->get('orders'), true));
+            $toot_card_id = $orders->first()['toot_card_id'];
+            $payment_method = $orders->first()['payment_method'];
 
             if ($payment_method == config('static.payment_method')[0]) {
                 $now = Carbon::now();
 
-                foreach ($table_data as $row) {
+                foreach ($orders as $order) {
                     DB::table('merchandise_purchase')->insert([
-                        'order_id' => $row['order_id'],
-                        'merchandise_id' => $row['merchandise_id'],
-                        'quantity' => $row['quantity'],
-                        'total' => $row['total'],
-                        'payment_method' => $row['payment_method'],
-                        'status' => $row['status'],
+                        'order_id' => $order['order_id'],
+                        'merchandise_id' => $order['merchandise_id'],
+                        'quantity' => $order['quantity'],
+                        'total' => $order['total'],
+                        'payment_method' => $order['payment_method'],
+                        'status' => $order['status'],
                         'created_at' => $now,
                         'updated_at' => $now,
                     ]);
@@ -123,7 +123,7 @@ class ClientController extends Controller
                 return response()->make(config('static.status')[8]);
             } else if ($payment_method == config('static.payment_method')[1]) {
                 $toot_card = TootCard::find($toot_card_id);
-                $grand_total = $table_data->sum('total');
+                $grand_total = $orders->sum('total');
                 $per_point = intval(Setting::value('per_point'));
                 $status = response()->make(config('static.status')[7]);
 
@@ -157,15 +157,15 @@ class ClientController extends Controller
                 }
                 $toot_card->save();
 
-                foreach ($table_data as $row) {
-                    Merchandise::find($row['merchandise_id'])->tootCards()->save($toot_card, [
-                        'queue_number' => $row['queue_number'],
-                        'order_id' => $row['order_id'],
+                foreach ($orders as $order) {
+                    Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
+                        'queue_number' => $order['queue_number'],
+                        'order_id' => $order['order_id'],
                         'user_id' => $toot_card->users()->first()->id,
-                        'quantity' => $row['quantity'],
-                        'total' => $row['total'],
-                        'payment_method' => $row['payment_method'],
-                        'status' => $row['status'],
+                        'quantity' => $order['quantity'],
+                        'total' => $order['total'],
+                        'payment_method' => $order['payment_method'],
+                        'status' => $order['status'],
                     ]);
                 }
             }

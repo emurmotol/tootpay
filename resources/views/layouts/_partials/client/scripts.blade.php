@@ -9,7 +9,7 @@
     var loading = $('#loading');
     var menu_id = $('#menu_id');
     var idle_toot_card_id = $('#idle_toot_card_id');
-    var url = document.domain;
+    var base_url = document.domain;
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
     var transaction_complete = $('#transaction_complete');
 
@@ -109,7 +109,7 @@
         console.log('showing loading modal');
         $('#menu').modal('toggle');
         console.log('route to order!');
-        window.location.replace('http://' + url + '/client/');
+        window.location.replace('http://' + base_url + '/client/');
     });
 
     enter_pin.on('hidden.bs.modal', function () {
@@ -283,28 +283,27 @@
     });
 
     function sendMerchandisePurchase(status, payment_method) {
-        var table_data = [];
+        var orders = [];
 
         $('tr.row-order').each(function () {
             var qty = parseFloat($('span.qty', this).text());
             var each_value = $('span.each', this);
             var each = parseFloat(each_value.text());
             var total = qty * each;
-            var item = {};
-            item['queue_number'] = parseInt($('#queue_number').text());
-            item['order_id'] = parseInt($('#order_id').text());
-            item['toot_card_id'] = $('#id').val();
-            item['merchandise_id'] = $(this).data('merchandise_id');
-            item['quantity'] = qty;
-            item['total'] = total;
-            item['status'] = status;
-            item['payment_method'] = payment_method;
-
-            table_data.push(item);
+            var order = {};
+            order['queue_number'] = parseInt($('#queue_number').text());
+            order['order_id'] = parseInt($('#order_id').text());
+            order['toot_card_id'] = $('#id').val();
+            order['merchandise_id'] = $(this).data('merchandise_id');
+            order['quantity'] = qty;
+            order['total'] = total;
+            order['status'] = status;
+            order['payment_method'] = payment_method;
+            orders.push(order);
         });
 
         $.post('merchandise_purchase',
-                {table_data: JSON.stringify(table_data)},
+                {orders: JSON.stringify(orders)},
                 function (response) {
                     console.log(response);
 
@@ -327,17 +326,17 @@
                             }, 4000);
                             transaction_complete_with_queue_number.modal('show');
                         }
-                        goToIdle();
+                        goToIdle(4000);
                     }
                 });
     }
 
     $('#btn_cancel').on('click', function () {
-        $(this).button('loading').delay(5000).queue(function () {
+        $(this).button('loading').delay(1000).queue(function () {
             $(this).button('reset');
             $(this).dequeue();
         });
-        goToIdle();
+        goToIdle(500);
     });
     $('#btn_pay_using_toot_card').on('click', function () {
         menu_id.val(3);
@@ -348,10 +347,10 @@
         sendMerchandisePurchase('{{ config('static.status')[4] }}', '{{ config('static.payment_method')[0] }}');
     });
 
-    function goToIdle() {
+    function goToIdle(timeout) {
         setTimeout(function () {
-            window.location.href = 'http://' + url + '/client/idle';
-        }, 4000);
+            window.location.href = 'http://' + base_url + '/client/idle';
+        }, timeout);
     }
 
     function todaysMenu() {
