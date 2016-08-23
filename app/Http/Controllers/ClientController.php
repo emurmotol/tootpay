@@ -98,7 +98,7 @@ class ClientController extends Controller
             $table_data = collect(json_decode($request->get('table_data'), true));
             $toot_card_id = $table_data->first()['toot_card_id'];
 
-            if ($toot_card_id == '') {
+            if ($toot_card_id == '') { // '' instead of null because it came from json array
 //                return response()->make('pending'); // todo
 
                 $now = Carbon::now();
