@@ -121,23 +121,25 @@ class Merchandise extends Model
     }
 
     public static function orderId() {
+        $default = 1;
         $merchandise_purchase = DB::table('merchandise_purchase');
 
         if (count($merchandise_purchase->get())) {
-            return $merchandise_purchase->orderBy('order_id', 'desc')->groupBy('order_id')->first()->order_id + 1;
+            return $merchandise_purchase->orderBy('order_id', 'desc')->groupBy('order_id')->first()->order_id + $default;
         }
-        return 1;
+        return $default;
     }
 
     public static function queueNumber() {
+        $default = 1;
         $merchandise_purchase = DB::table('merchandise_purchase')->select(DB::raw('queue_number, status, date(created_at) as date'))
             ->where('status', '=', config('static.status')[9])
             ->having('date', '=', Carbon::now()->toDateString());
 
         if (count($merchandise_purchase->get())) {
-            return $merchandise_purchase->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number + 1;
+            return $merchandise_purchase->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number + $default;
         }
-        return 1;
+        return $default;
     }
 
     public static function dailySales($date) {
