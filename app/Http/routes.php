@@ -110,22 +110,22 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'DashboardController@cashier',
             'as' => 'cashier.index'
         ]);
-        Route::get('cashier/reloads', [
-            'uses' => 'CashierController@reloads',
-            'as' => 'cashier.reloads'
-        ]);
-        Route::post('cashier/pending_reload', [
-            'uses' => 'CashierController@pendingReload',
-            'as' => 'cashier.pending_reload'
-        ]);
-        Route::post('cashier/paid_reload', [
-            'uses' => 'CashierController@paidReload',
-            'as' => 'cashier.paid_reload'
-        ]);
-        Route::post('cashier/cancel_reload', [
-            'uses' => 'CashierController@cancelReload',
-            'as' => 'cashier.cancel_reload'
-        ]);
+//        Route::get('cashier/reloads', [
+//            'uses' => 'CashierController@reloads',
+//            'as' => 'cashier.reloads'
+//        ]);
+//        Route::post('cashier/pending_reload', [
+//            'uses' => 'CashierController@pendingReload',
+//            'as' => 'cashier.pending_reload'
+//        ]);
+//        Route::post('cashier/paid_reload', [
+//            'uses' => 'CashierController@paidReload',
+//            'as' => 'cashier.paid_reload'
+//        ]);
+//        Route::post('cashier/cancel_reload', [
+//            'uses' => 'CashierController@cancelReload',
+//            'as' => 'cashier.cancel_reload'
+//        ]);
         Route::get('cashier/queue', [
             'uses' => 'CashierController@queue',
             'as' => 'cashier.queue'
@@ -154,14 +154,14 @@ Route::post('client/toot_card_get_orders', [
     'uses' => 'ClientController@tootCardGetOrders',
     'as' => 'client.toot_card_get_orders'
 ]);
-Route::post('client/toot_card_reload_pending', [
-    'uses' => 'ClientController@tootCardReloadPending',
-    'as' => 'client.toot_card_reload_pending'
-]);
-Route::post('client/toot_card_reload_status', [
-    'uses' => 'ClientController@tootCardReloadStatus',
-    'as' => 'client.toot_card_reload_status'
-]);
+//Route::post('client/toot_card_reload_pending', [
+//    'uses' => 'ClientController@tootCardReloadPending',
+//    'as' => 'client.toot_card_reload_pending'
+//]);
+//Route::post('client/toot_card_reload_status', [
+//    'uses' => 'ClientController@tootCardReloadStatus',
+//    'as' => 'client.toot_card_reload_status'
+//]);
 Route::get('client/idle', [
     'uses' => 'ClientController@idle',
     'as' => 'client.idle'

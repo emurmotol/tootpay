@@ -64,40 +64,40 @@ class ClientController extends Controller
         }
     }
 
-    public function tootCardReloadPending(Request $request) {
-        if ($request->ajax()) {
-            $toot_card = TootCard::find($request->get('id'));
-            $user = $toot_card->users()->first();
-
-            $user->tootCardReload()->save($toot_card, [
-                'user_id' => $user->id,
-                'amount' => $request->get('amount'),
-            ]);
-
-            return DB::table($user->tootCardReload()->getTable())->orderBy('id', 'desc')->first()->id;
-        }
-    }
-
-    public function tootCardReloadStatus(Request $request) {
-        if ($request->ajax()) {
-            $toot_card = TootCard::find($request->get('id'));
-            $status = $toot_card->tootCardReload()->wherePivot('id', $request->get('reload_id'))
-                ->withPivot('status')->first()->pivot->status;
-            if (is_null($status)) {
-                return response()->make(config('static.status')[4]);
-            } else {
-                if ($status) {
-                    $load_amount = $toot_card->load + $toot_card->tootCardReload()
-                            ->wherePivot('id', $request->get('reload_id'))
-                            ->withPivot('amount')->first()->pivot->amount;
-                    $toot_card->load = $load_amount;
-                    $toot_card->save();
-                    return response()->make(config('static.status')[5]);
-                }
-                return response()->make(config('static.status')[6]);
-            }
-        }
-    }
+//    public function tootCardReloadPending(Request $request) {
+//        if ($request->ajax()) {
+//            $toot_card = TootCard::find($request->get('id'));
+//            $user = $toot_card->users()->first();
+//
+//            $user->tootCardReload()->save($toot_card, [
+//                'user_id' => $user->id,
+//                'amount' => $request->get('amount'),
+//            ]);
+//
+//            return DB::table($user->tootCardReload()->getTable())->orderBy('id', 'desc')->first()->id;
+//        }
+//    }
+//
+//    public function tootCardReloadStatus(Request $request) {
+//        if ($request->ajax()) {
+//            $toot_card = TootCard::find($request->get('id'));
+//            $status = $toot_card->tootCardReload()->wherePivot('id', $request->get('reload_id'))
+//                ->withPivot('status')->first()->pivot->status;
+//            if (is_null($status)) {
+//                return response()->make(config('static.status')[4]);
+//            } else {
+//                if ($status) {
+//                    $load_amount = $toot_card->load + $toot_card->tootCardReload()
+//                            ->wherePivot('id', $request->get('reload_id'))
+//                            ->withPivot('amount')->first()->pivot->amount;
+//                    $toot_card->load = $load_amount;
+//                    $toot_card->save();
+//                    return response()->make(config('static.status')[5]);
+//                }
+//                return response()->make(config('static.status')[6]);
+//            }
+//        }
+//    }
 
     public function tootCardGetOrders(Request $request) {
         if ($request->ajax()) {
