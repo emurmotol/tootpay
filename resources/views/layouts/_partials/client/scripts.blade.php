@@ -52,10 +52,10 @@
             }, function (response) {
 
                 if (response == '{{ config('static.status')[0] }}') {
-                    $.post('toot_card_my_orders', {
+                    $.post('toot_card_get_orders', {
                         id: idle_toot_card_id.val()
                     }, function (response) {
-                        alert(response);
+                        console.log(response);
                     });
                 } else {
                     setTimeout(function () {

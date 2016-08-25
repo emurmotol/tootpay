@@ -19,7 +19,7 @@ Route::get('dd', function () {
 
 //    return dd(\Illuminate\Support\Facades\DB::table('purchases')->where('order_id', 4)->sum('total'));
 
-    return dd(\App\Models\Merchandise::yearlySales('2016'));
+    return dd(\App\Models\Merchandise::onHoldOrders('0001246344'));
 });
 
 Route::auth();
@@ -150,9 +150,9 @@ Route::post('client/toot_card_check_balance', [
     'uses' => 'ClientController@tootCardBalanceCheck',
     'as' => 'client.toot_card_check_balance'
 ]);
-Route::post('client/toot_card_my_orders', [
-    'uses' => 'ClientController@tootCardMyOrders',
-    'as' => 'client.toot_card_my_orders'
+Route::post('client/toot_card_get_orders', [
+    'uses' => 'ClientController@tootCardGetOrders',
+    'as' => 'client.toot_card_get_orders'
 ]);
 Route::post('client/toot_card_reload_pending', [
     'uses' => 'ClientController@tootCardReloadPending',
