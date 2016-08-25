@@ -14,13 +14,14 @@
     var no_undone_orders = $('#no_undone_orders');
     var to_many_card_tap = $('#to_many_card_tap');
     var undone_orders = $('#undone_orders');
-    var destination_id = $('#destination_id');
+    var last_resort = $('#last_resort');
     var idle_toot_card_id = $('#idle_toot_card_id');
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
     var transaction_complete = $('#transaction_complete');
     var order_on_hold = $('#order_on_hold');
     var check_balance = $('#check_balance');
     var queue_number_value = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
+    var order_id = parseInt('{{ \App\Models\Merchandise::orderId() }}');
     var timeout_long = 60000;
     var timeout_short = 1500;
 
@@ -39,7 +40,7 @@
         resetUserOrderHtml();
     });
     check_balance.on('hidden.bs.modal', function () {
-        resetTootCardDetails();
+        resetTootCardDetailsHtml();
     });
     undone_orders.on('hidden.bs.modal', function () {
         resetUserOrderHtml();
@@ -129,8 +130,7 @@
         alert('edit_orders_help gif');
     });
     $('#toot_idle').on('click', function () {
-        $('#menu').modal('show');
-        console.log('showing menu modal');
+        menu(timeout_long);
     });
     $('.key').on('click', function () {
         if (enter_pin.hasClass('in')) {
@@ -141,25 +141,6 @@
             load_amount.val((load_amount.val()) + (this.value));
         }
     });
-    $('#menu_reload').on('click', function () {
-        $('#load_amount').val('');
-        $('#menu').modal('toggle');
-        enterLoadAmount(timeout_long);
-        destination_id.val(1);
-        console.log('destination_id set to 1!');
-    });
-    $('#menu_balance').on('click', function () {
-        $('#menu').modal('toggle');
-        tapCard(timeout_long);
-        destination_id.val(2);
-        console.log('destination_id set to 2!');
-    });
-    $('#menu_order').on('click', function () {
-        $('.modal-body p #loading_text').text('Loading menu items');
-        loading.modal('show');
-        $('#menu').modal('toggle');
-        goToIndex(500);
-    });
     $('#btn_cancel').on('click', function () {
         goToIdle(500);
         $(this).button('loading').delay(timeout_short).queue(function () {
@@ -167,18 +148,37 @@
             $(this).dequeue();
         });
     });
+    $('#menu_reload').on('click', function () {
+        $('#menu').modal('toggle');
+        resetLoadAmountValue();
+        enterLoadAmount(timeout_long);
+        last_resort.val(1);
+        console.log('last_resort set to 1!');
+    });
+    $('#menu_balance').on('click', function () {
+        $('#menu').modal('toggle');
+        tapCard(timeout_long);
+        last_resort.val(2);
+        console.log('last_resort set to 2!');
+    });
+    $('#menu_order').on('click', function () {
+        $('#menu').modal('toggle');
+        $('.modal-body p #loading_text').text('Loading menu items');
+        loading.modal('show');
+        goToIndex(500);
+    });
     btn_hold.on('click', function () {
         tapCard(timeout_long);
-        destination_id.val(4);
-        console.log('destination_id set to 4!');
+        last_resort.val(4);
+        console.log('last_resort set to 4!');
     });
     btn_pay_using_toot_card.on('click', function () {
         tapCard(timeout_long);
-        destination_id.val(3);
-        console.log('destination_id set to 3!');
+        last_resort.val(3);
+        console.log('last_resort set to 3!');
     });
     btn_pay_using_cash.on('click', function () {
-        sendMerchandisePurchase('{{ config('static.status')[4] }}', '{{ config('static.payment_method')[0] }}');
+        sendOrders('{{ config('static.status')[4] }}', '{{ config('static.payment_method')[0] }}');
     });
     $('.submit-check').on('click', function () {
         $(this).button('loading').delay(1000).queue(function () {
@@ -187,7 +187,7 @@
         });
 
         if (enter_pin.hasClass('in')) {
-            if (pin_code.val().length < 1) {
+            if (parseInt(pin_code.val().length) < 1) {
                 emptyPin(timeout_short);
             } else {
                 $.post('toot_card_authentication', {
@@ -197,7 +197,7 @@
                     if (response == '{{ config('static.status')[2] }}') {
                         enter_pin.modal('toggle');
 
-                        if (destination_id.val() == 1) {
+                        if (last_resort.val() == 1) {
                             alert('RELOADS');
                             {{--$('.modal-body p #loading_text').text('Processing load request. Please wait');--}}
                             {{--loading.modal('show');--}}
@@ -250,16 +250,16 @@
                                     {{--}, 3000);--}}
                                 {{--}--}}
                             {{--});--}}
-                        } else if (destination_id.val() == 2) {
+                        } else if (last_resort.val() == 2) {
                             $.post('toot_card_check_balance', {id: $('#id').val()}, function (response) {
                                 $('#toot_card_details').html(response);
                             }).done(function () {
                                 checkBalance(timeout_long);
                             });
-                        } else if (destination_id.val() == 3) {
-                            sendMerchandisePurchase('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
-                        } else if (destination_id.val() == 4) {
-                            sendMerchandisePurchase('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
+                        } else if (last_resort.val() == 3) {
+                            sendOrders('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
+                        } else if (last_resort.val() == 4) {
+                            sendOrders('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
                         }
                     } else if (response == '{{ config('static.status')[3] }}') {
                         wrongPin(timeout_short);
@@ -270,7 +270,7 @@
         }
 
         if (enter_load_amount.hasClass('in')) {
-            if (load_amount.val().length < 1) {
+            if (parseInt(load_amount.val().length) < 1) {
                 emptyLoadAmount(timeout_short);
             } else {
                 if (parseFloat(load_amount.val()) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
@@ -452,6 +452,14 @@
         console.log('showing empty_load_amount modal');
     }
 
+    function menu(timeout) {
+        setTimeout(function () {
+            $('#menu').modal('toggle');
+        }, timeout);
+        $('#menu').modal('show');
+        console.log('showing menu modal');
+    }
+
     function noUndoneOrders(timeout) {
         setTimeout(function () {
             no_undone_orders.modal('toggle');
@@ -473,12 +481,17 @@
         console.log('toot_card_id has been reset!');
     }
 
+    function resetLoadAmountValue() {
+        load_amount.val('');
+        console.log('load_amount has been reset!');
+    }
+
     function resetIdleTootCardIdValue() {
         idle_toot_card_id.val('');
         console.log('idle_toot_card_id has been reset!');
     }
 
-    function resetTootCardDetails() {
+    function resetTootCardDetailsHtml() {
         $('#toot_card_details').html('');
         console.log('toot_card_details has been reset!');
     }
@@ -584,17 +597,17 @@
         console.log('showing transaction_complete modal');
     }
 
-    function sendMerchandisePurchase(status, payment_method) {
+    function sendOrders(status, payment_method) {
         var orders = [];
 
         $('tr.row-order').each(function () {
-            var qty = parseFloat($('span.qty', this).text());
+            var qty = parseInt($('span.qty', this).text());
             var each_value = $('span.each', this);
             var each = parseFloat(each_value.text());
             var total = qty * each;
             var order = {};
             order['queue_number'] = queue_number_value;
-            order['order_id'] = parseInt($('#order_id').text());
+            order['order_id'] = order_id;
             order['toot_card_id'] = $('#id').val();
             order['merchandise_id'] = $(this).data('merchandise_id');
             order['quantity'] = qty;
