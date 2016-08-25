@@ -169,25 +169,32 @@ class Merchandise extends Model
             ->get();
     }
 
-    public static function pendingOrders($toot_card_id) {
-        return DB::table('merchandise_purchase')->where('toot_card_id', '=', $toot_card_id)
+    public static function pending($toot_card_id) {
+        return DB::table('merchandise_purchase')->select('order_id')
+            ->where('toot_card_id', '=', $toot_card_id)
             ->where('status', '=', config('static.status')[4])
             ->get();
     }
 
-    public static function onHoldOrders($toot_card_id) {
-        return DB::table('merchandise_purchase')->where('toot_card_id', '=', $toot_card_id)
+    public static function onHold($toot_card_id) {
+        return DB::table('merchandise_purchase')->select('order_id')
+            ->where('toot_card_id', '=', $toot_card_id)
             ->where('status', '=', config('static.status')[11])
             ->get();
     }
 
-    public static function queuedOrders($toot_card_id) {
-        return DB::table('merchandise_purchase')->where('toot_card_id', '=', $toot_card_id)
+    public static function queued($toot_card_id) {
+        return DB::table('merchandise_purchase')->select('order_id')
+            ->where('toot_card_id', '=', $toot_card_id)
             ->where('status', '=', config('static.status')[9])
             ->get();
     }
 
-    public static function orderIdOnly($orders) {
+    public static function orders($order_id) {
+        return DB::table('merchandise_purchase')->where('order_id', '=', $order_id); // get() is called in view
+    }
+
+    public static function groupOrders($orders) {
         return collect($orders)->pluck('order_id', 'order_id');
     }
 }

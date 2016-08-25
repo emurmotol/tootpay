@@ -96,10 +96,10 @@ class ClientController extends Controller
     public function tootCardGetOrders(Request $request) {
         if ($request->ajax()) {
             $toot_card_id = $request->get('id');
-            $queued_orders = Merchandise::queuedOrders($toot_card_id);
-            $on_hold_orders = Merchandise::onHoldOrders($toot_card_id);
-            $pending_orders = Merchandise::pendingOrders($toot_card_id);
-            return (String)view('dashboard.client._partials.get_orders', compact('queued_orders', 'on_hold_orders', 'pending_orders'));
+            $queued = Merchandise::queued($toot_card_id);
+            $on_hold = Merchandise::onHold($toot_card_id);
+            $pending = Merchandise::pending($toot_card_id);
+            return (String)view('dashboard.client._partials.get_orders', compact('queued', 'on_hold', 'pending'));
         }
     }
 
@@ -118,7 +118,7 @@ class ClientController extends Controller
                         'quantity' => $order['quantity'],
                         'total' => $order['total'],
                         'payment_method' => $order['payment_method'],
-                        'status' => $order['status'],
+                        'status' => $status,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
@@ -129,7 +129,18 @@ class ClientController extends Controller
                 $per_point = intval(Setting::value('per_point'));
                 $status_insufficient_balance = response()->make(config('static.status')[7]);
 
-                if ($status != config('static.status')[11]) {
+                if ($status == config('static.status')[11]) {
+                    foreach ($orders as $order) {
+                        Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
+                            'order_id' => $order['order_id'],
+                            'user_id' => $toot_card->users()->first()->id,
+                            'quantity' => $order['quantity'],
+                            'total' => $order['total'],
+                            'payment_method' => $order['payment_method'],
+                            'status' => $status,
+                        ]);
+                    }
+                } else {
                     if (count($toot_card->load)) {
                         if ($toot_card->load < $grand_total) {
                             $load_points = $toot_card->load + $toot_card->points;
@@ -159,18 +170,18 @@ class ClientController extends Controller
                         }
                     }
                     $toot_card->save();
-                }
 
-                foreach ($orders as $order) {
-                    Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
-                        'queue_number' => $order['queue_number'],
-                        'order_id' => $order['order_id'],
-                        'user_id' => $toot_card->users()->first()->id,
-                        'quantity' => $order['quantity'],
-                        'total' => $order['total'],
-                        'payment_method' => $order['payment_method'],
-                        'status' => $order['status'],
-                    ]);
+                    foreach ($orders as $order) {
+                        Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
+                            'queue_number' => $order['queue_number'],
+                            'order_id' => $order['order_id'],
+                            'user_id' => $toot_card->users()->first()->id,
+                            'quantity' => $order['quantity'],
+                            'total' => $order['total'],
+                            'payment_method' => $order['payment_method'],
+                            'status' => $status,
+                        ]);
+                    }
                 }
             }
             return response()->make(config('static.status')[8]);

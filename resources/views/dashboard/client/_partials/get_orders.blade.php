@@ -1,35 +1,29 @@
-@if(count($queued_orders))
+@if(count($queued))
     {{ config('static.status')[9] }}:
-    @foreach(\App\Models\Merchandise::orderIdOnly($queued_orders) as $order_id)
-        ORDER_ID: {{ $order_id }}
-        @foreach($queued_orders as $order)
-            @if($order->order_id == $order_id)
-                MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
-            @endif
+    @foreach(\App\Models\Merchandise::groupOrders($queued) as $order_id)
+        ORDER_ID: {{ $order_id }}, QUEUE_NUMBER: {{ \App\Models\Merchandise::orders($order_id)->first()->queue_number }}
+        @foreach(\App\Models\Merchandise::orders($order_id)->get() as $order)
+            MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
         @endforeach
     @endforeach
 @endif
 
-@if(count($on_hold_orders))
+@if(count($on_hold))
     {{ config('static.status')[11] }}:
-    @foreach(\App\Models\Merchandise::orderIdOnly($on_hold_orders) as $order_id)
+    @foreach(\App\Models\Merchandise::groupOrders($on_hold) as $order_id)
         ORDER_ID: {{ $order_id }}
-        @foreach($on_hold_orders as $order)
-            @if($order->order_id == $order_id)
-                MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
-            @endif
+        @foreach(\App\Models\Merchandise::orders($order_id)->get() as $order)
+            MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
         @endforeach
     @endforeach
 @endif
 
-@if(count($pending_orders))
+@if(count($pending))
     {{ config('static.status')[4] }}:
-    @foreach(\App\Models\Merchandise::orderIdOnly($pending_orders) as $order_id)
+    @foreach(\App\Models\Merchandise::groupOrders($pending) as $order_id)
         ORDER_ID: {{ $order_id }}
-        @foreach($pending_orders as $order)
-            @if($order->order_id == $order_id)
-                MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
-            @endif
+        @foreach(\App\Models\Merchandise::orders($order_id)->get() as $order)
+            MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
         @endforeach
     @endforeach
 @endif
