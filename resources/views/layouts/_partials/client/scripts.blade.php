@@ -275,9 +275,17 @@
                 $('#empty_load_amount').modal({backdrop: false});
                 console.log('showing empty_load_amount modal');
             } else {
-                enter_load_amount.modal('toggle');
-                tap_card.modal('show');
-                console.log('showing tap_card modal');
+                if (parseFloat(load_amount.val()) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
+                    setTimeout(function () {
+                        $('#exceed_reload_limit').modal('toggle');
+                    }, 5000);
+                    $('#exceed_reload_limit').modal({backdrop: false});
+                    console.log('showing exceed_reload_limit modal');
+                } else {
+                    enter_load_amount.modal('toggle');
+                    tap_card.modal('show');
+                    console.log('showing tap_card modal');
+                }
             }
         }
     });
@@ -291,7 +299,7 @@
             var each = parseFloat(each_value.text());
             var total = qty * each;
             var order = {};
-            order['queue_number'] = parseInt($('#queue_number').text());
+            order['queue_number'] = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
             order['order_id'] = parseInt($('#order_id').text());
             order['toot_card_id'] = $('#id').val();
             order['merchandise_id'] = $(this).data('merchandise_id');
@@ -320,7 +328,7 @@
                             }, 4000);
                             transaction_complete.modal('show');
                         } else {
-                            $('#queue_number_huge').text($('#queue_number').text());
+                            $('#queue_number_huge').text('{{ \App\Models\Merchandise::queueNumber() }}');
                             setTimeout(function () {
                                 transaction_complete_with_queue_number.modal('toggle');
                             }, 4000);

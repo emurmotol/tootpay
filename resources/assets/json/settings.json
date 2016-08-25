@@ -4,6 +4,10 @@
     "value": 30
   },
   {
+    "key": "reload_limit",
+    "value": 10000
+  },
+  {
     "key": "per_point",
     "value": 50
   },

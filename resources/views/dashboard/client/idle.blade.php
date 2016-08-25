@@ -28,6 +28,7 @@
     @include('dashboard.client._partials.validations.invalid_card')
     @include('dashboard.client._partials.validations.wrong_pin')
     @include('dashboard.client._partials.validations.empty_pin')
+    @include('dashboard.client._partials.validations.exceed_reload_limit')
     @include('dashboard.client._partials.validations.empty_load_amount')
     @include('dashboard.client._partials.validations.reload_paid')
     @include('dashboard.client._partials.validations.reload_canceled')
