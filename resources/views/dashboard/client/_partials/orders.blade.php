@@ -3,6 +3,9 @@
         <span class="pull-left">
             Order: <strong>#<span id="order_id">{{ \App\Models\Merchandise::orderId() }}</span></strong>
         </span>
+        <span class="pull-right">
+            <i class="fa fa-question-circle" aria-hidden="true" id="edit_orders_help"></i>
+        </span>
     </div>
     <table class="table table-responsive table-striped" id="table_orders">
         <thead>
@@ -23,22 +26,36 @@
                     <strong>P<span id="grand_total">0.00</span></strong>
                 </div>
             </div>
-            <ul class="list-inline order-actions">
-                <li>
-                    <button class="btn btn-warning btn-lg" id="btn_cancel"
-                            data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">Cancel Order
-                    </button>
-                </li>
-                <li>
-                    <strong>Pay using:</strong>
-                    <button class="btn btn-primary btn-lg" id="btn_pay_using_toot_card" disabled>
-                        <strong>Toot Card</strong>
-                    </button>
-                    <button class="btn btn-success btn-lg" id="btn_pay_using_cash" disabled>
-                        <strong>Cash</strong>
-                    </button>
-                </li>
-            </ul>
+            <div class="order-actions">
+                <ul class="list-inline">
+                    <li>
+                        <button class="btn btn-warning btn-lg" id="btn_cancel"
+                                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">
+                            <strong>Cancel Order</strong>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-info btn-lg" id="btn_hold" disabled>
+                            <strong>Hold Order</strong>
+                        </button>
+                    </li>
+                </ul>
+                <ul class="list-inline">
+                    <li>
+                        <strong>Pay using:</strong>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-lg" id="btn_pay_using_toot_card" disabled>
+                            <strong>Toot Card</strong>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-success btn-lg" id="btn_pay_using_cash" disabled>
+                            <strong>Cash</strong>
+                        </button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

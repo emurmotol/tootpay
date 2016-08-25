@@ -12,6 +12,15 @@
     var base_url = document.domain;
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
     var transaction_complete = $('#transaction_complete');
+    var queue_number_value = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
+
+    $('#select_orders_help').on('click', function () {
+        alert('select_orders_help gif');
+    });
+
+    $('#edit_orders_help').on('click', function () {
+        alert('edit_orders_help gif');
+    });
 
     $('#toot_idle').on('click', function () {
         $('#menu').modal('show');
@@ -254,6 +263,8 @@
                             });
                         } else if (menu_id.val() == 3) {
                             sendMerchandisePurchase('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
+                        } else if (menu_id.val() == 4) {
+                            sendMerchandisePurchase('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
                         }
                     } else if (response == '{{ config('static.status')[3] }}') {
                         console.log('incorrect pin!');
@@ -299,7 +310,7 @@
             var each = parseFloat(each_value.text());
             var total = qty * each;
             var order = {};
-            order['queue_number'] = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
+            order['queue_number'] = queue_number_value;
             order['order_id'] = parseInt($('#order_id').text());
             order['toot_card_id'] = $('#id').val();
             order['merchandise_id'] = $(this).data('merchandise_id');
@@ -328,11 +339,19 @@
                             }, 4000);
                             transaction_complete.modal('show');
                         } else {
-                            $('#queue_number_huge').text('{{ \App\Models\Merchandise::queueNumber() }}');
-                            setTimeout(function () {
-                                transaction_complete_with_queue_number.modal('toggle');
-                            }, 4000);
-                            transaction_complete_with_queue_number.modal('show');
+                            if (status = '{{ config('static.status')[11] }}') {
+                                setTimeout(function () {
+                                    $('#order_on_hold').modal('toggle');
+                                }, 5000);
+                                $('#order_on_hold').modal({backdrop: false});
+                                console.log('showing order_on_hold modal');
+                            } else {
+                                $('#queue_number_huge').text(queue_number_value);
+                                setTimeout(function () {
+                                    transaction_complete_with_queue_number.modal('toggle');
+                                }, 4000);
+                                transaction_complete_with_queue_number.modal('show');
+                            }
                         }
                         goToIdle(4000);
                     }
@@ -340,11 +359,16 @@
     }
 
     $('#btn_cancel').on('click', function () {
-        $(this).button('loading').delay(1000).queue(function () {
+        goToIdle(500);
+        $(this).button('loading').delay(2000).queue(function () {
             $(this).button('reset');
             $(this).dequeue();
         });
-        goToIdle(500);
+    });
+    $('#btn_hold').on('click', function () {
+        menu_id.val(4);
+        console.log('menu_id set to 4!');
+        tap_card.modal('show');
     });
     $('#btn_pay_using_toot_card').on('click', function () {
         menu_id.val(3);
@@ -464,9 +488,11 @@
             $("#grand_total").text(grand_total.toFixed(decimal_place));
 
             if (row_count < 1) {
+                $('#btn_hold').attr('disabled', 'disabled');
                 $('#btn_pay_using_toot_card').attr('disabled', 'disabled');
                 $('#btn_pay_using_cash').attr('disabled', 'disabled');
             } else {
+                $('#btn_hold').removeAttr('disabled');
                 $('#btn_pay_using_toot_card').removeAttr('disabled');
                 $('#btn_pay_using_cash').removeAttr('disabled');
             }

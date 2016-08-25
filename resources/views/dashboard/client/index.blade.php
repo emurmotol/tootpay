@@ -14,7 +14,7 @@
                         <strong>Today's Menu ({{ date('l') }})</strong>
                     </span>
                     <span class="pull-right">
-                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        <i class="fa fa-question-circle" aria-hidden="true" id="select_orders_help"></i>
                     </span>
                 </div>
                 <div class="panel-body merchandise-list" id="todays_menu"></div>
@@ -28,6 +28,7 @@
     @include('dashboard.client._partials.validations.invalid_card')
     @include('dashboard.client._partials.validations.wrong_pin')
     @include('dashboard.client._partials.validations.empty_pin')
+    @include('dashboard.client._partials.validations.order_on_hold')
     @include('dashboard.client._partials.validations.insufficient_balance')
     @include('dashboard.client._partials.validations.transaction_complete')
     @include('dashboard.client._partials.validations.transaction_complete_with_queue_number')

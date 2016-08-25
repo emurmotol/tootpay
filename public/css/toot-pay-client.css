@@ -74,8 +74,9 @@ html, body, .client-order, .col-md-6, .panel, .carousel, .item, .active, .carous
     height: 100%;
 }
 
-.order-actions {
+.order-actions ul {
     padding-top: 10px;
+    float: right;
 }
 
 body {

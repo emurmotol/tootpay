@@ -94,7 +94,7 @@ class ClientController extends Controller
     }
 
     public function tootCardQueuedOrder(Request $request) {
-        if ($request->ajax()) {
+        if ($request->ajax()) { // status 11 (HOLD)
             return response()->make('my_order');
         }
     }

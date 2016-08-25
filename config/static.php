@@ -28,6 +28,7 @@ return [
         'SUCCESS',
         'QUEUED',
         'DONE',
+        'ON_HOLD',
     ],
 
     'payment_method' => [
