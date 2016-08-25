@@ -191,10 +191,10 @@ class Merchandise extends Model
     }
 
     public static function orders($order_id) {
-        return DB::table('merchandise_purchase')->where('order_id', '=', $order_id); // get() is called in view
+        return DB::table('merchandise_purchase')->where('order_id', '=', $order_id);
     }
 
-    public static function groupOrders($orders) {
+    public static function groupOrderIds($orders) {
         return collect($orders)->pluck('order_id', 'order_id');
     }
 }
