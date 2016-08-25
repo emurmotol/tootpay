@@ -25,6 +25,8 @@
     @include('dashboard.client._partials.undone_orders')
 
     @include('dashboard.client._partials.validations.loading')
+    @include('dashboard.client._partials.validations.to_many_card_tap')
+    @include('dashboard.client._partials.validations.no_undone_orders')
     @include('dashboard.client._partials.validations.waiting_for_payment')
     @include('dashboard.client._partials.validations.invalid_card')
     @include('dashboard.client._partials.validations.wrong_pin')

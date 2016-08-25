@@ -29,6 +29,8 @@ return [
         'QUEUED',
         'DONE',
         'ON_HOLD',
+        'EMPTY',
+        'TO_MANY_CARD_TAP',
     ],
 
     'payment_method' => [

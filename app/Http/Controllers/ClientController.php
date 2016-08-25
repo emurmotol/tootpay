@@ -29,10 +29,16 @@ class ClientController extends Controller
 
     public function tootCardCheck(Request $request) {
         if ($request->ajax()) {
-            if (!is_null(TootCard::where('id', $request->get('id'))->first())) {
-                return response()->make(config('static.status')[0]);
+            $toot_card_id = $request->get('id');
+
+            if (strlen($toot_card_id) > 10) {
+                return response()->make(config('static.status')[13]);
+            } else {
+                if (!is_null(TootCard::where('id', $toot_card_id)->first())) {
+                    return response()->make(config('static.status')[0]);
+                }
+                return response()->make(config('static.status')[1]);
             }
-            return response()->make(config('static.status')[1]);
         }
     }
 
@@ -54,7 +60,7 @@ class ClientController extends Controller
     public function tootCardBalanceCheck(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('id'))->first();
-            return (String) view('dashboard.client._partials.toot_card_details', compact('toot_card'));
+            return (String)view('dashboard.client._partials.toot_card_details', compact('toot_card'));
         }
     }
 
@@ -75,7 +81,7 @@ class ClientController extends Controller
     public function tootCardReloadStatus(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::find($request->get('id'));
-            $status= $toot_card->tootCardReload()->wherePivot('id', $request->get('reload_id'))
+            $status = $toot_card->tootCardReload()->wherePivot('id', $request->get('reload_id'))
                 ->withPivot('status')->first()->pivot->status;
             if (is_null($status)) {
                 return response()->make(config('static.status')[4]);
@@ -96,15 +102,24 @@ class ClientController extends Controller
     public function tootCardGetOrders(Request $request) {
         if ($request->ajax()) {
             $toot_card_id = $request->get('id');
-            $user = TootCard::find($toot_card_id)->users()->first();
+            $toot_card = TootCard::find($toot_card_id);
+
+            if (is_null($toot_card)) {
+
+            }
+            $user = $toot_card->users()->first();
             $queued = Merchandise::queued($toot_card_id);
             $on_hold = Merchandise::onHold($toot_card_id);
             $pending = Merchandise::pending($toot_card_id);
+
+            if (!count($queued) && !count($on_hold) && !count($pending)) {
+                return response()->make(config('static.status')[12]);
+            }
             return (String)view('dashboard.client._partials.get_orders', compact('queued', 'on_hold', 'pending', 'user'));
         }
     }
 
-    public function merchandisePurchase(Request $request){
+    public function merchandisePurchase(Request $request) {
         if ($request->ajax()) {
             $orders = collect(json_decode($request->get('orders'), true));
             $status = $orders->first()['status'];
