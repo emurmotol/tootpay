@@ -168,4 +168,76 @@ class Merchandise extends Model
             ->groupBy('month', 'year')
             ->get();
     }
+
+    public static function purchase($orders) {
+        $status = $orders->first()['status'];
+        $toot_card_id = $orders->first()['toot_card_id'];
+        $payment_method = $orders->first()['payment_method'];
+
+        if ($payment_method == config('static.payment_method')[0]) {
+            foreach ($orders as $order) {
+                DB::table('merchandise_purchase')->insert([
+                    'order_id' => $order['order_id'],
+                    'merchandise_id' => $order['merchandise_id'],
+                    'quantity' => $order['quantity'],
+                    'total' => $order['total'],
+                    'payment_method' => $order['payment_method'],
+                    'status' => $order['status'],
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+            return response()->make(config('static.status')[8]);
+        } else if ($payment_method == config('static.payment_method')[1]) {
+            $toot_card = TootCard::find($toot_card_id);
+            $grand_total = $orders->sum('total');
+            $per_point = intval(Setting::value('per_point'));
+            $status_insufficient_balance = response()->make(config('static.status')[7]);
+
+            if ($status != config('static.status')[11]) {
+                if (count($toot_card->load)) {
+                    if ($toot_card->load < $grand_total) {
+                        $load_points = $toot_card->load + $toot_card->points;
+
+                        if ($load_points < $grand_total) {
+                            return $status_insufficient_balance;
+                        } else {
+                            $current_load = $toot_card->load;
+                            $toot_card->load = ($current_load - $grand_total) > 1 ?: 0;
+                            $points = $toot_card->points - ($grand_total - $current_load);
+                            $toot_card->points = (($points < 1) ? 0 : $points) + ($current_load / $per_point);
+                        }
+                    } else {
+                        $toot_card->load = $toot_card->load - $grand_total;
+                        $toot_card->points = $toot_card->points + ($grand_total / $per_point);
+                    }
+                } else {
+                    if (count($toot_card->points)) {
+                        if ($toot_card->points < $grand_total) {
+                            return $status_insufficient_balance;
+                        } else {
+                            $points = $toot_card->points - $grand_total;
+                            $toot_card->points = ($points < 1) ? 0 : $points;
+                        }
+                    } else {
+                        return $status_insufficient_balance;
+                    }
+                }
+                $toot_card->save();
+            }
+
+            foreach ($orders as $order) {
+                Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
+                    'queue_number' => $order['queue_number'],
+                    'order_id' => $order['order_id'],
+                    'user_id' => $toot_card->users()->first()->id,
+                    'quantity' => $order['quantity'],
+                    'total' => $order['total'],
+                    'payment_method' => $order['payment_method'],
+                    'status' => $order['status'],
+                ]);
+            }
+        }
+        return response()->make(config('static.status')[8]);
+    }
 }

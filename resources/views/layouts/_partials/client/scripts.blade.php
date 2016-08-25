@@ -7,9 +7,8 @@
     var enter_load_amount = $('#enter_load_amount');
     var toot_card_id = $('#toot_card_id');
     var loading = $('#loading');
-    var menu_id = $('#menu_id');
+    var destination_id = $('#destination_id');
     var idle_toot_card_id = $('#idle_toot_card_id');
-    var base_url = document.domain;
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
     var transaction_complete = $('#transaction_complete');
     var queue_number_value = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
@@ -53,7 +52,7 @@
             }, function (response) {
 
                 if (response == '{{ config('static.status')[0] }}') {
-                    $.post('toot_card_queued_order', {
+                    $.post('toot_card_my_orders', {
                         id: idle_toot_card_id.val()
                     }, function (response) {
                         alert(response);
@@ -102,15 +101,15 @@
         $('#menu').modal('toggle');
         $('#enter_load_amount').modal('show');
         console.log('showing enter_load_amount modal');
-        menu_id.val(1);
-        console.log('menu_id set to 1!');
+        destination_id.val(1);
+        console.log('destination_id set to 1!');
     });
     $('#menu_balance').on('click', function () {
         $('#menu').modal('toggle');
         tap_card.modal('show');
         console.log('showing tap_card modal');
-        menu_id.val(2);
-        console.log('menu_id set to 2!');
+        destination_id.val(2);
+        console.log('destination_id set to 2!');
     });
     $('#menu_order').on('click', function () {
         $('.modal-body p #loading_text').text('Loading menu items');
@@ -118,7 +117,7 @@
         console.log('showing loading modal');
         $('#menu').modal('toggle');
         console.log('route to order!');
-        window.location.replace('http://' + base_url + '/client/');
+        window.location.replace('{{ route('client.index') }}/');
     });
 
     enter_pin.on('hidden.bs.modal', function () {
@@ -184,7 +183,7 @@
                         console.log('correct pin!');
                         enter_pin.modal('toggle');
 
-                        if (menu_id.val() == 1) {
+                        if (destination_id.val() == 1) {
                             $('.modal-body p #loading_text').text('Processing load request. Please wait');
                             $('#loading').modal('show');
 
@@ -249,7 +248,7 @@
                                     }, 3000);
                                 }
                             });
-                        } else if (menu_id.val() == 2) {
+                        } else if (destination_id.val() == 2) {
                             $.post('toot_card_check_balance', {id: $('#id').val()}, function (response) {
                                 $('#toot_card_details').html(response);
                             }).done(function () {
@@ -261,9 +260,9 @@
                                 $('#check_balance').modal('show');
                                 console.log('showing check_balance modal');
                             });
-                        } else if (menu_id.val() == 3) {
+                        } else if (destination_id.val() == 3) {
                             sendMerchandisePurchase('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
-                        } else if (menu_id.val() == 4) {
+                        } else if (destination_id.val() == 4) {
                             sendMerchandisePurchase('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
                         }
                     } else if (response == '{{ config('static.status')[3] }}') {
@@ -289,7 +288,7 @@
                 if (parseFloat(load_amount.val()) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
                     setTimeout(function () {
                         $('#exceed_reload_limit').modal('toggle');
-                    }, 5000);
+                    }, 3000);
                     $('#exceed_reload_limit').modal({backdrop: false});
                     console.log('showing exceed_reload_limit modal');
                 } else {
@@ -331,19 +330,22 @@
                             $('#insufficient_balance').modal('toggle');
                         }, 3000);
                         $('#insufficient_balance').modal('show');
+                        console.log('showing insufficient_balance modal');
                     } else if (response == '{{ config('static.status')[8] }}') {
 
                         if (payment_method == '{{ config('static.payment_method')[0] }}') {
                             setTimeout(function () {
                                 transaction_complete.modal('toggle');
-                            }, 4000);
+                            }, 3000);
                             transaction_complete.modal('show');
-                        } else {
-                            if (status = '{{ config('static.status')[11] }}') {
+                            console.log('showing transaction_complete modal');
+                            goToIdle(2000);
+                        } else if (payment_method == '{{ config('static.payment_method')[1] }}') {
+                            if (status == '{{ config('static.status')[11] }}') {
                                 setTimeout(function () {
                                     $('#order_on_hold').modal('toggle');
-                                }, 5000);
-                                $('#order_on_hold').modal({backdrop: false});
+                                }, 4000);
+                                $('#order_on_hold').modal('show');
                                 console.log('showing order_on_hold modal');
                             } else {
                                 $('#queue_number_huge').text(queue_number_value);
@@ -351,9 +353,10 @@
                                     transaction_complete_with_queue_number.modal('toggle');
                                 }, 4000);
                                 transaction_complete_with_queue_number.modal('show');
+                                console.log('showing transaction_complete_with_queue_number modal');
                             }
+                            goToIdle(3000);
                         }
-                        goToIdle(4000);
                     }
                 });
     }
@@ -366,14 +369,14 @@
         });
     });
     $('#btn_hold').on('click', function () {
-        menu_id.val(4);
-        console.log('menu_id set to 4!');
         tap_card.modal('show');
+        destination_id.val(4);
+        console.log('destination_id set to 4!');
     });
     $('#btn_pay_using_toot_card').on('click', function () {
-        menu_id.val(3);
-        console.log('menu_id set to 3!');
         tap_card.modal('show');
+        destination_id.val(3);
+        console.log('destination_id set to 3!');
     });
     $('#btn_pay_using_cash').on('click', function () {
         sendMerchandisePurchase('{{ config('static.status')[4] }}', '{{ config('static.payment_method')[0] }}');
@@ -381,7 +384,7 @@
 
     function goToIdle(timeout) {
         setTimeout(function () {
-            window.location.href = 'http://' + base_url + '/client/idle';
+            window.location.href = '{{ route('client.idle') }}';
         }, timeout);
     }
 

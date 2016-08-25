@@ -52,7 +52,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button"
-                                                        class="btn btn-info btn-lg pull-left huge"
+                                                        class="btn btn-default btn-lg pull-left huge"
                                                         data-dismiss="modal">Back
                                                 </button>
                                                 <button type="button"

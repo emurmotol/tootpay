@@ -150,9 +150,9 @@ Route::post('client/toot_card_check_balance', [
     'uses' => 'ClientController@tootCardBalanceCheck',
     'as' => 'client.toot_card_check_balance'
 ]);
-Route::post('client/toot_card_queued_order', [
-    'uses' => 'ClientController@tootCardQueuedOrder',
-    'as' => 'client.toot_card_queued_order'
+Route::post('client/toot_card_my_orders', [
+    'uses' => 'ClientController@tootCardMyOrders',
+    'as' => 'client.toot_card_my_orders'
 ]);
 Route::post('client/toot_card_reload_pending', [
     'uses' => 'ClientController@tootCardReloadPending',

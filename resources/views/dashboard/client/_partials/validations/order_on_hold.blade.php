@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title huge text-center">
-                    <p><strong class="text-info">Your orders is now ON HOLD.</strong></p>
-                    <p><strong class="text-info">To check your order tap your card on screen idle.</strong></p>
+                    <p><strong class="text-info">Your orders is now on-hold.</strong></p>
+                    <p><strong class="text-info">To check your order tap your toot card on screen idle.</strong></p>
                 </h4>
             </div>
         </div>

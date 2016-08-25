@@ -30,7 +30,7 @@
                 <ul class="list-inline">
                     <li>
                         <button class="btn btn-warning btn-lg" id="btn_cancel"
-                                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">
+                                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Canceling order...">
                             <strong>Cancel Order</strong>
                         </button>
                     </li>
