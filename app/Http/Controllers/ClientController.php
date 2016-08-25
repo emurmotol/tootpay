@@ -96,10 +96,11 @@ class ClientController extends Controller
     public function tootCardGetOrders(Request $request) {
         if ($request->ajax()) {
             $toot_card_id = $request->get('id');
+            $user = TootCard::find($toot_card_id)->users()->first();
             $queued = Merchandise::queued($toot_card_id);
             $on_hold = Merchandise::onHold($toot_card_id);
             $pending = Merchandise::pending($toot_card_id);
-            return (String)view('dashboard.client._partials.get_orders', compact('queued', 'on_hold', 'pending'));
+            return (String)view('dashboard.client._partials.get_orders', compact('queued', 'on_hold', 'pending', 'user'));
         }
     }
 

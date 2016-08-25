@@ -7,10 +7,12 @@
     var enter_load_amount = $('#enter_load_amount');
     var toot_card_id = $('#toot_card_id');
     var loading = $('#loading');
+    var undone_orders = $('#undone_orders');
     var destination_id = $('#destination_id');
     var idle_toot_card_id = $('#idle_toot_card_id');
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
     var transaction_complete = $('#transaction_complete');
+    var order_on_hold = $('#order_on_hold');
     var queue_number_value = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
 
     $('#select_orders_help').on('click', function () {
@@ -55,7 +57,10 @@
                     $.post('toot_card_get_orders', {
                         id: idle_toot_card_id.val()
                     }, function (response) {
-                        console.log(response);
+                        $('#user_order').html(response);
+                    }).done(function () {
+                        undone_orders.modal('show');
+                        console.log('showing undone_orders modal');
                     });
                 } else {
                     setTimeout(function () {
@@ -343,9 +348,9 @@
                         } else if (payment_method == '{{ config('static.payment_method')[1] }}') {
                             if (status == '{{ config('static.status')[11] }}') {
                                 setTimeout(function () {
-                                    $('#order_on_hold').modal('toggle');
+                                    order_on_hold.modal('toggle');
                                 }, 4000);
-                                $('#order_on_hold').modal('show');
+                                order_on_hold.modal('show');
                                 console.log('showing order_on_hold modal');
                             } else {
                                 $('#queue_number_huge').text(queue_number_value);
@@ -360,6 +365,18 @@
                     }
                 });
     }
+
+    order_on_hold.on('hidden.bs.modal', function () {
+        goToIdle(0);
+    });
+
+    transaction_complete_with_queue_number.on('hidden.bs.modal', function () {
+        goToIdle(0);
+    });
+
+    transaction_complete.on('hidden.bs.modal', function () {
+        goToIdle(0);
+    });
 
     $('#btn_cancel').on('click', function () {
         goToIdle(500);

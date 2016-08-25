@@ -136,3 +136,7 @@ body {
     font-size: 25px;
     height: auto;
 }
+
+.user-orders {
+    padding: 10px;
+}
