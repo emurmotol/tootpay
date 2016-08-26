@@ -11,6 +11,7 @@
     var toot_card_id = $('#toot_card_id');
     var loading = $('#loading');
     var _modal = $('.modal');
+    var menu = $('#menu');
     var no_undone_orders = $('#no_undone_orders');
     var to_many_card_tap = $('#to_many_card_tap');
     var undone_orders = $('#undone_orders');
@@ -95,7 +96,7 @@
             $.post('toot_card_check', {
                 id: $(this).val()
             }, function (response) {
-                tap_card.modal('toggle');
+                tap_card.modal('hide');
 
                 if (response == '{{ config('static.status')[0] }}') {
                     $('#id').val(toot_card_id.val());
@@ -132,7 +133,7 @@
         alert('edit_orders_help gif');
     });
     $('#toot_idle').on('click', function () {
-        menu(timeout_long);
+        _menu(timeout_long);
     });
     $('.key').on('click', function () {
         if (enter_pin.hasClass('in')) {
@@ -151,20 +152,20 @@
         });
     });
     $('#menu_reload').on('click', function () {
-        $('#menu').modal('toggle');
+        menu.modal('hide');
         resetLoadAmountValue();
         enterLoadAmount(timeout_long);
         last_resort.val(1);
         console.log('last_resort set to 1!');
     });
     $('#menu_balance').on('click', function () {
-        $('#menu').modal('toggle');
+        menu.modal('hide');
         tapCard(timeout_long);
         last_resort.val(2);
         console.log('last_resort set to 2!');
     });
     $('#menu_order').on('click', function () {
-        $('#menu').modal('toggle');
+        menu.modal('hide');
         $('.modal-body p #loading_text').text('Loading menu items');
         loading.modal('show');
         goToIndex(500);
@@ -197,7 +198,7 @@
                     pin_code: pin_code.val()
                 }, function (response) {
                     if (response == '{{ config('static.status')[2] }}') {
-                        enter_pin.modal('toggle');
+                        enter_pin.modal('hide');
 
                         if (last_resort.val() == 1) {
                             alert('RELOADS'); // todo
@@ -229,7 +230,7 @@
                 if (parseFloat(load_amount.val()) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
                     exceedReloadLimit(3000);
                 } else {
-                    enter_load_amount.modal('toggle');
+                    enter_load_amount.modal('hide');
                     tapCard(timeout_long);
                 }
             }
@@ -380,7 +381,7 @@
         enter_load_amount.modal('show');
         console.log('showing enter_load_amount modal');
         _timer = setTimeout(function () {
-            enter_load_amount.modal('toggle');
+            enter_load_amount.modal('hide');
         }, timeout);
     }
 
@@ -406,15 +407,15 @@
         $('#empty_load_amount').modal({backdrop: false});
         console.log('showing empty_load_amount modal');
         _timer = setTimeout(function () {
-            $('#empty_load_amount').modal('toggle');
+            $('#empty_load_amount').modal('hide');
         }, timeout);
     }
 
-    function menu(timeout) {
-        $('#menu').modal('show');
+    function _menu(timeout) {
+        menu.modal('show');
         console.log('showing menu modal');
         _timer = setTimeout(function () {
-            $('#menu').modal('toggle');
+            menu.modal('hide');
         }, timeout);
     }
 
@@ -422,7 +423,7 @@
         no_undone_orders.modal('show');
         console.log('showing no_undone_orders modal');
         _timer = setTimeout(function () {
-            no_undone_orders.modal('toggle');
+            no_undone_orders.modal('hide');
         }, timeout);
     }
 
@@ -430,7 +431,7 @@
         undone_orders.modal('show');
         console.log('showing undone_orders modal');
         _timer = setTimeout(function () {
-            no_undone_orders.modal('toggle');
+            no_undone_orders.modal('hide');
         }, timeout);
     }
 
@@ -463,7 +464,7 @@
         to_many_card_tap.modal('show');
         console.log('showing to_many_card_tap modal');
         _timer = setTimeout(function () {
-            to_many_card_tap.modal('toggle');
+            to_many_card_tap.modal('hide');
         }, timeout);
     }
 
@@ -471,7 +472,7 @@
         $('#invalid_card').modal('show');
         console.log('showing invalid_card modal');
         _timer = setTimeout(function () {
-            $('#invalid_card').modal('toggle');
+            $('#invalid_card').modal('hide');
         }, timeout);
     }
 
@@ -479,7 +480,7 @@
         $('#exceed_reload_limit').modal({backdrop: false});
         console.log('showing exceed_reload_limit modal');
         _timer = setTimeout(function () {
-            $('#exceed_reload_limit').modal('toggle');
+            $('#exceed_reload_limit').modal('hide');
         }, timeout);
     }
 
@@ -487,7 +488,7 @@
         enter_pin.modal('show');
         console.log('showing enter_pin modal');
         _timer = setTimeout(function () {
-            enter_pin.modal('toggle');
+            enter_pin.modal('hide');
         }, timeout);
     }
 
@@ -495,7 +496,7 @@
         $('#empty_pin').modal({backdrop: false});
         console.log('showing empty_pin modal');
         _timer = setTimeout(function () {
-            $('#empty_pin').modal('toggle');
+            $('#empty_pin').modal('hide');
         }, timeout);
     }
 
@@ -503,7 +504,7 @@
         check_balance.modal('show');
         console.log('showing check_balance modal');
         _timer = setTimeout(function () {
-            check_balance.modal('toggle');
+            check_balance.modal('hide');
         }, timeout);
     }
 
@@ -511,7 +512,7 @@
         $('#wrong_pin').modal({backdrop: false});
         console.log('showing wrong_pin modal');
         _timer = setTimeout(function () {
-            $('#wrong_pin').modal('toggle');
+            $('#wrong_pin').modal('hide');
         }, timeout);
     }
 
@@ -519,7 +520,7 @@
         tap_card.modal('show');
         console.log('showing tap_card modal');
         _timer = setTimeout(function () {
-            tap_card.modal('toggle');
+            tap_card.modal('hide');
         }, timeout);
     }
 
@@ -527,7 +528,7 @@
         $('#insufficient_balance').modal('show');
         console.log('showing insufficient_balance modal');
         _timer = setTimeout(function () {
-            $('#insufficient_balance').modal('toggle');
+            $('#insufficient_balance').modal('hide');
         }, timeout);
     }
 
@@ -535,7 +536,7 @@
         transaction_complete_with_queue_number.modal('show');
         console.log('showing transaction_complete_with_queue_number modal');
         _timer = setTimeout(function () {
-            transaction_complete_with_queue_number.modal('toggle');
+            transaction_complete_with_queue_number.modal('hide');
         }, timeout);
     }
 
@@ -543,7 +544,7 @@
         order_on_hold.modal('show');
         console.log('showing order_on_hold modal');
         _timer = setTimeout(function () {
-            order_on_hold.modal('toggle');
+            order_on_hold.modal('hide');
         }, timeout);
     }
 
@@ -551,7 +552,7 @@
         transaction_complete.modal('show');
         console.log('showing transaction_complete modal');
         _timer = setTimeout(function () {
-            transaction_complete.modal('toggle');
+            transaction_complete.modal('hide');
         }, timeout);
     }
 
