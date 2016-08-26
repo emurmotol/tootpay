@@ -178,9 +178,9 @@ Route::post('client/merchandise_purchase', [
     'uses' => 'ClientController@merchandisePurchase',
     'as' => 'client.merchandise_purchase'
 ]);
-Route::post('client/toot_card_authentication', [
-    'uses' => 'ClientController@tootCardAuthentication',
-    'as' => 'client.toot_card_authentication'
+Route::post('client/toot_card_auth_attempt', [
+    'uses' => 'ClientController@tootCardAuthAttempt',
+    'as' => 'client.toot_card_auth_attempt'
 ]);
 Route::get('client/order', [
     'uses' => 'ClientController@order',

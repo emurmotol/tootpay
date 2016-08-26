@@ -12,19 +12,19 @@
             <div class="modal-body menu">
                 <div class="row">
                     <div class="col-md-3">
-                        <img id="menu_order" src="{{ asset('img/menu/order.png') }}" class="img-responsive">
+                        <img id="menu_order_food" src="{{ asset('img/menu/order_food.png') }}" class="img-responsive">
                         <div class="text-center text-primary"><strong>Order Food</strong></div>
                     </div>
                     <div class="col-md-3">
-                        <img id="menu_reload" src="{{ asset('img/menu/reload.png') }}" class="img-responsive">
-                        <div class="text-center text-primary"><strong>Reload Card</strong></div>
+                        <img id="menu_reload_toot_card" src="{{ asset('img/menu/reload_toot_card.png') }}" class="img-responsive">
+                        <div class="text-center text-primary"><strong>Reload Toot Card</strong></div>
                     </div>
                     <div class="col-md-3">
-                        <img id="menu_share_a_load" src="{{ asset('img/menu/share_load.png') }}" class="img-responsive">
+                        <img id="menu_share_a_load" src="{{ asset('img/menu/share_a_load.png') }}" class="img-responsive">
                         <div class="text-center text-primary"><strong>Share-a-Load</strong></div>
                     </div>
                     <div class="col-md-3">
-                        <img id="menu_balance" src="{{ asset('img/menu/balance.png') }}" class="img-responsive">
+                        <img id="menu_check_balance" src="{{ asset('img/menu/check_balance.png') }}" class="img-responsive">
                         <div class="text-center text-primary"><strong>Check Balance</strong></div>
                     </div>
                 </div>

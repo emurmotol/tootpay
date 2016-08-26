@@ -1,36 +1,58 @@
 <script>
-    var waiting_for_payment = $('#waiting_for_payment');
-    var enter_pin = $('#enter_pin');
-    var tap_card = $('#tap_card');
+    // button
+    var btn_cancel = $('#btn_cancel');
     var btn_hold = $('#btn_hold');
     var btn_pay_using_toot_card = $('#btn_pay_using_toot_card');
     var btn_pay_using_cash = $('#btn_pay_using_cash');
+
+    // input
+    var last_resort = $('#last_resort');
+    var idle_toot_card_id = $('#idle_toot_card_id');
     var pin_code = $('#pin_code');
-    var load_amount = $('#load_amount');
-    var enter_load_amount = $('#enter_load_amount');
     var toot_card_id = $('#toot_card_id');
-    var loading = $('#loading');
+    var user_id = $('#user_id');
+
+    // modal
     var _modal = $('.modal');
     var menu = $('#menu');
     var no_undone_orders = $('#no_undone_orders');
     var to_many_card_tap = $('#to_many_card_tap');
     var undone_orders = $('#undone_orders');
-    var last_resort = $('#last_resort');
-    var idle_toot_card_id = $('#idle_toot_card_id');
+    var load_amount = $('#load_amount');
+    var enter_load_amount = $('#enter_load_amount');
+    var empty_load_amount = $('#empty_load_amount');
+    var enter_pin = $('#enter_pin');
+    var empty_pin = $('#empty_pin');
+    var enter_user_id = $('#enter_user_id');
+    var empty_user_id = $('#empty_user_id');
+    var loading = $('#loading');
+    var wrong_pin = $('#wrong_pin');
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
     var transaction_complete = $('#transaction_complete');
     var order_on_hold = $('#order_on_hold');
     var check_balance = $('#check_balance');
+    var tap_card = $('#tap_card');
+    var waiting_for_payment = $('#waiting_for_payment');
+
+    // database values
     var queue_number_value = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
     var order_id = parseInt('{{ \App\Models\Merchandise::orderId() }}');
+
+    // timer
     var timeout_long = 60000;
     var timeout_short = 1500;
     var _timer;
 
+    // menu
+    var menu_reload_toot_card = $('#menu_reload_toot_card');
+    var menu_check_balance = $('#menu_check_balance');
+    var menu_order_food = $('#menu_order_food');
+    var menu_share_a_load = $('#menu_share_a_load');
+
     idleTapCardListener(0);
 
     enter_pin.on('hidden.bs.modal', function () {
-        $(this).find('#pin_code').val('');
+        resetPinCodeValue();
     });
     _modal.on('hidden.bs.modal', function () {
         idleTapCardListener(0);
@@ -60,6 +82,9 @@
 
     tap_card.on('shown.bs.modal', function () {
         modalTapCardListener(0);
+    });
+    wrong_pin.on('shown.bs.modal', function () {
+        resetPinCodeValue();
     });
 
     idle_toot_card_id.on('change', function () {
@@ -144,31 +169,38 @@
             load_amount.val((load_amount.val()) + (this.value));
         }
     });
-    $('#btn_cancel').on('click', function () {
+    btn_cancel.on('click', function () {
         goToIdle(500);
         $(this).button('loading').delay(timeout_short).queue(function () {
             $(this).button('reset');
             $(this).dequeue();
         });
     });
-    $('#menu_reload').on('click', function () {
+    menu_reload_toot_card.on('click', function () {
         menu.modal('hide');
         resetLoadAmountValue();
         enterLoadAmount(timeout_long);
         last_resort.val(1);
         console.log('last_resort set to 1!');
     });
-    $('#menu_balance').on('click', function () {
+    menu_check_balance.on('click', function () {
         menu.modal('hide');
         tapCard(timeout_long);
         last_resort.val(2);
         console.log('last_resort set to 2!');
     });
-    $('#menu_order').on('click', function () {
+    menu_order_food.on('click', function () {
         menu.modal('hide');
         $('.modal-body p #loading_text').text('Loading menu items');
         loading.modal('show');
         goToIndex(500);
+    });
+    menu_share_a_load.on('click', function () {
+        menu.modal('hide');
+        resetLoadAmountValue();
+        enterLoadAmount(timeout_long);
+        last_resort.val(5);
+        console.log('last_resort set to 5!');
     });
     btn_hold.on('click', function () {
         tapCard(timeout_long);
@@ -184,42 +216,25 @@
         sendOrders('{{ config('static.status')[4] }}', '{{ config('static.payment_method')[0] }}');
     });
     $('.submit-check').on('click', function () {
-        $(this).button('loading').delay(1000).queue(function () {
+        $(this).button('loading').delay(1500).queue(function () {
             $(this).button('reset');
             $(this).dequeue();
         });
+        var last_resort_value = last_resort.val();
+
+        if (enter_user_id.hasClass('in')) {
+            if (parseInt(user_id.val().length) < 1) {
+                emptyUserId(timeout_short);
+            } else {
+                tapCard(timeout_long);
+            }
+        }
 
         if (enter_pin.hasClass('in')) {
             if (parseInt(pin_code.val().length) < 1) {
                 emptyPin(timeout_short);
             } else {
-                $.post('toot_card_authentication', {
-                    id: $('#id').val(),
-                    pin_code: pin_code.val()
-                }, function (response) {
-                    if (response == '{{ config('static.status')[2] }}') {
-                        enter_pin.modal('hide');
-
-                        if (last_resort.val() == 1) {
-                            alert('RELOADS'); // todo
-                        } else if (last_resort.val() == 2) {
-                            $.post('toot_card_check_balance', {
-                                id: $('#id').val()
-                            }, function (response) {
-                                $('#toot_card_details').html(response);
-                            }).done(function () {
-                                checkBalance(timeout_long);
-                            });
-                        } else if (last_resort.val() == 3) {
-                            sendOrders('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
-                        } else if (last_resort.val() == 4) {
-                            sendOrders('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
-                        }
-                    } else if (response == '{{ config('static.status')[3] }}') {
-                        wrongPin(timeout_short);
-                    }
-                    console.log('response is ' + response + ' pin!');
-                });
+                tootCardAuthAttempt($('#id').val(), pin_code.val(), last_resort_value);
             }
         }
 
@@ -231,11 +246,69 @@
                     exceedReloadLimit(3000);
                 } else {
                     enter_load_amount.modal('hide');
-                    tapCard(timeout_long);
+                    if (last_resort_value == 5) {
+                        enterUserId(timeout_short);
+                    } else {
+                        tapCard(timeout_long);
+                    }
                 }
             }
         }
     });
+
+    function tootCardCheckBalance(toot_card_id) {
+        $.post('toot_card_check_balance', {
+            id: toot_card_id
+        }, function (response) {
+            $('#toot_card_details').html(response);
+        }).done(function () {
+            checkBalance(timeout_long);
+        });
+    }
+
+    function shareLoad() {
+        alert('LAST_RESORT_SHARE_LOAD');
+    }
+
+    function reloadTootCard() {
+        alert('LAST_RESORT_RELOAD_TOOT_CARD');
+    }
+
+    function tootCardAuthAttempt(toot_card_id, pin_code, last_resort_value) {
+        $.post('toot_card_auth_attempt', {
+            id: toot_card_id,
+            pin_code: pin_code
+        }, function (response) {
+            if (response == '{{ config('static.status')[2] }}') {
+                enter_pin.modal('hide');
+                lastResort(last_resort_value);
+            } else if (response == '{{ config('static.status')[3] }}') {
+                wrongPin(timeout_short);
+            }
+            console.log('response is ' + response + ' pin!');
+        });
+    }
+
+    function lastResort(last_resort_value) {
+        switch(last_resort_value) {
+            case 1:
+                reloadTootCard();
+                break;
+            case 2:
+                tootCardCheckBalance($('#id').val());
+                break;
+            case 3:
+                sendOrders('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
+                break;
+            case 4:
+                sendOrders('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
+                break;
+            case 5:
+                shareLoad();
+                break;
+        }
+        alert('last_resort_value is ' + last_resort_value + '!');
+    }
 
     function goToIdle(timeout) {
         _timer = setTimeout(function () {
@@ -385,6 +458,22 @@
         }, timeout);
     }
 
+    function enterUserId(timeout) {
+        enter_user_id.modal('show');
+        console.log('showing enter_user_id modal');
+        _timer = setTimeout(function () {
+            enter_user_id.modal('hide');
+        }, timeout);
+    }
+
+    function emptyUserId(timeout) {
+        empty_user_id.modal('show');
+        console.log('showing empty_user_id modal');
+        _timer = setTimeout(function () {
+            empty_user_id.modal('hide');
+        }, timeout);
+    }
+
     function idleTapCardListener(timeout) {
         idle_toot_card_id.focus();
         console.log('idle_toot_card_id is on focus!');
@@ -404,10 +493,10 @@
     }
 
     function emptyLoadAmount(timeout) {
-        $('#empty_load_amount').modal({backdrop: false});
+        empty_load_amount.modal({backdrop: false});
         console.log('showing empty_load_amount modal');
         _timer = setTimeout(function () {
-            $('#empty_load_amount').modal('hide');
+            empty_load_amount.modal('hide');
         }, timeout);
     }
 
@@ -460,6 +549,11 @@
         console.log('user_order has been reset!');
     }
 
+    function resetPinCodeValue() {
+        pin_code.val('');
+        console.log('pin_code has been reset!');
+    }
+
     function toManyCardTap(timeout) {
         to_many_card_tap.modal('show');
         console.log('showing to_many_card_tap modal');
@@ -493,10 +587,10 @@
     }
 
     function emptyPin(timeout) {
-        $('#empty_pin').modal({backdrop: false});
+        empty_pin.modal({backdrop: false});
         console.log('showing empty_pin modal');
         _timer = setTimeout(function () {
-            $('#empty_pin').modal('hide');
+            empty_pin.modal('hide');
         }, timeout);
     }
 
@@ -509,10 +603,10 @@
     }
 
     function wrongPin(timeout) {
-        $('#wrong_pin').modal({backdrop: false});
+        wrong_pin.modal({backdrop: false});
         console.log('showing wrong_pin modal');
         _timer = setTimeout(function () {
-            $('#wrong_pin').modal('hide');
+            wrong_pin.modal('hide');
         }, timeout);
     }
 

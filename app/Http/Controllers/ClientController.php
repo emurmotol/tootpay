@@ -42,7 +42,7 @@ class ClientController extends Controller
         }
     }
 
-    public function tootCardAuthentication(Request $request) {
+    public function tootCardAuthAttempt(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('id'))->first();
 

@@ -22,8 +22,10 @@
     @include('dashboard.client._partials.menu')
     @include('dashboard.client._partials.check_balance')
     @include('dashboard.client._partials.enter_load_amount')
+    @include('dashboard.client._partials.enter_user_id')
     @include('dashboard.client._partials.undone_orders')
 
+    @include('dashboard.client._partials.validations.empty_user_id')
     @include('dashboard.client._partials.validations.loading')
     @include('dashboard.client._partials.validations.to_many_card_tap')
     @include('dashboard.client._partials.validations.no_undone_orders')

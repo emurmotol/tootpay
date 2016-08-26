@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title huge text-center">
-                    <strong class="text-success"><i class="fa fa-check"></i> Transaction complete.</strong>
+                    <strong class="text-success"><i class="fa fa-check"></i> Transaction complete!</strong>
                 </h4>
             </div>
             <div class="modal-body text-center text-success">
