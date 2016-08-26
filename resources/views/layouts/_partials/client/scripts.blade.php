@@ -49,6 +49,13 @@
     var menu_order_food = $('#menu_order_food');
     var menu_share_a_load = $('#menu_share_a_load');
 
+    // idle touch
+    var toot_idle = $('#toot_idle');
+
+    // help
+    var edit_orders_help = $('#edit_orders_help');
+    var select_orders_help = $('#select_orders_help');
+
     idleTapCardListener(0);
 
     enter_pin.on('hidden.bs.modal', function () {
@@ -151,13 +158,13 @@
             });
         }
     });
-    $('#select_orders_help').on('click', function () {
+    select_orders_help.on('click', function () {
         alert('select_orders_help gif');
     });
-    $('#edit_orders_help').on('click', function () {
+    edit_orders_help.on('click', function () {
         alert('edit_orders_help gif');
     });
-    $('#toot_idle').on('click', function () {
+    toot_idle.on('click', function () {
         _menu(timeout_long);
     });
     $('.key').on('click', function () {
