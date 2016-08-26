@@ -10,6 +10,7 @@
     var idle_toot_card_id = $('#idle_toot_card_id');
     var pin_code = $('#pin_code');
     var toot_card_id = $('#toot_card_id');
+    var _toot_card_id = $('#_toot_card_id');
     var user_id = $('#user_id');
 
     // modal
@@ -97,11 +98,11 @@
     idle_toot_card_id.on('change', function () {
         if (parseInt($(this).val().length) === 10) {
             $.post('toot_card_check', {
-                id: $(this).val()
+                toot_card_id: $(this).val()
             }, function (response) {
                 if (response == '{{ config('static.status')[0] }}') {
                     $.post('toot_card_get_orders', {
-                        id: idle_toot_card_id.val()
+                        toot_card_id: idle_toot_card_id.val()
                     }, function (response) {
                         $('#user_order').html(response);
                     }).done(function (response) {
@@ -126,12 +127,12 @@
     toot_card_id.on('change', function () {
         if (parseInt($(this).val().length) === 10) {
             $.post('toot_card_check', {
-                id: $(this).val()
+                toot_card_id: $(this).val()
             }, function (response) {
                 tap_card.modal('hide');
 
                 if (response == '{{ config('static.status')[0] }}') {
-                    $('#id').val(toot_card_id.val());
+                    _toot_card_id.val(toot_card_id.val());
                     enterPin(timeout_long);
                 } else if (response == '{{ config('static.status')[1] }}') {
                     invalidCard(timeout_short);
@@ -227,7 +228,6 @@
             $(this).button('reset');
             $(this).dequeue();
         });
-        var last_resort_value = last_resort.val();
 
         if (enter_user_id.hasClass('in')) {
             if (parseInt(user_id.val().length) < 1) {
@@ -241,7 +241,7 @@
             if (parseInt(pin_code.val().length) < 1) {
                 emptyPin(timeout_short);
             } else {
-                tootCardAuthAttempt($('#id').val(), pin_code.val(), last_resort_value);
+                tootCardAuthAttempt(_toot_card_id.val(), pin_code.val());
             }
         }
 
@@ -249,23 +249,27 @@
             if (parseInt(load_amount.val().length) < 1) {
                 emptyLoadAmount(timeout_short);
             } else {
-                if (parseFloat(load_amount.val()) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
-                    exceedReloadLimit(3000);
-                } else {
-                    enter_load_amount.modal('hide');
-                    if (last_resort_value == 5) {
-                        enterUserId(timeout_short);
-                    } else {
-                        tapCard(timeout_long);
-                    }
-                }
+                validateLoadAmount(load_amount.val());
             }
         }
     });
 
+    function validateLoadAmount(load_amount_value) {
+        if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
+            exceedReloadLimit(3000);
+        } else {
+            enter_load_amount.modal('hide');
+            if (last_resort.val() == 5) {
+                enterUserId(timeout_short);
+            } else {
+                tapCard(timeout_long);
+            }
+        }
+    }
+
     function tootCardCheckBalance(toot_card_id) {
         $.post('toot_card_check_balance', {
-            id: toot_card_id
+            toot_card_id: toot_card_id
         }, function (response) {
             $('#toot_card_details').html(response);
         }).done(function () {
@@ -273,22 +277,22 @@
         });
     }
 
-    function shareLoad() {
-        alert('LAST_RESORT_SHARE_LOAD');
+    function shareLoad(toot_card_id, user_id, load_amount) {
+        // todo
     }
 
-    function reloadTootCard() {
-        alert('LAST_RESORT_RELOAD_TOOT_CARD');
+    function reloadTootCard(toot_card_id, load_amount) {
+        // todo
     }
 
-    function tootCardAuthAttempt(toot_card_id, pin_code, last_resort_value) {
+    function tootCardAuthAttempt(toot_card_id, pin_code) {
         $.post('toot_card_auth_attempt', {
-            id: toot_card_id,
+            toot_card_id: toot_card_id,
             pin_code: pin_code
         }, function (response) {
             if (response == '{{ config('static.status')[2] }}') {
                 enter_pin.modal('hide');
-                lastResort(last_resort_value);
+                lastResort(last_resort.val());
             } else if (response == '{{ config('static.status')[3] }}') {
                 wrongPin(timeout_short);
             }
@@ -297,24 +301,30 @@
     }
 
     function lastResort(last_resort_value) {
-        switch(last_resort_value) {
+        switch(parseInt(last_resort_value)) {
             case 1:
-                reloadTootCard();
+                reloadTootCard(_toot_card_id.val(), load_amount.val());
+                console.log('LAST_RESORT_RELOAD_TOOT_CARD');
                 break;
             case 2:
-                tootCardCheckBalance($('#id').val());
+                tootCardCheckBalance(_toot_card_id.val());
+                console.log('LAST_RESORT_CHECK_BALANCE');
                 break;
             case 3:
                 sendOrders('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
+                console.log('LAST_RESORT_QUEUED_ORDER');
                 break;
             case 4:
                 sendOrders('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
+                console.log('LAST_RESORT_HOLD_ORDER');
                 break;
             case 5:
-                shareLoad();
+                shareLoad(_toot_card_id.val(), user_id.val(), load_amount.val());
+                console.log('LAST_RESORT_SHARE_LOAD');
                 break;
         }
-        alert('last_resort_value is ' + last_resort_value + '!');
+        console.log('last_resort_value is ' + last_resort_value + '!');
+        resetLastResortValue();
     }
 
     function goToIdle(timeout) {
@@ -541,6 +551,16 @@
         console.log('load_amount has been reset!');
     }
 
+    function resetLastResortValue() {
+        last_resort.val('');
+        console.log('last_resort has been reset!');
+    }
+
+    function resetUserIdValue() {
+        user_id.val('');
+        console.log('user_id has been reset!');
+    }
+
     function resetIdleTootCardIdValue() {
         idle_toot_card_id.val('');
         console.log('idle_toot_card_id has been reset!');
@@ -657,7 +677,7 @@
         }, timeout);
     }
 
-    function sendOrders(status, payment_method) {
+    function getOrders(status, payment_method) {
         var orders = [];
 
         $('tr.row-order').each(function () {
@@ -668,7 +688,7 @@
             var order = {};
             order['queue_number'] = queue_number_value;
             order['order_id'] = order_id;
-            order['toot_card_id'] = $('#id').val();
+            order['toot_card_id'] = _toot_card_id.val();
             order['merchandise_id'] = $(this).data('merchandise_id');
             order['quantity'] = qty;
             order['total'] = total;
@@ -676,9 +696,13 @@
             order['payment_method'] = payment_method;
             orders.push(order);
         });
+        console.log('order entries count is ' + orders.length + '!');
+        return JSON.stringify(orders);
+    }
 
+    function sendOrders(status, payment_method) {
         $.post('merchandise_purchase', {
-            orders: JSON.stringify(orders)
+            orders: getOrders(status, payment_method)
         }, function (response) {
             console.log('purchase response is ' + response + '!');
         }).done(function (response) {

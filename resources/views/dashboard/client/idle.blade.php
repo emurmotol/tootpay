@@ -25,6 +25,7 @@
     @include('dashboard.client._partials.enter_user_id')
     @include('dashboard.client._partials.undone_orders')
 
+    @include('dashboard.client._partials.validations.invalid_user_id')
     @include('dashboard.client._partials.validations.empty_user_id')
     @include('dashboard.client._partials.validations.loading')
     @include('dashboard.client._partials.validations.to_many_card_tap')

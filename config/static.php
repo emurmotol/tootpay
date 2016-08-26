@@ -17,10 +17,10 @@ return [
     ],
 
     'status' => [
-        'VALID',
-        'INVALID',
-        'CORRECT',
-        'INCORRECT',
+        'VALID_TOOT_CARD',
+        'INVALID_TOOT_CARD',
+        'CORRECT_PIN_CODE',
+        'INCORRECT_PIN_CODE',
         'PENDING',
         'PAID',
         'CANCELED',
@@ -31,6 +31,8 @@ return [
         'ON_HOLD',
         'EMPTY',
         'TO_MANY_CARD_TAP',
+        'VALID_USER',
+        'INVALID_USER',
     ],
 
     'payment_method' => [

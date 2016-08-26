@@ -29,7 +29,7 @@ class ClientController extends Controller
 
     public function tootCardCheck(Request $request) {
         if ($request->ajax()) {
-            $toot_card_id = $request->get('id');
+            $toot_card_id = $request->get('toot_card_id');
 
             if (strlen($toot_card_id) > 10) {
                 return response()->make(config('static.status')[13]);
@@ -44,7 +44,7 @@ class ClientController extends Controller
 
     public function tootCardAuthAttempt(Request $request) {
         if ($request->ajax()) {
-            $toot_card = TootCard::where('id', $request->get('id'))->first();
+            $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
                 return response()->make(config('static.status')[2]);
@@ -59,7 +59,7 @@ class ClientController extends Controller
 
     public function tootCardBalanceCheck(Request $request) {
         if ($request->ajax()) {
-            $toot_card = TootCard::where('id', $request->get('id'))->first();
+            $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
             return (String)view('dashboard.client._partials.toot_card_details', compact('toot_card'));
         }
     }
@@ -101,7 +101,7 @@ class ClientController extends Controller
 
     public function tootCardGetOrders(Request $request) {
         if ($request->ajax()) {
-            $toot_card_id = $request->get('id');
+            $toot_card_id = $request->get('toot_card_id');
             $toot_card = TootCard::find($toot_card_id);
 
             if (is_null($toot_card)) {
