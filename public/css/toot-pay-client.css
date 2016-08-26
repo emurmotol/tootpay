@@ -106,10 +106,11 @@ body {
 }
 
 .input-unstyled {
-    border: #fff;
-    outline: none;
-    color: #fff;
-    -webkit-text-fill-color: #fff;
+    border: transparent;
+    outline: transparent;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background: transparent;
 }
 .bs-input-unstyled {
     outline: none;

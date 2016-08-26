@@ -24,6 +24,7 @@
     var order_id = parseInt('{{ \App\Models\Merchandise::orderId() }}');
     var timeout_long = 60000;
     var timeout_short = 1500;
+    var _timer;
 
     idleTapCardListener(0);
 
@@ -32,6 +33,7 @@
     });
     _modal.on('hidden.bs.modal', function () {
         idleTapCardListener(0);
+        clearTimer();
     });
     no_undone_orders.on('hidden.bs.modal', function () {
         resetUserOrderHtml();
@@ -198,60 +200,11 @@
                         enter_pin.modal('toggle');
 
                         if (last_resort.val() == 1) {
-                            alert('RELOADS');
-                            {{--$('.modal-body p #loading_text').text('Processing load request. Please wait');--}}
-                            {{--loading.modal('show');--}}
-
-                            {{--$.post('toot_card_reload_pending', {--}}
-                                {{--id: $('#id').val(),--}}
-                                {{--amount: load_amount.val()--}}
-                            {{--}, function (response) {--}}
-                                {{--if (response != null) {--}}
-                                    {{--console.log('reload_id is ' + response + '!');--}}
-
-                                    {{--var interval = setInterval(function () {--}}
-                                        {{--$.post('toot_card_reload_status', {--}}
-                                            {{--id: $('#id').val(),--}}
-                                            {{--reload_id: response--}}
-                                        {{--}, function (response) {--}}
-                                            {{--if (response == '{{ config('static.status')[4] }}') {--}}
-
-                                                {{--if (!waiting_for_payment.hasClass('in')) {--}}
-                                                    {{--loading.modal('toggle');--}}
-                                                    {{--$('#_amount').text(load_amount.val());--}}
-                                                    {{--console.log('_amount is set to ' + load_amount.val() + '!');--}}
-
-                                                    {{--reloadCurrentPage(120000);--}}
-                                                    {{--waiting_for_payment.modal({backdrop: 'static'});--}}
-                                                    {{--console.log('showing waiting_for_payment modal');--}}
-                                                {{--}--}}
-                                            {{--} else {--}}
-                                                {{--waiting_for_payment.modal('toggle'); // todo--}}
-                                                {{--clearInterval(interval);--}}
-
-                                                {{--if (response == '{{ config('static.status')[5] }}') {--}}
-                                                    {{--reloadPaid(0);--}}
-
-                                                    {{--$.post('toot_card_check_balance', {id: $('#id').val()}, function (response) {--}}
-                                                        {{--$('#toot_card_details').html(response);--}}
-                                                    {{--}).done(function () {--}}
-                                                        {{--reloadCurrentPage(30000);--}}
-
-                                                        {{--$('#reload_paid').modal('toggle'); // todo--}}
-                                                        {{--checkBalance(0);--}}
-                                                    {{--});--}}
-                                                {{--} else if (response == '{{ config('static.status')[6] }}') {--}}
-                                                    {{--reloadCurrentPage(5000);--}}
-                                                    {{--reloadCanceled(0);--}}
-                                                {{--}--}}
-                                            {{--}--}}
-                                            {{--console.log('reload status is ' + response + '!');--}}
-                                        {{--});--}}
-                                    {{--}, 3000);--}}
-                                {{--}--}}
-                            {{--});--}}
+                            alert('RELOADS'); // todo
                         } else if (last_resort.val() == 2) {
-                            $.post('toot_card_check_balance', {id: $('#id').val()}, function (response) {
+                            $.post('toot_card_check_balance', {
+                                id: $('#id').val()
+                            }, function (response) {
                                 $('#toot_card_details').html(response);
                             }).done(function () {
                                 checkBalance(timeout_long);
@@ -284,14 +237,14 @@
     });
 
     function goToIdle(timeout) {
-        setTimeout(function () {
+        _timer = setTimeout(function () {
             window.location.href = '{{ route('client.idle') }}';
         }, timeout);
         console.log('route to idle!');
     }
 
     function goToIndex(timeout) {
-        setTimeout(function () {
+        _timer = setTimeout(function () {
             window.location.replace('{{ route('client.index') }}/');
         }, timeout);
         console.log('route to index!');
@@ -411,25 +364,30 @@
         });
     });
 
+    function clearTimer() {
+        clearTimeout(_timer);
+        console.log('_timer cleared!');
+    }
+
     function reloadCurrentPage(timeout) {
-        setTimeout(function () {
-            console.log('page reloading!');
+        _timer = setTimeout(function () {
             location.reload();
         }, timeout);
+        console.log('page reloading!');
     }
 
     function enterLoadAmount(timeout) {
-        setTimeout(function () {
-            enter_load_amount.modal('toggle');
-        }, timeout);
         enter_load_amount.modal('show');
         console.log('showing enter_load_amount modal');
+        _timer = setTimeout(function () {
+            enter_load_amount.modal('toggle');
+        }, timeout);
     }
 
     function idleTapCardListener(timeout) {
         idle_toot_card_id.focus();
         console.log('idle_toot_card_id is on focus!');
-        setTimeout(function () {
+        _timer = setTimeout(function () {
             idle_toot_card_id.focus();
         }, timeout);
     }
@@ -438,42 +396,42 @@
         toot_card_id.focus();
         console.log('toot_card_id is on focus!');
         toot_card_id.blur(function () {
-            setTimeout(function () {
+            _timer = setTimeout(function () {
                 toot_card_id.focus();
             }, timeout);
         });
     }
 
     function emptyLoadAmount(timeout) {
-        setTimeout(function () {
-            $('#empty_load_amount').modal('toggle');
-        }, timeout);
         $('#empty_load_amount').modal({backdrop: false});
         console.log('showing empty_load_amount modal');
+        _timer = setTimeout(function () {
+            $('#empty_load_amount').modal('toggle');
+        }, timeout);
     }
 
     function menu(timeout) {
-        setTimeout(function () {
-            $('#menu').modal('toggle');
-        }, timeout);
         $('#menu').modal('show');
         console.log('showing menu modal');
+        _timer = setTimeout(function () {
+            $('#menu').modal('toggle');
+        }, timeout);
     }
 
     function noUndoneOrders(timeout) {
-        setTimeout(function () {
-            no_undone_orders.modal('toggle');
-        }, timeout);
         no_undone_orders.modal('show');
         console.log('showing no_undone_orders modal');
+        _timer = setTimeout(function () {
+            no_undone_orders.modal('toggle');
+        }, timeout);
     }
 
     function undoneOrders(timeout) {
-        setTimeout(function () {
-            no_undone_orders.modal('toggle');
-        }, timeout);
         undone_orders.modal('show');
         console.log('showing undone_orders modal');
+        _timer = setTimeout(function () {
+            no_undone_orders.modal('toggle');
+        }, timeout);
     }
 
     function resetTootCardIdValue() {
@@ -502,99 +460,99 @@
     }
 
     function toManyCardTap(timeout) {
-        setTimeout(function () {
-            to_many_card_tap.modal('toggle');
-        }, timeout);
         to_many_card_tap.modal('show');
         console.log('showing to_many_card_tap modal');
+        _timer = setTimeout(function () {
+            to_many_card_tap.modal('toggle');
+        }, timeout);
     }
 
     function invalidCard(timeout) {
-        setTimeout(function () {
-            $('#invalid_card').modal('toggle');
-        }, timeout);
         $('#invalid_card').modal('show');
         console.log('showing invalid_card modal');
+        _timer = setTimeout(function () {
+            $('#invalid_card').modal('toggle');
+        }, timeout);
     }
 
     function exceedReloadLimit(timeout) {
-        setTimeout(function () {
-            $('#exceed_reload_limit').modal('toggle');
-        }, timeout);
         $('#exceed_reload_limit').modal({backdrop: false});
         console.log('showing exceed_reload_limit modal');
+        _timer = setTimeout(function () {
+            $('#exceed_reload_limit').modal('toggle');
+        }, timeout);
     }
 
     function enterPin(timeout) {
-        setTimeout(function () {
-            enter_pin.modal('toggle');
-        }, timeout);
         enter_pin.modal('show');
         console.log('showing enter_pin modal');
+        _timer = setTimeout(function () {
+            enter_pin.modal('toggle');
+        }, timeout);
     }
 
     function emptyPin(timeout) {
-        setTimeout(function () {
-            $('#empty_pin').modal('toggle');
-        }, timeout);
         $('#empty_pin').modal({backdrop: false});
         console.log('showing empty_pin modal');
+        _timer = setTimeout(function () {
+            $('#empty_pin').modal('toggle');
+        }, timeout);
     }
 
     function checkBalance(timeout) {
-        setTimeout(function () {
-            check_balance.modal('toggle');
-        }, timeout);
         check_balance.modal('show');
         console.log('showing check_balance modal');
+        _timer = setTimeout(function () {
+            check_balance.modal('toggle');
+        }, timeout);
     }
 
     function wrongPin(timeout) {
-        setTimeout(function () {
-            $('#wrong_pin').modal('toggle');
-        }, timeout);
         $('#wrong_pin').modal({backdrop: false});
         console.log('showing wrong_pin modal');
+        _timer = setTimeout(function () {
+            $('#wrong_pin').modal('toggle');
+        }, timeout);
     }
 
     function tapCard(timeout) {
-        setTimeout(function () {
-            tap_card.modal('toggle');
-        }, timeout);
         tap_card.modal('show');
         console.log('showing tap_card modal');
+        _timer = setTimeout(function () {
+            tap_card.modal('toggle');
+        }, timeout);
     }
 
     function insufficientBalance(timeout) {
-        setTimeout(function () {
-            $('#insufficient_balance').modal('toggle');
-        }, timeout);
         $('#insufficient_balance').modal('show');
         console.log('showing insufficient_balance modal');
+        _timer = setTimeout(function () {
+            $('#insufficient_balance').modal('toggle');
+        }, timeout);
     }
 
     function transactionCompleteWithQueueNumber(timeout) {
-        setTimeout(function () {
-            transaction_complete_with_queue_number.modal('toggle');
-        }, timeout);
         transaction_complete_with_queue_number.modal('show');
         console.log('showing transaction_complete_with_queue_number modal');
+        _timer = setTimeout(function () {
+            transaction_complete_with_queue_number.modal('toggle');
+        }, timeout);
     }
 
     function orderOnHold(timeout) {
-        setTimeout(function () {
-            order_on_hold.modal('toggle');
-        }, timeout);
         order_on_hold.modal('show');
         console.log('showing order_on_hold modal');
+        _timer = setTimeout(function () {
+            order_on_hold.modal('toggle');
+        }, timeout);
     }
 
     function transactionComplete(timeout) {
-        setTimeout(function () {
-            transaction_complete.modal('toggle');
-        }, timeout);
         transaction_complete.modal('show');
         console.log('showing transaction_complete modal');
+        _timer = setTimeout(function () {
+            transaction_complete.modal('toggle');
+        }, timeout);
     }
 
     function sendOrders(status, payment_method) {
@@ -617,35 +575,35 @@
             orders.push(order);
         });
 
-        $.post('merchandise_purchase',
-                {orders: JSON.stringify(orders)},
-                function (response) {
-                    console.log(response);
+        $.post('merchandise_purchase', {
+            orders: JSON.stringify(orders)
+        }, function (response) {
+            console.log('purchase response is ' + response + '!');
+        }).done(function (response) {
+            if (response == '{{ config('static.status')[7] }}') {
+                insufficientBalance(3000);
+            } else if (response == '{{ config('static.status')[8] }}') {
 
-                    if (response == '{{ config('static.status')[7] }}') {
-                        insufficientBalance(3000);
-                    } else if (response == '{{ config('static.status')[8] }}') {
-
-                        if (payment_method == '{{ config('static.payment_method')[0] }}') {
-                            transactionComplete(3000);
-                            goToIdle(timeout_short);
-                        } else if (payment_method == '{{ config('static.payment_method')[1] }}') {
-                            if (status == '{{ config('static.status')[11] }}') {
-                                orderOnHold(4000);
-                            } else {
-                                $('#queue_number_huge').text(queue_number_value);
-                                transactionCompleteWithQueueNumber(4000);
-                            }
-                            goToIdle(3000);
-                        }
+                if (payment_method == '{{ config('static.payment_method')[0] }}') {
+                    transactionComplete(3000);
+                    goToIdle(timeout_short);
+                } else if (payment_method == '{{ config('static.payment_method')[1] }}') {
+                    if (status == '{{ config('static.status')[11] }}') {
+                        orderOnHold(4000);
+                    } else {
+                        $('#queue_number_huge').text(queue_number_value);
+                        transactionCompleteWithQueueNumber(4000);
                     }
-                });
+                    goToIdle(3000);
+                }
+            }
+        });
     }
 
     (function ($) {
         $.fn.blink = function (options) {
             var defaults = {delay: 500};
-            var options = $.extend(defaults, options);
+            var _options = $.extend(defaults, options);
             return $(this).each(function (idx, itm) {
                 setInterval(function () {
                     if ($(itm).css('visibility') === 'visible') {
@@ -654,7 +612,7 @@
                     else {
                         $(itm).css('visibility', 'visible');
                     }
-                }, options.delay);
+                }, _options.delay);
             });
         }
     }(jQuery));
