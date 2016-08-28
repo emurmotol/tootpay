@@ -1,0 +1,50 @@
+[
+  {
+    "name": "VALID_TOOT_CARD"
+  },
+  {
+    "name": "INVALID_TOOT_CARD"
+  },
+  {
+    "name": "CORRECT_PIN_CODE"
+  },
+  {
+    "name": "INCORRECT_PIN_CODE"
+  },
+  {
+    "name": "PENDING"
+  },
+  {
+    "name": "PAID"
+  },
+  {
+    "name": "CANCELED"
+  },
+  {
+    "name": "INSUFFICIENT_BALANCE"
+  },
+  {
+    "name": "SUCCESS"
+  },
+  {
+    "name": "QUEUED"
+  },
+  {
+    "name": "DONE"
+  },
+  {
+    "name": "ON_HOLD"
+  },
+  {
+    "name": "EMPTY"
+  },
+  {
+    "name": "TO_MANY_CARD_TAP"
+  },
+  {
+    "name": "VALID_USER"
+  },
+  {
+    "name": "INVALID_USER"
+  }
+]
