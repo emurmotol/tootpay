@@ -116,32 +116,10 @@ class Merchandise extends Model
         return url('img/merchandises/' . $file_name . '.jpg');
     }
 
-    public static function orderId() {
-        $default = 1;
-        $merchandise_purchase = DB::table('merchandise_purchase');
-
-        if (count($merchandise_purchase->get())) {
-            return $merchandise_purchase->orderBy('order_id', 'desc')->groupBy('order_id')->first()->order_id + $default;
-        }
-        return $default;
-    }
-
-    public static function queueNumber() {
-        $default = 1;
-        $merchandise_purchase = DB::table('merchandise_purchase')->select(DB::raw('queue_number, status, date(created_at) as date'))
-            ->where('status', '=', config('static.status')[9])
-            ->having('date', '=', Carbon::now()->toDateString());
-
-        if (count($merchandise_purchase->get())) {
-            return $merchandise_purchase->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number + $default;
-        }
-        return $default;
-    }
-
     public static function dailySales($date) {
         return DB::table('merchandise_purchase')
             ->select(DB::raw('status, merchandise_id as merchandise, sum(quantity) as qty, sum(total) as sales, date(created_at) as date'))
-            ->where('status', '=', config('static.status')[10])
+            ->where('status', '=', 11)
             ->having('date', '=', $date)
             ->groupBy('merchandise_id', 'date')
             ->get();
@@ -150,7 +128,7 @@ class Merchandise extends Model
     public static function monthlySales($month) {
         return DB::table('merchandise_purchase')
             ->select(DB::raw("status, sum(total) as sales, date(created_at) as date, DATE_FORMAT(created_at, '%Y-%m') as month"))
-            ->where('status', '=', config('static.status')[10])
+            ->where('status', '=', 11)
             ->having('month', '=', $month)
             ->groupBy('date')
             ->get();
@@ -159,38 +137,9 @@ class Merchandise extends Model
     public static function yearlySales($year) {
         return DB::table('merchandise_purchase')
             ->select(DB::raw("status, sum(total) as sales, DATE_FORMAT(created_at,'%m') as month, DATE_FORMAT(created_at,'%Y') as year"))
-            ->where('status', '=', config('static.status')[10])
+            ->where('status', '=', 11)
             ->having('year', '=', $year)
             ->groupBy('month', 'year')
             ->get();
-    }
-
-    public static function pending($toot_card_id) {
-        return DB::table('merchandise_purchase')->select('order_id')
-            ->where('toot_card_id', '=', $toot_card_id)
-            ->where('status', '=', config('static.status')[4])
-            ->get();
-    }
-
-    public static function onHold($toot_card_id) {
-        return DB::table('merchandise_purchase')->select('order_id')
-            ->where('toot_card_id', '=', $toot_card_id)
-            ->where('status', '=', config('static.status')[11])
-            ->get();
-    }
-
-    public static function queued($toot_card_id) {
-        return DB::table('merchandise_purchase')->select('order_id')
-            ->where('toot_card_id', '=', $toot_card_id)
-            ->where('status', '=', config('static.status')[9])
-            ->get();
-    }
-
-    public static function _orders($order_id) {
-        return DB::table('merchandise_purchase')->where('order_id', '=', $order_id);
-    }
-
-    public static function groupOrderIds($orders) {
-        return collect($orders)->pluck('order_id', 'order_id');
     }
 }

@@ -8,61 +8,61 @@
 </div>
 <div class="modal-body">
     <ul class="nav nav-tabs">
-        @if(count($queued))
-            <li {{ count($queued) ? 'class=active' : '' }}>
+        @if($queued->count())
+            <li {{ $queued->count() ? 'class=active' : '' }}>
                 <a data-toggle="tab" href="#queued">Queued</a>
             </li>
         @endif
 
-        @if(count($on_hold))
-            <li {{ (count($on_hold) && !count($queued)) ? 'class=active' : '' }}>
+        @if($on_hold->count())
+            <li {{ ($on_hold->count() && !$queued->count()) ? 'class=active' : '' }}>
                 <a data-toggle="tab" href="#on_hold">On-Hold</a>
             </li>
         @endif
 
-        @if(count($pending))
-            <li {{ (count($pending) && !count($queued) && !count($on_hold)) ? 'class=active' : '' }}>
+        @if($pending->count())
+            <li {{ ($pending->count() && !$queued->count() && !$on_hold->count()) ? 'class=active' : '' }}>
                 <a data-toggle="tab" href="#pending">Pending</a>
             </li>
         @endif
     </ul>
 
     <div class="tab-content">
-        @if(count($queued))
-            <div id="queued" class="tab-pane fade in {{ count($queued) ? 'active' : '' }}">
+        @if($queued->count())
+            <div id="queued" class="tab-pane fade in {{ $queued->count() ? 'active' : '' }}">
                 <div class="user-orders">
-                    @foreach(\App\Models\Merchandise::groupOrderIds($queued) as $order_id)
-                        ORDER_ID: {{ $order_id }},
-                        QUEUE_NUMBER: {{ \App\Models\Merchandise::orders($order_id)->first()->queue_number }}
-                        @foreach(\App\Models\Merchandise::orders($order_id)->get() as $order)
-                            MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
+                    @foreach($queued->get() as $transaction)
+                        TRANSACTION_ID: {{ $transaction->id }},
+                        QUEUE_NUMBER: {{ \App\Models\Transaction::find($transaction->id)->queue_number }}
+                        @foreach(\App\Models\Order::byTransaction($transaction->id) as $order)
+                            MERCHANDISE: {{ \App\Models\Merchandise::find($order->merchandise_id)->name }}<br>
                         @endforeach
                     @endforeach
                 </div>
             </div>
         @endif
 
-        @if(count($on_hold))
-            <div id="on_hold" class="tab-pane fade in {{ (count($on_hold) && !count($queued)) ? 'active' : '' }}">
+        @if($on_hold->count())
+            <div id="on_hold" class="tab-pane fade in {{ ($on_hold->count() && !$queued->count()) ? 'active' : '' }}">
                 <div class="user-orders">
-                    @foreach(\App\Models\Merchandise::groupOrderIds($on_hold) as $order_id)
-                        ORDER_ID: {{ $order_id }}
-                        @foreach(\App\Models\Merchandise::orders($order_id)->get() as $order)
-                            MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
+                    @foreach($on_hold->get() as $transaction)
+                        TRANSACTION_ID: {{ $transaction->id }},
+                        @foreach(\App\Models\Order::byTransaction($transaction->id) as $order)
+                            MERCHANDISE: {{ \App\Models\Merchandise::find($order->merchandise_id)->name }}<br>
                         @endforeach
                     @endforeach
                 </div>
             </div>
         @endif
 
-        @if(count($pending))
+        @if($pending->count())
             <div id="pending"
-                 class="tab-pane fade in {{ (count($pending) && !count($queued) && !count($on_hold)) ? 'active' : '' }}">
+                 class="tab-pane fade in {{ ($pending->count() && !$queued->count() && !$on_hold->count()) ? 'active' : '' }}">
                 <div class="user-orders">
-                    @foreach(\App\Models\Merchandise::groupOrderIds($pending) as $order_id)
-                        ORDER_ID: {{ $order_id }}
-                        @foreach(\App\Models\Merchandise::orders($order_id)->get() as $order)
-                            MERCHANDISE_ID: {{ $order->merchandise_id }}, ORDER_ID: {{ $order->order_id }}
+                    @foreach($pending->get() as $transaction)
+                        TRANSACTION_ID: {{ $transaction->id }},
+                        @foreach(\App\Models\Order::byTransaction($transaction->id) as $order)
+                            MERCHANDISE: {{ \App\Models\Merchandise::find($order->merchandise_id)->name }}<br>
                         @endforeach
                     @endforeach
                 </div>

@@ -6,7 +6,7 @@
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
                 <h4 class="modal-title huge text-center">
-                    <strong>Hello, welcome to Kuya Franz's Canteen! <i class="fa fa-smile-o"></i></strong>
+                    <strong>Hello, welcome to Kuya Franz's Canteen!</strong>
                 </h4>
             </div>
             <div class="modal-body menu">

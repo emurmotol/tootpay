@@ -36,8 +36,8 @@
     var waiting_for_payment = $('#waiting_for_payment');
 
     // database values
-    var queue_number_value = parseInt('{{ \App\Models\Merchandise::queueNumber() }}');
-    var order_id = parseInt('{{ \App\Models\Merchandise::orderId() }}');
+    var queue_number_value = parseInt('{{ \App\Models\Transaction::queueNumber() }}');
+    var transaction_id = parseInt('{{ \App\Models\Transaction::id() }}');
 
     // timer
     var timeout_long = 60000;
@@ -100,22 +100,22 @@
             $.post('toot_card_check', {
                 toot_card_id: $(this).val()
             }, function (response) {
-                if (response == '{{ config('static.status')[0] }}') {
+                if (response == 1) {
                     $.post('toot_card_get_orders', {
                         toot_card_id: idle_toot_card_id.val()
                     }, function (response) {
                         $('#user_order').html(response);
                     }).done(function (response) {
-                        if (response == '{{ config('static.status')[12] }}') {
+                        if (response == 13) {
                             noUndoneOrders(timeout_short);
                         } else {
                             undoneOrders(timeout_long);
                         }
                         console.log('orders response is ' + response + '!');
                     });
-                } else if (response == '{{ config('static.status')[1] }}') {
+                } else if (response == 2) {
                     invalidCard(timeout_short);
-                } else if (response == '{{ config('static.status')[13] }}') {
+                } else if (response == 14) {
                     toManyCardTap(timeout_short);
                 }
                 console.log(idle_toot_card_id.val() + ' is ' + response + '!');
@@ -131,12 +131,12 @@
             }, function (response) {
                 tap_card.modal('hide');
 
-                if (response == '{{ config('static.status')[0] }}') {
+                if (response == 1) {
                     _toot_card_id.val(toot_card_id.val());
                     enterPin(timeout_long);
-                } else if (response == '{{ config('static.status')[1] }}') {
+                } else if (response == 2) {
                     invalidCard(timeout_short);
-                } else if (response == '{{ config('static.status')[13] }}') {
+                } else if (response == 14) {
                     toManyCardTap(timeout_short);
                 }
                 console.log(toot_card_id.val() + ' is ' + response + '!');
@@ -221,7 +221,7 @@
         console.log('last_resort set to 3!');
     });
     btn_pay_using_cash.on('click', function () {
-        sendOrders('{{ config('static.status')[4] }}', '{{ config('static.payment_method')[0] }}');
+        sendOrders(5, 1);
     });
     $('.submit-check').on('click', function () {
         $(this).button('loading').delay(1500).queue(function () {
@@ -290,10 +290,10 @@
             toot_card_id: toot_card_id,
             pin_code: pin_code
         }, function (response) {
-            if (response == '{{ config('static.status')[2] }}') {
+            if (response == 3) {
                 enter_pin.modal('hide');
                 lastResort(last_resort.val());
-            } else if (response == '{{ config('static.status')[3] }}') {
+            } else if (response == 4) {
                 wrongPin(timeout_short);
             }
             console.log('response is ' + response + ' pin!');
@@ -311,11 +311,11 @@
                 console.log('LAST_RESORT_CHECK_BALANCE');
                 break;
             case 3:
-                sendOrders('{{ config('static.status')[9] }}', '{{ config('static.payment_method')[1] }}');
+                sendOrders(10, 2);
                 console.log('LAST_RESORT_QUEUED_ORDER');
                 break;
             case 4:
-                sendOrders('{{ config('static.status')[11] }}', '{{ config('static.payment_method')[1] }}');
+                sendOrders(12, 2);
                 console.log('LAST_RESORT_HOLD_ORDER');
                 break;
             case 5:
@@ -374,9 +374,9 @@
         });
     }
 
-    function loadOrders(order_id) {
+    function loadOrders(transaction_id) {
         $.post('load_orders', {
-            order_id: order_id
+            transaction_id: transaction_id
         }, function (response) {
             if (response == '') {
                 addOrder(merchandise_id, name, price, qty);
@@ -698,7 +698,7 @@
             var total = qty * each;
             var order = {};
             order['queue_number'] = queue_number_value;
-            order['order_id'] = order_id;
+            order['transaction_id'] = transaction_id;
             order['toot_card_id'] = _toot_card_id.val();
             order['merchandise_id'] = $(this).data('merchandise_id');
             order['quantity'] = qty;
@@ -717,14 +717,14 @@
         }, function (response) {
             console.log('purchase response is ' + response + '!');
         }).done(function (response) {
-            if (response == '{{ config('static.status')[7] }}') {
+            if (response == 8) {
                 insufficientBalance(3000);
-            } else if (response == '{{ config('static.status')[8] }}') {
+            } else if (response == 9) {
 
-                if (payment_method == '{{ config('static.payment_method')[0] }}') {
+                if (payment_method == 1) {
                     transactionComplete(3000);
-                } else if (payment_method == '{{ config('static.payment_method')[1] }}') {
-                    if (status == '{{ config('static.status')[11] }}') {
+                } else if (payment_method == 2) {
+                    if (status == 12) {
                         orderOnHold(4000);
                     } else {
                         $('#queue_number_huge').text(queue_number_value);

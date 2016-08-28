@@ -17,4 +17,8 @@ class Order extends Model
     public function merchandises() {
         return $this->belongsTo(Merchandise::class);
     }
+
+    public static function byTransaction($transaction_id) {
+        return self::where('transaction_id', $transaction_id)->get();
+    }
 }

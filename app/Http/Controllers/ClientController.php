@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Merchandise;
 use App\Models\MerchandiseCategory;
+use App\Models\PaymentMethod;
 use App\Models\Setting;
+use App\Models\StatusResponse;
 use App\Models\TootCard;
+use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,12 +35,12 @@ class ClientController extends Controller
             $toot_card_id = $request->get('toot_card_id');
 
             if (strlen($toot_card_id) > 10) {
-                return response()->make(config('static.status')[13]);
+                return response()->make(14);
             } else {
                 if (!is_null(TootCard::where('id', $toot_card_id)->first())) {
-                    return response()->make(config('static.status')[0]);
+                    return response()->make(1);
                 }
-                return response()->make(config('static.status')[1]);
+                return response()->make(2);
             }
         }
     }
@@ -47,9 +50,9 @@ class ClientController extends Controller
             $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
-                return response()->make(config('static.status')[2]);
+                return response()->make(3);
             }
-            return response()->make(config('static.status')[3]);
+            return response()->make(4);
         }
     }
 
@@ -104,16 +107,17 @@ class ClientController extends Controller
             $toot_card_id = $request->get('toot_card_id');
             $toot_card = TootCard::find($toot_card_id);
 
-            if (is_null($toot_card)) {
+            if (strlen($toot_card_id) > 10) {
+                return response()->make(14); // todo not on script
+            } else {
+                $user = $toot_card->users()->first();
+                $queued = Transaction::madeFrom($toot_card_id, 10, 2);
+                $on_hold = Transaction::madeFrom($toot_card_id, 12, 2);
+                $pending = Transaction::madeFrom($toot_card_id, 5, 2);
 
-            }
-            $user = $toot_card->users()->first();
-            $queued = Merchandise::queued($toot_card_id);
-            $on_hold = Merchandise::onHold($toot_card_id);
-            $pending = Merchandise::pending($toot_card_id);
-
-            if (!count($queued) && !count($on_hold) && !count($pending)) {
-                return response()->make(config('static.status')[12]);
+                if (!$queued->count() && !$on_hold->count() && !$pending->count()) {
+                    return response()->make(13);
+                }
             }
             return (String)view('dashboard.client._partials.get_orders', compact('queued', 'on_hold', 'pending', 'user'));
         }
@@ -126,7 +130,7 @@ class ClientController extends Controller
             $toot_card_id = $orders->first()['toot_card_id'];
             $payment_method = $orders->first()['payment_method'];
 
-            if ($payment_method == config('static.payment_method')[0]) {
+            if ($payment_method == PaymentMethod::find(1)->name) {
                 foreach ($orders as $order) {
                     DB::table('merchandise_purchase')->insert([
                         'order_id' => $order['order_id'],
@@ -139,13 +143,13 @@ class ClientController extends Controller
                         'updated_at' => Carbon::now(),
                     ]);
                 }
-            } else if ($payment_method == config('static.payment_method')[1]) {
+            } else if ($payment_method == PaymentMethod::find(2)->name) {
                 $toot_card = TootCard::find($toot_card_id);
                 $grand_total = $orders->sum('total');
                 $per_point = intval(Setting::value('per_point'));
-                $status_insufficient_balance = response()->make(config('static.status')[7]);
+                $status_insufficient_balance = response()->make(8);
 
-                if ($status == config('static.status')[11]) {
+                if ($status == 12) {
                     foreach ($orders as $order) {
                         Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
                             'order_id' => $order['order_id'],
@@ -200,7 +204,7 @@ class ClientController extends Controller
                     }
                 }
             }
-            return response()->make(config('static.status')[8]);
+            return response()->make(9);
         }
     }
 }
