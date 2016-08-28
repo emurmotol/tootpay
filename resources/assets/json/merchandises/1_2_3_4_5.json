@@ -1,7 +1,16 @@
 [
   {
-    "merchandise_category_id" : 4,
+    "merchandise_category_id" : 5,
     "name": "Rice",
     "price": 10
+  },
+  {
+    "merchandise_category_id" : 1,
+    "name": "Reloads (Toot Card)"
+  },
+  {
+    "merchandise_category_id" : 1,
+    "name": "Smart Card (Toot Card)",
+    "price": 100
   }
 ]

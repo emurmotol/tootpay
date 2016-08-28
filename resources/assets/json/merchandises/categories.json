@@ -1,6 +1,6 @@
 [
   {
-    "name": "BEVERAGE",
+    "name": "TOOT CARDS",
     "description": ""
   },
   {
@@ -8,11 +8,15 @@
     "description": ""
   },
   {
-    "name": "COMBO MEAL",
+    "name": "COMBO MEALS",
     "description": "Ulam + Kanin + Sabaw + Tinidor"
   },
   {
-    "name": "OTHER",
+    "name": "BEVERAGES",
+    "description": ""
+  },
+  {
+    "name": "OTHERS",
     "description": ""
   }
 ]

@@ -11,7 +11,7 @@ class CreateMerchandisesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('merchandise_category_id')->nullable();
             $table->string('name');
-            $table->float('price');
+            $table->float('price')->nullable();
             $table->boolean('has_image')->default(false);
             $table->timestamps();
 

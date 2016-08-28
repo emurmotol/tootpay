@@ -11,6 +11,19 @@ class MerchandisesTableSeeder extends Seeder
         $monday_friday = explode('_', '1_5');
         $week_days = explode('_', '1_2_3_4_5');
 
+        foreach (Merchandise::json('1_2_3_4_5') as $m) {
+            $merchandise = Merchandise::create($m);
+
+            if ($m['merchandise_category_id'] == 1) {
+                continue;
+            }
+
+            app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
+            foreach($week_days as $day) {
+                $merchandise->operationDays()->attach($day);
+            }
+        }
+
         foreach(OperationDay::all() as $day) {
             if ($day->id == 0 || $day->id == 6) {
                 continue;
@@ -27,14 +40,6 @@ class MerchandisesTableSeeder extends Seeder
             $merchandise = Merchandise::create($m);
             app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
             foreach($monday_friday as $day) {
-                $merchandise->operationDays()->attach($day);
-            }
-        }
-
-        foreach (Merchandise::json('1_2_3_4_5') as $m) {
-            $merchandise = Merchandise::create($m);
-            app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
-            foreach($week_days as $day) {
                 $merchandise->operationDays()->attach($day);
             }
         }

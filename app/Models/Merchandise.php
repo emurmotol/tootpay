@@ -24,14 +24,6 @@ class Merchandise extends Model
             'merchandise_operation_day', 'merchandise_id', 'operation_day_id')->withTimestamps();
     }
 
-    public function tootCards() {
-        return $this->belongsToMany(TootCard::class, 'merchandise_purchase')->withTimestamps();
-    }
-
-    public function users() {
-        return $this->belongsToMany(User::class, 'merchandise_purchase')->withTimestamps();
-    }
-
     public static function searchFor($keyword, $model = null) {
         if (!is_null($model)) {
             return $model->search(strtolower($keyword));
@@ -73,6 +65,10 @@ class Merchandise extends Model
         if ($sort == str_slug(trans('sort.merchandises')[3])) {
             return self::orderBy('price', 'asc');
         }
+    }
+
+    public function orders() {
+        return $this->hasMany(Order::class);
     }
 
     public function merchandiseCategory() {
@@ -190,7 +186,7 @@ class Merchandise extends Model
             ->get();
     }
 
-    public static function orders($order_id) {
+    public static function _orders($order_id) {
         return DB::table('merchandise_purchase')->where('order_id', '=', $order_id);
     }
 

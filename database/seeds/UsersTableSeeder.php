@@ -13,6 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::create(User::adminJson())->roles()->attach(Role::find(admin()));
+        User::create(User::guestJson())->roles()->attach(Role::find(guest()));
 
         foreach (User::cashiersJson() as $cashier) {
             User::create($cashier)->roles()->attach(Role::find(cashier()));

@@ -246,7 +246,7 @@
         }
 
         if (enter_load_amount.hasClass('in')) {
-            if (parseInt(load_amount.val().length) < 1) {
+            if (parseInt(load_amount.val().length) < 1 || parseInt(load_amount.val()) < 1) {
                 emptyLoadAmount(timeout_short);
             } else {
                 validateLoadAmount(load_amount.val());
@@ -374,6 +374,17 @@
         });
     }
 
+    function loadOrders(order_id) {
+        $.post('load_orders', {
+            order_id: order_id
+        }, function (response) {
+            if (response == '') {
+                addOrder(merchandise_id, name, price, qty);
+            }
+            console.log('order entries count is ' + response.length + '!');
+        });
+    }
+
     $(function () {
         todaysMenu();
 
@@ -460,7 +471,7 @@
         console.log('_timer cleared!');
     }
 
-    function reloadCurrentPage(timeout) {
+    function refreshPage(timeout) {
         _timer = setTimeout(function () {
             location.reload();
         }, timeout);
@@ -654,7 +665,7 @@
     }
 
     function transactionCompleteWithQueueNumber(timeout) {
-        transaction_complete_with_queue_number.modal('show');
+        transaction_complete_with_queue_number.modal({backdrop: 'static'});
         console.log('showing transaction_complete_with_queue_number modal');
         _timer = setTimeout(function () {
             transaction_complete_with_queue_number.modal('hide');
@@ -662,7 +673,7 @@
     }
 
     function orderOnHold(timeout) {
-        order_on_hold.modal('show');
+        order_on_hold.modal({backdrop: 'static'});
         console.log('showing order_on_hold modal');
         _timer = setTimeout(function () {
             order_on_hold.modal('hide');
@@ -670,7 +681,7 @@
     }
 
     function transactionComplete(timeout) {
-        transaction_complete.modal('show');
+        transaction_complete.modal({backdrop: 'static'});
         console.log('showing transaction_complete modal');
         _timer = setTimeout(function () {
             transaction_complete.modal('hide');
@@ -712,7 +723,6 @@
 
                 if (payment_method == '{{ config('static.payment_method')[0] }}') {
                     transactionComplete(3000);
-                    goToIdle(timeout_short);
                 } else if (payment_method == '{{ config('static.payment_method')[1] }}') {
                     if (status == '{{ config('static.status')[11] }}') {
                         orderOnHold(4000);
@@ -720,8 +730,8 @@
                         $('#queue_number_huge').text(queue_number_value);
                         transactionCompleteWithQueueNumber(4000);
                     }
-                    goToIdle(3000);
                 }
+                goToIdle(timeout_short);
             }
         });
     }

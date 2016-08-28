@@ -33,13 +33,8 @@ class User extends Authenticatable
             'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
     }
 
-    public function tootCardReload() {
-        return $this->belongsToMany(TootCard::class,
-            'toot_card_reload', 'user_id', 'toot_card_id')->withTimestamps();
-    }
-
-    public function merchandises() {
-        return $this->belongsToMany(Merchandise::class, 'merchandise_purchase');
+    public function transactions() {
+        return $this->belongsToMany(Transaction::class, 'user_transaction');
     }
 
     public function setNameAttribute($value) {
@@ -123,6 +118,16 @@ class User extends Authenticatable
             return $cardholders->all();
         }
         return $cardholders[$index];
+    }
+
+    public static function guestJson($field = null) {
+        $path  = resource_path('assets/json/users/guest.json');
+        $guest = collect(json_decode(file_get_contents($path), true));
+
+        if (is_null($field)) {
+            return $guest->all();
+        }
+        return $guest[$field];
     }
 
 //    public static function administrators() {

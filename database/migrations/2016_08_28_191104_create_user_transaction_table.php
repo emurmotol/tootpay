@@ -3,17 +3,20 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTootCardPurchaseTable extends Migration
+class CreateUserTransactionTable extends Migration
 {
     public function up()
     {
-        Schema::create('toot_card_purchase', function (Blueprint $table) {
+        Schema::create('user_transaction', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('toot_card_id')->index();
+            $table->integer('transaction_id')->unsigned();
             $table->string('user_id')->index();
-            $table->float('amount');
-            $table->string('status')->nullable();
+            $table->string('toot_card_id')->index()->nullable();
             $table->timestamps();
+
+            $table->foreign('transaction_id')
+                ->references('id')
+                ->on('transactions');
 
             $table->foreign('toot_card_id')
                 ->references('id')
@@ -29,6 +32,6 @@ class CreateTootCardPurchaseTable extends Migration
 
     public function down()
     {
-        Schema::drop('toot_card_purchase');
+        Schema::drop('user_transaction');
     }
 }

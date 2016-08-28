@@ -26,13 +26,8 @@ class TootCard extends Model
             'user_toot_card', 'toot_card_id', 'user_id');
     }
 
-    public function tootCardReload() {
-        return $this->belongsToMany(User::class,
-            'toot_card_reload', 'toot_card_id', 'user_id');
-    }
-
-    public function merchandises() {
-        return $this->belongsToMany(Merchandise::class, 'merchandise_purchase');
+    public function transactions() {
+        return $this->belongsToMany(Transaction::class, 'user_transaction');
     }
 
     public function setIsActiveAttribute($value) {
