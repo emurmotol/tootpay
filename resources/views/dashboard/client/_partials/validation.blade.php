@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title huge text-center" id="validation_text"></div>
+                <div class="modal-title huge text-center" id="validation_content"></div>
             </div>
         </div>
     </div>
