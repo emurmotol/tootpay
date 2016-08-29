@@ -27,8 +27,7 @@
             <div class="order-actions">
                 <ul class="list-inline">
                     <li>
-                        <button class="btn btn-warning btn-lg" id="btn_cancel"
-                                data-loading-text="{{ trans('loading.default') }}">
+                        <button class="btn btn-warning btn-lg" id="btn_cancel" data-loading-text="{{ trans('loading.default') }}">
                             <strong>Cancel Order</strong>
                         </button>
                     </li>

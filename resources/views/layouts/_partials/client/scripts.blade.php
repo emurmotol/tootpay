@@ -15,6 +15,7 @@
 
     // div
     var validation_content = $('#validation_content');
+    var toot_card_balance = $('#toot_card_balance');
 
     // modal
     var _validation = $('#validation');
@@ -27,7 +28,7 @@
     var enter_user_id = $('#enter_user_id');
     var loading = $('#loading');
     var transaction_complete_with_queue_number = $('#transaction_complete_with_queue_number');
-    var check_balance = $('#check_balance');
+    var toot_card_details = $('#toot_card_details');
     var tap_card = $('#tap_card');
 
     // database values
@@ -58,8 +59,8 @@
         idleTapCardListener(0);
         clearTimer();
     });
-    check_balance.on('hidden.bs.modal', function () {
-        resetTootCardDetailsHtml();
+    toot_card_details.on('hidden.bs.modal', function () {
+        resetTootCardBalanceHtml();
     });
     undone_orders.on('hidden.bs.modal', function () {
         resetUserOrderHtml();
@@ -173,7 +174,7 @@
     });
     menu_order_food.on('click', function () {
         menu.modal('hide');
-        loading.modal('static');
+        loading.modal({backdrop: 'static'});
         goToIndex(500);
     });
     menu_share_a_load.on('click', function () {
@@ -226,7 +227,7 @@
 
     function validateLoadAmount(load_amount_value) {
         if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value('reload_limit') }}')) {
-            validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit') !!}');
+            validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
         } else {
             enter_load_amount.modal('hide');
             if (last_resort.val() == 5) {
@@ -241,10 +242,10 @@
         $.post('toot_card_check_balance', {
             toot_card_id: toot_card_id
         }, function (response) {
-            $('#toot_card_details').html(response);
+            $('#toot_card_balance').html(response);
             console.log(response);
         }).done(function () {
-            checkBalance(timeout_long);
+            tootCardDetails(timeout_long);
         });
     }
 
@@ -535,14 +536,12 @@
 
     function clearTimer() {
         clearTimeout(_timer);
-        console.log('_timer cleared!');
     }
 
     function refreshPage(timeout) {
         _timer = setTimeout(function () {
             location.reload();
         }, timeout);
-        console.log('page reloading!');
     }
 
     function validation(backdrop, timeout, content) {
@@ -553,13 +552,13 @@
                 if (_modal.hasClass('in')) {
                     _modal.modal('hide');
                 }
-                _validation.modal({backdrop: backdrop});
+                _validation.modal({backdrop: true});
                 break;
             case false:
-                _validation.modal({backdrop: backdrop});
+                _validation.modal({backdrop: false});
                 break;
             case 'static':
-                _validation.modal({backdrop: backdrop});
+                _validation.modal({backdrop: 'static'});
                 break;
             default:
         }
@@ -636,8 +635,8 @@
         idle_toot_card_id.val('');
     }
 
-    function resetTootCardDetailsHtml() {
-        $('#toot_card_details').html('');
+    function resetTootCardBalanceHtml() {
+        toot_card_balance.html('');
     }
 
     function resetUserOrderHtml() {
@@ -655,10 +654,10 @@
         }, timeout);
     }
 
-    function checkBalance(timeout) {
-        check_balance.modal('show');
+    function tootCardDetails(timeout) {
+        toot_card_details.modal('show');
         _timer = setTimeout(function () {
-            check_balance.modal('hide');
+            toot_card_details.modal('hide');
         }, timeout);
     }
 

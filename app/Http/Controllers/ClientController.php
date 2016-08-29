@@ -64,10 +64,10 @@ class ClientController extends Controller
         return view('dashboard.client.idle');
     }
 
-    public function tootCardBalanceCheck(Request $request) {
+    public function tootCardBalance(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
-            return (String)view('dashboard.client._partials.toot_card_details', compact('toot_card'));
+            return (String)view('dashboard.client._partials.toot_card_balance', compact('toot_card'));
         }
     }
 

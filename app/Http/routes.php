@@ -113,7 +113,7 @@ Route::get('client', [
     'as' => 'client.index'
 ]);
 Route::post('client/toot_card_check_balance', [
-    'uses' => 'ClientController@tootCardBalanceCheck',
+    'uses' => 'ClientController@tootCardBalance',
     'as' => 'client.toot_card_check_balance'
 ]);
 Route::post('client/toot_card_get_orders', [

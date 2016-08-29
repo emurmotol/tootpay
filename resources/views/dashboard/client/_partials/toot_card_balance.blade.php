@@ -1,0 +1,1 @@
+<p class="huge">{!! trans('toot_card.balance', ['date' => \Carbon\Carbon::now()->toDayDateTimeString(), 'load' => number_format($toot_card->load, 2, '.', ','), 'points' => number_format($toot_card->points, 2, '.', ',')]) !!}</p>
