@@ -24,13 +24,11 @@ class User extends Authenticatable
     ];
 
     public function roles() {
-        return $this->belongsToMany(Role::class,
-            'user_role', 'user_id', 'role_id')->withTimestamps();
+        return $this->belongsToMany(Role::class, 'user_role')->withTimestamps();
     }
 
     public function tootCards() {
-        return $this->belongsToMany(TootCard::class,
-            'user_toot_card', 'user_id', 'toot_card_id')->withTimestamps();
+        return $this->belongsToMany(TootCard::class, 'user_toot_card')->withTimestamps();
     }
 
     public function transactions() {

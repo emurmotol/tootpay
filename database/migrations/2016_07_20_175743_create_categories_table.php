@@ -3,11 +3,11 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMerchandiseCategoriesTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     public function up()
     {
-        Schema::create('merchandise_categories', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
@@ -17,6 +17,6 @@ class CreateMerchandiseCategoriesTable extends Migration
 
     public function down()
     {
-        Schema::drop('merchandise_categories');
+        Schema::drop('categories');
     }
 }

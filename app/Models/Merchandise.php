@@ -16,12 +16,11 @@ class Merchandise extends Model
     ];
 
     protected $fillable = [
-        'name', 'price', 'merchandise_category_id', 'has_image', 'available',
+        'name', 'price', 'category_id', 'has_image', 'available',
     ];
 
     public function operationDays() {
-        return $this->belongsToMany(OperationDay::class,
-            'merchandise_operation_day', 'merchandise_id', 'operation_day_id')->withTimestamps();
+        return $this->belongsToMany(OperationDay::class, 'merchandise_operation_day')->withTimestamps();
     }
 
     public static function searchFor($keyword, $model = null) {
@@ -71,8 +70,8 @@ class Merchandise extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function merchandiseCategory() {
-        return $this->belongsTo(MerchandiseCategory::class);
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 
     public function setNameAttribute($value) {
@@ -101,8 +100,8 @@ class Merchandise extends Model
         return self::whereNotIn('id', self::availability(date("w", strtotime(Carbon::now()))));
     }
 
-    public static function byCategory($merchandise_category_id) {
-        return self::where('merchandise_category_id', $merchandise_category_id);
+    public static function byCategory($category_id) {
+        return self::where('category_id', $category_id);
     }
 
     public function image($merchandise_id) {

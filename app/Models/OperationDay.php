@@ -18,8 +18,7 @@ class OperationDay extends Model
     }
 
     public function merchandises() {
-        return $this->belongsToMany(Merchandise::class,
-            'merchandise_operation_day', 'operation_day_id', 'merchandise_id')->withTimestamps();
+        return $this->belongsToMany(Merchandise::class, 'merchandise_operation_day')->withTimestamps();
     }
 
     public static function json($index = null) {

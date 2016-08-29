@@ -1,12 +1,12 @@
 <div class="row">
     @if(request()->has('redirect'))
         {!! Form::open([
-            'route' => (Route::is('merchandise.categories.edit')) ? ['merchandise.categories.update', $merchandise_category->id, 'redirect' => request()->get('redirect')] : ['merchandise.categories.store', 'redirect' => request()->get('redirect')],
+            'route' => (Route::is('merchandise.categories.edit')) ? ['merchandise.categories.update', $category->id, 'redirect' => request()->get('redirect')] : ['merchandise.categories.store', 'redirect' => request()->get('redirect')],
             'class' => ''
         ]) !!}
     @else
         {!! Form::open([
-            'route' => (Route::is('merchandise.categories.edit')) ? ['merchandise.categories.update', $merchandise_category->id] : 'merchandise.categories.store',
+            'route' => (Route::is('merchandise.categories.edit')) ? ['merchandise.categories.update', $category->id] : 'merchandise.categories.store',
             'class' => ''
         ]) !!}
     @endif
@@ -19,7 +19,7 @@
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <label for="name">Category Name:</label>
             <input type="text" class="form-control" id="name" name="name"
-                   value="{{ (Route::is('merchandise.categories.edit')) ? $merchandise_category->name : old('name') }}">
+                   value="{{ (Route::is('merchandise.categories.edit')) ? $category->name : old('name') }}">
 
             @if ($errors->has('name'))
                 <span class="help-block">
@@ -31,7 +31,7 @@
         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
             <label for="description">Description:</label>
             <input type="text" class="form-control" id="description" name="description"
-                   value="{{ (Route::is('merchandise.categories.edit')) ? $merchandise_category->description : old('description') }}">
+                   value="{{ (Route::is('merchandise.categories.edit')) ? $category->description : old('description') }}">
 
             @if ($errors->has('description'))
                 <span class="help-block">

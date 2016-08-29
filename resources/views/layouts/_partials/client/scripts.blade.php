@@ -414,10 +414,7 @@
             if (order_id > 0) {
                 order['id'] = order_id;
             }
-
-            if (_transaction_id > 0) {
-                order['transaction_id'] = _transaction_id;
-            }
+            order['transaction_id'] = _transaction_id;
             order['merchandise_id'] = merchandise_id;
             order['quantity'] = qty;
             order['total'] = total;
@@ -428,36 +425,32 @@
     }
 
     function sendOrders(status_response_id, payment_method_id) {
-        var transaction = [];
-        var t = {};
-
-        t['payment_method_id'] = payment_method_id;
-        t['status_response_id'] = status_response_id;
-        transaction.push(t);
+        var transaction = {};
+        transaction['payment_method_id'] = payment_method_id;
+        transaction['status_response_id'] = status_response_id;
 
         $.post('merchandise_purchase', {
             orders: getOrders(),
             transaction: JSON.stringify(transaction),
             toot_card_id: _toot_card_id.val()
         }, function (response) {
-            console.log(response);
-        }).done(function (response) { // todo get proper response value
-            if (response == 8) {
+            if (response.status == '{{ \App\Models\StatusResponse::find(8)->name }}') {
                 insufficientBalance(3000);
             } else {
-                if (payment_method_id == 1) {
+                if (response.status == '{{ \App\Models\StatusResponse::find(5)->name }}' && response.payment_method == '{{ \App\Models\PaymentMethod::find(1)->name }}') {
                     transactionComplete(3000);
-                } else if (payment_method_id == 2) {
-                    if (status_response_id == 12) {
+                } else if (response.payment_method == '{{ \App\Models\PaymentMethod::find(2)->name }}') {
+                    if (response.status == '{{ \App\Models\StatusResponse::find(12)->name }}') {
                         orderOnHold(4000);
-                    } else {
-                        $('#queue_number_huge').text(response);
+                    } else if (response.status == '{{ \App\Models\StatusResponse::find(10)->name }}') {
+                        $('#queue_number').text(response.queue_number);
                         transactionCompleteWithQueueNumber(4000);
                     }
                 }
                 goToIdle(timeout_short);
             }
-        });
+            console.log(response);
+        }, 'json');
     }
 
     function orderRowActions(merchandise_id) {

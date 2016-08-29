@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body text-center text-success">
                 <p class="huge">Your queue number is:</p>
-                <strong><span id="queue_number_huge"></span></strong>
+                <strong><span id="queue_number"></span></strong>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
                 </td>
                 <td>P{{ number_format($merchandise->price, 2, '.', ',') }}</td>
                 <td class="text-muted">
-                    {{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}
+                    {{ is_null($merchandise->category) ? 'Not set' : $merchandise->category->name }}
                 </td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['merchandises.available.update', $merchandise->id], 'class' => '']) !!}

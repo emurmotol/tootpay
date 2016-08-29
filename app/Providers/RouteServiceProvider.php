@@ -27,7 +27,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('merchandise', 'App\Models\Merchandise');
         $router->pattern('merchandise', '[0-9]+');
 
-        $router->model('category', 'App\Models\MerchandiseCategory');
+        $router->model('category', 'App\Models\Category');
         $router->pattern('category', '[0-9]+');
 
         $router->model('toot_card', 'App\Models\TootCard');

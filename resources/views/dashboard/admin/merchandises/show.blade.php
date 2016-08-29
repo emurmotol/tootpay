@@ -44,7 +44,7 @@
                                         <h4>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></h4>
                                     </li>
                                     <li>
-                                        <h4>Category: <strong>{{ is_null($merchandise->merchandiseCategory) ? 'Not set' : $merchandise->merchandiseCategory->name }}</strong></h4>
+                                        <h4>Category: <strong>{{ is_null($merchandise->category) ? 'Not set' : $merchandise->category->name }}</strong></h4>
                                     </li>
                                     <li>
                                         <h4>

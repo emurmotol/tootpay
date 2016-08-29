@@ -14,7 +14,7 @@ class MerchandisesTableSeeder extends Seeder
         foreach (Merchandise::json('1_2_3_4_5') as $m) {
             $merchandise = Merchandise::create($m);
 
-            if ($m['merchandise_category_id'] == 1) {
+            if ($m['category_id'] == 1) {
                 continue;
             }
 

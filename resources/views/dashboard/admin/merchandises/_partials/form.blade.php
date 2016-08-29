@@ -51,22 +51,22 @@
             @endif
         </div>
 
-        <div class="form-group{{ $errors->has('merchandise_category_id') ? ' has-error' : '' }}">
-            <label for="merchandise_category_id">Category:</label>
+        <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
+            <label for="category_id">Category:</label>
                 <span class="pull-right text-muted">Not listed?
                     <a href="{{ route('merchandise.categories.create', ['redirect' => Request::fullUrl()]) }}">
                         Create new category
                     </a>
                 </span>
-            <select id="merchandise_category_id" name="merchandise_category_id" class="form-control">
-                @foreach($merchandise_category as $category)
-                    <option value="{{ $category->id }}" {!! (Route::is('merchandises.edit')) ? ((is_null($merchandise->merchandiseCategory) ?: ($merchandise->merchandiseCategory->id == $category->id)) ? 'selected' : '') : ((old('merchandise_category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
+            <select id="category_id" name="category_id" class="form-control">
+                @foreach($category as $category)
+                    <option value="{{ $category->id }}" {!! (Route::is('merchandises.edit')) ? ((is_null($merchandise->category) ?: ($merchandise->category->id == $category->id)) ? 'selected' : '') : ((old('category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
                 @endforeach
             </select>
 
-            @if ($errors->has('merchandise_category_id'))
+            @if ($errors->has('category_id'))
                 <span class="help-block">
-                    <strong>{{ $errors->first('merchandise_category_id') }}</strong>
+                    <strong>{{ $errors->first('category_id') }}</strong>
                 </span>
             @endif
         </div>

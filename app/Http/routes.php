@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Order::all()->toJson());
+    return dd(\App\Models\Merchandise::availableEvery(1)->first()->category->id);
 });
 
 Route::auth();
@@ -79,7 +79,7 @@ Route::group(['middleware' => 'roles'], function () {
             ]);
 
             // Merchandise Category
-            Route::resource('merchandise/categories', 'MerchandiseCategoryController', [
+            Route::resource('merchandise/categories', 'CategoryController', [
                 'parameters' => 'singular'
             ]);
         });

@@ -15,7 +15,7 @@
             Unavailable <span class="badge">{{ \App\Models\Merchandise::unavailable()->get()->count() }}</span>
         </a>
         <a href="{{ route('merchandise.categories.index') }}" class="list-group-item {!! Route::is('merchandise.categories.index') ? 'active' : '' !!}">
-            Categories <span class="badge">{{ \App\Models\MerchandiseCategory::count() }}</span>
+            Categories <span class="badge">{{ \App\Models\Category::count() }}</span>
         </a>
     </ul>
 </div>

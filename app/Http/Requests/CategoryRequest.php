@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class PinCodeRequest extends Request
+class CategoryRequest extends Request
 {
     public function authorize()
     {
@@ -14,7 +14,8 @@ class PinCodeRequest extends Request
     public function rules()
     {
         return [
-            'pin_code' => 'required',
+            'name' => 'required',
+            'description' => '',
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Merchandise;
-use App\Models\MerchandiseCategory;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Setting;
@@ -29,8 +29,8 @@ class ClientController extends Controller
 
     public function todaysMenu(Request $request) {
         if ($request->ajax()) {
-            $merchandise_category = MerchandiseCategory::all();
-            return (String)view('dashboard.client._partials.todays_menu', compact('merchandise_category'));
+            $categories = Category::all();
+            return (String)view('dashboard.client._partials.todays_menu', compact('categories'));
         }
     }
 
@@ -146,16 +146,23 @@ class ClientController extends Controller
 
     public function merchandisePurchase(Request $request) {
         if ($request->ajax()) {
+            $user_id = null;
+            $transaction_id = null;
+            $status_response_id = null;
+
             $toot_card_id = $request->get('toot_card_id');
-            $transaction = collect(json_decode($request->get('transaction'), true)[0]);
+            $transaction = collect(json_decode($request->get('transaction'), true));
+            $payment_method_id = $transaction->get('payment_method_id');
             $orders = collect(json_decode($request->get('orders'), true));
             $grand_total = $orders->sum('total');
             $per_point = intval(Setting::value('per_point'));
-            $status_insufficient_balance = response()->make(8);
-            $user_id = null;
-            $transaction_id = null;
+            $queue_number = Transaction::queueNumber();
+            $insufficient_balance = 8;
+            $status_response_id = $transaction->get('status_response_id');
+            $transaction_id = $orders->pluck('transaction_id', 'transaction_id')->first();
+            $order_ids = collect();
 
-            switch ($transaction->get('payment_method_id')) {
+            switch ($payment_method_id) {
                 case 1:
                     $guest = User::guestJson('id');
                     $user_id = User::find($guest)->id;
@@ -166,41 +173,56 @@ class ClientController extends Controller
                 case 2:
                     $toot_card = TootCard::find($toot_card_id);
                     $user_id = $toot_card->users()->first()->id;
-                    $transaction->put('queue_number', Transaction::queueNumber());
-                    $_transaction = Transaction::create($transaction->toArray());
-                    $transaction_id = $_transaction->id;
-                    $_transaction->tootCards()->attach($toot_card_id, compact('user_id'));
 
-                    if ($transaction->get('status_response_id') != 12) {
+                    if ($status_response_id != 12) {
                         if (count($toot_card->load)) {
                             if ($toot_card->load < $grand_total) {
                                 $load_points = $toot_card->load + $toot_card->points;
 
                                 if ($load_points < $grand_total) {
-                                    return $status_insufficient_balance;
+                                    $status_response_id = $insufficient_balance;
                                 } else {
                                     $current_load = $toot_card->load;
                                     $toot_card->load = ($current_load - $grand_total) > 1 ?: 0;
                                     $points = $toot_card->points - ($grand_total - $current_load);
                                     $toot_card->points = (($points < 1) ? 0 : $points) + ($current_load / $per_point);
+                                    $toot_card->save();
+
+                                    if ($transaction_id == 0) {
+                                        $transaction->put('queue_number', $queue_number);
+                                    }
                                 }
                             } else {
                                 $toot_card->load = $toot_card->load - $grand_total;
                                 $toot_card->points = $toot_card->points + ($grand_total / $per_point);
+                                $toot_card->save();
+
+                                if ($transaction_id == 0) {
+                                    $transaction->put('queue_number', $queue_number);
+                                }
                             }
                         } else {
                             if (count($toot_card->points)) {
                                 if ($toot_card->points < $grand_total) {
-                                    return $status_insufficient_balance;
+                                    $status_response_id = $insufficient_balance;
                                 } else {
                                     $points = $toot_card->points - $grand_total;
                                     $toot_card->points = ($points < 1) ? 0 : $points;
+                                    $toot_card->save();
+
+                                    if ($transaction_id == 0) {
+                                        $transaction->put('queue_number', $queue_number);
+                                    }
                                 }
                             } else {
-                                return $status_insufficient_balance;
+                                $status_response_id = $insufficient_balance;
                             }
                         }
-                        $toot_card->save();
+                    }
+                    if ($transaction_id == 0) {
+                        $_transaction = Transaction::create($transaction->toArray());
+                        $transaction_id = $_transaction->id;
+                        $_transaction->tootCards()->attach($toot_card_id, compact('user_id'));
                     }
                     break;
                 default:
@@ -209,20 +231,32 @@ class ClientController extends Controller
             foreach ($orders as $order) {
                 $_order = collect($order);
 
-                if ($_order->has('id')) {
-                    Order::find($_order->get('id'))->fill($_order->toArray())->save();
-                } else {
+                if($_order->get('transaction_id') == 0) {
+                    $_order->forget('transaction_id');
                     $_order->put('transaction_id', $transaction_id);
+                }
+
+                if($_order->has('id')) {
+                    Order::find($_order->get('id'))->fill($_order->toArray())->save();
+                    $order_ids->push($_order->get('id'));
+                } else {
                     Order::create($_order->toArray());
                 }
             }
 
-            $status = collect();
-            $response = StatusResponse::find(9)->name => [ // todo make root element
-                    'queue_number' => $transaction->get('queue_number')
-                ];
-            $status->push($response);
-            return response()->make($status[0]);
+            foreach (Order::removedByUser($order_ids->all()) as $order) {
+                $order->delete();
+            }
+
+            $response = [
+                'status' => StatusResponse::find($status_response_id)->name,
+                'queue_number' => ($transaction_id > 0) ? Transaction::find($transaction_id)->queue_number : $transaction->get('queue_number'),
+                'transaction_id' => $transaction_id,
+                'payment_method' => PaymentMethod::find($payment_method_id)->name
+            ];
+            $status = collect($response);
+            Log::debug($status->toArray());
+            return response()->make($status->toJson());
         }
     }
 }

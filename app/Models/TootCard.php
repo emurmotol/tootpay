@@ -22,12 +22,11 @@ class TootCard extends Model
     ];
 
     public function users() {
-        return $this->belongsToMany(User::class,
-            'user_toot_card', 'toot_card_id', 'user_id');
+        return $this->belongsToMany(User::class, 'user_toot_card')->withTimestamps();
     }
 
     public function transactions() {
-        return $this->belongsToMany(Transaction::class, 'user_transaction');
+        return $this->belongsToMany(Transaction::class, 'user_transaction')->withTimestamps();
     }
 
     public function setIsActiveAttribute($value) {

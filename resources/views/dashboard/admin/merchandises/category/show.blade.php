@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $merchandise_category->name)
+@section('title', $category->name)
 
 @section('content')
     <div class="container">
@@ -14,15 +14,15 @@
                         @yield('title')
                         <span class="pull-right">
                             <strong>Results: {{ $merchandises->total() }}</strong>
-                            <a href="{{ route('merchandise.categories.edit', [$merchandise_category->id, 'redirect' => Request::fullUrl()]) }}"
+                            <a href="{{ route('merchandise.categories.edit', [$category->id, 'redirect' => Request::fullUrl()]) }}"
                                class="btn btn-default btn-xs">Edit</a>
                         </span>
                     </div>
-                    @if(\App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count())
+                    @if(\App\Models\Merchandise::byCategory($category->id)->get()->count())
                         <div class="panel-body">
                             <ul class="list-inline panel-actions">
                                 <li>
-                                    @include('_partials.search', ['what' => strtolower($merchandise_category->name)])
+                                    @include('_partials.search', ['what' => strtolower($category->name)])
                                 </li>
                                 <li>
                                     @include('_partials.sort', ['sort_by' => trans('sort.merchandises')])

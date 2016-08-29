@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Merchandise;
 
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
-use App\Models\MerchandiseCategory;
+use App\Models\Category;
 use App\Models\OperationDay;
 use App\Models\Setting;
 use Carbon\Carbon;
@@ -55,7 +55,7 @@ class MerchandiseController extends Controller
 
     public function create() {
         $operation_days = OperationDay::all();
-        $merchandise_category = MerchandiseCategory::all();
+        $merchandise_category = Category::all();
         return view('dashboard.admin.merchandises.create', compact('operation_days', 'merchandise_category'));
     }
 
@@ -84,7 +84,7 @@ class MerchandiseController extends Controller
 
     public function edit(Merchandise $merchandise) {
         $operation_days = OperationDay::all();
-        $merchandise_category = MerchandiseCategory::all();
+        $merchandise_category = Category::all();
         return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days', 'merchandise_category'));
     }
 
@@ -240,8 +240,8 @@ class MerchandiseController extends Controller
     }
 
     public function showMenu() {
-        $merchandise_categories = MerchandiseCategory::all();
+        $categories = Category::all();
         $operation_days = OperationDay::all();
-        return view('dashboard.admin.merchandises.daily_menu', compact('operation_days', 'merchandise_categories'));
+        return view('dashboard.admin.merchandises.daily_menu', compact('operation_days', 'categories'));
     }
 }

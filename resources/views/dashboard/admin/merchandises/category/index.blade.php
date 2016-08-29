@@ -13,10 +13,10 @@
                     <div class="panel-heading">
                         @yield('title')
                         <span class="pull-right">
-                            <strong>Results: {{ $merchandise_categories->total() }}</strong>
+                            <strong>Results: {{ $categories->total() }}</strong>
                         </span>
                     </div>
-                    @if(\App\Models\MerchandiseCategory::count())
+                    @if(\App\Models\Category::count())
                         <div class="panel-body">
                             <ul class="list-inline panel-actions">
                                 <li>

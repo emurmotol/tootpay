@@ -9,15 +9,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('transaction_id')->unsigned();
             $table->integer('merchandise_id')->unsigned();
             $table->integer('quantity');
             $table->float('total');
             $table->timestamps();
-
-            $table->foreign('transaction_id')
-                ->references('id')
-                ->on('transactions');
 
             $table->foreign('merchandise_id')
                 ->references('id')

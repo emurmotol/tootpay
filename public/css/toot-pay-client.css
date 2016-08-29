@@ -10,7 +10,7 @@
     font-size: 25px;
 }
 
-.merchandise-category-list {
+.category-list {
     overflow-x: scroll;
     overflow-y: hidden;
 }

@@ -9,19 +9,19 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($merchandise_categories as $merchandise_category)
+        @foreach($categories as $category)
             <tr>
                 <td>
-                    <a href="{{ route('merchandise.categories.show', $merchandise_category->id) }}">
-                        <strong>{{ $merchandise_category->name }}</strong>
+                    <a href="{{ route('merchandise.categories.show', $category->id) }}">
+                        <strong>{{ $category->name }}</strong>
                     </a>
                 </td>
-                <td>{{ $merchandise_category->description }}</td>
-                <td class="text-center">{{ \App\Models\Merchandise::byCategory($merchandise_category->id)->get()->count() }}</td>
+                <td>{{ $category->description }}</td>
+                <td class="text-center">{{ \App\Models\Merchandise::byCategory($category->id)->get()->count() }}</td>
                 <td class="text-center">
-                    {!! Form::open(['route' => ['merchandise.categories.destroy', $merchandise_category->id], 'class' => '']) !!}
+                    {!! Form::open(['route' => ['merchandise.categories.destroy', $category->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}
-                    <a href="{{ route('merchandise.categories.edit', $merchandise_category->id) }}" class="btn btn-default btn-xs">Edit</a>
+                    <a href="{{ route('merchandise.categories.edit', $category->id) }}" class="btn btn-default btn-xs">Edit</a>
                     <button type="submit" class="btn btn-danger btn-xs">Delete</button>
                     {!! Form::close() !!}
                 </td>
@@ -30,4 +30,4 @@
         </tbody>
     </table>
 </div>
-<div class="text-center">{{ $merchandise_categories->links() }}</div>
+<div class="text-center">{{ $categories->links() }}</div>

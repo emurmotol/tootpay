@@ -1,14 +1,14 @@
 [
   {
-    "name": "Cash"
+    "name": "CASH"
   },
   {
-    "name": "Toot Card (Load and Points)"
+    "name": "TOOT_CARD_LOAD_POINTS"
   },
   {
-    "name": "Toot Card (Load)"
+    "name": "TOOT_CARD_LOAD"
   },
   {
-    "name": "Toot Card (Points)"
+    "name": "TOOT_CARD_POINTS"
   }
 ]

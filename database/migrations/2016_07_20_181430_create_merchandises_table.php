@@ -9,15 +9,15 @@ class CreateMerchandisesTable extends Migration
     {
         Schema::create('merchandises', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('merchandise_category_id')->nullable();
+            $table->integer('category_id')->unsigned()->nullable();
             $table->string('name');
             $table->float('price')->nullable();
             $table->boolean('has_image')->default(false);
             $table->timestamps();
 
-            $table->foreign('merchandise_category_id')
+            $table->foreign('category_id')
                 ->references('id')
-                ->on('merchandise_categories');
+                ->on('categories');
         });
     }
 

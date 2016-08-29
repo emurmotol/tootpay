@@ -1,11 +1,11 @@
 [
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Adobong Talong",
     "price": 20
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Fried Chicken",
     "price": 40
   }

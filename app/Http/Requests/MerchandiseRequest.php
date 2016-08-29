@@ -16,7 +16,7 @@ class MerchandiseRequest extends Request
         return [
             'name' => 'required',
             'price' => 'required',
-            'merchandise_category_id' => 'required',
+            'category_id' => 'required',
             'image' => '',
             'day' => '',
         ];

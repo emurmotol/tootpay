@@ -1,36 +1,36 @@
 [
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Adobong Kangkong",
     "price": 20
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Chili Con Carne",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Pork Teriyaki",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Binagoongan",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Ginataang Manok",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Menudo",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Chili Garlic Chicken",
     "price": 40
   }

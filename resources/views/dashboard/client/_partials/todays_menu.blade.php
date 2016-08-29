@@ -1,11 +1,11 @@
 @if(\App\Models\Merchandise::availableEvery(date('w'))->get()->count())
-    @foreach($merchandise_category as $category)
-        @if(in_array($category->id, collect(\App\Models\Merchandise::availableEvery(date('w'))->get())->pluck('merchandise_category_id')->toArray()))
+    @foreach($categories as $category)
+        @if(in_array($category->id, collect(\App\Models\Merchandise::availableEvery(date('w'))->get())->pluck('category_id')->toArray()))
             <div class="category-name"><strong>{{ $category->name }}</strong></div>
-            <div class="merchandise-category-list">
+            <div class="category-list">
                 <ul class="list-inline">
                     @foreach(\App\Models\Merchandise::availableEvery(date('w'))->get() as $merchandise)
-                        @if($merchandise->merchandiseCategory->id == $category->id)
+                        @if($merchandise->category->id == $category->id)
                             <li class="merchandise-item">
                                 <a href="#merchandise-item-{{ $merchandise->id }}"
                                    data-toggle="modal">

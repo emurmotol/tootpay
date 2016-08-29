@@ -42,12 +42,12 @@
                                         <strong>{{ ($operation_day->id == date('w', strtotime(\Carbon\Carbon::now()))) ? 'Today\'s Menu' : $operation_day->day }}</strong>
                                     </h4>
                                     @if(\App\Models\Merchandise::availableEvery($operation_day->id)->get()->count())
-                                        @foreach($merchandise_categories as $category)
-                                            @if(in_array($category->id, collect(\App\Models\Merchandise::availableEvery($operation_day->id)->get())->pluck('merchandise_category_id')->toArray()))
+                                        @foreach($categories as $category)
+                                            @if(in_array($category->id, collect(\App\Models\Merchandise::availableEvery($operation_day->id)->get())->pluck('category_id')->toArray()))
                                                 <h4>{{ $category->name }}</h4>
                                                 <ul class="list-inline">
                                                     @foreach(\App\Models\Merchandise::availableEvery($operation_day->id)->get() as $merchandise)
-                                                        @if($merchandise->merchandiseCategory->id == $category->id)
+                                                        @if($merchandise->category->id == $category->id)
                                                             <li class="img-merchandise-list-item">
                                                                 <a href="{{ route('merchandises.show', [$merchandise->id, 'redirect' => Request::fullUrl()]) }}">
                                                                     <img class="img-responsive img-rounded"

@@ -1,26 +1,26 @@
 [
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Sinigang Na Baboy",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Pakbet",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Pork Tapa",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Humba",
     "price": 40
   },
   {
-    "merchandise_category_id" : 2,
+    "category_id": 2,
     "name": "Menudillo",
     "price": 40
   }
