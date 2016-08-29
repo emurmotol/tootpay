@@ -10,11 +10,11 @@
             </div>
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        @yield('title')
+                    <div class="panel-heading clearfix">
+                        <span class="pull-left">@yield('title')</span>
                         <span class="pull-right">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
-                            <strong>{{ \Carbon\Carbon::now()->toDayDateTimeString() }}</strong>
+                            {{ \Carbon\Carbon::now()->toDayDateTimeString() }}
                         </span>
                     </div>
                     <div class="panel-body">

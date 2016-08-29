@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
-                        @yield('title')
+                        <span class="pull-left">@yield('title')</span>
                         <span class="pull-right">
                             @include('_partials.cancel', ['url' => route('merchandise.categories.index')])
                         </span>

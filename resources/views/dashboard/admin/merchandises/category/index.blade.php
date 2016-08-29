@@ -10,11 +10,9 @@
             </div>
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        @yield('title')
-                        <span class="pull-right">
-                            <strong>Results: {{ $categories->total() }}</strong>
-                        </span>
+                    <div class="panel-heading clearfix">
+                        <span class="pull-left">@yield('title')</span>
+                        <span class="pull-right">Results: {{ $categories->total() }}</span>
                     </div>
                     @if(\App\Models\Category::count())
                         <div class="panel-body">

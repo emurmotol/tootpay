@@ -10,11 +10,9 @@
             </div>
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        @yield('title')
-                        <span class="pull-right">
-                            <strong>Results: {{ $merchandises->total() }}</strong>
-                        </span>
+                    <div class="panel-heading clearfix">
+                        <span class="pull-left">@yield('title')</span>
+                        <span class="pull-right">Results: {{ $merchandises->total() }}</span>
                     </div>
                     @if(\App\Models\Merchandise::unavailable()->get()->count())
                         <div class="panel-body">

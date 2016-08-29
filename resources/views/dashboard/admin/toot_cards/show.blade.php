@@ -11,7 +11,7 @@
             <div class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
-                        <i class="fa fa-credit-card" aria-hidden="true"></i> @yield('title')
+                        <span class="pull-left"><i class="fa fa-credit-card" aria-hidden="true"></i> @yield('title')</span>
                         <span class="pull-right">
                             {!! Form::open([
                                 'route' => ['toot_cards.destroy', $toot_card->id,
