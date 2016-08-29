@@ -54,9 +54,9 @@ class MerchandiseController extends Controller
     }
 
     public function create() {
-        $operation_days = OperationDay::all();
-        $merchandise_category = Category::all();
-        return view('dashboard.admin.merchandises.create', compact('operation_days', 'merchandise_category'));
+        $operation_days = OperationDay::isOpen(true);
+        $categories = Category::all();
+        return view('dashboard.admin.merchandises.create', compact('operation_days', 'categories'));
     }
 
     public function store(Requests\MerchandiseRequest $request) {
@@ -78,12 +78,12 @@ class MerchandiseController extends Controller
     }
 
     public function show(Merchandise $merchandise) {
-        $operation_days = OperationDay::all();
+        $operation_days = OperationDay::isOpen(true);
         return view('dashboard.admin.merchandises.show', compact('merchandise', 'operation_days'));
     }
 
     public function edit(Merchandise $merchandise) {
-        $operation_days = OperationDay::all();
+        $operation_days = OperationDay::isOpen(true);
         $categories = Category::all();
         return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days', 'categories'));
     }
@@ -241,7 +241,7 @@ class MerchandiseController extends Controller
 
     public function showMenu() {
         $categories = Category::all();
-        $operation_days = OperationDay::all();
+        $operation_days = OperationDay::isOpen(true);
         return view('dashboard.admin.merchandises.daily_menu', compact('operation_days', 'categories'));
     }
 }

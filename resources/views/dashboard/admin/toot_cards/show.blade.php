@@ -26,7 +26,10 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <img src="{{ asset('img/toot-card.jpeg') }}" class="img-responsive" alt="Toot Card">
+                            </div>
+                            <div class="col-md-6">
                                 <ul class="list-unstyled">
                                     <li>
                                         <h4>Cardholder:
@@ -41,7 +44,7 @@
                                         <h4>Toot Card ID: <strong>{{ $toot_card->id }}</strong></h4>
                                         <h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
                                         <h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
-                                        <h4>Active? <strong>{{ $toot_card->is_active ? 'Yes' : 'No' }}</strong></h4>
+                                        <h4>Active? {!! $toot_card->is_active ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>' !!}</h4>
                                         <h4>Expiration Date: <strong>{{ $toot_card->expires_at->toFormattedDateString() }}</strong></h4>
                                         <h4>Created: <strong>{{ $toot_card->created_at->toFormattedDateString() }}</strong></h4>
                                         <h4>Updated: <strong>{{ $toot_card->updated_at->diffForHumans() }}</strong></h4>

@@ -10,6 +10,7 @@ class CreateOperationDaysTable extends Migration
         Schema::create('operation_days', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('day');
+            $table->boolean('is_open')->default(false);
             $table->timestamps();
         });
     }

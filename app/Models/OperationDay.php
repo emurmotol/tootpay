@@ -31,6 +31,10 @@ class OperationDay extends Model
         return $operation_days[$index]['id'];
     }
 
+    public static function isOpen($boolean) {
+        return self::where('is_open', $boolean)->get();
+    }
+
     public static function purchaseDates() {
         return DB::table('merchandise_purchase')->select(DB::raw('date(created_at) as date'))->groupBy('date')->orderBy('date', 'asc')->get();
     }

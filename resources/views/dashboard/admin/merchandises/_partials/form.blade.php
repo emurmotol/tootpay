@@ -91,7 +91,7 @@
             <label for="day">Available Every:</label>
 
             @if (Route::is('merchandises.edit'))
-                @foreach($operation_days->all() as $day)
+                @foreach($operation_days as $day)
                     <div class="checkbox">
                         <label><input type="checkbox" value="{{ $day->id }}" name="day[]" id="day"
                                     {{ in_array($day->id, $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' }}>{{ $day->day }}
@@ -99,7 +99,7 @@
                     </div>
                 @endforeach
             @else
-                @foreach($operation_days->all() as $day)
+                @foreach($operation_days as $day)
                     <div class="checkbox">
                         <label><input type="checkbox" value="{{ $day->id }}" name="day[]" id="day"
                                     {{ !is_null(old('day')) ? (in_array($day->id, old('day')) ? 'checked' : '') : '' }}>{{ $day->day }}
