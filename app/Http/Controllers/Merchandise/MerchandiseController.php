@@ -84,8 +84,8 @@ class MerchandiseController extends Controller
 
     public function edit(Merchandise $merchandise) {
         $operation_days = OperationDay::all();
-        $merchandise_category = Category::all();
-        return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days', 'merchandise_category'));
+        $categories = Category::all();
+        return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days', 'categories'));
     }
 
     public function update(Requests\MerchandiseRequest $request, Merchandise $merchandise) {

@@ -59,7 +59,7 @@
                     </a>
                 </span>
             <select id="category_id" name="category_id" class="form-control">
-                @foreach($category as $category)
+                @foreach($categories as $category)
                     <option value="{{ $category->id }}" {!! (Route::is('merchandises.edit')) ? ((is_null($merchandise->category) ?: ($merchandise->category->id == $category->id)) ? 'selected' : '') : ((old('category_id') == $category->id) ? 'selected' : '') !!}>{{ $category->name }}</option>
                 @endforeach
             </select>

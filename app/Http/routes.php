@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Merchandise::availableEvery(1)->first()->category->id);
+    return dd();
 });
 
 Route::auth();
