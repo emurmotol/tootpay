@@ -106,10 +106,14 @@
                     }, function (response) {
                         $('#user_order').html(response);
                     }).done(function (response) {
-                        if (response == 13) {
-                            noUndoneOrders(timeout_short);
+                        if (response == 14) {
+                            toManyCardTap(timeout_short);
                         } else {
-                            undoneOrders(timeout_long);
+                            if (response == 13) {
+                                noUndoneOrders(timeout_short);
+                            } else {
+                                undoneOrders(timeout_long);
+                            }
                         }
                         console.log('orders response is ' + response + '!');
                     });
@@ -378,15 +382,137 @@
         $.post('load_orders', {
             transaction_id: transaction_id
         }, function (response) {
-            if (response == '') {
-                addOrder(merchandise_id, name, price, qty);
+            var orders = JSON.parse(response);
+
+            $.each(orders, function(key, order) {
+                getOrder(order.id, order.merchandise_id, order.name, order.price, order.qty);
+            });
+            console.log('order entries count is ' + orders.length + '!');
+        });
+    }
+
+    function getOrders() {
+        var orders = [];
+
+        $('tr.row-order').each(function () {
+            var qty = parseInt($('span.qty', this).text());
+            var each_value = $('span.each', this);
+            var each = parseFloat(each_value.text());
+            var total = qty * each;
+            var order_id = parseInt($(this).data('order_id'));
+            var order = {};
+
+            if (order_id > 0) {
+                order['id'] = order_id;
             }
-            console.log('order entries count is ' + response.length + '!');
+
+            var transaction_id = 2;
+
+            if (transaction_id > 0) {
+                order['transaction_id'] = transaction_id;
+            }
+            order['merchandise_id'] = $(this).data('merchandise_id');
+            order['quantity'] = qty;
+            order['total'] = total;
+            orders.push(order);
+        });
+        console.log('order entries count is ' + orders.length + '!');
+        return JSON.stringify(orders);
+    }
+
+    function sendOrders(status_response_id, payment_method_id) {
+        var transaction = [];
+        var t = {};
+
+        t['payment_method_id'] = payment_method_id;
+        t['status_response_id'] = status_response_id;
+        transaction.push(t);
+        console.log(transaction);
+
+        $.post('merchandise_purchase', {
+            orders: getOrders(),
+            transaction: JSON.stringify(transaction),
+            toot_card_id: _toot_card_id.val()
+        }, function (response) {
+            console.log('purchase response is ' + response + '!');
+        }).done(function (response) {
+            if (response == 8) {
+                insufficientBalance(3000);
+            } else if (response == 9) {
+
+                if (payment_method_id == 1) {
+                    transactionComplete(3000);
+                } else if (payment_method_id == 2) {
+                    if (status_response_id == 12) {
+                        orderOnHold(4000);
+                    } else {
+                        $('#queue_number_huge').text(queue_number_value);
+                        transactionCompleteWithQueueNumber(4000);
+                    }
+                }
+                goToIdle(timeout_short);
+            }
+        });
+    }
+
+    function orderRowActions(merchandise_id) {
+        var order_qty = $('#merchandise_' + merchandise_id + '');
+        order_qty.on('click', 'td button.plus', function () {
+            var qty = parseInt($(this).prev('span.qty').text());
+            var new_qty = qty + 1;
+            $(this).prev('span.qty').text(new_qty);
+            compute();
+        });
+        order_qty.on('click', 'td button.minus', function () {
+            var qty = parseInt($(this).next('span.qty').text());
+            var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
+            $(this).next('span.qty').text(new_qty);
+            compute();
+        });
+        $('td button.remove').on('click', function () {
+            $(this).closest('tr').remove();
+            compute();
         });
     }
 
     $(function () {
+        var transaction_id = 2;
+        if (transaction_id > 0) {
+            loadOrders(transaction_id);
+        }
         todaysMenu();
+
+        window.getOrder = (function (id, merchandise_id, name, price, qty) {
+            var order_exist = false;
+
+            $('tr.row-order').each(function () {
+                if ($(this).data('merchandise_id') == merchandise_id) {
+                    var _qty = parseInt($('span.qty', this).text());
+                    $('span.qty', this).text(_qty + parseInt(qty));
+                    order_exist = true;
+                }
+            });
+
+            console.log('order exist on list? ' + order_exist);
+
+            if (!order_exist) {
+                $('#table_orders tbody').append(
+                        '<tr class="row-order" data-order_id="' + id + '" id="merchandise_' + merchandise_id + '" data-merchandise_id="' + merchandise_id + '">' +
+                        '<td><span class="name">' + name + '</span></td>' +
+                        '<td class="text-center table-cell-qty">' +
+                        '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
+                        '<span class="qty">' + qty + '</span>' +
+                        '<button class="btn btn-default btn-sm plus"><i class="fa fa-plus"></i></button>' +
+                        '</td>' +
+                        '<td>P<span class="each">' + price + '</span></td>' +
+                        '<td>P<span class="total"></span></td>' +
+                        '<td class="text-center"><button class="btn btn-danger btn-sm remove"><i class="fa fa-remove"></i></button></td>' +
+                        '</tr>'
+                );
+                orderRowActions(merchandise_id);
+            }
+            compute();
+        });
 
         window.addOrder = (function (merchandise_id, name, price, qty) {
             var order_exist = false;
@@ -415,26 +541,9 @@
                         '<td class="text-center"><button class="btn btn-danger btn-sm remove"><i class="fa fa-remove"></i></button></td>' +
                         '</tr>'
                 );
+                orderRowActions(merchandise_id);
             }
             compute();
-
-            var order_qty = $('#merchandise_' + merchandise_id + '');
-            order_qty.on('click', 'td button.plus', function () {
-                var qty = parseInt($(this).prev('span.qty').text());
-                var new_qty = qty + 1;
-                $(this).prev('span.qty').text(new_qty);
-                compute();
-            });
-            order_qty.on('click', 'td button.minus', function () {
-                var qty = parseInt($(this).next('span.qty').text());
-                var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
-                $(this).next('span.qty').text(new_qty);
-                compute();
-            });
-            $('td button.remove').on('click', function () {
-                $(this).closest('tr').remove();
-                compute();
-            });
         });
 
         window.compute = (function () {
@@ -593,6 +702,10 @@
     }
 
     function toManyCardTap(timeout) {
+        if (_modal.hasClass('in')) {
+            _modal.modal('hide');
+        }
+
         to_many_card_tap.modal('show');
         console.log('showing to_many_card_tap modal');
         _timer = setTimeout(function () {
@@ -686,54 +799,6 @@
         _timer = setTimeout(function () {
             transaction_complete.modal('hide');
         }, timeout);
-    }
-
-    function getOrders(status, payment_method) {
-        var orders = [];
-
-        $('tr.row-order').each(function () {
-            var qty = parseInt($('span.qty', this).text());
-            var each_value = $('span.each', this);
-            var each = parseFloat(each_value.text());
-            var total = qty * each;
-            var order = {};
-            order['queue_number'] = queue_number_value;
-            order['transaction_id'] = transaction_id;
-            order['toot_card_id'] = _toot_card_id.val();
-            order['merchandise_id'] = $(this).data('merchandise_id');
-            order['quantity'] = qty;
-            order['total'] = total;
-            order['status'] = status;
-            order['payment_method'] = payment_method;
-            orders.push(order);
-        });
-        console.log('order entries count is ' + orders.length + '!');
-        return JSON.stringify(orders);
-    }
-
-    function sendOrders(status, payment_method) {
-        $.post('merchandise_purchase', {
-            orders: getOrders(status, payment_method)
-        }, function (response) {
-            console.log('purchase response is ' + response + '!');
-        }).done(function (response) {
-            if (response == 8) {
-                insufficientBalance(3000);
-            } else if (response == 9) {
-
-                if (payment_method == 1) {
-                    transactionComplete(3000);
-                } else if (payment_method == 2) {
-                    if (status == 12) {
-                        orderOnHold(4000);
-                    } else {
-                        $('#queue_number_huge').text(queue_number_value);
-                        transactionCompleteWithQueueNumber(4000);
-                    }
-                }
-                goToIdle(timeout_short);
-            }
-        });
     }
 
     (function ($) {

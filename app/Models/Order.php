@@ -21,4 +21,8 @@ class Order extends Model
     public static function byTransaction($transaction_id) {
         return self::where('transaction_id', $transaction_id)->get();
     }
+
+    public static function updateOrCreateByTransaction($order) {
+        return self::updateOrCreate($order);
+    }
 }

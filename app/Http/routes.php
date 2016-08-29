@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Transaction::madeFrom('0001246344', 10, 2)->get());
+    return dd(\App\Models\Order::all()->toJson());
 });
 
 Route::auth();
@@ -147,4 +147,8 @@ Route::get('client/order', [
 Route::post('client/todays_menu', [
     'uses' => 'ClientController@todaysMenu',
     'as' => 'client.todays_menu'
+]);
+Route::post('client/load_orders', [
+    'uses' => 'ClientController@loadOrders',
+    'as' => 'client.load_orders'
 ]);

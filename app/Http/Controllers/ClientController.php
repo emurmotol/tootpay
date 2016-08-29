@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Merchandise;
 use App\Models\MerchandiseCategory;
+use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Setting;
 use App\Models\StatusResponse;
@@ -14,8 +15,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Monolog\Logger;
 
 class ClientController extends Controller
 {
@@ -108,7 +112,7 @@ class ClientController extends Controller
             $toot_card = TootCard::find($toot_card_id);
 
             if (strlen($toot_card_id) > 10) {
-                return response()->make(14); // todo not on script
+                return response()->make(14);
             } else {
                 $user = $toot_card->users()->first();
                 $queued = Transaction::madeFrom($toot_card_id, 10, 2);
@@ -123,85 +127,93 @@ class ClientController extends Controller
         }
     }
 
+    public function loadOrders(Request $request) {
+        $orders = collect();
+
+        foreach (Order::byTransaction($request->get('transaction_id')) as $order) {
+            $_order = [
+                'id' => $order->id,
+                'merchandise_id' => $order->merchandise_id,
+                'name' => Merchandise::find($order->merchandise_id)->name,
+                'price' => Merchandise::find($order->merchandise_id)->price,
+                'qty' => $order->quantity,
+            ];
+
+            $orders->push($_order);
+        }
+        return response()->make($orders->toJson());
+    }
+
     public function merchandisePurchase(Request $request) {
         if ($request->ajax()) {
+            $toot_card_id = $request->get('toot_card_id');
+            $transaction = collect(json_decode($request->get('transaction'), true)[0]);
+            $transaction->put('queue_number', Transaction::queueNumber());
             $orders = collect(json_decode($request->get('orders'), true));
-            $status = $orders->first()['status'];
-            $toot_card_id = $orders->first()['toot_card_id'];
-            $payment_method = $orders->first()['payment_method'];
+            $grand_total = $orders->sum('total');
+            $per_point = intval(Setting::value('per_point'));
+            $status_insufficient_balance = response()->make(8);
+            $user_id = null;
+            $transaction_id = null;
 
-            if ($payment_method == PaymentMethod::find(1)->name) {
-                foreach ($orders as $order) {
-                    DB::table('merchandise_purchase')->insert([
-                        'order_id' => $order['order_id'],
-                        'merchandise_id' => $order['merchandise_id'],
-                        'quantity' => $order['quantity'],
-                        'total' => $order['total'],
-                        'payment_method' => $order['payment_method'],
-                        'status' => $status,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                }
-            } else if ($payment_method == PaymentMethod::find(2)->name) {
-                $toot_card = TootCard::find($toot_card_id);
-                $grand_total = $orders->sum('total');
-                $per_point = intval(Setting::value('per_point'));
-                $status_insufficient_balance = response()->make(8);
+            switch ($transaction->get('payment_method_id')) {
+                case 1:
+                    $guest = User::guestJson('id');
+                    $user_id = User::find($guest)->id;
+                    $_transaction = Transaction::create($transaction->toArray());
+                    $transaction_id = $_transaction->id;
+                    $_transaction->users()->attach($user_id);
+                    break;
+                case 2:
+                    $toot_card = TootCard::find($toot_card_id);
+                    $user_id = $toot_card->users()->first()->id;
+                    $_transaction = Transaction::create($transaction->toArray());
+                    $transaction_id = $_transaction->id;
+                    $_transaction->tootCards()->attach($toot_card_id, compact('user_id'));
 
-                if ($status == 12) {
-                    foreach ($orders as $order) {
-                        Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
-                            'order_id' => $order['order_id'],
-                            'user_id' => $toot_card->users()->first()->id,
-                            'quantity' => $order['quantity'],
-                            'total' => $order['total'],
-                            'payment_method' => $order['payment_method'],
-                            'status' => $status,
-                        ]);
+                    if ($transaction->get('status_response_id') != 12) {
+                        if (count($toot_card->load)) {
+                            if ($toot_card->load < $grand_total) {
+                                $load_points = $toot_card->load + $toot_card->points;
+
+                                if ($load_points < $grand_total) {
+                                    return $status_insufficient_balance;
+                                } else {
+                                    $current_load = $toot_card->load;
+                                    $toot_card->load = ($current_load - $grand_total) > 1 ?: 0;
+                                    $points = $toot_card->points - ($grand_total - $current_load);
+                                    $toot_card->points = (($points < 1) ? 0 : $points) + ($current_load / $per_point);
+                                }
+                            } else {
+                                $toot_card->load = $toot_card->load - $grand_total;
+                                $toot_card->points = $toot_card->points + ($grand_total / $per_point);
+                            }
+                        } else {
+                            if (count($toot_card->points)) {
+                                if ($toot_card->points < $grand_total) {
+                                    return $status_insufficient_balance;
+                                } else {
+                                    $points = $toot_card->points - $grand_total;
+                                    $toot_card->points = ($points < 1) ? 0 : $points;
+                                }
+                            } else {
+                                return $status_insufficient_balance;
+                            }
+                        }
+                        $toot_card->save();
                     }
+                    break;
+                default:
+            }
+
+            foreach ($orders as $order) {
+                $_order = collect($order);
+
+                if ($_order->has('id')) {
+                    Order::find($_order->get('id'))->fill($_order->toArray())->save();
                 } else {
-                    if (count($toot_card->load)) {
-                        if ($toot_card->load < $grand_total) {
-                            $load_points = $toot_card->load + $toot_card->points;
-
-                            if ($load_points < $grand_total) {
-                                return $status_insufficient_balance;
-                            } else {
-                                $current_load = $toot_card->load;
-                                $toot_card->load = ($current_load - $grand_total) > 1 ?: 0;
-                                $points = $toot_card->points - ($grand_total - $current_load);
-                                $toot_card->points = (($points < 1) ? 0 : $points) + ($current_load / $per_point);
-                            }
-                        } else {
-                            $toot_card->load = $toot_card->load - $grand_total;
-                            $toot_card->points = $toot_card->points + ($grand_total / $per_point);
-                        }
-                    } else {
-                        if (count($toot_card->points)) {
-                            if ($toot_card->points < $grand_total) {
-                                return $status_insufficient_balance;
-                            } else {
-                                $points = $toot_card->points - $grand_total;
-                                $toot_card->points = ($points < 1) ? 0 : $points;
-                            }
-                        } else {
-                            return $status_insufficient_balance;
-                        }
-                    }
-                    $toot_card->save();
-
-                    foreach ($orders as $order) {
-                        Merchandise::find($order['merchandise_id'])->tootCards()->save($toot_card, [
-                            'queue_number' => $order['queue_number'],
-                            'order_id' => $order['order_id'],
-                            'user_id' => $toot_card->users()->first()->id,
-                            'quantity' => $order['quantity'],
-                            'total' => $order['total'],
-                            'payment_method' => $order['payment_method'],
-                            'status' => $status,
-                        ]);
-                    }
+                    $_order->put('transaction_id', $transaction_id);
+                    Order::create($_order->toArray());
                 }
             }
             return response()->make(9);
