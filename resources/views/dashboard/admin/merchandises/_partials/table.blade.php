@@ -5,7 +5,9 @@
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
-            <th class="text-center">Make Available Today?</th>
+            @if(\App\Models\OperationDay::find(date('w', strtotime(\Carbon\Carbon::now())))->has_operation)
+                <th class="text-center">Make Available Today?</th>
+            @endif
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -21,16 +23,18 @@
                 <td class="text-muted">
                     {{ is_null($merchandise->category) ? 'Not set' : $merchandise->category->name }}
                 </td>
-                <td class="text-center">
-                    {!! Form::open(['route' => ['merchandises.available.update', $merchandise->id], 'class' => '']) !!}
-                    {!! Form::hidden('_method', 'PUT') !!}
-                    <input type="hidden" name="available" value="off">
-                    <input type="checkbox" onchange="this.form.submit();"
-                           {!! in_array(date('w', strtotime(\Carbon\Carbon::now())), $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' !!} id="available" name="available"
-                           data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success"
-                           data-offstyle="default" data-size="mini">
-                    {!! Form::close() !!}
-                </td>
+                @if(\App\Models\OperationDay::find(date('w', strtotime(\Carbon\Carbon::now())))->has_operation)
+                    <td class="text-center">
+                        {!! Form::open(['route' => ['merchandises.available.update', $merchandise->id], 'class' => '']) !!}
+                        {!! Form::hidden('_method', 'PUT') !!}
+                        <input type="hidden" name="available" value="off">
+                        <input type="checkbox" onchange="this.form.submit();"
+                               {!! in_array(date('w', strtotime(\Carbon\Carbon::now())), $merchandise->operationDays()->getRelatedIds()->all()) ? 'checked' : '' !!} id="available" name="available"
+                               data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success"
+                               data-offstyle="default" data-size="mini">
+                        {!! Form::close() !!}
+                    </td>
+                @endif
                 <td class="text-center">
                     {!! Form::open(['route' => ['merchandises.destroy', $merchandise->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}

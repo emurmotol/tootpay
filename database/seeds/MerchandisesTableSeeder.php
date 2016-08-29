@@ -24,7 +24,7 @@ class MerchandisesTableSeeder extends Seeder
             }
         }
 
-        foreach(OperationDay::isOpen(true) as $day) {
+        foreach(OperationDay::hasOperation(true) as $day) {
             foreach (Merchandise::json($day->id) as $m) {
                 $merchandise = Merchandise::create($m);
                 app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);

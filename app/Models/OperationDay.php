@@ -10,7 +10,7 @@ class OperationDay extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'day',
+        'day', 'has_operation',
     ];
 
     public function setDayAttribute($value) {
@@ -31,8 +31,8 @@ class OperationDay extends Model
         return $operation_days[$index]['id'];
     }
 
-    public static function isOpen($boolean) {
-        return self::where('is_open', $boolean)->get();
+    public static function hasOperation($boolean) {
+        return self::where('has_operation', $boolean)->get();
     }
 
     public static function purchaseDates() {

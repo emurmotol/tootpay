@@ -2,36 +2,36 @@
   {
     "id": 0,
     "day": "Sunday",
-    "is_open": false
+    "has_operation": false
   },
   {
     "id": 1,
     "day": "Monday",
-    "is_open": true
+    "has_operation": true
   },
   {
     "id": 2,
     "day": "Tuesday",
-    "is_open": true
+    "has_operation": true
   },
   {
     "id": 3,
     "day": "Wednesday",
-    "is_open": true
+    "has_operation": true
   },
   {
     "id": 4,
     "day": "Thursday",
-    "is_open": true
+    "has_operation": true
   },
   {
     "id": 5,
     "day": "Friday",
-    "is_open": true
+    "has_operation": true
   },
   {
     "id": 6,
     "day": "Saturday",
-    "is_open": false
+    "has_operation": false
   }
 ]

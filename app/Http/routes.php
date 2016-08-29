@@ -59,7 +59,7 @@ Route::group(['middleware' => 'roles'], function () {
 
             // Merchandises
             Route::put('merchandises/available/{merchandise}', [
-                'uses' => 'MerchandiseController@available',
+                'uses' => 'MerchandiseController@makeAvailableToday',
                 'as' => 'merchandises.available.update'
             ]);
             Route::get('merchandises/available', [

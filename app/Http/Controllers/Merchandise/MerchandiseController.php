@@ -54,7 +54,7 @@ class MerchandiseController extends Controller
     }
 
     public function create() {
-        $operation_days = OperationDay::isOpen(true);
+        $operation_days = OperationDay::hasOperation(true);
         $categories = Category::all();
         return view('dashboard.admin.merchandises.create', compact('operation_days', 'categories'));
     }
@@ -78,12 +78,12 @@ class MerchandiseController extends Controller
     }
 
     public function show(Merchandise $merchandise) {
-        $operation_days = OperationDay::isOpen(true);
+        $operation_days = OperationDay::hasOperation(true);
         return view('dashboard.admin.merchandises.show', compact('merchandise', 'operation_days'));
     }
 
     public function edit(Merchandise $merchandise) {
-        $operation_days = OperationDay::isOpen(true);
+        $operation_days = OperationDay::hasOperation(true);
         $categories = Category::all();
         return view('dashboard.admin.merchandises.edit', compact('merchandise', 'operation_days', 'categories'));
     }
@@ -127,7 +127,7 @@ class MerchandiseController extends Controller
         return redirect()->back();
     }
 
-    public function available(Request $request, Merchandise $merchandise) {
+    public function makeAvailableToday(Request $request, Merchandise $merchandise) {
         $now = strtotime(Carbon::now());
         $int_day = date("w", $now);
         $day = date("l", $now);
@@ -139,7 +139,6 @@ class MerchandiseController extends Controller
             $merchandise->operationDays()->detach($int_day);
             flash()->success(trans('merchandise.unavailable', ['name' => $merchandise->name, 'day' => $day]));
         }
-        $merchandise->touch();
         return redirect()->back();
     }
 
@@ -241,7 +240,7 @@ class MerchandiseController extends Controller
 
     public function showMenu() {
         $categories = Category::all();
-        $operation_days = OperationDay::isOpen(true);
+        $operation_days = OperationDay::hasOperation(true);
         return view('dashboard.admin.merchandises.daily_menu', compact('operation_days', 'categories'));
     }
 }
