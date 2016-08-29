@@ -2,9 +2,7 @@
     <button type="button" class="close" data-dismiss="modal">
         <i class="fa fa-times fa-2x" aria-hidden="true"></i>
     </button>
-    <h4 class="modal-title huge text-center">
-        <strong><i class="fa fa-user"></i> {{ $user->id }}: Orders</strong>
-    </h4>
+    <div class="modal-title huge text-center">{{ trans('user.orders', ['user_id' => $user->id]) }}</div>
 </div>
 <div class="modal-body">
     <ul class="nav nav-tabs">

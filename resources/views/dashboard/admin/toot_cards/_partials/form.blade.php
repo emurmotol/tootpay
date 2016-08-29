@@ -98,7 +98,7 @@
         @endif
 
         <button type="submit" id="btn-submit" class="btn btn-primary"
-                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">
+                data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('toot_cards.edit')) ? 'Update' : 'Create' }} toot card
         </button>
     </div>

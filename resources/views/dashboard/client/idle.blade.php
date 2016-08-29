@@ -24,20 +24,8 @@
     @include('dashboard.client._partials.enter_load_amount')
     @include('dashboard.client._partials.enter_user_id')
     @include('dashboard.client._partials.undone_orders')
-
-    @include('dashboard.client._partials.validations.invalid_user_id')
-    @include('dashboard.client._partials.validations.empty_user_id')
-    @include('dashboard.client._partials.validations.loading')
-    @include('dashboard.client._partials.validations.to_many_card_tap')
-    @include('dashboard.client._partials.validations.no_undone_orders')
-    @include('dashboard.client._partials.validations.waiting_for_payment')
-    @include('dashboard.client._partials.validations.invalid_card')
-    @include('dashboard.client._partials.validations.wrong_pin')
-    @include('dashboard.client._partials.validations.empty_pin')
-    @include('dashboard.client._partials.validations.exceed_reload_limit')
-    @include('dashboard.client._partials.validations.empty_load_amount')
-    @include('dashboard.client._partials.validations.reload_paid')
-    @include('dashboard.client._partials.validations.reload_canceled')
+    @include('dashboard.client._partials.loading')
+    @include('dashboard.client._partials.validation')
 @endsection
 
 @section('style')

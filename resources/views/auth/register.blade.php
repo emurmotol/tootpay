@@ -86,7 +86,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
+                                <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">
                                     <i class="fa fa-btn fa-user"></i> Register
                                 </button>
                                 <a class="btn btn-link" href="{{ url('login') }}">I already have an account</a>

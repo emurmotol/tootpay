@@ -29,7 +29,7 @@
                                 </a>
                             </p>
                         </div>
-                        <button type="submit" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait..."></i> Remove card</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true" data-loading-text="{{ trans('loading.default') }}"></i> Remove card</button>
                         {!! Form::close() !!}
                     @endif
                 </div>
@@ -72,7 +72,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">Associate card</button>
+                            <button type="submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Associate card</button>
                             {!! Form::close() !!}
                         @else
                             <span class="help-block">{{ trans('toot_card.no_available') }}</span>

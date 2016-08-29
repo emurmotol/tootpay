@@ -5,9 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
-                <h4 class="modal-title huge text-center">
-                    <strong>Enter your pin code.</strong>
-                </h4>
+                <div class="modal-title huge text-center">{!! trans('toot_card.enter_pin') !!}</div>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">

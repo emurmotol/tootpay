@@ -10,5 +10,6 @@ return [
     'card_associated' => 'The card <strong>:toot_card</strong> has been successfully associated to <strong>:Name</strong>!',
     'exception' => ':Error',
     'delete_fail_card_is_set' => 'Unable to delete <strong>:Name</strong>. The user is still owns a card :toot_card_link.',
+    'orders' => '<strong><i class="fa fa-user"></i> :user_id: Orders</strong>',
 
 ];

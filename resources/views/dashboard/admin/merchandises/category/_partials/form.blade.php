@@ -41,7 +41,7 @@
         </div>
 
         <button type="submit" id="btn-submit" class="btn btn-primary"
-                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Loading...">
+                data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('merchandise.categories.edit')) ? 'Update ' : 'Create ' }}category
         </button>
     </div>

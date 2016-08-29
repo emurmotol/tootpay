@@ -110,7 +110,7 @@
         </div>
 
         <button type="submit" id="btn-submit" class="btn btn-primary"
-                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Please wait...">
+                data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('merchandises.edit')) ? 'Update' : 'Create' }} merchandise
         </button>
     </div>

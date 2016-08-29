@@ -5,9 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
-                <h4 class="modal-title huge text-center">
-                    <strong>Please tap your toot card!</strong>
-                </h4>
+                <div class="modal-title huge text-center">{!! trans('toot_card.tap_card') !!}</div>
             </div>
             <div class="modal-body">
                 <div class="row">

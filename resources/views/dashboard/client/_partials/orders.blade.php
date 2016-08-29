@@ -28,7 +28,7 @@
                 <ul class="list-inline">
                     <li>
                         <button class="btn btn-warning btn-lg" id="btn_cancel"
-                                data-loading-text="<i class='fa fa-spinner fa-pulse'></i> Canceling order...">
+                                data-loading-text="{{ trans('loading.default') }}">
                             <strong>Cancel Order</strong>
                         </button>
                     </li>

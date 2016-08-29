@@ -5,13 +5,10 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
-                <h4 class="modal-title huge text-center">
-                    <strong>Your toot card balance information.</strong>
-                </h4>
+                <div class="modal-title huge text-center">{!! trans('toot_card.details_title') !!}</div>
             </div>
             <div class="modal-body">
-                <div id="toot_card_details">
-                </div>
+                <div id="toot_card_details"></div>
             </div>
         </div>
     </div>

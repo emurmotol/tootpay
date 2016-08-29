@@ -24,14 +24,6 @@
 
     @include('dashboard.client._partials.tap_card')
     @include('dashboard.client._partials.enter_pin')
-
-    @include('dashboard.client._partials.validations.invalid_card')
-    @include('dashboard.client._partials.validations.wrong_pin')
-    @include('dashboard.client._partials.validations.empty_pin')
-    @include('dashboard.client._partials.validations.order_on_hold')
-    @include('dashboard.client._partials.validations.insufficient_balance')
-    @include('dashboard.client._partials.validations.transaction_complete')
-    @include('dashboard.client._partials.validations.transaction_complete_with_queue_number')
-    @include('dashboard.client._partials.validations.loading')
-    @include('dashboard.client._partials.validations.waiting_for_payment')
+    @include('dashboard.client._partials.validation')
+    @include('dashboard.client._partials.transaction_complete_with_queue_number')
 @endsection
