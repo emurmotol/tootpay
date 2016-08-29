@@ -8,7 +8,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(SettingsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
-        $this->call(UsersTableSeeder::class); // todo toot card seeder called here
+        $this->call(UsersTableSeeder::class);
         $this->call(OperationDaysTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(MerchandisesTableSeeder::class);

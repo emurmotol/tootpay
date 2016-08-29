@@ -98,6 +98,16 @@ class User extends Authenticatable
         return $admin[$field];
     }
 
+    public static function testJson($field = null) {
+        $path  = resource_path('assets/json/users/test.json');
+        $test = collect(json_decode(file_get_contents($path), true));
+
+        if (is_null($field)) {
+            return $test->all();
+        }
+        return $test[$field];
+    }
+
     public static function cashiersJson($index = null) {
         $path  = resource_path('assets/json/users/cashiers.json');
         $cashiers = collect(json_decode(file_get_contents($path), true));

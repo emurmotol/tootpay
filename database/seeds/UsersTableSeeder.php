@@ -34,5 +34,9 @@ class UsersTableSeeder extends Seeder
             ]);
             $user->tootCards()->attach($toot_card);
         }
+
+        $test = User::create(User::testJson());
+        $test->roles()->attach(Role::find(cardholder()));
+        $test->tootCards()->attach(TootCard::create(TootCard::testJson()));
     }
 }
