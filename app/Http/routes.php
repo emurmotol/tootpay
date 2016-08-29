@@ -124,10 +124,6 @@ Route::get('client/idle', [
     'uses' => 'ClientController@idle',
     'as' => 'client.idle'
 ]);
-Route::get('client/guest', [
-    'uses' => 'ClientController@guest',
-    'as' => 'client.guest'
-]);
 Route::post('client/toot_card_check', [
     'uses' => 'ClientController@tootCardCheck',
     'as' => 'client.toot_card_check'
@@ -139,10 +135,6 @@ Route::post('client/merchandise_purchase', [
 Route::post('client/toot_card_auth_attempt', [
     'uses' => 'ClientController@tootCardAuthAttempt',
     'as' => 'client.toot_card_auth_attempt'
-]);
-Route::get('client/order', [
-    'uses' => 'ClientController@order',
-    'as' => 'client.order'
 ]);
 Route::post('client/todays_menu', [
     'uses' => 'ClientController@todaysMenu',
