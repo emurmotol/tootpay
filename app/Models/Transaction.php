@@ -45,15 +45,6 @@ class Transaction extends Model
         return $default;
     }
 
-    public static function id() {
-        $default = 1;
-
-        if (self::count()) {
-            return self::orderBy('id', 'desc')->groupBy('id')->first()->id + $default;
-        }
-        return $default;
-    }
-
     public static function madeFrom($toot_card_id, $status_response_id, $payment_method_id) {
         return TootCard::find($toot_card_id)->transactions()
             ->where('status_response_id', $status_response_id)

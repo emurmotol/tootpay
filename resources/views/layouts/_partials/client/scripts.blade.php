@@ -36,8 +36,7 @@
     var waiting_for_payment = $('#waiting_for_payment');
 
     // database values
-    var queue_number_value = parseInt('{{ \App\Models\Transaction::queueNumber() }}');
-    var transaction_id = parseInt('{{ \App\Models\Transaction::id() }}');
+    var _transaction_id = parseInt('{{ Request::has('transaction_id') ? Request::get('transaction_id') : 0  }}');
 
     // timer
     var timeout_long = 60000;
@@ -56,8 +55,6 @@
     // help
     var edit_orders_help = $('#edit_orders_help');
     var select_orders_help = $('#select_orders_help');
-
-    idleTapCardListener(0);
 
     enter_pin.on('hidden.bs.modal', function () {
         resetPinCodeValue();
@@ -379,6 +376,8 @@
     }
 
     function loadOrders(transaction_id) {
+        console.log('transaction_id is ' + transaction_id);
+
         $.post('load_orders', {
             transaction_id: transaction_id
         }, function (response) {
@@ -391,6 +390,15 @@
         });
     }
 
+    $(function () {
+        idleTapCardListener(0);
+
+        if (_transaction_id > 0) {
+            loadOrders(_transaction_id);
+        }
+        todaysMenu();
+    });
+
     function getOrders() {
         var orders = [];
 
@@ -400,18 +408,17 @@
             var each = parseFloat(each_value.text());
             var total = qty * each;
             var order_id = parseInt($(this).data('order_id'));
+            var merchandise_id = $(this).data('merchandise_id');
             var order = {};
 
             if (order_id > 0) {
                 order['id'] = order_id;
             }
 
-            var transaction_id = 2;
-
-            if (transaction_id > 0) {
-                order['transaction_id'] = transaction_id;
+            if (_transaction_id > 0) {
+                order['transaction_id'] = _transaction_id;
             }
-            order['merchandise_id'] = $(this).data('merchandise_id');
+            order['merchandise_id'] = merchandise_id;
             order['quantity'] = qty;
             order['total'] = total;
             orders.push(order);
@@ -427,26 +434,24 @@
         t['payment_method_id'] = payment_method_id;
         t['status_response_id'] = status_response_id;
         transaction.push(t);
-        console.log(transaction);
 
         $.post('merchandise_purchase', {
             orders: getOrders(),
             transaction: JSON.stringify(transaction),
             toot_card_id: _toot_card_id.val()
         }, function (response) {
-            console.log('purchase response is ' + response + '!');
-        }).done(function (response) {
+            console.log(response);
+        }).done(function (response) { // todo get proper response value
             if (response == 8) {
                 insufficientBalance(3000);
-            } else if (response == 9) {
-
+            } else {
                 if (payment_method_id == 1) {
                     transactionComplete(3000);
                 } else if (payment_method_id == 2) {
                     if (status_response_id == 12) {
                         orderOnHold(4000);
                     } else {
-                        $('#queue_number_huge').text(queue_number_value);
+                        $('#queue_number_huge').text(response);
                         transactionCompleteWithQueueNumber(4000);
                     }
                 }
@@ -475,105 +480,97 @@
         });
     }
 
-    $(function () {
-        var transaction_id = 2;
-        if (transaction_id > 0) {
-            loadOrders(transaction_id);
+    function getOrder(id, merchandise_id, name, price, qty) {
+        var order_exist = false;
+
+        $('tr.row-order').each(function () {
+            if ($(this).data('merchandise_id') == merchandise_id) {
+                var _qty = parseInt($('span.qty', this).text());
+                $('span.qty', this).text(_qty + parseInt(qty));
+                order_exist = true;
+            }
+        });
+
+        console.log('order exist on list? ' + order_exist);
+
+        if (!order_exist) {
+            $('#table_orders tbody').append(
+                    '<tr class="row-order" data-order_id="' + id + '" id="merchandise_' + merchandise_id + '" data-merchandise_id="' + merchandise_id + '">' +
+                    '<td><span class="name">' + name + '</span></td>' +
+                    '<td class="text-center table-cell-qty">' +
+                    '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
+                    '<span class="qty">' + qty + '</span>' +
+                    '<button class="btn btn-default btn-sm plus"><i class="fa fa-plus"></i></button>' +
+                    '</td>' +
+                    '<td>P<span class="each">' + price + '</span></td>' +
+                    '<td>P<span class="total"></span></td>' +
+                    '<td class="text-center"><button class="btn btn-danger btn-sm remove"><i class="fa fa-remove"></i></button></td>' +
+                    '</tr>'
+            );
+            orderRowActions(merchandise_id);
         }
-        todaysMenu();
+        compute();
+    }
 
-        window.getOrder = (function (id, merchandise_id, name, price, qty) {
-            var order_exist = false;
+    function addOrder(merchandise_id, name, price, qty) {
+        var order_exist = false;
 
-            $('tr.row-order').each(function () {
-                if ($(this).data('merchandise_id') == merchandise_id) {
-                    var _qty = parseInt($('span.qty', this).text());
-                    $('span.qty', this).text(_qty + parseInt(qty));
-                    order_exist = true;
-                }
-            });
-
-            console.log('order exist on list? ' + order_exist);
-
-            if (!order_exist) {
-                $('#table_orders tbody').append(
-                        '<tr class="row-order" data-order_id="' + id + '" id="merchandise_' + merchandise_id + '" data-merchandise_id="' + merchandise_id + '">' +
-                        '<td><span class="name">' + name + '</span></td>' +
-                        '<td class="text-center table-cell-qty">' +
-                        '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
-                        '<span class="qty">' + qty + '</span>' +
-                        '<button class="btn btn-default btn-sm plus"><i class="fa fa-plus"></i></button>' +
-                        '</td>' +
-                        '<td>P<span class="each">' + price + '</span></td>' +
-                        '<td>P<span class="total"></span></td>' +
-                        '<td class="text-center"><button class="btn btn-danger btn-sm remove"><i class="fa fa-remove"></i></button></td>' +
-                        '</tr>'
-                );
-                orderRowActions(merchandise_id);
-            }
-            compute();
-        });
-
-        window.addOrder = (function (merchandise_id, name, price, qty) {
-            var order_exist = false;
-
-            $('tr.row-order').each(function () {
-                if ($(this).data('merchandise_id') == merchandise_id) {
-                    var _qty = parseInt($('span.qty', this).text());
-                    $('span.qty', this).text(_qty + parseInt(qty));
-                    order_exist = true;
-                }
-            });
-
-            console.log('order exist on list? ' + order_exist);
-
-            if (!order_exist) {
-                $('#table_orders tbody').append(
-                        '<tr class="row-order" id="merchandise_' + merchandise_id + '" data-merchandise_id="' + merchandise_id + '">' +
-                        '<td><span class="name">' + name + '</span></td>' +
-                        '<td class="text-center table-cell-qty">' +
-                        '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
-                        '<span class="qty">' + qty + '</span>' +
-                        '<button class="btn btn-default btn-sm plus"><i class="fa fa-plus"></i></button>' +
-                        '</td>' +
-                        '<td>P<span class="each">' + price + '</span></td>' +
-                        '<td>P<span class="total"></span></td>' +
-                        '<td class="text-center"><button class="btn btn-danger btn-sm remove"><i class="fa fa-remove"></i></button></td>' +
-                        '</tr>'
-                );
-                orderRowActions(merchandise_id);
-            }
-            compute();
-        });
-
-        window.compute = (function () {
-            var grand_total = 0;
-            var decimal_place = 2;
-            var row_count = parseInt($('#table_orders tbody tr.row-order').length);
-
-            $('tr.row-order').each(function () {
-                var qty = parseInt($('span.qty', this).text());
-                var each_value = $('span.each', this);
-                var each = parseFloat(each_value.text());
-                each_value.text(each.toFixed(decimal_place));
-                var total = qty * each;
-                $('span.total', this).text(total.toFixed(decimal_place));
-                grand_total += total;
-            });
-
-            $("#grand_total").text(grand_total.toFixed(decimal_place));
-
-            if (row_count < 1) {
-                btn_hold.attr('disabled', 'disabled');
-                btn_pay_using_toot_card.attr('disabled', 'disabled');
-                btn_pay_using_cash.attr('disabled', 'disabled');
-            } else {
-                btn_hold.removeAttr('disabled');
-                btn_pay_using_toot_card.removeAttr('disabled');
-                btn_pay_using_cash.removeAttr('disabled');
+        $('tr.row-order').each(function () {
+            if ($(this).data('merchandise_id') == merchandise_id) {
+                var _qty = parseInt($('span.qty', this).text());
+                $('span.qty', this).text(_qty + parseInt(qty));
+                order_exist = true;
             }
         });
-    });
+
+        console.log('order exist on list? ' + order_exist);
+
+        if (!order_exist) {
+            $('#table_orders tbody').append(
+                    '<tr class="row-order" id="merchandise_' + merchandise_id + '" data-merchandise_id="' + merchandise_id + '">' +
+                    '<td><span class="name">' + name + '</span></td>' +
+                    '<td class="text-center table-cell-qty">' +
+                    '<button class="btn btn-default btn-sm minus"><i class="fa fa-minus"></i></button>' +
+                    '<span class="qty">' + qty + '</span>' +
+                    '<button class="btn btn-default btn-sm plus"><i class="fa fa-plus"></i></button>' +
+                    '</td>' +
+                    '<td>P<span class="each">' + price + '</span></td>' +
+                    '<td>P<span class="total"></span></td>' +
+                    '<td class="text-center"><button class="btn btn-danger btn-sm remove"><i class="fa fa-remove"></i></button></td>' +
+                    '</tr>'
+            );
+            orderRowActions(merchandise_id);
+        }
+        compute();
+    }
+
+    function compute() {
+        var grand_total = 0;
+        var decimal_place = 2;
+        var row_count = parseInt($('#table_orders tbody tr.row-order').length);
+
+        $('tr.row-order').each(function () {
+            var qty = parseInt($('span.qty', this).text());
+            var each_value = $('span.each', this);
+            var each = parseFloat(each_value.text());
+            each_value.text(each.toFixed(decimal_place));
+            var total = qty * each;
+            $('span.total', this).text(total.toFixed(decimal_place));
+            grand_total += total;
+        });
+
+        $("#grand_total").text(grand_total.toFixed(decimal_place));
+
+        if (row_count < 1) {
+            btn_hold.attr('disabled', 'disabled');
+            btn_pay_using_toot_card.attr('disabled', 'disabled');
+            btn_pay_using_cash.attr('disabled', 'disabled');
+        } else {
+            btn_hold.removeAttr('disabled');
+            btn_pay_using_toot_card.removeAttr('disabled');
+            btn_pay_using_cash.removeAttr('disabled');
+        }
+    }
 
     function clearTimer() {
         clearTimeout(_timer);

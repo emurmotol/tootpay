@@ -148,7 +148,6 @@ class ClientController extends Controller
         if ($request->ajax()) {
             $toot_card_id = $request->get('toot_card_id');
             $transaction = collect(json_decode($request->get('transaction'), true)[0]);
-            $transaction->put('queue_number', Transaction::queueNumber());
             $orders = collect(json_decode($request->get('orders'), true));
             $grand_total = $orders->sum('total');
             $per_point = intval(Setting::value('per_point'));
@@ -167,6 +166,7 @@ class ClientController extends Controller
                 case 2:
                     $toot_card = TootCard::find($toot_card_id);
                     $user_id = $toot_card->users()->first()->id;
+                    $transaction->put('queue_number', Transaction::queueNumber());
                     $_transaction = Transaction::create($transaction->toArray());
                     $transaction_id = $_transaction->id;
                     $_transaction->tootCards()->attach($toot_card_id, compact('user_id'));
@@ -216,7 +216,13 @@ class ClientController extends Controller
                     Order::create($_order->toArray());
                 }
             }
-            return response()->make(9);
+
+            $status = collect();
+            $response = StatusResponse::find(9)->name => [ // todo make root element
+                    'queue_number' => $transaction->get('queue_number')
+                ];
+            $status->push($response);
+            return response()->make($status[0]);
         }
     }
 }

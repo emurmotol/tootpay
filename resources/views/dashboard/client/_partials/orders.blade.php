@@ -1,8 +1,6 @@
 <div class="panel panel-primary order">
     <div class="panel-heading clearfix">
-        <span class="pull-left">
-            Order: <strong>#{{ Request::has('transaction_id') ? Request::get('transaction_id') : \App\Models\Transaction::id() }}</strong>
-        </span>
+        <span class="pull-left">Orders</span>
         <span class="pull-right">
             <i class="fa fa-question-circle" aria-hidden="true" id="edit_orders_help"></i>
         </span>
