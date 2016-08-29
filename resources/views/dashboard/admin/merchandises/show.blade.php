@@ -44,7 +44,7 @@
                                         <h4>Price: <strong>P{{ number_format($merchandise->price, 2, '.', ',') }}</strong></h4>
                                     </li>
                                     <li>
-                                        <h4>Category: <strong>{{ is_null($merchandise->category) ? 'Not set' : $merchandise->category->name }}</strong></h4>
+                                        <h4>Category: {!! is_null($merchandise->category) ? '<strong>Not set</strong>' : '<a href="' . route('merchandise.categories.show', $merchandise->category->id) . '"><strong>' . $merchandise->category->name .'</strong></a>' !!}</h4>
                                     </li>
                                     <li>
                                         <h4>

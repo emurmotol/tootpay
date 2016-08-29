@@ -1,7 +1,7 @@
 {
   "id": "0001246344",
   "pin_code":  1111,
-  "load": 500,
+  "load": 1000,
   "points": 0,
   "is_active": "on",
   "expires_at": "2021-08-30 03:23:03"
