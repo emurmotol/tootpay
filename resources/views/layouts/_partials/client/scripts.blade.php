@@ -312,7 +312,7 @@
     }
 
     function todaysMenu() {
-        $.post("order/menu", function (response) {
+        $.get("order/menu", function (response) {
             $("#todays_menu").html(response);
 
             $(".modal-footer").on("click", "button.btn-add-order", function () {

@@ -46,5 +46,8 @@
   },
   {
     "name": "INVALID_USER"
+  },
+  {
+    "name": "REQUEST_IS_NOT_AJAX"
   }
 ]

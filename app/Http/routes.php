@@ -123,7 +123,7 @@ Route::post('order/send', [
     'uses' => 'OrderController@send',
     'as' => 'order.send'
 ]);
-Route::post('order/menu', [
+Route::get('order/menu', [
     'uses' => 'OrderController@menu',
     'as' => 'order.menu'
 ]);

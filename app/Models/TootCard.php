@@ -61,4 +61,76 @@ class TootCard extends Model
         }
         return $test[$field];
     }
+
+    public static function hasSufficientLoad($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+
+        if (!count($toot_card->load)) {
+            return false;
+        }
+
+        if ($toot_card->load < $amount_due) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function hasSufficientPoints($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+
+        if (!count($toot_card->points)) {
+            return false;
+        }
+
+        if ($toot_card->points < $amount_due) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function hasSufficientLoadAndPoints($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $balance = $toot_card->load + $toot_card->points;
+
+        if (!count($balance)) {
+            return false;
+        }
+
+        if ($balance < $amount_due) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function payUsingLoad($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $per_point = intval(Setting::value('per_point'));
+        $load = $toot_card->load;
+        $points = $toot_card->points;
+
+        $toot_card->load = $load - $amount_due;
+        $toot_card->points = $points + ($amount_due / $per_point);
+        $toot_card->save();
+    }
+
+    public static function payUsingPoints($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $points = $toot_card->points;
+
+        $toot_card->points = $points - $amount_due;
+        $toot_card->save();
+    }
+
+    public static function payUsingLoadAndPoints($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $per_point = intval(Setting::value('per_point'));
+        $load = $toot_card->load;
+        $points = $toot_card->points;
+        $balance = $load + $points;
+
+        $toot_card->load = ($balance - $amount_due) > 1 ?: 0;
+        $_points = $points - ($amount_due - $balance);
+        $toot_card->points = (($_points < 1) ? 0 : $_points) + ($balance / $per_point);
+        $toot_card->save();
+    }
 }

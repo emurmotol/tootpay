@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StatusResponse;
 use App\Models\TootCard;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class TransactionController extends Controller
             $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
             return (String)view('dashboard.client.transactions._partials.check_balance', compact('toot_card'));
         }
-        return response()->make('REQUEST_IS_NOT_AJAX');
+        return StatusResponse::find(17)->name;
     }
 
     public function checkCard(Request $request) {
@@ -34,7 +35,7 @@ class TransactionController extends Controller
                 return response()->make(2);
             }
         }
-        return response()->make('REQUEST_IS_NOT_AJAX');
+        return StatusResponse::find(17)->name;
     }
 
     public function authCard(Request $request) {
@@ -46,7 +47,7 @@ class TransactionController extends Controller
             }
             return response()->make(4);
         }
-        return response()->make('REQUEST_IS_NOT_AJAX');
+        return StatusResponse::find(17)->name;
     }
 
     public function index() {
