@@ -13,11 +13,11 @@ class Transaction extends Model
     ];
 
     public function users() {
-        return $this->belongsToMany(User::class, 'user_transaction')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_toot_card_transaction')->withTimestamps();
     }
 
     public function tootCards() {
-        return $this->belongsToMany(TootCard::class, 'user_transaction')->withTimestamps();
+        return $this->belongsToMany(TootCard::class, 'user_toot_card_transaction')->withTimestamps();
     }
 
     public function orders() {

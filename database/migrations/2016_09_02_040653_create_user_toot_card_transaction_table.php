@@ -3,11 +3,11 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserTransactionTable extends Migration
+class CreateUserTootCardTransactionTable extends Migration
 {
     public function up()
     {
-        Schema::create('user_transaction', function (Blueprint $table) {
+        Schema::create('user_toot_card_transaction', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('transaction_id')->unsigned();
             $table->string('user_id')->index();
@@ -32,6 +32,6 @@ class CreateUserTransactionTable extends Migration
 
     public function down()
     {
-        Schema::drop('user_transaction');
+        Schema::drop('user_toot_card_transaction');
     }
 }

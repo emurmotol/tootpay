@@ -27,7 +27,15 @@ class TootCard extends Model
     }
 
     public function transactions() {
-        return $this->belongsToMany(Transaction::class, 'user_transaction')->withTimestamps();
+        return $this->belongsToMany(Transaction::class, 'user_toot_card_transaction')->withTimestamps();
+    }
+
+    public function fromTootCardId() {
+        return $this->belongsTo(LoadShare::class, 'from_toot_card_id');
+    }
+
+    public function toTootCardId() {
+        return $this->belongsTo(LoadShare::class, 'to_toot_card_id');
     }
 
     public function setIsActiveAttribute($value) {
