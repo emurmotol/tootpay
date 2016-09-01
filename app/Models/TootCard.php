@@ -144,4 +144,23 @@ class TootCard extends Model
         Log::debug($status->toArray());
         return response()->make($status->toJson());
     }
+
+    public static function reload($toot_card_id, $load_amount) {
+        $toot_card = self::find($toot_card_id);
+        $load = $toot_card->load;
+        $toot_card->load = $load + $load_amount;
+        $toot_card->save();
+    }
+
+    public static function shareLoad($toot_card_id, $user_id, $load_amount) {
+        $toot_card_sender = self::find($toot_card_id);
+        $sender_load = $toot_card_sender->load;
+        $toot_card_sender->load = $sender_load - $load_amount;
+        $toot_card_sender->save();
+
+        $toot_card_receiver = User::find($user_id)->tootCards()->first();
+        $receiver_load = $toot_card_receiver->load;
+        $toot_card_receiver->load = $receiver_load + $load_amount;
+        $toot_card_receiver->save();
+    }
 }

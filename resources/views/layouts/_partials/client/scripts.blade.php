@@ -251,11 +251,22 @@
     }
 
     function shareLoad(toot_card_id, user_id, load_amount) {
-        // todo
+        $.post("share_load", {
+            toot_card_id: toot_card_id,
+            user_id: user_id,
+            load_amount: load_amount
+        }, function (response) {
+            console.log(response);
+        }, "json");
     }
 
     function reloadTootCard(toot_card_id, load_amount) {
-        // todo
+        $.post("reload", {
+            toot_card_id: toot_card_id,
+            load_amount: load_amount
+        }, function (response) {
+            console.log(response);
+        }, "json");
     }
 
     function authCard(toot_card_id, pin_code) {

@@ -152,3 +152,11 @@ Route::post('auth_card', [
     'uses' => 'TransactionController@authCard',
     'as' => 'transaction.auth_card'
 ]);
+Route::post('reload', [
+    'uses' => 'TransactionController@reload',
+    'as' => 'transaction.reload'
+]);
+Route::post('share_load', [
+    'uses' => 'TransactionController@shareLoad',
+    'as' => 'transaction.share_load'
+]);

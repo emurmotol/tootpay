@@ -27,7 +27,7 @@ class TransactionController extends Controller
             $toot_card_id = $request->get('toot_card_id');
 
             if (strlen($toot_card_id) > 10) {
-                return TootCard::response(14, $toot_card_id);
+                return StatusResponse::def(14);
             } else {
                 if (!is_null(TootCard::find($toot_card_id))) {
                     return TootCard::response(1, $toot_card_id);
@@ -47,6 +47,31 @@ class TransactionController extends Controller
                 return TootCard::response(3, $toot_card_id);
             }
             return TootCard::response(4, $toot_card_id);
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function reload(Request $request) {
+        if ($request->ajax()) {
+            $toot_card_id = $request->get('toot_card_id');
+            $load_amount = $request->get('load_amount');
+            TootCard::reload($toot_card_id, $load_amount);
+            return TootCard::response(20, $toot_card_id);;
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function shareLoad(Request $request) {
+        if ($request->ajax()) {
+            $toot_card_id = $request->get('toot_card_id');
+            $user_id = $request->get('user_id');
+            $load_amount = $request->get('load_amount');
+
+            if (TootCard::hasSufficientLoad($toot_card_id, $load_amount)) {
+                TootCard::shareLoad($toot_card_id, $user_id, $load_amount);
+                return TootCard::response(19, $toot_card_id);
+            }
+            return TootCard::response(18, $toot_card_id);
         }
         return StatusResponse::find(17)->name;
     }

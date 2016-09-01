@@ -49,5 +49,14 @@
   },
   {
     "name": "REQUEST_IS_NOT_AJAX"
+  },
+  {
+    "name": "INSUFFICIENT_LOAD"
+  },
+  {
+    "name": "LOAD_SHARED"
+  },
+  {
+    "name": "CARD_RELOADED"
   }
 ]
