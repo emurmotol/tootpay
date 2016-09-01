@@ -155,25 +155,15 @@ class TootCard extends Model
         return response()->make($status->toJson());
     }
 
-    public static function reload($toot_card_id, $load_amount, $status_response_id) {
-        $toot_card = self::find($toot_card_id);
-
-        $transaction = Transaction::create([
-            'payment_method_id' => 1,
-            'status_response_id' => $status_response_id
-        ]);
-        $transaction->users()->attach($toot_card->users()->first(), compact('toot_card_id'));
-
-        $order = Order::create([
-            'merchandise_id' => 1,
-            'quantity' => 1,
-            'total' => $load_amount
-        ]);
-        $transaction->orders()->attach($order);
-
+    public static function reload($transaction_id) {
+        $transaction = Transaction::find($transaction_id);
+        $toot_card = self::find($transaction->tootCards()->first()->id);
         $load = $toot_card->load;
-        $toot_card->load = $load + $load_amount;
+        $toot_card->load = $load + $transaction->orders()->first()->total;
         $toot_card->save();
+
+        $transaction->status_response_id = 11;
+        $transaction->save();
     }
 
     public static function shareLoad($toot_card_id, $user_id, $load_amount) {

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\StatusResponse;
 use App\Models\TootCard;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,8 @@ class TransactionController extends Controller
     public function checkBalance(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::find($request->get('toot_card_id'));
-            return (String)view('dashboard.client.transactions._partials.check_balance', compact('toot_card'));
+            return (String)view('dashboard.client.transactions._partials.check_balance',
+                compact('toot_card'));
         }
         return StatusResponse::find(17)->name;
     }
@@ -52,16 +55,29 @@ class TransactionController extends Controller
         return StatusResponse::find(17)->name;
     }
 
-    public function reload(Request $request) {
+    public function reloadRequest(Request $request) {
         if ($request->ajax()) {
             $toot_card_id = $request->get('toot_card_id');
             $load_amount = $request->get('load_amount');
 
             if (TootCard::loadExceeds($toot_card_id, $load_amount)) {
-                return TootCard::response(21, $toot_card_id);
+                return TootCard::response(19, $toot_card_id);
             }
-            TootCard::reload($toot_card_id, $load_amount, 20);
-            return TootCard::response(20, $toot_card_id);
+
+            $transaction = Transaction::create([
+                'payment_method_id' => 1,
+                'status_response_id' => 5
+            ]);
+            $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first(),
+                compact('toot_card_id'));
+
+            $order = Order::create([
+                'merchandise_id' => 1,
+                'quantity' => 1,
+                'total' => $load_amount
+            ]);
+            $transaction->orders()->attach($order);
+            return TootCard::response(9, $toot_card_id);
         }
         return StatusResponse::find(17)->name;
     }
@@ -75,7 +91,7 @@ class TransactionController extends Controller
             $toot_card_id_receiver = User::find($user_id)->tootCards()->first()->id;
 
             if (TootCard::loadExceeds($toot_card_id_receiver, $load_amount)) {
-                return TootCard::response(21, $toot_card_id_receiver);
+                return TootCard::response(19, $toot_card_id_receiver);
             }
 
             if (TootCard::hasSufficientLoad($toot_card_id, $load_amount)) {

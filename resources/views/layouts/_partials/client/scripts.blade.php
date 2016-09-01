@@ -260,14 +260,14 @@
         }, "json");
     }
 
-    function reload(toot_card_id, load_amount) {
-        $.post("reload", {
+    function reloadRequest(toot_card_id, load_amount) {
+        $.post("reload_request", {
             toot_card_id: toot_card_id,
             load_amount: load_amount
         }, function (response) {
-            if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
-                // todo
-            } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
+            if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
+                validation(true, timeout_short, '{!! trans('toot_card.reload_request_sent') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
                 validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
             }
             console.log(response);
@@ -294,7 +294,7 @@
 
         switch(parseInt(last_resort_value)) {
             case 1:
-                reload(_toot_card_id.val(), load_amount.val());
+                reloadRequest(_toot_card_id.val(), load_amount.val());
                 console.log("LAST_RESORT_RELOAD_TOOT_CARD");
                 break;
             case 2:

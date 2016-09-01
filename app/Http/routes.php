@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Transaction::queueNumber());
+    return dd(\App\Models\TootCard::reload(1));
 });
 
 Route::auth();
@@ -152,9 +152,9 @@ Route::post('auth_card', [
     'uses' => 'TransactionController@authCard',
     'as' => 'transaction.auth_card'
 ]);
-Route::post('reload', [
-    'uses' => 'TransactionController@reload',
-    'as' => 'transaction.reload'
+Route::post('reload_request', [
+    'uses' => 'TransactionController@reloadRequest',
+    'as' => 'transaction.reload_request'
 ]);
 Route::post('share_load', [
     'uses' => 'TransactionController@shareLoad',

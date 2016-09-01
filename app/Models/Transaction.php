@@ -38,7 +38,8 @@ class Transaction extends Model
             ->whereDate('created_at', '=', Carbon::now()->toDateString());
 
         if ($transactions->count()) {
-            $queue_number = $transactions->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number;
+            $queue_number = $transactions->orderBy('queue_number', 'desc')
+                ->groupBy('queue_number')->first()->queue_number;
             return $queue_number + $default;
         }
         return $default;

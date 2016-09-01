@@ -54,12 +54,6 @@
     "name": "INSUFFICIENT_LOAD"
   },
   {
-    "name": "LOAD_SHARED"
-  },
-  {
-    "name": "CARD_RELOADED"
-  },
-  {
     "name": "LOAD_EXCEEDS_LIMIT"
   }
 ]
