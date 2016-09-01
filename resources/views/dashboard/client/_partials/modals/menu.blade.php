@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
-                <div class="modal-title huge text-center">{!! trans('greetings.welcome_menu') !!}</div>
+                <img src="{{ asset('img/logo.png') }}" class="img-responsive logo-modal" alt="Toot Card Logo">
             </div>
             <div class="modal-body menu">
                 <div class="row">
@@ -25,6 +25,11 @@
                         <img id="menu_check_balance" src="{{ asset('img/menu/check-balance.png') }}" class="img-responsive">
                         <div class="text-center text-primary"><strong>Check Balance</strong></div>
                     </div>
+                </div>
+            </div>
+            <div class="modal-footer menu-footer">
+                <div class="text-center text-muted">
+                    <i class="fa fa-copyright" aria-hidden="true"></i> {{ date('Y') }} {{ config('static.app.company') }}
                 </div>
             </div>
         </div>

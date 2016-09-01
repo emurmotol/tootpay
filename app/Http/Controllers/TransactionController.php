@@ -16,7 +16,7 @@ class TransactionController extends Controller
     public function checkBalance(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
-            return (String)view('dashboard.client.transactions.check_balance', compact('toot_card'));
+            return (String)view('dashboard.client.transactions._partials.check_balance', compact('toot_card'));
         }
         return response()->make('REQUEST_IS_NOT_AJAX');
     }

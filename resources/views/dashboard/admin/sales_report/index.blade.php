@@ -74,55 +74,55 @@
     <script>
         $(function () {
             // Daily sales
-            var daily = $('#daily');
+            var daily = $("#daily");
             daily.datetimepicker({
-                format: 'YYYY-MM-DD',
+                format: "YYYY-MM-DD",
                 inline: true
             });
 
-            daily.on('dp.change', function (moment) {
-                dailySales(moment.date.format('YYYY-MM-DD'))
+            daily.on("dp.change", function (moment) {
+                dailySales(moment.date.format("YYYY-MM-DD"))
             });
 
-            dailySales('{{ \Carbon\Carbon::now()->toDateString() }}')
+            dailySales("{{ \Carbon\Carbon::now()->toDateString() }}")
 
             // Monthly sales
-            var monthly = $('#monthly');
+            var monthly = $("#monthly");
             monthly.datetimepicker({
-                format: 'YYYY-MM',
+                format: "YYYY-MM",
                 inline: true
             });
 
-            monthly.on('dp.change', function (moment) {
-                monthlySales(moment.date.format('YYYY-MM'))
+            monthly.on("dp.change", function (moment) {
+                monthlySales(moment.date.format("YYYY-MM"))
             });
 
-            monthlySales('{{ \Carbon\Carbon::now()->format('Y-m') }}')
+            monthlySales("{{ \Carbon\Carbon::now()->format('Y-m') }}")
 
             // Yearly sales
-            var yearly = $('#yearly');
+            var yearly = $("#yearly");
             yearly.datetimepicker({
-                format: 'YYYY',
+                format: "YYYY",
                 inline: true
             });
 
-            yearly.on('dp.change', function (moment) {
-                yearlySales(moment.date.format('YYYY'))
+            yearly.on("dp.change", function (moment) {
+                yearlySales(moment.date.format("YYYY"))
             });
 
-            yearlySales('{{ \Carbon\Carbon::now()->format('Y') }}')
+            yearlySales("{{ \Carbon\Carbon::now()->format('Y') }}")
         });
 
         var loading_sales = '<div class="text-center loading-sales">' + '{!! trans('loading.default') !!}' + '</div>';
 
         function yearlySales(year) {
-            $('#selected_year').text(year);
-            $('#yearly_sales').html(loading_sales);
+            $("#selected_year").text(year);
+            $("#yearly_sales").html(loading_sales);
             console.log(year);
-            $.post('yearly_sales', {
+            $.post("yearly_sales", {
                 year: year
             }, function (response) {
-                $('#yearly_sales').html(response);
+                $("#yearly_sales").html(response);
             });
         }
 
@@ -144,25 +144,25 @@
             ];
             var selected_month = months[d.getMonth()];
 
-            $('#selected_month').text(selected_month);
-            $('#monthly_sales').html(loading_sales);
+            $("#selected_month").text(selected_month);
+            $("#monthly_sales").html(loading_sales);
             console.log(month);
-            $.post('monthly_sales', {
+            $.post("monthly_sales", {
                 month: month
             }, function (response) {
-                $('#monthly_sales').html(response);
+                $("#monthly_sales").html(response);
             });
         }
 
         function dailySales(date) {
             var d = new Date(date);
-            $('#selected_date').text(d.toDateString());
-            $('#daily_sales').html(loading_sales);
+            $("#selected_date").text(d.toDateString());
+            $("#daily_sales").html(loading_sales);
             console.log(date);
-            $.post('daily_sales', {
+            $.post("daily_sales", {
                 date: date
             }, function (response) {
-                $('#daily_sales').html(response);
+                $("#daily_sales").html(response);
             });
         }
     </script>

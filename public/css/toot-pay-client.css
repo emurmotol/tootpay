@@ -10,9 +10,19 @@
     font-size: 25px;
 }
 
+.menu-footer {
+    font-size: 20px;
+}
+
 .category-list {
     overflow-x: scroll;
     overflow-y: hidden;
+}
+
+.modal-header img {
+    height: 50px;
+    display: block;
+    margin: 0 auto;
 }
 
 .grand_total {
