@@ -20,10 +20,10 @@
     @include('dashboard.client._partials.tap_card')
     @include('dashboard.client._partials.enter_pin')
     @include('dashboard.client._partials.menu')
+    @include('dashboard.client._partials.user_order')
     @include('dashboard.client._partials.toot_card_details')
     @include('dashboard.client._partials.enter_load_amount')
     @include('dashboard.client._partials.enter_user_id')
-    @include('dashboard.client._partials.undone_orders')
     @include('dashboard.client._partials.loading')
     @include('dashboard.client._partials.validation')
 @endsection

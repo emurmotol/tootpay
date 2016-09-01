@@ -9,6 +9,7 @@ class CreateTootCardsTable extends Migration
     {
         Schema::create('toot_cards', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('uid')->unique();
             $table->string('pin_code');
             $table->float('load');
             $table->float('points');

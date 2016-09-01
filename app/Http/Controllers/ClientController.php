@@ -32,6 +32,7 @@ class ClientController extends Controller
             $categories = Category::all();
             return (String)view('dashboard.client._partials.todays_menu', compact('categories'));
         }
+        return abort(500);
     }
 
     public function tootCardCheck(Request $request) {
@@ -47,6 +48,7 @@ class ClientController extends Controller
                 return response()->make(2);
             }
         }
+        return abort(500);
     }
 
     public function tootCardAuthAttempt(Request $request) {
@@ -58,6 +60,7 @@ class ClientController extends Controller
             }
             return response()->make(4);
         }
+        return abort(500);
     }
 
     public function idle() {
@@ -69,6 +72,7 @@ class ClientController extends Controller
             $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
             return (String)view('dashboard.client._partials.toot_card_balance', compact('toot_card'));
         }
+        return abort(500);
     }
 
     public function tootCardGetOrders(Request $request) {
@@ -90,23 +94,27 @@ class ClientController extends Controller
             }
             return (String)view('dashboard.client._partials.get_orders', compact('queued', 'on_hold', 'pending', 'user'));
         }
+        return abort(500);
     }
 
     public function loadOrders(Request $request) {
-        $orders = collect();
+        if ($request->ajax()) {
+            $orders = collect();
 
-        foreach (Order::byTransaction($request->get('transaction_id')) as $order) {
-            $_order = [
-                'id' => $order->id,
-                'merchandise_id' => $order->merchandise_id,
-                'name' => Merchandise::find($order->merchandise_id)->name,
-                'price' => Merchandise::find($order->merchandise_id)->price,
-                'qty' => $order->quantity,
-            ];
+            foreach (Order::byTransaction($request->get('transaction_id')) as $order) {
+                $_order = [
+                    'id' => $order->id,
+                    'merchandise_id' => $order->merchandise_id,
+                    'name' => Merchandise::find($order->merchandise_id)->name,
+                    'price' => Merchandise::find($order->merchandise_id)->price,
+                    'qty' => $order->quantity,
+                ];
 
-            $orders->push($_order);
+                $orders->push($_order);
+            }
+            return response()->make($orders->toJson());
         }
-        return response()->make($orders->toJson());
+        return abort(500);
     }
 
     public function merchandisePurchase(Request $request) {
@@ -223,5 +231,6 @@ class ClientController extends Controller
             Log::debug($status->toArray());
             return response()->make($status->toJson());
         }
+        return abort(500);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd();
+    return abort(500);
 });
 
 Route::auth();
@@ -108,6 +108,20 @@ Route::group(['middleware' => 'roles'], function () {
 });
 
 // Client
+Route::resource('transactions.orders', 'OrderController', [
+    'parameters' => 'singular'
+]);
+Route::resource('transactions', 'TransactionController', [
+    'parameters' => 'singular'
+]);
+Route::get('transactions/idle', [
+    'uses' => 'TransactionController@idle',
+    'as' => 'transactions.idle'
+]);
+Route::get('transactions/ordering', [
+    'uses' => 'TransactionController@ordering',
+    'as' => 'transactions.ordering'
+]);
 Route::get('client', [
     'uses' => 'ClientController@index',
     'as' => 'client.index'

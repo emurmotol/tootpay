@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Client Order')
+@section('title', 'Client Ordering')
 
 @section('content')
     <div class="client-order">

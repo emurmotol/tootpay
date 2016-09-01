@@ -175,7 +175,7 @@
     menu_order_food.on('click', function () {
         menu.modal('hide');
         loading.modal({backdrop: 'static'});
-        goToIndex(500);
+        goToOrdering(500);
     });
     menu_share_a_load.on('click', function () {
         menu.modal('hide');
@@ -301,13 +301,13 @@
 
     function goToIdle(timeout) {
         _timer = setTimeout(function () {
-            window.location.href = '{{ route('client.idle') }}';
+            window.location.href = '{{ route('transactions.idle') }}';
         }, timeout);
     }
 
-    function goToIndex(timeout) {
+    function goToOrdering(timeout) {
         _timer = setTimeout(function () {
-            window.location.replace('{{ route('client.index') }}/');
+            window.location.replace('{{ route('transactions.ordering') }}/');
         }, timeout);
     }
 

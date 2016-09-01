@@ -7,14 +7,14 @@
 
     @include('layouts._partials.app.stylesheets')
 
-    @if(Route::is('client.index') || Route::is('client.idle'))
+    @if(Route::is('transactions.ordering') || Route::is('transactions.idle'))
         @include('layouts._partials.client.stylesheets')
     @endif
 
     @yield('style')
 </head>
 <body id="app-layout">
-@if(Route::is('client.index') || Route::is('client.idle'))
+@if(Route::is('transactions.ordering') || Route::is('transactions.idle'))
     @yield('content')
 @else
     <nav class="navbar navbar-default navbar-static-top">
@@ -77,7 +77,7 @@
 @include('layouts._partials.app.scripts')
 @include('_partials.javascript')
 
-@if(Route::is('client.index') || Route::is('client.idle'))
+@if(Route::is('transactions.ordering') || Route::is('transactions.idle'))
     @include('layouts._partials.client.scripts')
 @endif
 
