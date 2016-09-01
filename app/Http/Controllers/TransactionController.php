@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StatusResponse;
 use App\Models\TootCard;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -55,8 +56,12 @@ class TransactionController extends Controller
         if ($request->ajax()) {
             $toot_card_id = $request->get('toot_card_id');
             $load_amount = $request->get('load_amount');
-            TootCard::reload($toot_card_id, $load_amount);
-            return TootCard::response(20, $toot_card_id);;
+
+            if (TootCard::loadExceeds($toot_card_id, $load_amount)) {
+                return TootCard::response(21, $toot_card_id);
+            }
+            TootCard::reload($toot_card_id, $load_amount, 20);
+            return TootCard::response(20, $toot_card_id);
         }
         return StatusResponse::find(17)->name;
     }
@@ -66,6 +71,12 @@ class TransactionController extends Controller
             $toot_card_id = $request->get('toot_card_id');
             $user_id = $request->get('user_id');
             $load_amount = $request->get('load_amount');
+
+            $toot_card_id_receiver = User::find($user_id)->tootCards()->first()->id;
+
+            if (TootCard::loadExceeds($toot_card_id_receiver, $load_amount)) {
+                return TootCard::response(21, $toot_card_id_receiver);
+            }
 
             if (TootCard::hasSufficientLoad($toot_card_id, $load_amount)) {
                 TootCard::shareLoad($toot_card_id, $user_id, $load_amount);

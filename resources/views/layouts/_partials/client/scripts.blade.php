@@ -260,11 +260,16 @@
         }, "json");
     }
 
-    function reloadTootCard(toot_card_id, load_amount) {
+    function reload(toot_card_id, load_amount) {
         $.post("reload", {
             toot_card_id: toot_card_id,
             load_amount: load_amount
         }, function (response) {
+            if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
+                // todo
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
+                validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
+            }
             console.log(response);
         }, "json");
     }
@@ -275,7 +280,6 @@
             pin_code: pin_code
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(3)->name }}") {
-                enter_pin.modal("hide");
                 lastResort(last_resort.val());
             } else if (response.status == "{{ \App\Models\StatusResponse::find(4)->name }}") {
                 resetPinCodeValue();
@@ -286,29 +290,34 @@
     }
 
     function lastResort(last_resort_value) {
+        resetPinCodeValue();
+
         switch(parseInt(last_resort_value)) {
             case 1:
-                reloadTootCard(_toot_card_id.val(), load_amount.val());
+                reload(_toot_card_id.val(), load_amount.val());
                 console.log("LAST_RESORT_RELOAD_TOOT_CARD");
                 break;
             case 2:
+                enter_pin.modal("hide");
                 checkBalance(_toot_card_id.val());
                 console.log("LAST_RESORT_CHECK_BALANCE");
                 break;
             case 3:
+                enter_pin.modal("hide");
                 sendOrders(10, 2);
                 console.log("LAST_RESORT_QUEUED_ORDER");
                 break;
             case 4:
+                enter_pin.modal("hide");
                 sendOrders(12, 2);
                 console.log("LAST_RESORT_HOLD_ORDER");
                 break;
             case 5:
+                enter_pin.modal("hide");
                 shareLoad(_toot_card_id.val(), user_id.val(), load_amount.val());
                 console.log("LAST_RESORT_SHARE_LOAD");
                 break;
         }
-        resetLastResortValue();
     }
 
     function routeToIdle(timeout) {

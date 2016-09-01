@@ -63,6 +63,16 @@ class TootCard extends Model
         return $test[$field];
     }
 
+    public static function loadExceeds($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $temp_load = $toot_card->load + $amount_due;
+
+        if ($temp_load > Setting::value('reload_limit')) {
+            return true;
+        }
+        return false;
+    }
+
     public static function hasSufficientLoad($toot_card_id, $amount_due) {
         $toot_card = self::find($toot_card_id);
 
@@ -145,8 +155,22 @@ class TootCard extends Model
         return response()->make($status->toJson());
     }
 
-    public static function reload($toot_card_id, $load_amount) {
+    public static function reload($toot_card_id, $load_amount, $status_response_id) {
         $toot_card = self::find($toot_card_id);
+
+        $transaction = Transaction::create([
+            'payment_method_id' => 1,
+            'status_response_id' => $status_response_id
+        ]);
+        $transaction->users()->attach($toot_card->users()->first(), compact('toot_card_id'));
+
+        $order = Order::create([
+            'merchandise_id' => 1,
+            'quantity' => 1,
+            'total' => $load_amount
+        ]);
+        $transaction->orders()->attach($order);
+
         $load = $toot_card->load;
         $toot_card->load = $load + $load_amount;
         $toot_card->save();

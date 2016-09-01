@@ -1,10 +1,5 @@
 [
   {
-    "category_id": 5,
-    "name": "Rice",
-    "price": 10
-  },
-  {
     "category_id": 1,
     "name": "Reloads"
   },
@@ -12,5 +7,10 @@
     "category_id": 1,
     "name": "Smart Card",
     "price": 100
+  },
+  {
+    "category_id": 5,
+    "name": "Rice",
+    "price": 10
   }
 ]
