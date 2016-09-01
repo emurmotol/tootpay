@@ -107,54 +107,48 @@ Route::group(['middleware' => 'roles'], function () {
     });
 });
 
-// Client
+// Orders
 Route::resource('transactions.orders', 'OrderController', [
     'parameters' => 'singular'
 ]);
+Route::get('order', [
+    'uses' => 'OrderController@order',
+    'as' => 'order.order'
+]);
+Route::post('user_order', [
+    'uses' => 'OrderController@userOrder',
+    'as' => 'order.user_order'
+]);
+Route::post('order/send', [
+    'uses' => 'OrderController@send',
+    'as' => 'order.send'
+]);
+Route::post('order/menu', [
+    'uses' => 'OrderController@menu',
+    'as' => 'order.menu'
+]);
+Route::post('order/load', [
+    'uses' => 'OrderController@load',
+    'as' => 'order.load'
+]);
+
+// Transactions
 Route::resource('transactions', 'TransactionController', [
     'parameters' => 'singular'
 ]);
-Route::get('transactions/idle', [
+Route::get('idle', [
     'uses' => 'TransactionController@idle',
-    'as' => 'transactions.idle'
+    'as' => 'transaction.idle'
 ]);
-Route::get('transactions/ordering', [
-    'uses' => 'TransactionController@ordering',
-    'as' => 'transactions.ordering'
+Route::post('check_balance', [
+    'uses' => 'TransactionController@checkBalance',
+    'as' => 'transaction.check_balance'
 ]);
-Route::get('client', [
-    'uses' => 'ClientController@index',
-    'as' => 'client.index'
+Route::post('check_card', [
+    'uses' => 'TransactionController@checkCard',
+    'as' => 'transaction.check_card'
 ]);
-Route::post('client/toot_card_check_balance', [
-    'uses' => 'ClientController@tootCardBalance',
-    'as' => 'client.toot_card_check_balance'
-]);
-Route::post('client/toot_card_get_orders', [
-    'uses' => 'ClientController@tootCardGetOrders',
-    'as' => 'client.toot_card_get_orders'
-]);
-Route::get('client/idle', [
-    'uses' => 'ClientController@idle',
-    'as' => 'client.idle'
-]);
-Route::post('client/toot_card_check', [
-    'uses' => 'ClientController@tootCardCheck',
-    'as' => 'client.toot_card_check'
-]);
-Route::post('client/merchandise_purchase', [
-    'uses' => 'ClientController@merchandisePurchase',
-    'as' => 'client.merchandise_purchase'
-]);
-Route::post('client/toot_card_auth_attempt', [
-    'uses' => 'ClientController@tootCardAuthAttempt',
-    'as' => 'client.toot_card_auth_attempt'
-]);
-Route::post('client/todays_menu', [
-    'uses' => 'ClientController@todaysMenu',
-    'as' => 'client.todays_menu'
-]);
-Route::post('client/load_orders', [
-    'uses' => 'ClientController@loadOrders',
-    'as' => 'client.load_orders'
+Route::post('auth_card', [
+    'uses' => 'TransactionController@authCard',
+    'as' => 'transaction.auth_card'
 ]);

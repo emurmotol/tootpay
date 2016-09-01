@@ -72,11 +72,11 @@
 
     idle_toot_card_id.on('change', function () {
         if (parseInt($(this).val().length) === 10) {
-            $.post('toot_card_check', {
+            $.post('check_card', {
                 toot_card_id: $(this).val()
             }, function (response) {
                 if (response == 1) {
-                    $.post('toot_card_get_orders', {
+                    $.post('user_order', {
                         toot_card_id: idle_toot_card_id.val()
                     }, function (response) {
                         $('#user_order').html(response);
@@ -104,7 +104,7 @@
     });
     toot_card_id.on('change', function () {
         if (parseInt($(this).val().length) === 10) {
-            $.post('toot_card_check', {
+            $.post('check_card', {
                 toot_card_id: $(this).val()
             }, function (response) {
                 tap_card.modal('hide');
@@ -155,7 +155,7 @@
         }
     });
     btn_cancel.on('click', function () {
-        goToIdle(500);
+        routeToIdle(500);
         $(this).button('loading').delay(timeout_short).queue(function () {
             $(this).button('reset');
             $(this).dequeue();
@@ -175,7 +175,7 @@
     menu_order_food.on('click', function () {
         menu.modal('hide');
         loading.modal({backdrop: 'static'});
-        goToOrdering(500);
+        routeToOrder(500);
     });
     menu_share_a_load.on('click', function () {
         menu.modal('hide');
@@ -212,7 +212,7 @@
             if (parseInt(pin_code.val().length) < 1) {
                 validation(false, timeout_short, '{!! trans('toot_card.empty_pin') !!}');
             } else {
-                tootCardAuthAttempt(_toot_card_id.val(), pin_code.val());
+                authCard(_toot_card_id.val(), pin_code.val());
             }
         }
 
@@ -238,11 +238,11 @@
         }
     }
 
-    function tootCardCheckBalance(toot_card_id) {
-        $.post('toot_card_check_balance', {
+    function checkBalance(toot_card_id) {
+        $.post('check_balance', {
             toot_card_id: toot_card_id
         }, function (response) {
-            $('#toot_card_balance').html(response);
+            $('#check_balance').html(response);
             console.log(response);
         }).done(function () {
             tootCardDetails(timeout_long);
@@ -257,8 +257,8 @@
         // todo
     }
 
-    function tootCardAuthAttempt(toot_card_id, pin_code) {
-        $.post('toot_card_auth_attempt', {
+    function authCard(toot_card_id, pin_code) {
+        $.post('auth_card', {
             toot_card_id: toot_card_id,
             pin_code: pin_code
         }, function (response) {
@@ -280,7 +280,7 @@
                 console.log('LAST_RESORT_RELOAD_TOOT_CARD');
                 break;
             case 2:
-                tootCardCheckBalance(_toot_card_id.val());
+                checkBalance(_toot_card_id.val());
                 console.log('LAST_RESORT_CHECK_BALANCE');
                 break;
             case 3:
@@ -299,20 +299,20 @@
         resetLastResortValue();
     }
 
-    function goToIdle(timeout) {
+    function routeToIdle(timeout) {
         _timer = setTimeout(function () {
-            window.location.href = '{{ route('transactions.idle') }}';
+            window.location.href = '{{ route('transaction.idle') }}';
         }, timeout);
     }
 
-    function goToOrdering(timeout) {
+    function routeToOrder(timeout) {
         _timer = setTimeout(function () {
-            window.location.replace('{{ route('transactions.ordering') }}/');
+            window.location.replace('{{ route('order.order') }}');
         }, timeout);
     }
 
     function todaysMenu() {
-        $.post('todays_menu', function (response) {
+        $.post('order/menu', function (response) {
             $('#todays_menu').html(response);
 
             $('.modal-footer').on('click', 'button.btn-add-order', function () {
@@ -347,7 +347,7 @@
     function loadOrders(transaction_id) {
         console.log('transaction_id is ' + transaction_id);
 
-        $.post('load_orders', {
+        $.post('order/load', {
             transaction_id: transaction_id
         }, function (response) {
             var orders = JSON.parse(response);
@@ -398,7 +398,7 @@
         transaction['payment_method_id'] = payment_method_id;
         transaction['status_response_id'] = status_response_id;
 
-        $.post('merchandise_purchase', {
+        $.post('order/send', {
             orders: getOrders(),
             transaction: JSON.stringify(transaction),
             toot_card_id: _toot_card_id.val()
@@ -416,7 +416,7 @@
                         transactionCompleteWithQueueNumber(4000);
                     }
                 }
-                goToIdle(timeout_short);
+                routeToIdle(timeout_short);
             }
             console.log(response);
         }, 'json');

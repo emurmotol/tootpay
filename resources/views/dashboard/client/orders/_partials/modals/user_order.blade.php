@@ -3,5 +3,3 @@
         <div class="modal-content"></div>
     </div>
 </div>
-
-// todo rename get orders

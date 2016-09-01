@@ -8,7 +8,7 @@
                 <div class="modal-title huge text-center">{!! trans('toot_card.details') !!}</div>
             </div>
             <div class="modal-body">
-                <div id="toot_card_balance"></div>
+                <div id="check_balance"></div>
             </div>
         </div>
     </div>

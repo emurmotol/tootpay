@@ -17,15 +17,15 @@
         </div>
     </div>
 
-    @include('dashboard.client._partials.tap_card')
-    @include('dashboard.client._partials.enter_pin')
-    @include('dashboard.client._partials.menu')
-    @include('dashboard.client._partials.user_order')
-    @include('dashboard.client._partials.toot_card_details')
-    @include('dashboard.client._partials.enter_load_amount')
-    @include('dashboard.client._partials.enter_user_id')
-    @include('dashboard.client._partials.loading')
-    @include('dashboard.client._partials.validation')
+    @include('dashboard.client._partials.modals.tap_card')
+    @include('dashboard.client._partials.modals.enter_pin')
+    @include('dashboard.client._partials.modals.menu')
+    @include('dashboard.client._partials.modals.enter_load_amount')
+    @include('dashboard.client._partials.modals.enter_user_id')
+    @include('dashboard.client._partials.modals.loading')
+    @include('dashboard.client._partials.modals.validation')
+    @include('dashboard.client.orders._partials.modals.user_order')
+    @include('dashboard.client.transactions._partials.modals.toot_card_details')
 @endsection
 
 @section('style')
