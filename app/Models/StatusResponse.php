@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class StatusResponse extends Model
 {
@@ -22,5 +23,14 @@ class StatusResponse extends Model
             return $status_responses->all();
         }
         return $status_responses[$index]['id'];
+    }
+
+    public static function def($status_response_id) {
+        $response = [
+            'status' => self::find($status_response_id)->name
+        ];
+        $status = collect($response);
+        Log::debug($status->toArray());
+        return response()->make($status->toJson());
     }
 }

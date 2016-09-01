@@ -23,7 +23,7 @@ return [
     'exceed_reload_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The amount you entered exceeds the reload limit. Maximum reload is P:limit</strong>',
     'insufficient_balance' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your balance is not enough to complete the payment.</strong>',
     'invalid_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid card toot card.</strong>',
-    'no_undone_orders' => '<strong class="text-info"><i class="fa fa-info-circle"></i> You do not have any orders yet.</strong>',
+    'empty_user_order' => '<strong class="text-info"><i class="fa fa-info-circle"></i> You do not have any orders yet.</strong>',
     'order_on_hold' => '<strong class="text-info"><i class="fa fa-info-circle"></i> Your orders is now on-hold. To check your order tap your toot card on screen idle.</strong>',
     'to_many_card_tap' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! To many card tap.</strong>',
     'transaction_complete' => '<strong class="text-success"><i class="fa fa-check"></i> Transaction complete!</strong>',

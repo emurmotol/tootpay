@@ -34,13 +34,12 @@ class Transaction extends Model
 
     public static function queueNumber() {
         $default = 1;
+        $transactions = self::where('status_response_id', '=', 10)
+            ->whereDate('created_at', '=', Carbon::now()->toDateString());
 
-        $transactions = DB::table('transactions')->select(DB::raw('queue_number, status_response_id, date(created_at) as date'))
-            ->where('status_response_id', '=', 10)
-            ->having('date', '=', Carbon::now()->toDateString());
-
-        if (count($transactions->get())) {
-            return $transactions->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number + $default;
+        if ($transactions->count()) {
+            $queue_number = $transactions->orderBy('queue_number', 'desc')->groupBy('queue_number')->first()->queue_number;
+            return $queue_number + $default;
         }
         return $default;
     }

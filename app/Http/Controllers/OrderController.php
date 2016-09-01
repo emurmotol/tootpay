@@ -28,7 +28,7 @@ class OrderController extends Controller
             $toot_card = TootCard::find($toot_card_id);
 
             if (strlen($toot_card_id) > 10) {
-                return response()->make(14);
+                return StatusResponse::def(14);
             } else {
                 $user = $toot_card->users()->first();
                 $queued = Transaction::createdBy($toot_card_id, 10, 2);
@@ -36,7 +36,7 @@ class OrderController extends Controller
                 $pending = Transaction::createdBy($toot_card_id, 5, 2);
 
                 if (!$queued->count() && !$on_hold->count() && !$pending->count()) {
-                    return response()->make(13);
+                    return StatusResponse::def(13);
                 }
             }
             return (String)view('dashboard.client.orders._partials.load', compact('queued', 'on_hold', 'pending', 'user'));
@@ -48,7 +48,9 @@ class OrderController extends Controller
         if ($request->ajax()) {
             $transaction = collect(json_decode($request->get('transaction'), true));
             $orders = collect(json_decode($request->get('orders'), true));
-            Order::transaction($transaction, User::find(User::guestJson('id'))->id, $orders);
+            $toot_card = TootCard::find($request->get('toot_card_id'));
+            $guest_user_id = User::find(User::guestJson('id'))->id;
+            return Order::transaction($transaction, (is_null($toot_card) ? $guest_user_id : $toot_card->users()->first()->id), $orders);
         }
         return StatusResponse::find(17)->name;
     }

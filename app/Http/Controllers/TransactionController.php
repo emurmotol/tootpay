@@ -16,7 +16,7 @@ class TransactionController extends Controller
 
     public function checkBalance(Request $request) {
         if ($request->ajax()) {
-            $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
+            $toot_card = TootCard::find($request->get('toot_card_id'));
             return (String)view('dashboard.client.transactions._partials.check_balance', compact('toot_card'));
         }
         return StatusResponse::find(17)->name;
@@ -27,12 +27,12 @@ class TransactionController extends Controller
             $toot_card_id = $request->get('toot_card_id');
 
             if (strlen($toot_card_id) > 10) {
-                return response()->make(14);
+                return TootCard::response(14, $toot_card_id);
             } else {
-                if (!is_null(TootCard::where('id', $toot_card_id)->first())) {
-                    return response()->make(1);
+                if (!is_null(TootCard::find($toot_card_id))) {
+                    return TootCard::response(1, $toot_card_id);
                 }
-                return response()->make(2);
+                return TootCard::response(2, $toot_card_id);
             }
         }
         return StatusResponse::find(17)->name;
@@ -40,12 +40,13 @@ class TransactionController extends Controller
 
     public function authCard(Request $request) {
         if ($request->ajax()) {
-            $toot_card = TootCard::where('id', $request->get('toot_card_id'))->first();
+            $toot_card = TootCard::find($request->get('toot_card_id'));
+            $toot_card_id = $toot_card->id;
 
             if ($toot_card->pin_code == $request->get('pin_code')) {
-                return response()->make(3);
+                return TootCard::response(3, $toot_card_id);
             }
-            return response()->make(4);
+            return TootCard::response(4, $toot_card_id);
         }
         return StatusResponse::find(17)->name;
     }

@@ -40,9 +40,24 @@ class Order extends Model
     }
 
     public static function transaction($transaction, $user_id, $orders) {
+        $queue_number = null;
+        $status_response_id = $transaction->get('status_response_id');
+        $payment_method_id = $transaction->get('payment_method_id');
+
+        if ($user_id != User::find(User::guestJson('id'))->id) {
+
+            if ($status_response_id != 12) {
+                $queue_number = Transaction::queueNumber();
+                $transaction->put('queue_number', $queue_number);
+            }
+        }
         $_transaction = Transaction::create($transaction->toArray());
         $_transaction->users()->attach($user_id);
-        $_transaction->orders()->saveMany($orders->toArray());
-        return $_transaction->id;
+
+        foreach ($orders as $order) {
+            $_order = Order::create($order);
+            $_transaction->orders()->attach($_order);
+        }
+        return self::response($status_response_id, $payment_method_id, $_transaction->id, $queue_number);
     }
 }

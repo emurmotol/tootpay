@@ -36,7 +36,7 @@
     "name": "ON_HOLD"
   },
   {
-    "name": "EMPTY"
+    "name": "EMPTY_USER_ORDER"
   },
   {
     "name": "TO_MANY_CARD_TAP"

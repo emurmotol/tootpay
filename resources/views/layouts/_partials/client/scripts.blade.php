@@ -16,12 +16,13 @@
     // div
     var validation_content = $("#validation_content");
     var toot_card_balance = $("#toot_card_balance");
+    var load_order = $("#load_order");
 
     // modal
     var _validation = $("#validation");
     var _modal = $(".modal");
     var menu = $("#menu");
-    var undone_orders = $("#undone_orders");
+    var user_orders = $("#user_orders");
     var load_amount = $("#load_amount");
     var enter_load_amount = $("#enter_load_amount");
     var enter_pin = $("#enter_pin");
@@ -62,8 +63,8 @@
     toot_card_details.on("hidden.bs.modal", function () {
         resetTootCardBalanceHtml();
     });
-    undone_orders.on("hidden.bs.modal", function () {
-        resetUserOrderHtml();
+    user_orders.on("hidden.bs.modal", function () {
+        resetLoadOrderHtml();
     });
 
     tap_card.on("shown.bs.modal", function () {
@@ -71,55 +72,55 @@
     });
 
     idle_toot_card_id.on("change", function () {
-        if (parseInt($(this).val().length) === 10) {
+        if (parseInt($(this).val().length) == 10) {
             $.post("check_card", {
                 toot_card_id: $(this).val()
             }, function (response) {
-                if (response == 1) {
+                if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
                     $.post("user_order", {
                         toot_card_id: idle_toot_card_id.val()
                     }, function (response) {
-                        $("#user_order").html(response);
-                    }).done(function (response) {
-                        if (response == 14) {
+                        load_order.html(response);
+                    }, "json").done(function (response) {
+                        if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
                             validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
                         } else {
-                            if (response == 13) {
-                                validation(true, timeout_short, '{!! trans('toot_card.no_undone_orders') !!}');
+                            if (response.status == "{{ \App\Models\StatusResponse::find(13)->name }}") {
+                                validation(true, timeout_short, '{!! trans('toot_card.empty_user_order') !!}');
                             } else {
-                                undoneOrders(timeout_long);
+                                userOrders(timeout_long);
                             }
                         }
                         console.log(response);
                     });
-                } else if (response == 2) {
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
-                } else if (response == 14) {
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
                 }
                 console.log(response);
                 resetIdleTootCardIdValue();
-            });
+            }, "json");
         }
     });
     toot_card_id.on("change", function () {
-        if (parseInt($(this).val().length) === 10) {
+        if (parseInt($(this).val().length) == 10) {
             $.post("check_card", {
                 toot_card_id: $(this).val()
             }, function (response) {
                 tap_card.modal("hide");
 
-                if (response == 1) {
+                if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
                     _toot_card_id.val(toot_card_id.val());
                     enterPin(timeout_long);
-                } else if (response == 2) {
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
-                } else if (response == 14) {
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
                 }
                 console.log(response);
                 resetTootCardIdValue();
-            });
+            }, "json");
         }
     });
 
@@ -262,15 +263,15 @@
             toot_card_id: toot_card_id,
             pin_code: pin_code
         }, function (response) {
-            if (response == 3) {
+            if (response.status == "{{ \App\Models\StatusResponse::find(3)->name }}") {
                 enter_pin.modal("hide");
                 lastResort(last_resort.val());
-            } else if (response == 4) {
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(4)->name }}") {
                 resetPinCodeValue();
                 validation(false, timeout_short, '{!! trans('toot_card.wrong_pin') !!}');
             }
             console.log(response);
-        });
+        }, "json");
     }
 
     function lastResort(last_resort_value) {
@@ -350,13 +351,11 @@
         $.post("order/load", {
             transaction_id: transaction_id
         }, function (response) {
-            var orders = JSON.parse(response);
-
-            $.each(orders, function(key, order) {
-                addOrder(order.merchandise_id, order.name, order.price, order.qty);
+            $.each(response, function(key, order) {
+                addOrder(response.merchandise_id, response.name, response.price, response.qty);
             });
-            console.log(orders);
-        });
+            console.log(response);
+        }, "json");
     }
 
     $(function () {
@@ -408,16 +407,17 @@
                 validation(true, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
             } else {
                 if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
-                    validation("static", 3000, '{!! trans('toot_card.transaction_complete') !!}');
+                    validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');
+                    routeToIdle(1000);
                 } else if (response.payment_method == "{{ \App\Models\PaymentMethod::find(2)->name }}") {
                     if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}") {
-                        validation("static", 4000, '{!! trans('toot_card.order_on_hold') !!}');
+                        validation("static", 10000, '{!! trans('toot_card.order_on_hold') !!}');
                     } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
                         $("#queue_number").text(response.queue_number);
-                        transactionCompleteWithQueueNumber(4000);
+                        transactionCompleteWithQueueNumber(10000);
                     }
+                    routeToIdle(2000);
                 }
-                routeToIdle(timeout_short);
             }
             console.log(response);
         }, "json");
@@ -572,10 +572,10 @@
         }, timeout);
     }
 
-    function undoneOrders(timeout) {
-        undone_orders.modal("show");
+    function userOrders(timeout) {
+        user_orders.modal("show");
         _timer = setTimeout(function () {
-            undone_orders.modal("hide");
+            user_orders.modal("hide");
         }, timeout);
     }
 
@@ -607,8 +607,8 @@
         toot_card_balance.html("");
     }
 
-    function resetUserOrderHtml() {
-        $("#user_order").html("");
+    function resetLoadOrderHtml() {
+        load_order.html("");
     }
 
     function resetPinCodeValue() {

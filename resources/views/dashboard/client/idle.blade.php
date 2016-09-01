@@ -24,7 +24,7 @@
     @include('dashboard.client._partials.modals.enter_user_id')
     @include('dashboard.client._partials.modals.loading')
     @include('dashboard.client._partials.modals.validation')
-    @include('dashboard.client.orders._partials.modals.user_order')
+    @include('dashboard.client.orders._partials.modals.user_orders')
     @include('dashboard.client.transactions._partials.modals.toot_card_details')
 @endsection
 

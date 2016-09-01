@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return abort(500);
+    return dd(\App\Models\Transaction::queueNumber());
 });
 
 Route::auth();

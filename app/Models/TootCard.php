@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Sofa\Eloquence\Eloquence;
 
 class TootCard extends Model
@@ -132,5 +133,15 @@ class TootCard extends Model
         $_points = $points - ($amount_due - $balance);
         $toot_card->points = (($_points < 1) ? 0 : $_points) + ($balance / $per_point);
         $toot_card->save();
+    }
+
+    public static function response($status_response_id, $toot_card_id) {
+        $response = [
+            'status' => StatusResponse::find($status_response_id)->name,
+            'toot_card_uid' => self::find($toot_card_id)->uid
+        ];
+        $status = collect($response);
+        Log::debug($status->toArray());
+        return response()->make($status->toJson());
     }
 }

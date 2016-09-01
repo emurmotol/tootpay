@@ -113,7 +113,7 @@
             yearlySales("{{ \Carbon\Carbon::now()->format('Y') }}")
         });
 
-        var loading_sales = '<div class="text-center loading-sales">' + '{!! trans('loading.default') !!}' + '</div>';
+        var loading_sales = '<div class="text-center loading-sales"><strong>' + '{!! trans('loading.default') !!}' + '</strong></div>';
 
         function yearlySales(year) {
             $("#selected_year").text(year);
