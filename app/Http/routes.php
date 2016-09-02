@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Setting::value('expire_year_count'));
+    return dd(\App\Models\Transaction::dailySales('2016-09-03'));
 });
 
 Route::auth();

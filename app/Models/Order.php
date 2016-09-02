@@ -79,42 +79,4 @@ class Order extends Model
         }
         return $order_ids->toArray();
     }
-
-    public static function dailySales($date) {
-        $transactions = Transaction::where('status_response_id', 11)
-            ->whereDate('created_at', '=', $date)
-            ->get();
-
-        $select_raw = DB::raw('merchandise_id,
-        sum(quantity) as _quantity, sum(total) as _total');
-        return Order::select($select_raw)
-            ->whereIn('id', self::ids($transactions))
-            ->groupBy('merchandise_id')
-            ->get();
-    }
-
-    public static function monthlySales($month) {
-        $transactions = Transaction::where('status_response_id', 11)
-            ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"), '=', $month)
-            ->get();
-
-        $select_raw = DB::raw('date(created_at) as _date, sum(total) as _total');
-        return Order::select($select_raw)
-            ->whereIn('id', self::ids($transactions))
-            ->groupBy('_date')
-            ->get();
-    }
-
-    public static function yearlySales($year) {
-        $transactions = Transaction::where('status_response_id', 11)
-            ->where(DB::raw("DATE_FORMAT(created_at, '%Y')"), '=', $year)
-            ->get();
-
-        $select_raw = DB::raw("sum(total) as _total,
-        DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year");
-        return Order::select($select_raw)
-            ->whereIn('id', self::ids($transactions))
-            ->groupBy('_month', '_year')
-            ->get();
-    }
 }

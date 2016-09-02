@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Sellouts</th>
+                <th>Qty</th>
                 <th>Total</th>
             </tr>
             </thead>
@@ -12,12 +12,16 @@
             @foreach($sales as $sale)
                 <tr>
                     <td>
-                        <a href="{{ route('merchandises.show', [$sale->merchandise_id, 'redirect' => Request::fullUrl()]) }}">
-                            <strong>{{ \App\Models\Merchandise::find($sale->merchandise_id)->name }}</strong>
-                        </a>
+                        @if(filter_var($sale['item'], FILTER_VALIDATE_INT))
+                            <a href="{{ route('merchandises.show', [$sale['item'], 'redirect' => Request::fullUrl()]) }}">
+                                <strong>{{ \App\Models\Merchandise::find($sale['item'])->name }}</strong>
+                            </a>
+                        @else
+                            <strong>{{ $sale['item'] }}</strong>
+                        @endif
                     </td>
-                    <td>{{ $sale->_quantity }}</td>
-                    <td>P{{ number_format($sale->_total, 2, '.', ',') }}</td>
+                    <td>{{ $sale['_quantity'] }}</td>
+                    <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
                 </tr>
             @endforeach
             <tr>
