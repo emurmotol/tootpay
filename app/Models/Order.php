@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Order extends Model
@@ -59,5 +60,61 @@ class Order extends Model
             $_transaction->orders()->attach($_order);
         }
         return self::response($status_response_id, $payment_method_id, $_transaction->id, $queue_number);
+    }
+
+    public static function ids($transactions) {
+        $order_ids = collect();
+
+        if ($transactions->count()) {
+            foreach ($transactions as $transaction) {
+                $_order_ids = $transaction->orders()->getRelatedIds();
+
+                if ($_order_ids->count()) {
+                    foreach ($_order_ids as $order_id) {
+                        $_order_id = collect($order_id)->forget('pivot');
+                        $order_ids->push($_order_id);
+                    }
+                }
+            }
+        }
+        return $order_ids->toArray();
+    }
+
+    public static function dailySales($date) {
+        $transactions = Transaction::where('status_response_id', 11)
+            ->whereDate('created_at', '=', $date)
+            ->get();
+
+        $select_raw = DB::raw('merchandise_id,
+        sum(quantity) as _quantity, sum(total) as _total');
+        return Order::select($select_raw)
+            ->whereIn('id', self::ids($transactions))
+            ->groupBy('merchandise_id')
+            ->get();
+    }
+
+    public static function monthlySales($month) {
+        $transactions = Transaction::where('status_response_id', 11)
+            ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"), '=', $month)
+            ->get();
+
+        $select_raw = DB::raw('date(created_at) as _date, sum(total) as _total');
+        return Order::select($select_raw)
+            ->whereIn('id', self::ids($transactions))
+            ->groupBy('_date')
+            ->get();
+    }
+
+    public static function yearlySales($year) {
+        $transactions = Transaction::where('status_response_id', 11)
+            ->where(DB::raw("DATE_FORMAT(created_at, '%Y')"), '=', $year)
+            ->get();
+
+        $select_raw = DB::raw("sum(total) as _total,
+        DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year");
+        return Order::select($select_raw)
+            ->whereIn('id', self::ids($transactions))
+            ->groupBy('_month', '_year')
+            ->get();
     }
 }

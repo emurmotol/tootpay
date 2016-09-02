@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\TootCard::reload(1));
+    return dd(\App\Models\Order::yearlySales('2016'));
 });
 
 Route::auth();
@@ -24,17 +24,17 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'SalesReportController@index',
             'as' => 'sales_report.index'
         ]);
-        Route::post('sales_report/daily_sales', [
-            'uses' => 'SalesReportController@dailySales',
-            'as' => 'sales_report.daily_sales'
+        Route::post('sales_report/daily', [
+            'uses' => 'SalesReportController@daily',
+            'as' => 'sales_report.daily'
         ]);
-        Route::post('sales_report/monthly_sales', [
-            'uses' => 'SalesReportController@monthlySales',
-            'as' => 'sales_report.monthly_sales'
+        Route::post('sales_report/monthly', [
+            'uses' => 'SalesReportController@monthly',
+            'as' => 'sales_report.monthly'
         ]);
-        Route::post('sales_report/yearly_sales', [
-            'uses' => 'SalesReportController@yearlySales',
-            'as' => 'sales_report.yearly_sales'
+        Route::post('sales_report/yearly', [
+            'uses' => 'SalesReportController@yearly',
+            'as' => 'sales_report.yearly'
         ]);
 
         // Users

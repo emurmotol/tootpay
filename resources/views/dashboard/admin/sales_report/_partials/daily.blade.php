@@ -1,4 +1,4 @@
-@if(count($merchandise_purchase))
+@if($sales->count())
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -9,15 +9,15 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($merchandise_purchase as $purchase)
+            @foreach($sales as $sale)
                 <tr>
                     <td>
-                        <a href="{{ route('merchandises.show', [$purchase->merchandise, 'redirect' => Request::fullUrl()]) }}">
-                            <strong>{{ \App\Models\Merchandise::find($purchase->merchandise)->name }}</strong>
+                        <a href="{{ route('merchandises.show', [$sale->merchandise_id, 'redirect' => Request::fullUrl()]) }}">
+                            <strong>{{ \App\Models\Merchandise::find($sale->merchandise_id)->name }}</strong>
                         </a>
                     </td>
-                    <td>{{ $purchase->qty }}</td>
-                    <td>P{{ number_format($purchase->sales, 2, '.', ',') }}</td>
+                    <td>{{ $sale->_quantity }}</td>
+                    <td>P{{ number_format($sale->_total, 2, '.', ',') }}</td>
                 </tr>
             @endforeach
             <tr>
@@ -26,7 +26,7 @@
                     <strong>Net Total:</strong>
                 </td>
                 <td>
-                    <strong>P{{ number_format(collect($merchandise_purchase)->pluck('sales')->sum(), 2, '.', ',') }}</strong>
+                    <strong>P{{ number_format(collect($sales)->pluck('_total')->sum(), 2, '.', ',') }}</strong>
                 </td>
             </tr>
             </tbody>

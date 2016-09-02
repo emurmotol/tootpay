@@ -114,31 +114,4 @@ class Merchandise extends Model
         $file_name = $merchandise->has_image ? str_slug($merchandise->name) : $default_image_name;
         return url('img/merchandises/' . $file_name . '.jpg');
     }
-
-    public static function dailySales($date) {
-        return DB::table('merchandise_purchase')
-            ->select(DB::raw('status, merchandise_id as merchandise, sum(quantity) as qty, sum(total) as sales, date(created_at) as date'))
-            ->where('status', '=', 11)
-            ->having('date', '=', $date)
-            ->groupBy('merchandise_id', 'date')
-            ->get();
-    }
-
-    public static function monthlySales($month) {
-        return DB::table('merchandise_purchase')
-            ->select(DB::raw("status, sum(total) as sales, date(created_at) as date, DATE_FORMAT(created_at, '%Y-%m') as month"))
-            ->where('status', '=', 11)
-            ->having('month', '=', $month)
-            ->groupBy('date')
-            ->get();
-    }
-
-    public static function yearlySales($year) {
-        return DB::table('merchandise_purchase')
-            ->select(DB::raw("status, sum(total) as sales, DATE_FORMAT(created_at,'%m') as month, DATE_FORMAT(created_at,'%Y') as year"))
-            ->where('status', '=', 11)
-            ->having('year', '=', $year)
-            ->groupBy('month', 'year')
-            ->get();
-    }
 }

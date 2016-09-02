@@ -289,7 +289,6 @@
             if (response.status == "{{ \App\Models\StatusResponse::find(3)->name }}") {
                 lastResort(last_resort.val());
             } else if (response.status == "{{ \App\Models\StatusResponse::find(4)->name }}") {
-                resetPinCodeValue();
                 validation(false, timeout_short, '{!! trans('toot_card.wrong_pin') !!}');
             }
             console.log(response);
@@ -297,8 +296,6 @@
     }
 
     function lastResort(last_resort_value) {
-        resetPinCodeValue();
-
         switch(parseInt(last_resort_value)) {
             case 1:
                 reloadRequest(_toot_card_id.val(), load_amount.val());
@@ -325,6 +322,7 @@
                 console.log("LAST_RESORT_SHARE_LOAD");
                 break;
         }
+        resetPinCodeValue();
     }
 
     function routeToIdle(timeout) {

@@ -119,7 +119,7 @@
             $("#selected_year").text(year);
             $("#yearly_sales").html(loading_sales);
             console.log(year);
-            $.post("yearly_sales", {
+            $.post("sales_report/yearly", {
                 year: year
             }, function (response) {
                 $("#yearly_sales").html(response);
@@ -147,7 +147,7 @@
             $("#selected_month").text(selected_month);
             $("#monthly_sales").html(loading_sales);
             console.log(month);
-            $.post("monthly_sales", {
+            $.post("sales_report/monthly", {
                 month: month
             }, function (response) {
                 $("#monthly_sales").html(response);
@@ -159,7 +159,7 @@
             $("#selected_date").text(d.toDateString());
             $("#daily_sales").html(loading_sales);
             console.log(date);
-            $.post("daily_sales", {
+            $.post("sales_report/daily", {
                 date: date
             }, function (response) {
                 $("#daily_sales").html(response);

@@ -1,4 +1,4 @@
-@if(count($merchandise_purchase))
+@if($sales->count())
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -8,10 +8,10 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($merchandise_purchase as $purchase)
+            @foreach($sales as $sale)
                 <tr>
-                    <td>{{ date('F d Y', strtotime($purchase->date)) }}</td>
-                    <td>P{{ number_format($purchase->sales, 2, '.', ',') }}</td>
+                    <td>{{ date('F d Y', strtotime($sale->_date)) }}</td>
+                    <td>P{{ number_format($sale->_total, 2, '.', ',') }}</td>
                 </tr>
             @endforeach
             <tr>
@@ -19,7 +19,7 @@
                     <strong>Net Total:</strong>
                 </td>
                 <td>
-                    <strong>P{{ number_format(collect($merchandise_purchase)->pluck('sales')->sum(), 2, '.', ',') }}</strong>
+                    <strong>P{{ number_format(collect($sales)->pluck('_total')->sum(), 2, '.', ',') }}</strong>
                 </td>
             </tr>
             </tbody>
