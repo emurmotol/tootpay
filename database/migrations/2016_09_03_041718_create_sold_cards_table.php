@@ -5,23 +5,17 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSoldCardsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        //
+        Schema::create('sold_cards', function (Blueprint $table) {
+            $table->increments('id');
+            $table->float('price');
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        //
+        Schema::drop('sold_cards');
     }
 }

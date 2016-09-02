@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LoadShare;
 use App\Models\Order;
+use App\Models\Reload;
 use App\Models\StatusResponse;
 use App\Models\TootCard;
 use App\Models\Transaction;
@@ -72,12 +73,10 @@ class TransactionController extends Controller
             $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first(),
                 compact('toot_card_id'));
 
-            $order = Order::create([
-                'merchandise_id' => 1,
-                'quantity' => 1,
-                'total' => $load_amount
+            $reload = Reload::create([
+                'load_amount' => $load_amount
             ]);
-            $transaction->orders()->attach($order);
+            $transaction->reloads()->attach($reload);
             return TootCard::response(9, $toot_card_id);
         }
         return StatusResponse::find(17)->name;
@@ -107,7 +106,7 @@ class TransactionController extends Controller
                     'to_toot_card_id' => User::find($user_id)->tootCards()->first()->id,
                     'load_amount' => $load_amount
                 ]);
-                TootCard::shareLoad($toot_card_id, $user_id, $load_amount);
+                LoadShare::fromTo($toot_card_id, $user_id, $load_amount);
                 return TootCard::response(9, $toot_card_id);
             }
             return TootCard::response(18, $toot_card_id);

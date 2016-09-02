@@ -16,7 +16,8 @@ class CreateUserTootCardTransactionTable extends Migration
 
             $table->foreign('transaction_id')
                 ->references('id')
-                ->on('transactions');
+                ->on('transactions')
+                ->onDelete('cascade');
 
             $table->foreign('toot_card_id')
                 ->references('id')

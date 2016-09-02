@@ -24,6 +24,14 @@ class Transaction extends Model
         return $this->belongsToMany(Order::class, 'order_transaction')->withTimestamps();
     }
 
+    public function reloads() {
+        return $this->belongsToMany(Reload::class, 'reload_transaction')->withTimestamps();
+    }
+
+    public function soldCards() {
+        return $this->belongsToMany(SoldCard::class, 'sold_card_transaction')->withTimestamps();
+    }
+
     public function paymentMethod() {
         return $this->belongsTo(PaymentMethod::class);
     }
