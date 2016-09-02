@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Merchandise::paginate(intval(\App\Models\Setting::value('per_page')))->except([1])->total());
+    return dd(\App\Models\Setting::value('expire_year_count'));
 });
 
 Route::auth();
@@ -17,6 +17,24 @@ Route::group(['middleware' => 'roles'], function () {
         // Administrator Dashboard
         Route::get('admin', [
             'uses' => 'DashboardController@admin'
+        ]);
+
+        // Settings
+        Route::get('settings/toot_card', [
+            'uses' => 'SettingController@tootCard',
+            'as' => 'settings.toot_card'
+        ]);
+        Route::put('settings/update_toot_card', [
+            'uses' => 'SettingController@updateTootCard',
+            'as' => 'settings.update_toot_card'
+        ]);
+        Route::get('settings/operation_day', [
+            'uses' => 'SettingController@operationDay',
+            'as' => 'settings.operation_day'
+        ]);
+        Route::put('settings/update_operation_day', [
+            'uses' => 'SettingController@updateOperationDay',
+            'as' => 'settings.update_operation_day'
         ]);
 
         // Sales Report

@@ -1,36 +1,36 @@
 [
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Monggo",
     "price": 20
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Breaded Chicken",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Pork Afritada",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Adobong Pusit",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Fish Fillet",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Bopis",
     "price": 20
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Laing",
     "price": 20
   }

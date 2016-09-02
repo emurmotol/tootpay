@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading">Login</div>
+                <div class="panel-heading">@yield('title')</div>
                 <div class="panel-body">
                     {!! Form::open(['url' => 'login', 'class' => 'form-horizontal']) !!}
 
                         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
-                            <label for="id" class="col-md-4 control-label">User ID</label>
+                            <label for="id" class="col-md-4 control-label">User ID:</label>
 
                             <div class="col-md-6">
                                 <input id="id" type="number" class="form-control" name="id" value="{{ old('id') }}" placeholder="Your school ID">
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label">Password:</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">

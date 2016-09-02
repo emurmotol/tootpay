@@ -26,7 +26,7 @@
                 </div>
                 <div class="faq">
                     <div class="question"><strong>3. What is the duration of the membership?</strong></div>
-                    <div class="answer">Membership in {{ config('static.app.name') }} card is valid for {{ (new NumberFormatter(config('app.locale'), NumberFormatter::SPELLOUT))->format(\App\Models\Setting::value('expire_year_count')) }} ({{ \App\Models\Setting::value('expire_year_count') }}) years
+                    <div class="answer">Membership in {{ config('static.app.name') }} card is valid for {{ (new NumberFormatter(config('app.locale'), NumberFormatter::SPELLOUT))->format(\App\Models\Setting::value('toot_card_expire_year_count')) }} ({{ \App\Models\Setting::value('toot_card_expire_year_count') }}) years
                         from date of application.
                     </div>
                 </div>

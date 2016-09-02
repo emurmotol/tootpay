@@ -1,11 +1,11 @@
 [
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Adobong Talong",
     "price": 20
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Fried Chicken",
     "price": 40
   }

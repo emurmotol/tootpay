@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
                 'load' => floatval($faker->randomNumber(3)),
                 'points' => floatval($faker->randomNumber(2)),
                 'is_active' => 'on',
-                'expires_at' => Carbon::now()->addYear(intval(Setting::value('expire_year_count'))),
+                'expires_at' => Carbon::now()->addYear(intval(Setting::value('toot_card_expire_year_count'))),
             ]);
             $user->tootCards()->attach($toot_card);
         }

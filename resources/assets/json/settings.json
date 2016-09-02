@@ -4,7 +4,7 @@
     "value": 30
   },
   {
-    "key": "reload_limit",
+    "key": "toot_card_max_load_limit",
     "value": 10000
   },
   {
@@ -12,7 +12,7 @@
     "value": 50
   },
   {
-    "key": "expire_year_count",
+    "key": "toot_card_expire_year_count",
     "value": 5
   },
   {

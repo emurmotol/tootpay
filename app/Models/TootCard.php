@@ -75,7 +75,7 @@ class TootCard extends Model
         $toot_card = self::find($toot_card_id);
         $temp_load = $toot_card->load + $amount_due;
 
-        if ($temp_load > Setting::value('reload_limit')) {
+        if ($temp_load > Setting::value('toot_card_max_load_limit')) {
             return true;
         }
         return false;

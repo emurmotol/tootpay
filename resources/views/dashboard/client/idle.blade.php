@@ -5,8 +5,8 @@
 @section('content')
     <div id="toot_idle" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            @foreach(glob('img/slides/*.png') as $img)
-                <div class="item {{ (glob('img/slides/*.png')[0] == $img) ? 'active' : '' }}">
+            @foreach(glob('img/slides/*.jpg') as $img)
+                <div class="item {{ (glob('img/slides/*.jpg')[0] == $img) ? 'active' : '' }}">
                     <img src="{{ asset($img) }}" class="img-responsive">
                 </div>
             @endforeach

@@ -1,26 +1,26 @@
 [
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Adobong Isaw",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Bicol Express",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Guisadong Togue",
     "price": 20
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Sweet And Sour Meatballs",
     "price": 40
   },
   {
-    "category_id": 2,
+    "category_id": 1,
     "name": "Kaldereta",
     "price": 40
   }

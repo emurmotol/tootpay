@@ -227,8 +227,8 @@
     });
 
     function validateLoadAmount(load_amount_value) {
-        if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value("reload_limit") }}')) {
-            validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
+        if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value("toot_card_max_load_limit") }}')) {
+            validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
         } else {
             enter_load_amount.modal("hide");
             if (last_resort.val() == 5) {
@@ -259,7 +259,7 @@
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 validation(true, timeout_short, '{!! trans('toot_card.load_shared') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
-                validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
+                validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
                 validation(false, 3000, '{!! trans('toot_card.insufficient_load') !!}');
             }
@@ -275,7 +275,7 @@
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 validation(true, timeout_short, '{!! trans('toot_card.reload_request_sent') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
-                validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
+                validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
             }
             console.log(response);
         }, "json");

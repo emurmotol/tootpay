@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading">@yield('title')</div>
                 <div class="panel-body">
                     {!! Form::open(['url' => 'register', 'class' => 'form-horizontal']) !!}
 
                         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
-                            <label for="id" class="col-md-4 control-label">User ID</label>
+                            <label for="id" class="col-md-4 control-label">User ID:</label>
 
                             <div class="col-md-6">
                                 <input id="id" type="number" class="form-control" name="id" value="{{ old('id') }}" placeholder="Your school ID">
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">Name:</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Your name">
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail Address:</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Your e-mail address">
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                            <label for="phone_number" class="col-md-4 control-label">Phone Number</label>
+                            <label for="phone_number" class="col-md-4 control-label">Phone Number:</label>
 
                             <div class="col-md-6">
                                 <input id="phone_number" type="number" class="form-control" name="phone_number" value="{{ old('phone_number') }}" placeholder="Your phone number">
@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label">Password:</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">

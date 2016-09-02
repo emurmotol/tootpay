@@ -32,6 +32,7 @@
                             @include('dashboard.admin.toot_cards._partials.navbar')
                             @include('dashboard.admin.users._partials.navbar')
                             @include('dashboard.admin.sales_report._partials.navbar')
+                            @include('dashboard.admin.settings._partials.navbar')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
                             @include('dashboard.cashier._partials.navbar')
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
