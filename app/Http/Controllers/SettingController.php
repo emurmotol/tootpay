@@ -44,7 +44,7 @@ class SettingController extends Controller
             $toot_card_price->value = $request->get('toot_card_price');
             $toot_card_price->save();
         }
-        flash()->success(trans('settings.saved'));
+        flash()->success(trans('setting.saved'));
         return redirect()->back();
     }
 
@@ -66,7 +66,7 @@ class SettingController extends Controller
                 $operation_day->save();
             }
         }
-        flash()->success(trans('settings.saved'));
+        flash()->success(trans('setting.saved'));
         return redirect()->back();
     }
 }

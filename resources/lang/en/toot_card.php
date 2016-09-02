@@ -8,7 +8,7 @@ return [
     'updated' => '<strong>:id</strong> has been successfully updated!',
     'deleted' => '<strong>:id</strong> has been successfully deleted!',
     'delete_fail_associated' => 'Unable to delete <strong>:id</strong>. The card is currently associated to :user_link.',
-    'delete_fail_active' => 'Unable to delete <strong>:id</strong>. The card is still <strong>active</strong>!',
+    'delete_fail_active' => 'Unable to delete <strong>:id</strong>. The card is still active!',
     'exception' => ':Error',
     'queue_number_is' => 'Your queue number is:',
     'details' => '<strong>Your toot card balance</strong>',
