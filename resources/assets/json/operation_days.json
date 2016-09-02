@@ -32,6 +32,6 @@
   {
     "id": 6,
     "day": "Saturday",
-    "has_operation": true
+    "has_operation": false
   }
 ]
