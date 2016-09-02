@@ -1,15 +1,6 @@
 [
   {
-    "category_id": 1,
-    "name": "Reloads"
-  },
-  {
-    "category_id": 1,
-    "name": "Smart Card",
-    "price": 100
-  },
-  {
-    "category_id": 5,
+    "category_id": 4,
     "name": "Rice",
     "price": 10
   }

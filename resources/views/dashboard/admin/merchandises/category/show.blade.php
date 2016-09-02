@@ -18,7 +18,7 @@
                                class="btn btn-default btn-xs">Edit</a>
                         </span>
                     </div>
-                    @if(\App\Models\Merchandise::byCategory($category->id)->get()->count())
+                    @if($merchandises->total())
                         <div class="panel-body">
                             <ul class="list-inline panel-actions">
                                 <li>

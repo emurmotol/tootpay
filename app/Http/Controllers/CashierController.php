@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StatusResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -21,6 +22,7 @@ class CashierController extends Controller
                 return (String) view('dashboard.cashier._partials.pending_reload', compact('reloads'));
             }
         }
+        return StatusResponse::find(17)->name;
     }
 
     public function paidReload(Request $request) {
@@ -28,6 +30,7 @@ class CashierController extends Controller
             DB::table('reloads')->where('id', $request->get('id'))->update(['paid' => true]);
             return response()->make('paid');
         }
+        return StatusResponse::find(17)->name;
     }
 
     public function cancelReload(Request $request) {
@@ -35,6 +38,7 @@ class CashierController extends Controller
             DB::table('reloads')->where('id', $request->get('id'))->update(['paid' => false]);
             return response()->make('canceled');
         }
+        return StatusResponse::find(17)->name;
     }
 
     public function queue() {

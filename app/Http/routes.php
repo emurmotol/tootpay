@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Order::yearlySales('2016'));
+    return dd(\App\Models\Merchandise::paginate(intval(\App\Models\Setting::value('per_page')))->except([1])->total());
 });
 
 Route::auth();

@@ -14,5 +14,13 @@
   {
     "key": "expire_year_count",
     "value": 5
+  },
+  {
+    "key": "toot_card_price",
+    "value": 100
+  },
+  {
+    "key": "toot_card_default_load",
+    "value": 80
   }
 ]

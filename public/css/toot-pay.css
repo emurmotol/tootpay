@@ -156,3 +156,17 @@ input[type="number"] {
     background-color: #337ab7;
     color: #fff;
 }
+
+.faq {
+    padding: 10px;
+
+}
+
+.faq .question {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.faq .answer {
+    font-size: 14px;
+}

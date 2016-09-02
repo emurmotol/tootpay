@@ -14,7 +14,7 @@
                         <span class="pull-left">@yield('title')</span>
                         <span class="pull-right">Results: {{ $merchandises->total() }}</span>
                     </div>
-                    @if(\App\Models\Merchandise::count())
+                    @if($merchandises->total())
                         <div class="panel-body">
                             <ul class="list-inline panel-actions">
                                 <li>

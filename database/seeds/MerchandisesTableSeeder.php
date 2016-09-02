@@ -13,12 +13,8 @@ class MerchandisesTableSeeder extends Seeder
 
         foreach (Merchandise::json('1_2_3_4_5') as $m) {
             $merchandise = Merchandise::create($m);
-
-            if ($m['category_id'] == 1) {
-                continue;
-            }
-
             app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
+
             foreach($week_days as $day) {
                 $merchandise->operationDays()->attach($day);
             }
@@ -35,6 +31,7 @@ class MerchandisesTableSeeder extends Seeder
         foreach (Merchandise::json('1_5') as $m) {
             $merchandise = Merchandise::create($m);
             app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
+
             foreach($monday_friday as $day) {
                 $merchandise->operationDays()->attach($day);
             }
