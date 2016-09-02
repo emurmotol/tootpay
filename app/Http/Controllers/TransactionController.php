@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LoadShare;
 use App\Models\Order;
 use App\Models\StatusResponse;
 use App\Models\TootCard;
@@ -95,8 +96,19 @@ class TransactionController extends Controller
             }
 
             if (TootCard::hasSufficientLoad($toot_card_id, $load_amount)) {
+                $transaction = Transaction::create([
+                    'payment_method_id' => 3,
+                    'status_response_id' => 9
+                ]);
+                $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first());
+
+                LoadShare::create([
+                    'from_toot_card_id' => $toot_card_id,
+                    'to_toot_card_id' => User::find($user_id)->tootCards()->first()->id,
+                    'load_amount' => $load_amount
+                ]);
                 TootCard::shareLoad($toot_card_id, $user_id, $load_amount);
-                return TootCard::response(19, $toot_card_id);
+                return TootCard::response(9, $toot_card_id);
             }
             return TootCard::response(18, $toot_card_id);
         }

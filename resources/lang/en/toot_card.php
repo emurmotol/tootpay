@@ -22,12 +22,14 @@ return [
     'empty_user_id' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The user id is required.</strong>',
     'exceed_reload_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The amount you entered exceeds the reload limit. Maximum reload is P:limit</strong>',
     'insufficient_balance' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your balance is not enough to complete the payment.</strong>',
+    'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the share.</strong>',
     'invalid_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid card toot card.</strong>',
     'empty_user_order' => '<strong class="text-info"><i class="fa fa-info-circle"></i> You do not have any orders yet.</strong>',
     'order_on_hold' => '<strong class="text-info"><i class="fa fa-info-circle"></i> Your orders is now on-hold. To check your order tap your toot card on screen idle.</strong>',
     'to_many_card_tap' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! To many card tap.</strong>',
     'transaction_complete' => '<strong class="text-success"><i class="fa fa-check"></i> Transaction complete!</strong>',
     'reload_request_sent' => '<strong class="text-success"><i class="fa fa-check"></i> Reload request sent!</strong>',
+    'load_shared' => '<strong class="text-success"><i class="fa fa-check"></i> You have successfully shared your load!</strong>',
     'wrong_pin' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Wrong pin. Try again.</strong>',
 
 ];

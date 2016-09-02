@@ -256,6 +256,13 @@
             user_id: user_id,
             load_amount: load_amount
         }, function (response) {
+            if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
+                validation(true, timeout_short, '{!! trans('toot_card.load_shared') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
+                validation(false, 3000, '{!! trans('toot_card.exceed_reload_limit', ['limit' => number_format(\App\Models\Setting::value('reload_limit'), 2, '.', ',')]) !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
+                validation(false, 3000, '{!! trans('toot_card.insufficient_load') !!}');
+            }
             console.log(response);
         }, "json");
     }
@@ -372,7 +379,7 @@
             transaction_id: transaction_id
         }, function (response) {
             $.each(response, function(key, order) {
-                addOrder(response.merchandise_id, response.name, response.price, response.qty);
+                addOrder(order.merchandise_id, order.name, order.price, order.qty);
             });
             console.log(response);
         }, "json");
@@ -424,7 +431,7 @@
             toot_card_id: _toot_card_id.val()
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
-                validation(true, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
+                validation(false, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
             } else {
                 if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
                     validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');
@@ -599,6 +606,34 @@
         }, timeout);
     }
 
+    function enterPin(timeout) {
+        enter_pin.modal("show");
+        _timer = setTimeout(function () {
+            enter_pin.modal("hide");
+        }, timeout);
+    }
+
+    function tootCardDetails(timeout) {
+        toot_card_details.modal("show");
+        _timer = setTimeout(function () {
+            toot_card_details.modal("hide");
+        }, timeout);
+    }
+
+    function tapCard(timeout) {
+        tap_card.modal("show");
+        _timer = setTimeout(function () {
+            tap_card.modal("hide");
+        }, timeout);
+    }
+
+    function transactionCompleteWithQueueNumber(timeout) {
+        transaction_complete_with_queue_number.modal({backdrop: "static"});
+        _timer = setTimeout(function () {
+            transaction_complete_with_queue_number.modal("hide");
+        }, timeout);
+    }
+
     function resetTootCardIdValue() {
         toot_card_id.val("");
     }
@@ -633,34 +668,6 @@
 
     function resetPinCodeValue() {
         pin_code.val("");
-    }
-
-    function enterPin(timeout) {
-        enter_pin.modal("show");
-        _timer = setTimeout(function () {
-            enter_pin.modal("hide");
-        }, timeout);
-    }
-
-    function tootCardDetails(timeout) {
-        toot_card_details.modal("show");
-        _timer = setTimeout(function () {
-            toot_card_details.modal("hide");
-        }, timeout);
-    }
-
-    function tapCard(timeout) {
-        tap_card.modal("show");
-        _timer = setTimeout(function () {
-            tap_card.modal("hide");
-        }, timeout);
-    }
-
-    function transactionCompleteWithQueueNumber(timeout) {
-        transaction_complete_with_queue_number.modal({backdrop: "static"});
-        _timer = setTimeout(function () {
-            transaction_complete_with_queue_number.modal("hide");
-        }, timeout);
     }
 
     (function ($) {
