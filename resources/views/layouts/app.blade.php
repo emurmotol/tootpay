@@ -44,9 +44,9 @@
                         <li {!! (Request::is('login') ? 'class="active"' : '') !!}>
                             <a href="{{ url('login') }}">Login</a>
                         </li>
-                        <li {!! (Request::is('register') ? 'class="active"' : '') !!}>
-                            <a href="{{ url('register') }}">Register</a>
-                        </li>
+                        {{--<li {!! (Request::is('register') ? 'class="active"' : '') !!}>--}}
+                            {{--<a href="{{ url('register') }}">Register</a>--}}
+                        {{--</li>--}}
                     @else
                         @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
                         @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))

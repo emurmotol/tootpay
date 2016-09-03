@@ -39,6 +39,11 @@ class User extends Authenticatable
         $this->attributes['name'] = ucwords(strtolower($value));
     }
 
+    public function getGravatarAttribute() {
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash?d=identicon&s=200";
+    }
+
     public function hasAnyRole($roles) {
         if (is_array($roles)) {
             foreach ($roles as $role) {

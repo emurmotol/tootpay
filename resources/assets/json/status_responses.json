@@ -42,10 +42,10 @@
     "name": "TO_MANY_CARD_TAP"
   },
   {
-    "name": "VALID_USER"
+    "name": "VALID_USER_ID"
   },
   {
-    "name": "INVALID_USER"
+    "name": "INVALID_USER_ID"
   },
   {
     "name": "REQUEST_IS_NOT_AJAX"

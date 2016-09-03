@@ -33,7 +33,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{!! trans('loading.default') !!}">
+                                <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">
                                     <i class="fa fa-btn fa-envelope"></i> Send password reset link
                                 </button>
                             </div>

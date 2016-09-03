@@ -12,6 +12,7 @@
     var toot_card_id = $("#toot_card_id");
     var _toot_card_id = $("#_toot_card_id");
     var user_id = $("#user_id");
+    var load_amount = $("#load_amount");
 
     // div
     var validation_content = $("#validation_content");
@@ -23,7 +24,6 @@
     var _modal = $(".modal");
     var menu = $("#menu");
     var user_orders = $("#user_orders");
-    var load_amount = $("#load_amount");
     var enter_load_amount = $("#enter_load_amount");
     var enter_pin = $("#enter_pin");
     var enter_user_id = $("#enter_user_id");
@@ -131,6 +131,12 @@
             });
         }
 
+        if (enter_user_id.hasClass("in")) {
+            user_id.val(function (index, value) {
+                return value.substr(0, value.length - 1);
+            });
+        }
+
         if (enter_load_amount.hasClass("in")) {
             load_amount.val(function (index, value) {
                 return value.substr(0, value.length - 1);
@@ -153,6 +159,10 @@
 
         if (enter_load_amount.hasClass("in")) {
             load_amount.val((load_amount.val()) + (this.value));
+        }
+
+        if (enter_user_id.hasClass("in")) {
+            user_id.val((user_id.val()) + (this.value));
         }
     });
     btn_cancel.on("click", function () {
@@ -182,6 +192,7 @@
         menu.modal("hide");
         resetLoadAmountValue();
         enterLoadAmount(timeout_long);
+        resetUserIdValue();
         last_resort.val(5);
     });
     btn_hold.on("click", function () {
@@ -203,9 +214,9 @@
 
         if (enter_user_id.hasClass("in")) {
             if (parseInt(user_id.val().length) < 1) {
-                validation(false, timeout_short, '{!! trans('toot_card.empty_user_id') !!}');
+                validation(false, timeout_short, '{!! trans('user.empty_user_id') !!}');
             } else {
-                tapCard(timeout_long);
+                validateUserId(user_id.val());
             }
         }
 
@@ -226,14 +237,28 @@
         }
     });
 
+    function validateUserId(user_id_value) {
+        $.post("check_user_id", {
+            user_id: user_id_value
+        }, function (response) {
+            if (response.status == "{{ \App\Models\StatusResponse::find(15)->name }}") {
+                enter_user_id.modal("hide");
+                tapCard(timeout_long);
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(16)->name }}") {
+                validation(true, timeout_short, '{!! trans('user.invalid_user_id') !!}');
+            }
+            console.log(response);
+        }, "json");
+    }
+
     function validateLoadAmount(load_amount_value) {
         if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value("toot_card_max_load_limit") }}')) {
             validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
         } else {
             enter_load_amount.modal("hide");
             if (last_resort.val() == 5) {
-                enterUserId(timeout_short);
-            } else {
+                enterUserId(timeout_long);
+            } else if (last_resort.val() == 1) {
                 tapCard(timeout_long);
             }
         }

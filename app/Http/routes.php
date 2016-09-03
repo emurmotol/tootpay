@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(strtolower(config('static.app.name')) . '-sales-report-' . '2016-09-02');
+    return dd('ok');
 });
 
 Route::auth();
@@ -180,6 +180,10 @@ Route::post('check_balance', [
 Route::post('check_card', [
     'uses' => 'TransactionController@checkCard',
     'as' => 'transaction.check_card'
+]);
+Route::post('check_user_id', [
+    'uses' => 'TransactionController@checkUserId',
+    'as' => 'transaction.check_user_id'
 ]);
 Route::post('auth_card', [
     'uses' => 'TransactionController@authCard',

@@ -26,7 +26,12 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="user-avatar">
+                                    <img src="{{ $user->gravatar }}" class="img-responsive img-rounded" alt="{{ $user->name }}">
+                                </div>
+                            </div>
+                            <div class="col-md-9">
                                 <ul class="list-unstyled">
                                     <li>
                                         <h4>Name: <strong>{{ $user->name }}</strong></h4>

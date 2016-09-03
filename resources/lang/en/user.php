@@ -11,5 +11,8 @@ return [
     'exception' => ':Error',
     'delete_fail_card_is_set' => 'Unable to delete <strong>:Name</strong>. The user is still owns a card :toot_card_link.',
     'orders' => '<strong><i class="fa fa-user"></i> :user_id: Orders</strong>',
+    'enter_user_id' => '<strong>Enter User ID</strong>',
+    'empty_user_id' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The user id is required.</strong>',
+    'invalid_user_id' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid user id.</strong>',
 
 ];

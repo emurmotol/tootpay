@@ -17,13 +17,11 @@ class AuthController extends Controller
 
     protected $username = 'id';
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         return Validator::make($data, [
             'id' => 'required|numeric|unique:users',
             'name' => 'required|max:255',
@@ -33,8 +31,7 @@ class AuthController extends Controller
         ]);
     }
 
-    protected function create(array $data)
-    {
+    protected function create(array $data) {
         $user = User::create([
             'id' => $data['id'],
             'name' => $data['name'],
@@ -44,5 +41,9 @@ class AuthController extends Controller
         ]);
         $user->roles()->attach(Role::find(Role::json(2)));
         return $user;
+    }
+
+    public function showRegistrationForm() {
+        return redirect('login');
     }
 }

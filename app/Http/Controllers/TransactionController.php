@@ -38,8 +38,23 @@ class TransactionController extends Controller
                 if (!is_null(TootCard::find($toot_card_id))) {
                     return TootCard::response(1, $toot_card_id);
                 }
-                return TootCard::response(2, $toot_card_id);
+                return StatusResponse::def(2);
             }
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function checkUserId(Request $request) {
+        if ($request->ajax()) {
+            $user_id = $request->get('user_id');
+            $user = User::find($user_id);
+
+            if (!is_null($user)) {
+                if (!is_null($user->tootCards()->first())) {
+                    return StatusResponse::def(15);
+                }
+            }
+            return StatusResponse::def(16);
         }
         return StatusResponse::find(17)->name;
     }
@@ -97,7 +112,7 @@ class TransactionController extends Controller
             if (TootCard::hasSufficientLoad($toot_card_id, $load_amount)) {
                 $transaction = Transaction::create([
                     'payment_method_id' => 3,
-                    'status_response_id' => 9
+                    'status_response_id' => 11
                 ]);
                 $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first());
 
