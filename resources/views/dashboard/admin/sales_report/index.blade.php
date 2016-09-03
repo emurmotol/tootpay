@@ -18,7 +18,7 @@
                     <div class="panel-heading clearfix">
                         <span class="pull-left" id="selected_date"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs">Export</button>
+                            <button class="btn btn-success btn-xs" id="export_daily_sales">Export</button>
                         </span>
                     </div>
                     <div id="daily_sales"></div>
@@ -39,7 +39,7 @@
                     <div class="panel-heading clearfix">
                         <span class="pull-left" id="selected_month"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs">Export</button>
+                            <button class="btn btn-success btn-xs" id="export_monthly_sales">Export</button>
                         </span>
                     </div>
                     <div id="monthly_sales"></div>
@@ -60,7 +60,7 @@
                     <div class="panel-heading clearfix">
                         <span class="pull-left" id="selected_year"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs">Export</button>
+                            <button class="btn btn-success btn-xs" id="export_yearly_sales">Export</button>
                         </span>
                     </div>
                     <div id="yearly_sales"></div>
@@ -73,56 +73,82 @@
 @section('date')
     <script>
         $(function () {
-            // Daily sales
             var daily = $("#daily");
             daily.datetimepicker({
                 format: "YYYY-MM-DD",
                 inline: true
             });
-
-            daily.on("dp.change", function (moment) {
-                dailySales(moment.date.format("YYYY-MM-DD"))
-            });
-
-            dailySales("{{ \Carbon\Carbon::now()->toDateString() }}")
-
-            // Monthly sales
             var monthly = $("#monthly");
             monthly.datetimepicker({
                 format: "YYYY-MM",
                 inline: true
             });
-
-            monthly.on("dp.change", function (moment) {
-                monthlySales(moment.date.format("YYYY-MM"))
-            });
-
-            monthlySales("{{ \Carbon\Carbon::now()->format('Y-m') }}")
-
-            // Yearly sales
             var yearly = $("#yearly");
             yearly.datetimepicker({
                 format: "YYYY",
                 inline: true
             });
 
+            $('#export_daily_sales').on("click", function () {
+                exportDailySales(daily.data("DateTimePicker").date().format("YYYY-MM-DD"));
+            });
+            $('#export_monthly_sales').on("click", function () {
+                exportMonthlySales(monthly.data("DateTimePicker").date().format("YYYY-MM"));
+            });
+            $('#export_yearly_sales').on("click", function () {
+                exportYearlySales(yearly.data("DateTimePicker").date().format("YYYY"));
+            });
+
+            daily.on("dp.change", function (moment) {
+                dailySales(moment.date.format("YYYY-MM-DD"))
+            });
+            monthly.on("dp.change", function (moment) {
+                monthlySales(moment.date.format("YYYY-MM"))
+            });
             yearly.on("dp.change", function (moment) {
                 yearlySales(moment.date.format("YYYY"))
             });
 
+            dailySales("{{ \Carbon\Carbon::now()->toDateString() }}")
+            monthlySales("{{ \Carbon\Carbon::now()->format('Y-m') }}")
             yearlySales("{{ \Carbon\Carbon::now()->format('Y') }}")
         });
 
-        var loading_sales = '<div class="text-center loading-sales"><strong>' + '{!! trans('loading.default') !!}' + '</strong></div>';
+        function exportDailySales(date) {
+            $.post("sales_report/export/daily", {
+                date: date
+            }, function (response) {
+                window.open("{{ url('sales_report/download/daily') }}/" + response, '_blank');
+            });
+        }
 
-        function yearlySales(year) {
-            $("#selected_year").text(year);
-            $("#yearly_sales").html(loading_sales);
-            console.log(year);
-            $.post("sales_report/yearly", {
+        function exportMonthlySales(month) {
+            $.post("sales_report/export/monthly", {
+                month: month
+            }, function (response) {
+                window.open("{{ url('sales_report/download/monthly') }}/" + response, '_blank');
+            });
+        }
+
+        function exportYearlySales(year) {
+            $.post("sales_report/export/yearly", {
                 year: year
             }, function (response) {
-                $("#yearly_sales").html(response);
+                window.open("{{ url('sales_report/download/yearly') }}/" + response, '_blank');
+            });
+        }
+
+        var loading_sales = '<div class="text-center loading-sales"><strong>' + '{!! trans('loading.default') !!}' + '</strong></div>';
+
+        function dailySales(date) {
+            var d = new Date(date);
+            $("#selected_date").text(d.toDateString());
+            $("#daily_sales").html(loading_sales);
+
+            $.post("sales_report/daily", {
+                date: date
+            }, function (response) {
+                $("#daily_sales").html(response);
             });
         }
 
@@ -146,7 +172,7 @@
 
             $("#selected_month").text(selected_month);
             $("#monthly_sales").html(loading_sales);
-            console.log(month);
+
             $.post("sales_report/monthly", {
                 month: month
             }, function (response) {
@@ -154,15 +180,14 @@
             });
         }
 
-        function dailySales(date) {
-            var d = new Date(date);
-            $("#selected_date").text(d.toDateString());
-            $("#daily_sales").html(loading_sales);
-            console.log(date);
-            $.post("sales_report/daily", {
-                date: date
+        function yearlySales(year) {
+            $("#selected_year").text(year);
+            $("#yearly_sales").html(loading_sales);
+
+            $.post("sales_report/yearly", {
+                year: year
             }, function (response) {
-                $("#daily_sales").html(response);
+                $("#yearly_sales").html(response);
             });
         }
     </script>

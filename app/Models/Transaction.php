@@ -66,9 +66,9 @@ class Transaction extends Model
 
         $sales = collect();
 
-        $orders = Order::selectRaw('merchandise_id as item, sum(quantity) as _quantity, sum(total) as _total')
+        $orders = Order::selectRaw('merchandise_id as _item, sum(quantity) as _count, sum(total) as _total')
             ->whereIn('id', Order::ids($transaction))
-            ->groupBy('item')
+            ->groupBy('_item')
             ->get()
             ->toArray();
 
@@ -76,20 +76,20 @@ class Transaction extends Model
             $sales->push($orders);
         }
 
-        $reloads = Reload::selectRaw('count(id) as _quantity, sum(load_amount) as _total')
+        $reloads = Reload::selectRaw('count(id) as _count, sum(load_amount) as _total')
             ->whereIn('id', Reload::ids($transaction))
             ->first();
 
-        if ($reloads->_quantity) {
-            $sales->push([collect($reloads)->put('item', 'Toot (Reload)')->toArray()]);
+        if ($reloads->_count) {
+            $sales->push([collect($reloads)->put('_item', 'Toot (Reload)')->toArray()]);
         }
 
-        $sold_cards = SoldCard::selectRaw('count(id) as _quantity, sum(price) as _total')
+        $sold_cards = SoldCard::selectRaw('count(id) as _count, sum(price) as _total')
             ->whereIn('id', SoldCard::ids($transaction))
             ->first();
 
-        if ($sold_cards->_quantity) {
-            $sales->push([collect($sold_cards)->put('item', 'Toot (Card)')->toArray()]);
+        if ($sold_cards->_count) {
+            $sales->push([collect($sold_cards)->put('_item', 'Toot (Card)')->toArray()]);
         }
         return $sales->collapse();
     }

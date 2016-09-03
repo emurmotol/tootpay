@@ -5,29 +5,33 @@
             <tr>
                 <th>Name</th>
                 <th>Count</th>
+                <th>Unit</th>
                 <th>Total</th>
             </tr>
             </thead>
             <tbody>
             @foreach($sales as $sale)
                 <tr>
-                    @if(filter_var($sale['item'], FILTER_VALIDATE_INT))
+                    @if(filter_var($sale['_item'], FILTER_VALIDATE_INT))
                         <td>
-                            <a href="{{ route('merchandises.show', [$sale['item'], 'redirect' => Request::fullUrl()]) }}">
-                                <strong>{{ \App\Models\Merchandise::find($sale['item'])->name }}</strong>
+                            <a href="{{ route('merchandises.show', [$sale['_item'], 'redirect' => Request::fullUrl()]) }}">
+                                <strong>{{ \App\Models\Merchandise::find($sale['_item'])->name }}</strong>
                             </a>
                         </td>
-                        <td><strong>{{ $sale['_quantity'] }}</strong> order(s)</td>
+                        <td>{{ $sale['_count'] }}</td>
+                        <td>order</td>
                     @else
                         <td>
-                            <strong>{{ $sale['item'] }}</strong>
+                            <a href=""><strong>{{ $sale['_item'] }}</strong></a>
                         </td>
-                        <td><strong>{{ $sale['_quantity'] }}</strong> transaction(s)</td>
+                        <td>{{ $sale['_count'] }}</td>
+                        <td>transaction</td>
                     @endif
                     <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
                 </tr>
             @endforeach
             <tr>
+                <td></td>
                 <td></td>
                 <td class="text-right">
                     <strong>Net Total:</strong>

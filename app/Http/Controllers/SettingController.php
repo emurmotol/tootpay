@@ -53,7 +53,7 @@ class SettingController extends Controller
     }
 
     public function updateOperationDay(Requests\OperationDayRequest $request) {
-        if ($request->has('day')) {
+        if ($request->has('day') && count($request->get('day'))) {
             foreach (OperationDay::whereIn('id', $request->get('day'))->get() as $day) {
                 $operation_day = OperationDay::find($day->id);
                 $operation_day->has_operation = true;
@@ -64,6 +64,11 @@ class SettingController extends Controller
                 $operation_day = OperationDay::find($day->id);
                 $operation_day->has_operation = false;
                 $operation_day->save();
+            }
+        } else {
+            foreach (OperationDay::all() as $day) {
+                $day->has_operation = false;
+                $day->save();
             }
         }
         flash()->success(trans('setting.saved'));

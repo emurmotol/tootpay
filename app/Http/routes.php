@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Transaction::yearlySales('2016'));
+    return dd(strtolower(config('static.app.name')) . '-sales-report-' . '2016-09-02');
 });
 
 Route::auth();
@@ -54,6 +54,21 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'SalesReportController@yearly',
             'as' => 'sales_report.yearly'
         ]);
+        Route::post('sales_report/export/daily', [
+            'uses' => 'SalesReportController@exportDaily',
+            'as' => 'sales_report.export_daily'
+        ]);
+        Route::post('sales_report/export/monthly', [
+            'uses' => 'SalesReportController@exportMonthly',
+            'as' => 'sales_report.export_monthly'
+        ]);
+        Route::post('sales_report/export/yearly', [
+            'uses' => 'SalesReportController@exportYearly',
+            'as' => 'sales_report.export_yearly'
+        ]);
+        Route::get('sales_report/download/daily/{file_name}', 'SalesReportController@downloadDaily');
+        Route::get('sales_report/download/monthly/{file_name}', 'SalesReportController@downloadMonthly');
+        Route::get('sales_report/download/yearly/{file_name}', 'SalesReportController@downloadYearly');
 
         // Users
         Route::post('users/{user}/remove_card/{toot_card}', [

@@ -15,19 +15,3 @@ function cardholder() {
 function guest() {
     return \App\Models\Role::json(3);
 }
-
-function groupSum($array) {
-    $sums = array();
-
-    foreach ($array as $key => $values) {
-        foreach ($values as $label => $count) {
-
-            if (!array_key_exists($label, $sums)) {
-                $sums[$label] = 0;
-            }
-            $sums[$label] += $count;
-        }
-    }
-    arsort($sums);
-    return $sums;
-}
