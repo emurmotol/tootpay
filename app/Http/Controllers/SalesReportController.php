@@ -78,7 +78,7 @@ class SalesReportController extends Controller
                 $excel->sheet($date, function ($sheet) use ($date) {
                     $sheet->row(1, array('Toot Daily Sales Report (' . $date . ')'));
                     $sheet->row(2, array(config('static.app.company')));
-                    $sheet->appendRow(['Name', 'Count', 'Unit', 'Total']);
+                    $sheet->appendRow(['Name', 'Count', 'Type', 'Total']);
 
                     $sales = Transaction::dailySales($date);
 

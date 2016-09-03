@@ -5,7 +5,7 @@
             <tr>
                 <th>Name</th>
                 <th>Count</th>
-                <th>Unit</th>
+                <th>Type</th>
                 <th>Total</th>
             </tr>
             </thead>
