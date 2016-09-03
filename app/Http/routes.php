@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Transaction::monthlySales('2016-09'));
+    return dd(\App\Models\Transaction::yearlySales('2016'));
 });
 
 Route::auth();

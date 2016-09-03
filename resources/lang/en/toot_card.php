@@ -20,7 +20,7 @@ return [
     'empty_load_amount' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The load amount is required.</strong>',
     'empty_pin' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The pin code is required.</strong>',
     'empty_user_id' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The user id is required.</strong>',
-    'exceed_max_load_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The amount you entered exceeds the reload limit. Maximum reload is P:limit</strong>',
+    'exceed_max_load_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The amount you entered exceeds the load limit. Maximum reload is P:limit</strong>',
     'insufficient_balance' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your balance is not enough to complete the payment.</strong>',
     'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the share.</strong>',
     'invalid_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid card toot card.</strong>',

@@ -148,6 +148,37 @@ class Transaction extends Model
         $orders = Order::selectRaw("sum(total) as _total, DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year")
             ->whereIn('id', Order::ids($transaction))
             ->groupBy('_month', '_year')
-            ->get();
+            ->get()
+            ->toArray();
+
+        if (count($orders)) {
+            $sales->push($orders);
+        }
+
+        $reloads = Reload::selectRaw("sum(load_amount) as _total, DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year")
+            ->whereIn('id', Reload::ids($transaction))
+            ->first();
+
+        if (intval($reloads->_total)) {
+            $sales->push([$reloads->toArray()]);
+        }
+
+        $sold_cards = SoldCard::selectRaw("sum(price) as _total, DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year")
+            ->whereIn('id', SoldCard::ids($transaction))
+            ->first();
+
+        if (intval($sold_cards->_total)) {
+            $sales->push([$sold_cards->toArray()]);
+        }
+
+        $_sales = collect();
+
+        foreach ($sales->collapse()->groupBy('_month')->toArray() as $key => $value) {
+            $_sales->push([
+                '_month' => $key,
+                '_total' => collect($value)->sum('_total')
+            ]);
+        }
+        return $_sales;
     }
 }

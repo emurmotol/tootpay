@@ -291,6 +291,7 @@
             } else if (response.status == "{{ \App\Models\StatusResponse::find(4)->name }}") {
                 validation(false, timeout_short, '{!! trans('toot_card.wrong_pin') !!}');
             }
+            resetPinCodeValue();
             console.log(response);
         }, "json");
     }
@@ -322,7 +323,6 @@
                 console.log("LAST_RESORT_SHARE_LOAD");
                 break;
         }
-        resetPinCodeValue();
     }
 
     function routeToIdle(timeout) {

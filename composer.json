@@ -10,7 +10,9 @@
         "laravelcollective/html": "^5.2",
         "intervention/image": "^2.3",
         "sofa/eloquence": "~5.2@dev",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "maatwebsite/excel": "~2.1.0",
+        "laravelcollective/bus": "^5.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
