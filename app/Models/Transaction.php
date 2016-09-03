@@ -66,7 +66,7 @@ class Transaction extends Model
 
         $sales = collect();
 
-        $orders = Order::select(DB::raw('merchandise_id as item, sum(quantity) as _quantity, sum(total) as _total'))
+        $orders = Order::selectRaw('merchandise_id as item, sum(quantity) as _quantity, sum(total) as _total')
             ->whereIn('id', Order::ids($transaction))
             ->groupBy('item')
             ->get()
@@ -76,7 +76,7 @@ class Transaction extends Model
             $sales->push($orders);
         }
 
-        $reloads = Reload::select(DB::raw('count(id) as _quantity, sum(load_amount) as _total'))
+        $reloads = Reload::selectRaw('count(id) as _quantity, sum(load_amount) as _total')
             ->whereIn('id', Reload::ids($transaction))
             ->first();
 
@@ -84,7 +84,7 @@ class Transaction extends Model
             $sales->push([collect($reloads)->put('item', 'Toot (Reload)')->toArray()]);
         }
 
-        $sold_cards = SoldCard::select(DB::raw('count(id) as _quantity, sum(price) as _total'))
+        $sold_cards = SoldCard::selectRaw('count(id) as _quantity, sum(price) as _total')
             ->whereIn('id', SoldCard::ids($transaction))
             ->first();
 
@@ -99,10 +99,43 @@ class Transaction extends Model
             ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"), '=', $month)
             ->get();
 
-        $orders = Order::select(DB::raw('date(created_at) as _date, sum(total) as _total'))
+        $sales = collect();
+
+        $orders = Order::selectRaw('date(created_at) as _date, sum(total) as _total')
             ->whereIn('id', Order::ids($transaction))
             ->groupBy('_date')
-            ->get();
+            ->get()
+            ->toArray();
+
+        if (count($orders)) {
+            $sales->push($orders);
+        }
+
+        $reloads = Reload::selectRaw('date(created_at) as _date, sum(load_amount) as _total')
+            ->whereIn('id', Reload::ids($transaction))
+            ->first();
+
+        if (intval($reloads->_total)) {
+            $sales->push([$reloads->toArray()]);
+        }
+
+        $sold_cards = SoldCard::selectRaw('date(created_at) as _date, sum(price) as _total')
+            ->whereIn('id', SoldCard::ids($transaction))
+            ->first();
+
+        if (intval($sold_cards->_total)) {
+            $sales->push([$sold_cards->toArray()]);
+        }
+
+        $_sales = collect();
+
+        foreach ($sales->collapse()->groupBy('_date')->toArray() as $key => $value) {
+            $_sales->push([
+                '_date' => $key,
+                '_total' => collect($value)->sum('_total')
+            ]);
+        }
+        return $_sales;
     }
 
     public static function yearlySales($year) {
@@ -110,7 +143,9 @@ class Transaction extends Model
             ->where(DB::raw("DATE_FORMAT(created_at, '%Y')"), '=', $year)
             ->get();
 
-        $orders = Order::select(DB::raw("sum(total) as _total, DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year"))
+        $sales = collect();
+
+        $orders = Order::selectRaw("sum(total) as _total, DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year")
             ->whereIn('id', Order::ids($transaction))
             ->groupBy('_month', '_year')
             ->get();

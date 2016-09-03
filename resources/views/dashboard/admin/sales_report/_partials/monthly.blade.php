@@ -10,8 +10,8 @@
             <tbody>
             @foreach($sales as $sale)
                 <tr>
-                    <td>{{ date('F d Y', strtotime($sale->_date)) }}</td>
-                    <td>P{{ number_format($sale->_total, 2, '.', ',') }}</td>
+                    <td>{{ date('F d Y', strtotime($sale['_date'])) }}</td>
+                    <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
                 </tr>
             @endforeach
             <tr>
