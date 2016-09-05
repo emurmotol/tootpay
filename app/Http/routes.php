@@ -1,7 +1,21 @@
 <?php
 
 Route::get('dd', function () {
-    return dd('ok');
+    $transactions = \App\Models\User::find('12312312312')->transactions()->where('status_response_id', 11)->get();
+
+    $_transactions = collect();
+    $_orders = collect();
+
+    foreach ($transactions as $transaction) {
+        $_transactions->push($transaction);
+
+        foreach ($transaction->orders()->get() as $order) {
+            $_orders->push($order);
+        }
+    }
+
+    return dd($_orders->toArray());
+    return dd($_transactions->toArray());
 });
 
 Route::auth();

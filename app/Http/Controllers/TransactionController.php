@@ -50,7 +50,7 @@ class TransactionController extends Controller
             $user = User::find($user_id);
 
             if (!is_null($user)) {
-                if (!is_null($user->tootCards()->first())) {
+                if ($user->hasRole(cardholder())) {
                     return StatusResponse::def(15);
                 }
             }

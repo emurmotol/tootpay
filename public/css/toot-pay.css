@@ -120,6 +120,29 @@ input[type="number"] {
     color: #fff;
 }
 
+@media (max-width: 768px) {
+    .dropdown-menu li a {
+        color: #fff !important;
+    }
+
+    .dropdown-menu li a:hover {
+        color: #ddd !important;
+    }
+
+    .table-transaction {
+        border: none;
+    }
+}
+
+.table-transaction {
+    margin-bottom: 0px;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #4b9ee4;
+    color: #fff;
+}
+
 .loading-sales {
     padding-top: 20px;
     padding-bottom: 20px;

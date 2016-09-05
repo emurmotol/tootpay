@@ -27,7 +27,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="{{ asset('img/toot-card.jpeg') }}" class="img-responsive" alt="Toot Card">
+                                <div class="img-toot-card">
+                                    <img src="{{ asset('img/toot-card.jpeg') }}" class="img-responsive" alt="{{ config('static.app.name') }}">
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
@@ -41,13 +43,14 @@
                                                 </a>
                                             @endif
                                         </h4>
-                                        <h4>Toot Card ID: <strong>{{ $toot_card->id }}</strong></h4>
-                                        <h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
-                                        <h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong> as of {{ \Carbon\Carbon::now()->toDayDateTimeString() }}</h4>
+                                        <h4>ID: <strong>{{ $toot_card->id }}</strong></h4>
+                                        <h4>UID: <strong>{{ $toot_card->uid }}</strong></h4>
+                                        <h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong></h4>
+                                        <h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong></h4>
                                         <h4>Active? {!! $toot_card->is_active ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>' !!}</h4>
                                         <h4>Expiration Date: <strong>{{ $toot_card->expires_at->toFormattedDateString() }}</strong></h4>
                                         <h4>Created: <strong>{{ $toot_card->created_at->toFormattedDateString() }}</strong></h4>
-                                        <h4>Updated: <strong>{{ $toot_card->updated_at->diffForHumans() }}</strong></h4>
+                                        <h4>Updated: <strong data-livestamp="{{ strtotime($toot_card->updated_at) }}"></strong></h4>
                                     </li>
                                 </ul>
                             </div>

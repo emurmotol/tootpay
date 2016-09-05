@@ -49,8 +49,33 @@ class OrderController extends Controller
             $transaction = collect(json_decode($request->get('transaction'), true));
             $orders = collect(json_decode($request->get('orders'), true));
             $toot_card = TootCard::find($request->get('toot_card_id'));
-            $guest_user_id = User::find(User::guestJson('id'))->id;
-            return Order::transaction($transaction, (is_null($toot_card) ? $guest_user_id : $toot_card->users()->first()->id), $orders);
+            $amount_due = $orders->sum('total');
+
+            switch ($transaction->get('payment_method_id')) {
+                case 1:
+                    return Order::transaction($transaction, User::find(User::guestJson('id'))->id, $orders);
+                    break;
+                case 2:
+                    if (!TootCard::hasSufficientLoadAndPoints($toot_card->id, $amount_due)) {
+                        return StatusResponse::def(8);
+                    }
+                    break;
+                case 3:
+                    if (!TootCard::hasSufficientLoad($toot_card->id, $amount_due)) {
+                        return StatusResponse::def(18);
+                    }
+                    break;
+                case 4:
+                    if (!TootCard::hasSufficientPoints($toot_card->id, $amount_due)) {
+                        return StatusResponse::def(20);
+                    }
+                    break;
+                case 5:
+                    return Order::transaction($transaction, $toot_card->users()->first()->id, $orders);
+                    break;
+                default:
+            }
+            return Order::transaction($transaction, $toot_card->users()->first()->id, $orders);
         }
         return StatusResponse::find(17)->name;
     }

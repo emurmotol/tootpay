@@ -339,7 +339,7 @@
                 break;
             case 4:
                 enter_pin.modal("hide");
-                sendOrders(12, 2);
+                sendOrders(12, 5);
                 console.log("LAST_RESORT_HOLD_ORDER");
                 break;
             case 5:
@@ -452,15 +452,15 @@
             transaction: JSON.stringify(transaction),
             transaction_id: _transaction_id,
             toot_card_id: _toot_card_id.val()
-        }, function (response) {
+        }, function (response) { // add points and load validation for insuficient
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
                 validation(false, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
             } else {
                 if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
                     validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');
                     routeToIdle(1000);
-                } else if (response.payment_method == "{{ \App\Models\PaymentMethod::find(2)->name }}") {
-                    if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}") {
+                } else {
+                    if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(5)->name }}") {
                         validation("static", 10000, '{!! trans('toot_card.order_on_hold') !!}');
                     } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
                         $("#queue_number").text(response.queue_number);

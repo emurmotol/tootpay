@@ -32,13 +32,25 @@
         @endif
 
         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
-            <label for="id">Toot Card ID:</label>
+            <label for="id">ID:</label>
             <input type="number" class="form-control" id="id" name="id"
                    value="{{ (Route::is('toot_cards.edit')) ? $toot_card->id : old('id') }}">
 
             @if ($errors->has('id'))
                 <span class="help-block">
                     <strong>{{ $errors->first('id') }}</strong>
+                </span>
+            @endif
+        </div>
+
+        <div class="form-group{{ $errors->has('uid') ? ' has-error' : '' }}">
+            <label for="id">UID:</label>
+            <input type="number" class="form-control" id="uid" name="uid"
+                   value="{{ (Route::is('toot_cards.edit')) ? $toot_card->uid : old('uid') }}">
+
+            @if ($errors->has('uid'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('uid') }}</strong>
                 </span>
             @endif
         </div>

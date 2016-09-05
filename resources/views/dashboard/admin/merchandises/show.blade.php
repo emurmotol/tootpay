@@ -29,9 +29,7 @@
                             <div class="col-md-4">
                                 <div class="img-merchandise">
                                     <a href="{{ $merchandise->image($merchandise->id) }}">
-                                        <img src="{{ $merchandise->image($merchandise->id) }}"
-                                             id="image-merchandise"
-                                             class="img-responsive img-rounded" alt="{{ $merchandise->name }}">
+                                        <img src="{{ $merchandise->image($merchandise->id) }}" class="img-responsive img-rounded" alt="{{ $merchandise->name }}">
                                     </a>
                                 </div>
                             </div>
@@ -66,7 +64,7 @@
                                         <h4>Created: <strong>{{ $merchandise->created_at->toFormattedDateString() }}</strong></h4>
                                     </li>
                                     <li>
-                                        <h4>Updated: <strong>{{ $merchandise->updated_at->diffForHumans() }}</strong></h4>
+                                        <h4>Updated: <strong data-livestamp="{{ strtotime($merchandise->updated_at) }}"></strong></h4>
                                     </li>
                                 </ul>
                             </div>

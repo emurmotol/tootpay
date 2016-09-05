@@ -11,7 +11,7 @@ class TootCard extends Model
     use Eloquence;
 
     protected $searchableColumns = [
-        'id', 'load', 'points',
+        'id', 'uid', 'load', 'points',
     ];
 
     public $incrementing = false;
@@ -19,7 +19,7 @@ class TootCard extends Model
     protected $dates = ['expires_at'];
 
     protected $fillable = [
-        'id', 'pin_code', 'load', 'points', 'is_active', 'expires_at',
+        'id', 'uid', 'pin_code', 'load', 'points', 'is_active', 'expires_at',
     ];
 
     public function users() {

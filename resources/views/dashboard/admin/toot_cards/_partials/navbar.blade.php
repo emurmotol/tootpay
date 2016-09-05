@@ -1,3 +1,6 @@
-<li {!! ((Route::is('toot_cards.index') || Request::is('toot_cards/*')) ? 'class="active"' : '') !!}>
-    <a href="{{ route('toot_cards.index') }}">Toot Cards</a>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Toot Cards <span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href="{{ route('toot_cards.index') }}">All</a></li>
+    </ul>
 </li>

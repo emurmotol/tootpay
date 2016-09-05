@@ -55,5 +55,8 @@
   },
   {
     "name": "LOAD_EXCEEDS_LIMIT"
+  },
+  {
+    "name": "INSUFFICIENT_POINTS"
   }
 ]

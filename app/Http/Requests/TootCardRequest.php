@@ -16,6 +16,7 @@ class TootCardRequest extends Request
         if($this->method() == 'POST') {
             return [
                 'id' => 'required|numeric|unique:toot_cards',
+                'uid' => 'required|numeric|unique:toot_cards',
                 'load' => 'required',
                 'points' => 'required',
                 'pin_code' => 'required|numeric',
@@ -23,6 +24,7 @@ class TootCardRequest extends Request
         } elseif ($this->method() == 'PUT') {
             return [
                 'id' => 'required|numeric',
+                'uid' => 'required|numeric',
                 'load' => 'required',
                 'points' => 'required',
                 'pin_code' => 'required|numeric',

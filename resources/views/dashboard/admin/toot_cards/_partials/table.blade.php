@@ -2,7 +2,8 @@
     <table class="table table-hover table-striped">
         <thead>
         <tr>
-            <th>Toot Card ID</th>
+            <th>ID</th>
+            <th>UID</th>
             <th class="text-center">Cardholder</th>
             <th>Load</th>
             <th>Points</th>
@@ -17,6 +18,9 @@
                     <a href="{{ route('toot_cards.show', [$toot_card->id, 'redirect' => Request::fullUrl()]) }}">
                         <strong>{{ $toot_card->id }}</strong>
                     </a>
+                </td>
+                <td>
+                    <strong>{{ $toot_card->uid }}</strong>
                 </td>
                 <td class="text-center">
                     @if(is_null($toot_card->users()->first()))

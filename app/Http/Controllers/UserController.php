@@ -64,7 +64,27 @@ class UserController extends Controller
     }
 
     public function show(User $user) {
-        return view('dashboard.admin.users.show', compact('user'));
+        $_transactions = $user->transactions()->where('status_response_id', 11);
+
+        $transactions = collect();
+        $orders = collect();
+
+        if ($_transactions->get()->count()) {
+            $_transactions->orderBy('id', 'desc');
+
+            foreach ($_transactions->get() as $transaction) {
+                $_orders = $transaction->orders()->get();
+
+                if ($_orders->count()) {
+                    $transactions->push($transaction);
+
+                    foreach ($_orders as $order) {
+                        $orders->push($order);
+                    }
+                }
+            }
+        }
+        return view('dashboard.admin.users.show', compact('user', 'transactions', 'orders'));
     }
 
     public function edit(User $user) {

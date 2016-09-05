@@ -17,8 +17,8 @@ return [
     'enter_pin' => '<strong>Enter your pin code</strong>',
     'enter_load_amount' => '<strong>Enter load amount</strong>',
 
-    'empty_load_amount' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The load amount is required.</strong>',
-    'empty_pin' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The pin code is required.</strong>',
+    'empty_load_amount' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The load amount field is required.</strong>',
+    'empty_pin' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The pin code field is required.</strong>',
     'exceed_max_load_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The amount you entered exceeds the load limit. Maximum reload is P:limit</strong>',
     'insufficient_balance' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your balance is not enough to complete the payment.</strong>',
     'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the share.</strong>',

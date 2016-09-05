@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model
 {
@@ -180,5 +181,17 @@ class Transaction extends Model
             ]);
         }
         return $_sales;
+    }
+
+    public static function response($status_response_id, $payment_method_id, $transaction_id, $queue_number) {
+        $response = [
+            'status' => StatusResponse::find($status_response_id)->name,
+            'queue_number' => $queue_number,
+            'transaction_id' => $transaction_id,
+            'payment_method' => PaymentMethod::find($payment_method_id)->name
+        ];
+        $status = collect($response);
+        Log::debug($status->toArray());
+        return response()->make($status->toJson());
     }
 }

@@ -60,7 +60,6 @@
                             <div class="form-group{{ $errors->has('toot_card_id') ? ' has-error' : '' }}">
                                 <label for="toot_card_id">Select Toot Card:</label>
                                 <select id="toot_card_id" name="toot_card_id" class="form-control">
-                                    {{--Add condition if not active and not associated--}}
                                     @foreach(\App\Models\TootCard::where('is_active', false)->get() as $toot_card)
                                         <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->id }}</option>
                                     @endforeach

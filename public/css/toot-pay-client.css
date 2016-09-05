@@ -151,12 +151,3 @@ body {
 .user-orders {
     padding: 10px;
 }
-
-.user-avatar {
-    margin-top: 10px;
-}
-
-.user-avatar img {
-    display: block;
-    margin: 0 auto;
-}

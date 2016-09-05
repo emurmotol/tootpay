@@ -28,18 +28,6 @@ class Order extends Model
         return self::whereNotIn('id', $ids)->get();
     }
 
-    public static function response($status_response_id, $payment_method_id, $transaction_id, $queue_number) {
-        $response = [
-            'status' => StatusResponse::find($status_response_id)->name,
-            'queue_number' => $queue_number,
-            'transaction_id' => $transaction_id,
-            'payment_method' => PaymentMethod::find($payment_method_id)->name
-        ];
-        $status = collect($response);
-        Log::debug($status->toArray());
-        return response()->make($status->toJson());
-    }
-
     public static function transaction($transaction, $user_id, $orders) {
         $queue_number = null;
         $status_response_id = $transaction->get('status_response_id');
@@ -59,7 +47,7 @@ class Order extends Model
             $_order = Order::create($order);
             $_transaction->orders()->attach($_order);
         }
-        return self::response($status_response_id, $payment_method_id, $_transaction->id, $queue_number);
+        return Transaction::response($status_response_id, $payment_method_id, $_transaction->id, $queue_number);
     }
 
     public static function ids($transactions) {
