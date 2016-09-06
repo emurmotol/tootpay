@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Profile')
+@section('title', Auth::user()->name . ' (' . \App\Models\Role::find(cardholder())->name . ')')
 
 @section('content')
     <div class="container">
@@ -12,11 +12,10 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
-                        <span class="pull-right">Results: 0</span>
                     </div>
                     {{--@if($merchandises->total())--}}
                     <div class="panel-body">
-                        Profile
+                        Home
                     </div>
                     {{--@else--}}
                     {{--@include('_partials.empty')--}}

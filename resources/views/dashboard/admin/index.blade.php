@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', Auth::user()->name . ' (Administrator)')
+@section('title', Auth::user()->name . ' (' . \App\Models\Role::find(admin())->name . ')')
 
 @section('content')
     <div class="container">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reload History')
+@section('title', 'Profile')
 
 @section('content')
     <div class="container">
@@ -11,12 +11,11 @@
             <div class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
-                        <span class="pull-left">@yield('title')</span>
-                        <span class="pull-right">Results: 0</span>
+                        <span class="pull-left">{{ $user->name }}</span>
                     </div>
                     {{--@if($merchandises->total())--}}
                     <div class="panel-body">
-                        Reload History
+                        Profile
                     </div>
                     {{--@else--}}
                     {{--@include('_partials.empty')--}}

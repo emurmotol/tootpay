@@ -33,6 +33,6 @@ class DashboardController extends Controller
     }
 
     public function cardholder() {
-        return view('dashboard.cardholder.profile');
+        return view('dashboard.cardholder.index');
     }
 }

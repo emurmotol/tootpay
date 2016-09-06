@@ -155,9 +155,20 @@ class UserController extends Controller
 
     public function profile(User $user) {
         if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
-            return view('dashboard.cardholder.profile', compact('user'));
+            return view('dashboard.cardholder.profile.index', compact('user'));
         }
         return redirect()->back();
+    }
+
+    public function profileEdit(User $user) {
+        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
+            return view('dashboard.cardholder.profile.edit', compact('user'));
+        }
+        return redirect()->back();
+    }
+
+    public function profileUpdate(Requests\UserProfileRequest $request, User $user) {
+        //
     }
 
     public function tootCard(User $user) {
@@ -170,13 +181,6 @@ class UserController extends Controller
     public function orderHistory(User $user) {
         if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
             return view('dashboard.cardholder.order_history', compact('user'));
-        }
-        return redirect()->back();
-    }
-
-    public function reloadHistory(User $user) {
-        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
-            return view('dashboard.cardholder.reload_history', compact('user'));
         }
         return redirect()->back();
     }
