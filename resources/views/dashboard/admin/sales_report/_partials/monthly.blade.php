@@ -14,7 +14,7 @@
                     <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
                 </tr>
             @endforeach
-            <tr>
+            <tr class="grand-total">
                 <td class="text-right">
                     <strong>Net Total:</strong>
                 </td>

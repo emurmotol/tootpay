@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -148,6 +149,34 @@ class UserController extends Controller
 
         if (request()->has('redirect')) {
             return redirect()->to(request()->get('redirect'));
+        }
+        return redirect()->back();
+    }
+
+    public function profile(User $user) {
+        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
+            return view('dashboard.cardholder.profile', compact('user'));
+        }
+        return redirect()->back();
+    }
+
+    public function tootCard(User $user) {
+        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
+            return view('dashboard.cardholder.toot_card', compact('user'));
+        }
+        return redirect()->back();
+    }
+
+    public function orderHistory(User $user) {
+        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
+            return view('dashboard.cardholder.order_history', compact('user'));
+        }
+        return redirect()->back();
+    }
+
+    public function reloadHistory(User $user) {
+        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
+            return view('dashboard.cardholder.reload_history', compact('user'));
         }
         return redirect()->back();
     }

@@ -4,66 +4,74 @@
 
 @section('content')
     <div class="container">
-        <div class="page-header">
-            <h3>Daily Sales</h3>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div id="daily" class="calendar">
-                    <input type="hidden">
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="panel panel-primary">
-                    <div class="panel-heading clearfix">
-                        <span class="pull-left" id="selected_date"></span>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#daily_sales_tab">Daily</a></li>
+            <li><a data-toggle="tab" href="#monthly_sales_tab">Monthly</a></li>
+            <li><a data-toggle="tab" href="#yearly_sales_tab">Yearly</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="daily_sales_tab" class="tab-pane fade in active">
+                <h4><strong>Daily Sales</strong></h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="daily" class="calendar">
+                            <input type="hidden">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading clearfix">
+                                <span class="pull-left" id="selected_date"></span>
                         <span class="pull-right">
                             <button class="btn btn-success btn-xs" id="export_daily_sales">Export</button>
                         </span>
+                            </div>
+                            <div id="daily_sales"></div>
+                        </div>
                     </div>
-                    <div id="daily_sales"></div>
                 </div>
             </div>
-        </div>
-        <div class="page-header">
-            <h3>Monthly Sales</h3>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div id="monthly" class="calendar">
-                    <input type="hidden">
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="panel panel-primary">
-                    <div class="panel-heading clearfix">
-                        <span class="pull-left" id="selected_month"></span>
+            <div id="monthly_sales_tab" class="tab-pane fade">
+                <h4><strong>Monthly Sales</strong></h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="monthly" class="calendar">
+                            <input type="hidden">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading clearfix">
+                                <span class="pull-left" id="selected_month"></span>
                         <span class="pull-right">
                             <button class="btn btn-success btn-xs" id="export_monthly_sales">Export</button>
                         </span>
+                            </div>
+                            <div id="monthly_sales"></div>
+                        </div>
                     </div>
-                    <div id="monthly_sales"></div>
                 </div>
             </div>
-        </div>
-        <div class="page-header">
-            <h3>Yearly Sales</h3>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div id="yearly" class="calendar">
-                    <input type="hidden">
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="panel panel-primary">
-                    <div class="panel-heading clearfix">
-                        <span class="pull-left" id="selected_year"></span>
+            <div id="yearly_sales_tab" class="tab-pane fade">
+                <h4><strong>Yearly Sales</strong></h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="yearly" class="calendar">
+                            <input type="hidden">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading clearfix">
+                                <span class="pull-left" id="selected_year"></span>
                         <span class="pull-right">
                             <button class="btn btn-success btn-xs" id="export_yearly_sales">Export</button>
                         </span>
+                            </div>
+                            <div id="yearly_sales"></div>
+                        </div>
                     </div>
-                    <div id="yearly_sales"></div>
                 </div>
             </div>
         </div>

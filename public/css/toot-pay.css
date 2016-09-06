@@ -193,3 +193,8 @@ input[type="number"] {
 .faq .answer {
     font-size: 14px;
 }
+
+.grand-total {
+    font-size: 20px;
+    height: auto;
+}

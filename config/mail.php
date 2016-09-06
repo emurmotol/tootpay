@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'kuyafranz@toot.pay', 'name' => 'Kuya Franz'],
+    'from' => ['address' => 'tootpay@mailinator.com', 'name' => 'Kuya Franz'],
 
     /*
     |--------------------------------------------------------------------------

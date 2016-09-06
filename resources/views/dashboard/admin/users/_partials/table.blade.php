@@ -2,7 +2,7 @@
     <table class="table table-hover table-striped">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>User ID</th>
             <th>Name</th>
             <th>Role</th>
             <th class="text-center">Toot Card</th>

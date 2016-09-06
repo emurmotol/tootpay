@@ -58,5 +58,8 @@
   },
   {
     "name": "INSUFFICIENT_POINTS"
+  },
+  {
+    "name": "INACTIVE_TOOT_CARD"
   }
 ]

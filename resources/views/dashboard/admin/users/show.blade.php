@@ -97,7 +97,7 @@
                                                     </tr>
 
                                                     @if($orders->where('pivot.transaction_id', $transaction->id)->last()->id == $order->id)
-                                                        <tr>
+                                                        <tr class="grand-total">
                                                             <td></td>
                                                             <td  class="text-right">
                                                                 <strong>Amount Due:</strong>

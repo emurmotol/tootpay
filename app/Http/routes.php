@@ -1,21 +1,23 @@
 <?php
 
 Route::get('dd', function () {
-    $transactions = \App\Models\User::find('12312312312')->transactions()->where('status_response_id', 11)->get();
+//    $transactions = \App\Models\User::find('12312312312')->transactions()->where('status_response_id', 11)->get();
+//
+//    $_transactions = collect();
+//    $_orders = collect();
+//
+//    foreach ($transactions as $transaction) {
+//        $_transactions->push($transaction);
+//
+//        foreach ($transaction->orders()->get() as $order) {
+//            $_orders->push($order);
+//        }
+//    }
+//
+//    return dd($_orders->toArray());
+//    return dd($_transactions->toArray());
 
-    $_transactions = collect();
-    $_orders = collect();
-
-    foreach ($transactions as $transaction) {
-        $_transactions->push($transaction);
-
-        foreach ($transaction->orders()->get() as $order) {
-            $_orders->push($order);
-        }
-    }
-
-    return dd($_orders->toArray());
-    return dd($_transactions->toArray());
+    return dd(config('mail.from.address'));
 });
 
 Route::auth();
@@ -150,6 +152,22 @@ Route::group(['middleware' => 'roles'], function () {
         // Cardholder Dashboard
         Route::get('cardholder', [
             'uses' => 'DashboardController@cardholder'
+        ]);
+        Route::get('{user}/profile', [
+            'uses' => 'UserController@profile',
+            'as' => 'users.profile'
+        ]);
+        Route::get('{user}/toot_card', [
+            'uses' => 'UserController@tootCard',
+            'as' => 'users.toot_card'
+        ]);
+        Route::get('{user}/order_history', [
+            'uses' => 'UserController@orderHistory',
+            'as' => 'users.order_history'
+        ]);
+        Route::get('{user}/reload_history', [
+            'uses' => 'UserController@reloadHistory',
+            'as' => 'users.reload_history'
         ]);
     });
 });

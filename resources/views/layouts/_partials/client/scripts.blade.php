@@ -77,26 +77,13 @@
                 toot_card_id: $(this).val()
             }, function (response) {
                 if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
-                    $.post("user_order", {
-                        toot_card_id: idle_toot_card_id.val()
-                    }, function (response) {
-                        load_order.html(response);
-                    }, "json").done(function (response) {
-                        if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
-                            validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
-                        } else {
-                            if (response.status == "{{ \App\Models\StatusResponse::find(13)->name }}") {
-                                validation(true, timeout_short, '{!! trans('toot_card.empty_user_order') !!}');
-                            } else {
-                                userOrders(timeout_long);
-                            }
-                        }
-                        console.log(response);
-                    });
+                    userOrder();
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
+                    validation(true, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
                 }
                 console.log(response);
                 resetIdleTootCardIdValue();
@@ -117,6 +104,8 @@
                     validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
+                    validation(true, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
                 }
                 console.log(response);
                 resetTootCardIdValue();
@@ -236,6 +225,25 @@
             }
         }
     });
+
+    function userOrder() {
+        $.post("user_order", {
+            toot_card_id: idle_toot_card_id.val()
+        }, function (response) {
+            load_order.html(response);
+        }, "json").done(function (response) {
+            if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
+                validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
+            } else {
+                if (response.status == "{{ \App\Models\StatusResponse::find(13)->name }}") {
+                    validation(true, timeout_short, '{!! trans('toot_card.empty_user_order') !!}');
+                } else {
+                    userOrders(timeout_long);
+                }
+            }
+            console.log(response);
+        });
+    }
 
     function validateUserId(user_id_value) {
         $.post("check_user_id", {

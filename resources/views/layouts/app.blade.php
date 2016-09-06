@@ -3,7 +3,7 @@
 <head>
     @include('layouts._partials.app.meta')
 
-    <title>@yield('title') - {{ config('static.app.name') }}</title>
+    <title>@yield('title') - {{ ucfirst(config('static.app.name')) }}</title>
 
     @include('layouts._partials.app.stylesheets')
 
@@ -27,15 +27,16 @@
                             <a href="{{ url('faq') }}">FAQ</a>
                         </li>
                     @else
-                        @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
+                        @if(Auth::user()->hasRole(admin()))
                             @include('dashboard.admin.merchandises._partials.navbar')
                             @include('dashboard.admin.toot_cards._partials.navbar')
                             @include('dashboard.admin.users._partials.navbar')
                             @include('dashboard.admin.sales_report._partials.navbar')
                             @include('dashboard.admin.settings._partials.navbar')
-                        @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
+                        @elseif(Auth::user()->hasRole(cashier()))
                             @include('dashboard.cashier._partials.navbar')
-                        @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
+                        @elseif(Auth::user()->hasRole(cardholder()))
+                            @include('dashboard.cardholder._partials.navbar')
                         @endif
                     @endif
                 </ul>
@@ -44,17 +45,16 @@
                         <li {!! (Request::is('login') ? 'class="active"' : '') !!}>
                             <a href="{{ url('login') }}">Login</a>
                         </li>
-                        {{--<li {!! (Request::is('register') ? 'class="active"' : '') !!}>--}}
-                            {{--<a href="{{ url('register') }}">Register</a>--}}
-                        {{--</li>--}}
                     @else
-                        @if(Auth::user()->hasRole(\App\Models\Role::json(0)))
-                        @elseif(Auth::user()->hasRole(\App\Models\Role::json(1)))
-                        @elseif(Auth::user()->hasRole(\App\Models\Role::json(2)))
-                        @endif
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
+                                @if(Auth::user()->hasRole(admin()))
+                                @elseif(Auth::user()->hasRole(cashier()))
+                                @elseif(Auth::user()->hasRole(cardholder()))
+                                    <li><a href="{{ url('faq') }}">FAQ</a></li>
+                                @endif
+                                <li role="separator" class="divider"></li>
                                 <li><a href="{{ url('logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

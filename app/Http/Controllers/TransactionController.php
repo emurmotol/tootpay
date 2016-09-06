@@ -34,12 +34,18 @@ class TransactionController extends Controller
 
             if (strlen($toot_card_id) > 10) {
                 return StatusResponse::def(14);
-            } else {
-                if (!is_null(TootCard::find($toot_card_id))) {
-                    return TootCard::response(1, $toot_card_id);
-                }
-                return StatusResponse::def(2);
             }
+
+            $toot_card = TootCard::find($toot_card_id);
+
+            if (!is_null($toot_card)) {
+
+                if (!$toot_card->is_active) {
+                    return TootCard::response(21, $toot_card->id);
+                }
+                return TootCard::response(1, $toot_card->id);
+            }
+            return StatusResponse::def(2);
         }
         return StatusResponse::find(17)->name;
     }
