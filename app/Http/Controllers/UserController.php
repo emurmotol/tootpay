@@ -131,7 +131,7 @@ class UserController extends Controller
         $user->tootCards()->detach($toot_card);
         $toot_card->is_active = 'off';
         $toot_card->save();
-        flash()->success(trans('user.card_removed', ['toot_card' => $toot_card->id, 'name' => $user->name]));
+        flash()->success(trans('user.card_removed', ['toot_card_id' => $toot_card->id, 'name' => $user->name]));
 
         if (request()->has('redirect')) {
             return redirect()->to(request()->get('redirect'));
@@ -144,7 +144,7 @@ class UserController extends Controller
         $toot_card = TootCard::find($request->input('toot_card_id'));
         $toot_card->is_active = 'on';
         $toot_card->save();
-        flash()->success(trans('user.card_associated', ['toot_card' => $toot_card->id, 'name' => $user->name]));
+        flash()->success(trans('user.card_associated', ['toot_card_id' => $toot_card->id, 'name' => $user->name]));
 
         if (request()->has('redirect')) {
             return redirect()->to(request()->get('redirect'));
