@@ -202,3 +202,7 @@ input[type="number"] {
 .tab-content {
     padding-top: 10px;
 }
+
+.toot-card-uid {
+    margin-bottom: 10px;
+}

@@ -6,6 +6,8 @@ return [
     'created' => '<strong>:Name</strong> has been successfully created!',
     'updated' => '<strong>:Name</strong> has been successfully updated!',
     'profile_updated' => 'Your profile has been successfully updated!',
+    'profile_updated_password' => 'Your password has been successfully updated!',
+    'toot_card_updated_pin_code' => 'Your pin code has been successfully updated!',
     'deleted' => '<strong>:Name</strong> has been successfully deleted!',
     'card_removed' => 'The card <strong>:toot_card_id</strong> has been successfully removed from <strong>:Name</strong>!',
     'card_associated' => 'The card <strong>:toot_card_id</strong> has been successfully associated to <strong>:Name</strong>!',

@@ -12,9 +12,6 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
-                        <span class="pull-right">
-                            <a href="{{ route('users.profile_edit', $user->id) }}" class="btn btn-default btn-xs">Edit</a>
-                        </span>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -32,6 +29,7 @@
                                     <li><h4>E-Mail Address: <strong>{{ $user->email }}</strong></h4></li>
                                     <li><h4>Phone Number: <strong>{{ $user->phone_number }}</strong></h4></li>
                                     <li><h4>Created: <strong data-livestamp="{{ strtotime($user->created_at) }}"></strong></h4></li>
+                                    <li><a href="{{ route('users.profile_edit', $user->id) }}" class="btn btn-primary">Edit Profile</a></li>
                                 </ul>
                             </div>
                         </div>

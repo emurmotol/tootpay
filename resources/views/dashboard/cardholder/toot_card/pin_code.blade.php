@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', Auth::user()->name . ' (' . \App\Models\Role::find(cardholder())->name . ')')
+@section('title', 'Change Pin Code')
 
 @section('content')
     <div class="container">
@@ -11,10 +11,10 @@
             <div class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
-                        <span class="pull-left">Home</span>
+                        <span class="pull-left">@yield('title')</span>
                     </div>
                     <div class="panel-body">
-                        <h1>{!! trans('greetings.welcome_cardholder', ['name' => Auth::user()->name]) !!}</h1>
+                        @include('dashboard.cardholder.toot_card._partials.form')
                     </div>
                 </div>
             </div>

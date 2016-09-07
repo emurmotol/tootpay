@@ -23,9 +23,9 @@
 
                         <div class="form-group">
                             <p class="form-control-static">
-                                <label>ID: </label>
                                 <a href="{{ route('toot_cards.edit', $user->tootCards()->first()->id) }}">
-                                    <strong>{{ $user->tootCards()->first()->id }}</strong>
+                                    <strong>#{{ $user->tootCards()->first()->uid }}</strong>
+                                    <img src="{{ asset('img/toot-card.jpeg') }}" class="img-responsive" alt="{{ config('static.app.name') }}">
                                 </a>
                             </p>
                         </div>
@@ -61,7 +61,7 @@
                                 <label for="toot_card_id">Select Toot Card:</label>
                                 <select id="toot_card_id" name="toot_card_id" class="form-control">
                                     @foreach(\App\Models\TootCard::where('is_active', false)->get() as $toot_card)
-                                        <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->id }}</option>
+                                        <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->uid }}</option>
                                     @endforeach
                                 </select>
 

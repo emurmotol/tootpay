@@ -25,17 +25,17 @@
                     {{ $user->roles()->first()->name }}
                 </td>
                 <td class="text-center">
-                    @if(is_null($user->tootCards()->first()))
+                    @if(is_null($user->tootCards()->first()) && $user->hasRole(cardholder()))
                         <strong>Not set</strong>
+                    @elseif(!$user->hasRole(cardholder()))
+                        <strong>N/A</strong>
                     @else
                         <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                            Show <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            <strong>{{ $user->tootCards()->first()->uid }}</strong>
                         </a>
                     @endif
                 </td>
-                <td class="text-center">
-                    {{ '?' }}
-                </td>
+                <td class="text-center">?</td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}

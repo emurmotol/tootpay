@@ -22,12 +22,14 @@ class CreateUserTootCardTransactionTable extends Migration
             $table->foreign('toot_card_id')
                 ->references('id')
                 ->on('toot_cards')
-                ->onUpdate('cascade');
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('cascade');
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

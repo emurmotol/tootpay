@@ -4,7 +4,7 @@
         <tr>
             <th>ID</th>
             <th>UID</th>
-            <th class="text-center">Cardholder</th>
+            <th>Cardholder</th>
             <th>Load</th>
             <th>Points</th>
             <th class="text-center">Active?</th>
@@ -15,19 +15,19 @@
         @foreach($toot_cards as $toot_card)
             <tr>
                 <td>
+                    <strong>{{ $toot_card->id }}</strong>
+                </td>
+                <td>
                     <a href="{{ route('toot_cards.show', [$toot_card->id, 'redirect' => Request::fullUrl()]) }}">
-                        <strong>{{ $toot_card->id }}</strong>
+                        <strong>{{ $toot_card->uid }}</strong>
                     </a>
                 </td>
                 <td>
-                    <strong>{{ $toot_card->uid }}</strong>
-                </td>
-                <td class="text-center">
                     @if(is_null($toot_card->users()->first()))
                         <strong>Not associated</strong>
                     @else
                         <a href="{{ route('users.show', [$toot_card->users()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                            <i class="fa fa-user" aria-hidden="true"></i> Profile
+                            <strong>{{ $toot_card->users()->first()->name }}</strong>
                         </a>
                     @endif
                 </td>

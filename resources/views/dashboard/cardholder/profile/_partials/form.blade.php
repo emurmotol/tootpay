@@ -47,7 +47,7 @@
             @endif
         </div>
 
-        <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Update</button>
+        <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Update profile</button>
     </div>
     {!! Form::close() !!}
 </div>

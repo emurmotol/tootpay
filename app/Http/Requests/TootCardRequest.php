@@ -17,17 +17,17 @@ class TootCardRequest extends Request
             return [
                 'id' => 'required|numeric|unique:toot_cards',
                 'uid' => 'required|numeric|unique:toot_cards',
-                'load' => 'required',
-                'points' => 'required',
-                'pin_code' => 'required|numeric',
+                'load' => '',
+                'points' => '',
+                'pin_code' => 'numeric',
             ];
         } elseif ($this->method() == 'PUT') {
             return [
                 'id' => 'required|numeric',
                 'uid' => 'required|numeric',
-                'load' => 'required',
-                'points' => 'required',
-                'pin_code' => 'required|numeric',
+                'load' => '',
+                'points' => '',
+                'pin_code' => 'numeric',
                 'is_active' => '',
             ];
         }

@@ -177,6 +177,13 @@ class UserController extends Controller
         return redirect()->to('/');
     }
 
+    public function profileUpdatePassword(Requests\PasswordRequest $request, User $user) {
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
+        flash()->success(trans('user.profile_updated_password'));
+        return redirect()->back();
+    }
+
     public function tootCard(User $user) {
         if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
             $toot_card = $user->tootCards()->first();
@@ -210,9 +217,24 @@ class UserController extends Controller
                     }
                 }
             }
-            return view('dashboard.cardholder.toot_card', compact('toot_card', 'load_shares', 'reloads'));
+            return view('dashboard.cardholder.toot_card.index', compact('toot_card', 'load_shares', 'reloads'));
         }
         return redirect()->back();
+    }
+
+    public function tootCardEditPinCode(User $user) {
+        if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
+            return view('dashboard.cardholder.toot_card.pin_code', compact('user'));
+        }
+        return redirect()->back();
+    }
+
+    public function tootCardUpdatePinCode(Requests\PinCodeRequest $request, User $user) {
+        $toot_card = $user->tootCards()->first();
+        $toot_card->pin_code = $request->get('pin_code');
+        $toot_card->save();
+        flash()->success(trans('user.toot_card_updated_pin_code'));
+        return redirect()->route('users.toot_card', $user->id);
     }
 
     public function orderHistory(User $user) {

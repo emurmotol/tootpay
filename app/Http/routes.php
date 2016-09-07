@@ -165,9 +165,21 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'UserController@profileUpdate',
             'as' => 'users.profile_update'
         ]);
+        Route::put('profile/{user}/password', [
+            'uses' => 'UserController@profileUpdatePassword',
+            'as' => 'users.profile_update_password'
+        ]);
         Route::get('{user}/toot_card', [
             'uses' => 'UserController@tootCard',
             'as' => 'users.toot_card'
+        ]);
+        Route::get('{user}/toot_card/pin_code', [
+            'uses' => 'UserController@tootCardEditPinCode',
+            'as' => 'users.toot_card_edit_pin_code'
+        ]);
+        Route::put('{user}/toot_card/pin_code', [
+            'uses' => 'UserController@tootCardUpdatePinCode',
+            'as' => 'users.toot_card_update_pin_code'
         ]);
         Route::get('{user}/order_history', [
             'uses' => 'UserController@orderHistory',

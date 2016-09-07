@@ -20,6 +20,14 @@
                         @include('dashboard.cardholder.profile._partials.form')
                     </div>
                 </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading clearfix">
+                        <span class="pull-left">Reset Password</span>
+                    </div>
+                    <div class="panel-body">
+                        @include('dashboard.cardholder.profile._partials.password_form')
+                    </div>
+                </div>
             </div>
         </div>
     </div>

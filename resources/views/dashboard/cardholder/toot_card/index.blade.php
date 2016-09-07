@@ -28,6 +28,7 @@
                                     <li><h4>Active? {!! $toot_card->is_active ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>' !!}</h4></li>
                                     <li><h4>Expiration Date: <strong>{{ $toot_card->expires_at->toFormattedDateString() }}</strong></h4></li>
                                     <li><h4>Created: <strong data-livestamp="{{ strtotime($toot_card->created_at) }}"></strong></h4></li>
+                                    <li><a href="{{ route('users.toot_card_edit_pin_code', $toot_card->users()->first()->id) }}" class="btn btn-primary">Change Pin Code</a></li>
                                 </ul>
                             </div>
                         </div>

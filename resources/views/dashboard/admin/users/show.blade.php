@@ -40,12 +40,12 @@
                                         @if($user->hasRole(cardholder()))
                                         <li>
                                             <h4>
-                                                Toot Card ID:
+                                                Toot Card:
                                                 @if(is_null($user->tootCards()->first()))
                                                     <strong>Not set</strong>
                                                 @else
                                                     <a href="{{ route('toot_cards.show', $user->tootCards()->first()->id) }}">
-                                                        <strong>{{ $user->tootCards()->first()->id }}</strong>
+                                                        <strong>#{{ $user->tootCards()->first()->uid }}</strong>
                                                     </a>
                                                 @endif
                                             </h4>
