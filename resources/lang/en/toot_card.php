@@ -24,6 +24,7 @@ return [
     'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the load sharing.</strong>',
     'invalid_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid card toot card.</strong>',
     'inactive_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Inactive card toot card.</strong>',
+    'expired_card' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Your toot card has expired.</strong>',
     'empty_user_order' => '<strong class="text-info"><i class="fa fa-info-circle"></i> You do not have any orders yet.</strong>',
     'order_on_hold' => '<strong class="text-info"><i class="fa fa-info-circle"></i> Your orders is now on-hold. To check your order tap your toot card on screen idle.</strong>',
     'to_many_card_tap' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! To many card tap.</strong>',

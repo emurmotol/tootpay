@@ -35,10 +35,10 @@
                             </div>
                             <div class="col-md-10">
                                 <ul class="list-unstyled">
-                                    <li>
-                                        <h4>Name: <strong>{{ $user->name }}</strong></h4>
-                                        <h4>Role: <strong>{{ $user->roles()->first()->name }}</strong></h4>
+                                    <li><h4>Name: <strong>{{ $user->name }}</strong></h4></li>
+                                    <li><h4>Role: <strong>{{ $user->roles()->first()->name }}</strong></h4></li>
                                         @if($user->hasRole(cardholder()))
+                                        <li>
                                             <h4>
                                                 Toot Card ID:
                                                 @if(is_null($user->tootCards()->first()))
@@ -49,13 +49,13 @@
                                                     </a>
                                                 @endif
                                             </h4>
+                                        </li>
                                         @endif
-                                        <h4>User ID: <strong>{{ $user->id }}</strong></h4>
-                                        <h4>E-Mail Address: <strong>{{ $user->email }}</strong></h4>
-                                        <h4>Phone Number: <strong>{{ $user->phone_number }}</strong></h4>
-                                        <h4>Created: <strong>{{ $user->created_at->toFormattedDateString() }}</strong></h4>
-                                        <h4>Updated: <strong data-livestamp="{{ strtotime($user->updated_at) }}"></strong></h4>
-                                    </li>
+                                    <li><h4>User ID: <strong>{{ $user->id }}</strong></h4></li>
+                                    <li><h4>E-Mail Address: <strong>{{ $user->email }}</strong></h4></li>
+                                    <li><h4>Phone Number: <strong>{{ $user->phone_number }}</strong></h4></li>
+                                    <li><h4>Created: <strong>{{ $user->created_at->toFormattedDateString() }}</strong></h4></li>
+                                    <li><h4>Updated: <strong data-livestamp="{{ strtotime($user->updated_at) }}"></strong></h4></li>
                                 </ul>
                             </div>
                         </div>

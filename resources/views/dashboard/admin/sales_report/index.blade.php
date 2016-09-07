@@ -12,7 +12,6 @@
 
         <div class="tab-content">
             <div id="daily_sales_tab" class="tab-pane fade in active">
-                <h4><strong>Daily Sales</strong></h4>
                 <div class="row">
                     <div class="col-md-3">
                         <div id="daily" class="calendar">
@@ -33,7 +32,6 @@
                 </div>
             </div>
             <div id="monthly_sales_tab" class="tab-pane fade">
-                <h4><strong>Monthly Sales</strong></h4>
                 <div class="row">
                     <div class="col-md-3">
                         <div id="monthly" class="calendar">
@@ -54,7 +52,6 @@
                 </div>
             </div>
             <div id="yearly_sales_tab" class="tab-pane fade">
-                <h4><strong>Yearly Sales</strong></h4>
                 <div class="row">
                     <div class="col-md-3">
                         <div id="yearly" class="calendar">

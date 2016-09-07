@@ -84,6 +84,8 @@
                     validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(22)->name }}") {
+                    validation(true, timeout_short, '{!! trans('toot_card.expired_card') !!}');
                 }
                 console.log(response);
                 resetIdleTootCardIdValue();
@@ -106,6 +108,8 @@
                     validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
+                } else if (response.status == "{{ \App\Models\StatusResponse::find(22)->name }}") {
+                    validation(true, timeout_short, '{!! trans('toot_card.expired_card') !!}');
                 }
                 console.log(response);
                 resetTootCardIdValue();

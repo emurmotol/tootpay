@@ -13,13 +13,7 @@
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
                     </div>
-                    {{--@if($merchandises->total())--}}
-                    <div class="panel-body">
-                        Home
-                    </div>
-                    {{--@else--}}
-                    {{--@include('_partials.empty')--}}
-                    {{--@endif--}}
+                    <div class="panel-body">{!! trans('greetings.welcome_cardholder') !!}</div>
                 </div>
             </div>
         </div>

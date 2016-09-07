@@ -12,16 +12,17 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
+                        <span class="pull-right">
+                            @include('_partials.cancel', ['url' => route('users.profile_index', $user->id)])
+                        </span>
                     </div>
-                    {{--@if($merchandises->total())--}}
                     <div class="panel-body">
-                        Edit Profile
+                        @include('dashboard.cardholder.profile._partials.form')
                     </div>
-                    {{--@else--}}
-                    {{--@include('_partials.empty')--}}
-                    {{--@endif--}}
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@include('_partials.spinner')

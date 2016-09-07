@@ -29,6 +29,10 @@ class Transaction extends Model
         return $this->belongsToMany(Reload::class, 'reload_transaction')->withTimestamps();
     }
 
+    public function loadShares() {
+        return $this->belongsToMany(LoadShare::class, 'load_share_transaction')->withTimestamps();
+    }
+
     public function soldCards() {
         return $this->belongsToMany(SoldCard::class, 'sold_card_transaction')->withTimestamps();
     }

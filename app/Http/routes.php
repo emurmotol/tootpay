@@ -17,7 +17,7 @@ Route::get('dd', function () {
 //    return dd($_orders->toArray());
 //    return dd($_transactions->toArray());
 
-    return dd(config('mail.from.address'));
+    return dd(\App\Models\TootCard::find('0001246344')->expires_at->lte(\Carbon\Carbon::now()));
 });
 
 Route::auth();

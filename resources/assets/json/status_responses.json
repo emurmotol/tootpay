@@ -61,5 +61,8 @@
   },
   {
     "name": "INACTIVE_TOOT_CARD"
+  },
+  {
+    "name": "EXPIRED_TOOT_CARD"
   }
 ]

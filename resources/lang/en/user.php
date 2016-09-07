@@ -5,6 +5,7 @@ return [
     'no_card' => 'This user does not own a toot card.',
     'created' => '<strong>:Name</strong> has been successfully created!',
     'updated' => '<strong>:Name</strong> has been successfully updated!',
+    'profile_updated' => 'Your profile has been successfully updated!',
     'deleted' => '<strong>:Name</strong> has been successfully deleted!',
     'card_removed' => 'The card <strong>:toot_card_id</strong> has been successfully removed from <strong>:Name</strong>!',
     'card_associated' => 'The card <strong>:toot_card_id</strong> has been successfully associated to <strong>:Name</strong>!',

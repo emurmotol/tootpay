@@ -14,6 +14,10 @@ class LoadShare extends Model
         return $this->hasMany(TootCard::class);
     }
 
+    public function transactions() {
+        return $this->belongsToMany(Transaction::class, 'load_share_transaction')->withTimestamps();
+    }
+
     public static function fromTo($toot_card_id, $user_id, $load_amount) {
         $toot_card_sender = TootCard::find($toot_card_id);
         $sender_load = $toot_card_sender->load;

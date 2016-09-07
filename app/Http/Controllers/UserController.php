@@ -167,20 +167,77 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function profileUpdate(Requests\UserProfileRequest $request, User $user) {
-        //
+    public function profileUpdate(Requests\UserRequest $request, User $user) {
+        if ($request->get('id') == $user->id) {
+            $user->update($request->all());
+            flash()->success(trans('user.profile_updated'));
+            return redirect()->back();
+        }
+        $user->update($request->all());
+        return redirect()->to('/');
     }
 
     public function tootCard(User $user) {
         if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
-            return view('dashboard.cardholder.toot_card', compact('user'));
+            $toot_card = $user->tootCards()->first();
+            $_transactions = $user->transactions()->where('status_response_id', 11);
+
+            $transactions = collect();
+            $reloads = collect();
+            $load_shares = collect();
+
+            if ($_transactions->get()->count()) {
+                $_transactions->orderBy('id', 'desc');
+
+                foreach ($_transactions->get() as $transaction) {
+                    $_reloads = $transaction->reloads()->get();
+                    $_load_shares = $transaction->loadShares()->get();
+
+                    if ($_reloads->count()) {
+                        $transactions->push($transaction);
+
+                        foreach ($_reloads as $reload) {
+                            $reloads->push($reload);
+                        }
+                    }
+
+                    if ($_load_shares->count()) {
+                        $transactions->push($transaction);
+
+                        foreach ($_load_shares as $load_share) {
+                            $load_shares->push($load_share);
+                        }
+                    }
+                }
+            }
+            return view('dashboard.cardholder.toot_card', compact('toot_card', 'load_shares', 'reloads'));
         }
         return redirect()->back();
     }
 
     public function orderHistory(User $user) {
         if (Auth::user()->id == $user->id || Auth::user()->hasRole(admin())) {
-            return view('dashboard.cardholder.order_history', compact('user'));
+            $_transactions = $user->transactions()->where('status_response_id', 11);
+
+            $transactions = collect();
+            $orders = collect();
+
+            if ($_transactions->get()->count()) {
+                $_transactions->orderBy('id', 'desc');
+
+                foreach ($_transactions->get() as $transaction) {
+                    $_orders = $transaction->orders()->get();
+
+                    if ($_orders->count()) {
+                        $transactions->push($transaction);
+
+                        foreach ($_orders as $order) {
+                            $orders->push($order);
+                        }
+                    }
+                }
+            }
+            return view('dashboard.cardholder.order_history', compact('user', 'transactions', 'orders'));
         }
         return redirect()->back();
     }

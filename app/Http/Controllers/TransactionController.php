@@ -9,6 +9,7 @@ use App\Models\StatusResponse;
 use App\Models\TootCard;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -42,6 +43,10 @@ class TransactionController extends Controller
 
                 if (!$toot_card->is_active) {
                     return TootCard::response(21, $toot_card->id);
+                }
+
+                if ($toot_card->expires_at->lte(Carbon::now())) {
+                    return TootCard::response(22, $toot_card->id);
                 }
                 return TootCard::response(1, $toot_card->id);
             }
@@ -122,12 +127,13 @@ class TransactionController extends Controller
                 ]);
                 $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first());
 
-                LoadShare::create([
+                $load_share = LoadShare::create([
                     'from_toot_card_id' => $toot_card_id,
                     'to_toot_card_id' => User::find($user_id)->tootCards()->first()->id,
                     'load_amount' => $load_amount
                 ]);
                 LoadShare::fromTo($toot_card_id, $user_id, $load_amount);
+                $transaction->loadShares()->attach($load_share);
                 return TootCard::response(9, $toot_card_id);
             }
             return TootCard::response(18, $toot_card_id);
