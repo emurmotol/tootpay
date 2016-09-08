@@ -198,4 +198,17 @@ class Transaction extends Model
         Log::debug($status->toArray());
         return response()->make($status->toJson());
     }
+
+    public static function pendingAndCash() {
+        return self::where('payment_method_id', 1)
+            ->where('status_response_id', 5)
+            ->orderBy('queue_number', 'desc')
+            ->get();
+    }
+
+    public static function setStatusResponse($transaction_id, $status_response_id) {
+        $transaction = Transaction::find($transaction_id);
+        $transaction->status_response_id = $status_response_id;
+        $transaction->save();
+    }
 }

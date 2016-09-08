@@ -6,7 +6,7 @@
             <th>Name</th>
             <th>Role</th>
             <th class="text-center">Toot Card</th>
-            <th class="text-center">Online?</th>
+            {{--<th class="text-center">Online?</th>--}}
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -35,7 +35,7 @@
                         </a>
                     @endif
                 </td>
-                <td class="text-center">?</td>
+                {{--<td class="text-center">?</td>--}}
                 <td class="text-center">
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}

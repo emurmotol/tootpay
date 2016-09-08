@@ -141,9 +141,21 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'DashboardController@cashier',
             'as' => 'cashier.index'
         ]);
-        Route::get('cashier/queue', [
-            'uses' => 'CashierController@queue',
-            'as' => 'cashier.queue'
+        Route::get('transactions/count', [
+            'uses' => 'CashierController@transactionsCount',
+            'as' => 'cashier.transactions_count'
+        ]);
+        Route::get('transactions/cashier', [
+            'uses' => 'CashierController@transactionsCashier',
+            'as' => 'cashier.transactions_cashier'
+        ]);
+        Route::post('transaction/done', [
+            'uses' => 'CashierController@transactionDone',
+            'as' => 'cashier.transaction_done'
+        ]);
+        Route::post('transaction/cancel', [
+            'uses' => 'CashierController@transactionCancel',
+            'as' => 'cashier.transaction_cancel'
         ]);
     });
 

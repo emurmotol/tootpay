@@ -2,39 +2,37 @@
     font-size: 20px;
 }
 
-.table th, .table td, .table-responsive {
-    border: none !important;
+.modal-body {
+    font-size: 25px;
 }
 
-.modal-body, .modal-title {
-    font-size: 25px;
+.table-responsive {
+    border: none !important;
 }
 
 .list-inline {
     white-space: nowrap;
 }
 
-.cashier-view .col-md-6 .view .panel-body {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-}
-
-.cashier-view .col-md-6 .view {
-    position: relative;
-}
-
-html, body, .cashier-view, .col-md-6, .panel, .item, .active {
+html, body, .cashier-view, .col-md-6, .panel {
     height: 100%;
-}
-
-body {
-    padding-top: 20px;
 }
 
 .huge {
     font-size: 30px;
     height: auto;
+}
+
+.transactions {
+    overflow-y: scroll;
+}
+
+.panel-body {
+    height: calc(100% - 50px);
+}
+
+body {
+    padding-top: 20px;
 }
 
 .badge,
@@ -44,8 +42,10 @@ body {
 .list-unstyled li form label,
 .list-unstyled li form button,
 .list-unstyled li form div div input,
-.list-unstyled li form div div span {
-    font-size: 30px;
+.list-unstyled li form div div span,
+.modal-body,
+.modal-title {
+    font-size: 25px;
     height: auto;
 }
 

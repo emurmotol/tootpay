@@ -15,7 +15,7 @@
                         <input id="pin_code" name="pin_code" type="password" class="form-control input-lg text-center huge-md bs-input-unstyled"
                                placeholder="Pin code" pattern="[0-9]{4}" maxlength="4">
                     </div>
-                    <table class="table">
+                    <table class="table borderless">
                         <tbody>
                         <tr>
                             <td>

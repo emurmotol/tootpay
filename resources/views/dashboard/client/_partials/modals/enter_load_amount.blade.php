@@ -13,7 +13,7 @@
                         <input id="load_amount" name="load" type="number" class="form-control input-lg text-center huge-md bs-input-unstyled"
                                placeholder="Load amount" pattern="[0-9]">
                     </div>
-                    <table class="table">
+                    <table class="table borderless">
                         <tbody>
                         <tr>
                             <td>

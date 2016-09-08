@@ -2,7 +2,7 @@
     font-size: 20px;
 }
 
-.table th, .table td, .table-responsive {
+.borderless th, .borderless td, .table-responsive {
     border: none !important;
 }
 
@@ -16,7 +16,6 @@
 
 .category-list {
     overflow-x: scroll;
-    overflow-y: hidden;
 }
 
 .modal-header img {
@@ -48,7 +47,6 @@
 
 .merchandise-list {
     padding-top: 5px;
-    overflow-x: hidden;
     overflow-y: scroll;
 }
 
@@ -64,14 +62,10 @@
     white-space: nowrap;
 }
 
-.client-order .col-md-6 .order .panel-body {
+.order-actions {
     position: absolute;
-    width: 100%;
-    bottom: 0;
-}
-
-.client-order .col-md-6 .order {
-    position: relative;
+    right: 30px;
+    bottom: 10px;
 }
 
 .nav-tabs {
@@ -88,7 +82,7 @@
     width: 100%;
 }
 
-html, body, .client-order, .col-md-6, .panel, .carousel, .item, .active, .carousel-inner {
+html, body, .col-md-6, .panel, .carousel, .item, .active, .carousel-inner {
     height: 100%;
 }
 

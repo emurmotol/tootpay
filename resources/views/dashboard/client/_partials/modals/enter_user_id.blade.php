@@ -13,7 +13,7 @@
                         <input id="user_id" name="user_id" type="text" class="form-control input-lg text-center huge-md bs-input-unstyled"
                                placeholder="User ID" pattern="[0-9]">
                     </div>
-                    <table class="table">
+                    <table class="table borderless">
                         <tbody>
                         <tr>
                             <td>
