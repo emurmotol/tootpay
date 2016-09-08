@@ -1,0 +1,1 @@
+<link rel="stylesheet" href="{{ asset('css/toot-pay-cashier.css') }}">

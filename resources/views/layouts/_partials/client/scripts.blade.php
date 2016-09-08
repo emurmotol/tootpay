@@ -298,7 +298,7 @@
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
                 validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
-                validation(false, 3000, '{!! trans('toot_card.insufficient_load') !!}');
+                validation(false, 3000, '{!! trans('toot_card.insufficient_load_share') !!}');
             }
             console.log(response);
         }, "json");
@@ -382,13 +382,10 @@
                 var merchandise_id = $(this).data("merchandise_id");
                 var name = $(this).data("name");
                 var price = $(this).data("price");
-                var id = $(this).data("id");
-                var qty = $("#" + id + " .modal-dialog .modal-content .modal-body .col-md-6 span.qty").text();
-                addOrder(merchandise_id, name, price, qty);
-            });
-
-            _modal.on("hidden.bs.modal", function () {
-                $(this).find("span.qty").text(1);
+                var element_id = $(this).data("element_id");
+                var qty = $(element_id + " .modal-dialog .modal-content .modal-body .col-md-6 span.qty");
+                addOrder(merchandise_id, name, price, qty.text());
+                qty.text(1);
             });
 
             var modal_qty = $(".modal-body .row .col-md-6");
@@ -464,9 +461,13 @@
             transaction: JSON.stringify(transaction),
             transaction_id: _transaction_id,
             toot_card_id: _toot_card_id.val()
-        }, function (response) { // add points and load validation for insuficient
+        }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
                 validation(false, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
+                validation(false, 3000, '{!! trans('toot_card.insufficient_load') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
+                validation(false, 3000, '{!! trans('toot_card.insufficient_points') !!}');
             } else {
                 if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
                     validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');

@@ -21,6 +21,7 @@ class CheckRole
     }
 
     private function response() {
-        return abort(401);
+//        return abort(401);
+        return redirect('login');
     }
 }

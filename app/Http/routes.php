@@ -153,19 +153,19 @@ Route::group(['middleware' => 'roles'], function () {
         Route::get('cardholder', [
             'uses' => 'DashboardController@cardholder'
         ]);
-        Route::get('profile/{user}', [
+        Route::get('{user}', [
             'uses' => 'UserController@profile',
             'as' => 'users.profile_index'
         ]);
-        Route::get('profile/{user}/edit', [
+        Route::get('{user}/edit', [
             'uses' => 'UserController@profileEdit',
             'as' => 'users.profile_edit'
         ]);
-        Route::put('profile/{user}', [
+        Route::put('{user}', [
             'uses' => 'UserController@profileUpdate',
             'as' => 'users.profile_update'
         ]);
-        Route::put('profile/{user}/password', [
+        Route::put('{user}/password', [
             'uses' => 'UserController@profileUpdatePassword',
             'as' => 'users.profile_update_password'
         ]);

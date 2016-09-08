@@ -45,7 +45,7 @@ class TransactionController extends Controller
                     return TootCard::response(21, $toot_card->id);
                 }
 
-                if ($toot_card->expires_at->lte(Carbon::now())) {
+                if (Carbon::now()->gt($toot_card->expires_at)) {
                     return TootCard::response(22, $toot_card->id);
                 }
                 return TootCard::response(1, $toot_card->id);

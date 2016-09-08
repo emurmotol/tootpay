@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Models\TootCard;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -50,7 +51,15 @@ class TootCardController extends Controller
     }
 
     public function store(Requests\TootCardRequest $request) {
-        $toot_card = TootCard::create($request->all());
+        $toot_card = TootCard::create([
+            'id' => $request->get('id'),
+            'uid' => $request->get('uid'),
+            'pin_code' => $request->get('pin_code'),
+            'load' => floatval($request->get('load')),
+            'points' => floatval($request->get('points')),
+            'is_active' => $request->get('is_active'),
+            'expires_at' => Carbon::now()->addYear(intval(Setting::value('toot_card_expire_year_count'))),
+        ]);
         flash()->success(trans('toot_card.created', ['id' => $toot_card->id]));
 
         if ($request->has('redirect')) {

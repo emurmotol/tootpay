@@ -7,14 +7,20 @@
 
     @include('layouts._partials.app.stylesheets')
 
+    @if(!Auth::guest() && Auth::user()->hasRole(cashier()))
+        @include('layouts._partials.cashier.stylesheets')
+    @endif
+
     @if(Route::is('order.order') || Route::is('transaction.idle'))
         @include('layouts._partials.client.stylesheets')
     @endif
 
     @yield('style')
 </head>
-<body id="app-layout">
+<body>
 @if(Route::is('order.order') || Route::is('transaction.idle'))
+    @yield('content')
+@elseif(!Auth::guest() && Auth::user()->hasRole(cashier()))
     @yield('content')
 @else
     <nav class="navbar navbar-default navbar-static-top">
@@ -34,7 +40,6 @@
                             @include('dashboard.admin.sales_report._partials.navbar')
                             @include('dashboard.admin.settings._partials.navbar')
                         @elseif(Auth::user()->hasRole(cashier()))
-                            @include('dashboard.cashier._partials.navbar')
                         @elseif(Auth::user()->hasRole(cardholder()))
                             @include('dashboard.cardholder._partials.navbar')
                         @endif
@@ -74,6 +79,10 @@
 
 @include('layouts._partials.app.scripts')
 @include('_partials.javascript')
+
+@if(!Auth::guest() && Auth::user()->hasRole(cashier()))
+    @include('layouts._partials.cashier.scripts')
+@endif
 
 @if(Route::is('order.order') || Route::is('transaction.idle'))
     @include('layouts._partials.client.scripts')

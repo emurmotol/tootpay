@@ -7,14 +7,14 @@
                     @foreach(\App\Models\Merchandise::availableEvery(date('w'))->get() as $merchandise)
                         @if($merchandise->category->id == $category->id)
                             <li class="merchandise-item">
-                                <a href="#merchandise-item-{{ $merchandise->id }}"
+                                <a href="#merchandise_item_{{ $merchandise->id }}"
                                    data-toggle="modal">
                                     <img class="img-responsive img-rounded"
                                          src="{{ $merchandise->image($merchandise->id) }}"
                                          alt="{{ $merchandise->name }}">
                                 </a>
 
-                                <div id="merchandise-item-{{ $merchandise->id }}" class="modal fade"
+                                <div id="merchandise_item_{{ $merchandise->id }}" class="modal fade"
                                      role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -58,7 +58,7 @@
                                                 <button type="button"
                                                         class="btn btn-primary btn-lg pull-right btn-add-order huge"
                                                         data-dismiss="modal"
-                                                        data-id="merchandise-item-{{ $merchandise->id }}"
+                                                        data-element_id="#merchandise_item_{{ $merchandise->id }}"
                                                         data-merchandise_id="{{ $merchandise->id }}"
                                                         data-name="{{ $merchandise->name }}"
                                                         data-price="{{ $merchandise->price }}">Add
