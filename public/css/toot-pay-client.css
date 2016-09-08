@@ -25,8 +25,16 @@
     margin: 0 auto;
 }
 
-.grand_total {
-    font-size: 40px;
+.grand-total {
+    margin-bottom: 15px;
+}
+
+.grand-total strong {
+    font-size: 50px;
+}
+
+.payment-method {
+    margin-top: 15px;
 }
 
 .category-name {
@@ -82,11 +90,6 @@
 
 html, body, .client-order, .col-md-6, .panel, .carousel, .item, .active, .carousel-inner {
     height: 100%;
-}
-
-.order-actions ul {
-    padding-top: 10px;
-    float: right;
 }
 
 body {

@@ -17,7 +17,7 @@ class TootCard extends Model
 
     public $incrementing = false;
 
-    protected $dates = ['expires_at'];
+    protected $dates = ['expires_at']; // todo updated_at always equal to this
 
     protected $fillable = [
         'id', 'uid', 'pin_code', 'load', 'points', 'is_active', 'expires_at',

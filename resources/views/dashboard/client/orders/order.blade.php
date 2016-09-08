@@ -25,42 +25,48 @@
                     <tbody></tbody>
                 </table>
                 <div class="panel-body clearfix">
-                    <div class="pull-right">
-                        <div class="text-right">
-                            <div class="grand_total text-right">
-                                <strong>P<span id="grand_total">0.00</span></strong>
-                            </div>
-                        </div>
-                        <div class="order-actions">
+                    <ul class="list-unstyled">
+                        <li class="text-right grand-total">
+                            <strong>P<span id="grand_total">0.00</span></strong>
+                        </li>
+                        <li class="text-right">
                             <ul class="list-inline">
                                 <li>
-                                    <button class="btn btn-warning btn-lg" id="btn_cancel" data-loading-text="{{ trans('loading.default') }}">
-                                        <strong>Cancel Order</strong>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-info btn-lg" id="btn_hold" disabled>
+                                    <button class="btn btn-info" id="btn_hold" disabled>
                                         <strong>Hold Order</strong>
                                     </button>
                                 </li>
+                                <li>
+                                    <button class="btn btn-warning" id="btn_cancel"
+                                            data-loading-text="{{ trans('loading.default') }}">
+                                        <strong>Cancel Order</strong>
+                                    </button>
+                                </li>
                             </ul>
+                        </li>
+                        <li class="text-right payment-method">
                             <ul class="list-inline">
                                 <li>
                                     <strong>Pay using:</strong>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-lg" id="btn_pay_using_toot_card" disabled>
+                                    <button class="btn btn-primary" id="btn_pay_using_toot_card" disabled>
                                         <strong>Toot Card</strong>
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-success btn-lg" id="btn_pay_using_cash" disabled>
+                                    <button class="btn btn-primary" id="btn_pay_using_toot_points" disabled>
+                                        <strong>Toot Points</strong>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-success" id="btn_pay_using_cash" disabled>
                                         <strong>Cash</strong>
                                     </button>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
