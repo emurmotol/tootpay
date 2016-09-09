@@ -157,6 +157,10 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'CashierController@transactionCancel',
             'as' => 'cashier.transaction_cancel'
         ]);
+        Route::post('transaction/create_card_holder', [
+            'uses' => 'CashierController@transactionCreateCardHolder',
+            'as' => 'cashier.transaction_create_card_holder'
+        ]);
     });
 
     Route::group(['roles' => [cardholder(), admin()]], function () {

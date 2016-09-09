@@ -25,6 +25,8 @@ return [
     'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the payment.</strong>',
     'insufficient_points' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your points are not enough to complete the redeem.</strong>',
     'invalid_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid card toot card.</strong>',
+    'active' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Toot card is active.</strong>',
+    'already_associated' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Toot card is already taken.</strong>',
     'inactive_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Inactive card toot card.</strong>',
     'expired_card' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Your toot card has expired.</strong>',
     'empty_user_order' => '<strong class="text-info"><i class="fa fa-info-circle"></i> You do not have any orders yet.</strong>',

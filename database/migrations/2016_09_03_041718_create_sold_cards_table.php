@@ -9,8 +9,14 @@ class CreateSoldCardsTable extends Migration
     {
         Schema::create('sold_cards', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('toot_card_id')->index();
             $table->float('price');
             $table->timestamps();
+
+            $table->foreign('toot_card_id')
+                ->references('id')
+                ->on('toot_cards')
+                ->onUpdate('cascade');
         });
     }
 

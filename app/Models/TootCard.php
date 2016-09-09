@@ -17,7 +17,7 @@ class TootCard extends Model
 
     public $incrementing = false;
 
-    protected $dates = ['expires_at']; // todo updated_at always equal to this
+    protected $dates = ['expires_at'];
 
     protected $fillable = [
         'id', 'uid', 'pin_code', 'load', 'points', 'is_active', 'expires_at',
@@ -37,6 +37,10 @@ class TootCard extends Model
 
     public function toTootCardId() {
         return $this->belongsTo(LoadShare::class, 'to_toot_card_id');
+    }
+
+    public function soldCards() {
+        return $this->hasMany(SoldCard::class);
     }
 
     public function setIsActiveAttribute($value) {

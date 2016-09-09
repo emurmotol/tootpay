@@ -11,6 +11,8 @@
     var cash_received_backspace = $("#cash_received_backspace");
     var cash_received_clear = $("#cash_received_clear");
 
+    var create_card_holder = $("#create_card_holder");
+    var create_cardholder = $("#create_cardholder");
     var transaction_complete_with_queue_number = $("#transaction_complete_with_queue_number");
 
     var cash_suggestion_1 = $("#cash_suggestion_1");
@@ -23,9 +25,15 @@
     var cash_suggestion_500 = $("#cash_suggestion_500");
     var cash_suggestion_1000 = $("#cash_suggestion_1000");
 
-    var create_cardholder = $("#create_cardholder");
+    var _create_cardholder = $("#_create_cardholder");
     var queued_orders = $("#queued_orders");
     var queued_orders_count = $("#queued_orders_count");
+
+    var _name = $("#name");
+    var _email = $("#email");
+    var _phone_number = $("#phone_number");
+    var _user_id = $("#user_id");
+    var _toot_card_uid = $("#toot_card_uid");
 
     var _validation = $("#validation");
     var _transactions = $("#transactions");
@@ -104,6 +112,36 @@
         compute();
     });
 
+    _create_cardholder.on("click", function () {
+        create_cardholder.modal("show");
+    });
+
+    create_cardholder.on("hidden.bs.modal", function () {
+        $(this).find("#name").val("");
+        $(this).find("#email").val("");
+        $(this).find("#phone_number").val("");
+        $(this).find("#user_id").val("");
+        $(this).find("#toot_card_uid").val("");
+    });
+
+    create_card_holder.on("click", function () {
+        if (_name.val() == "" && _email.val() == "" && _phone_number.val() == "" && _user_id.val() == "" && _toot_card_uid.val() == "") {
+            validation(false, timeout_short, '{!! trans('user.empty_all_fields') !!}');
+        } else if (_email.val() == "") {
+            validation(false, timeout_short, '{!! trans('user.empty_email') !!}');
+        } else if (_phone_number.val() == "") {
+            validation(false, timeout_short, '{!! trans('user.empty_phone_number') !!}');
+        } else if (_user_id.val() == "") {
+            validation(false, timeout_short, '{!! trans('user.empty_user_id') !!}');
+        } else if (_toot_card_uid.val() == "") {
+            validation(false, timeout_short, '{!! trans('user.empty_toot_card_uid') !!}');
+        } else if (_name.val() == "") {
+            validation(false, timeout_short, '{!! trans('user.empty_name') !!}');
+        } else {
+            createCardHolder();
+        }
+    });
+
     transaction_done.on("click", function () {
         $.post("transaction/done", {
             transaction_id: transaction_id.text()
@@ -112,7 +150,7 @@
                 validation(true, timeout_short, '{!! trans('transaction.done') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
                 $("#queue_number").text(response.queue_number);
-                transactionCompleteWithQueueNumber(timeout_short);
+                transactionCompleteWithQueueNumber(3000);
             }
             console.log(response);
         }, "json").done(function() {
@@ -131,6 +169,31 @@
             resetToDefault();
         });
     });
+
+    function createCardHolder() {
+        $.post("transaction/create_card_holder", {
+            name: _name.val(),
+            email: _email.val(),
+            phone_number: _phone_number.val(),
+            user_id: _user_id.val(),
+            toot_card_uid: _toot_card_uid.val()
+        }, function (response) {
+            if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
+                validation(false, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(23)->name }}") {
+                validation(true, timeout_short, '{!! trans('user.cardholder_created') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(24)->name }}") {
+                validation(false, timeout_short, '{!! trans('toot_card.active') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(25)->name }}") {
+                validation(false, timeout_short, '{!! trans('toot_card.already_associated') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(26)->name }}") {
+                validation(false, timeout_short, '{!! trans('user.user_id_exist') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(27)->name }}") {
+                validation(false, timeout_short, '{!! trans('user.email_exist') !!}');
+            }
+            console.log(response);
+        }, "json");
+    }
 
     function transactionCompleteWithQueueNumber(timeout) {
         transaction_complete_with_queue_number.modal({backdrop: true});

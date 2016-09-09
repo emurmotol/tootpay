@@ -64,5 +64,20 @@
   },
   {
     "name": "EXPIRED_TOOT_CARD"
+  },
+  {
+    "name": "CARDHOLDER_CREATED"
+  },
+  {
+    "name": "ACTIVE_TOOT_CARD"
+  },
+  {
+    "name": "ALREADY_ASSOCIATED_TOOT_CARD"
+  },
+  {
+    "name": "EXIST_USER_ID"
+  },
+  {
+    "name": "EXIST_EMAIL"
   }
 ]

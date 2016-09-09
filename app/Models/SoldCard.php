@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class SoldCard extends Model
 {
     protected $fillable = [
-        'price',
+        'price', 'toot_card_id',
     ];
 
     public function transactions() {
         return $this->belongsToMany(Transaction::class, 'sold_card_transaction');
+    }
+
+    public function tootCard() {
+        return $this->belongsTo(TootCard::class);
     }
 
     public static function ids($transactions) {

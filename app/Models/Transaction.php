@@ -209,10 +209,18 @@ class Transaction extends Model
     public static function setStatusResponse($transaction_id, $status_response_id) {
         $transaction = Transaction::find($transaction_id);
         $reload = $transaction->reloads();
+        $sold_card = $transaction->soldCards();
 
-        if ($reload->get()->count()) {
+        if (!is_null($reload->first())) {
             TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
-            $transaction->status_response_id = $status_response_id;
+            $transaction->status_response_id = 11;
+            $transaction->save();
+            return StatusResponse::def(11);
+        } else if (!is_null($sold_card->first())) {
+            $toot_card = TootCard::find($sold_card->first()->tootCard->id);
+            $toot_card->is_active = true;
+            $toot_card->save();
+            $transaction->status_response_id = 11;
             $transaction->save();
             return StatusResponse::def(11);
         } else {

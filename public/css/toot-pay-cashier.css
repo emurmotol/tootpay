@@ -2,10 +2,6 @@
     font-size: 20px;
 }
 
-.modal-body {
-    font-size: 25px;
-}
-
 .table-responsive {
     border: none !important;
 }
@@ -23,11 +19,6 @@ html, body, .cashier-view, .col-md-6, .panel {
     height: 100%;
 }
 
-.huge {
-    font-size: 30px;
-    height: auto;
-}
-
 .transactions {
     overflow-y: scroll;
 }
@@ -40,6 +31,13 @@ body {
     padding-top: 20px;
 }
 
+.modal-body,
+.modal-footer,
+.modal-title,
+.modal-header,
+.control-label,
+.col-md-8 input,
+.modal-footer span button,
 .badge,
 .list-unstyled li,
 .list-unstyled li button,
@@ -50,7 +48,7 @@ body {
 .list-unstyled li form div div span,
 .modal-body,
 .modal-title {
-    font-size: 25px;
+    font-size: 25px !important;
     height: auto;
 }
 

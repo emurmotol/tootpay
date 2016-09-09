@@ -22,6 +22,23 @@
                     @endforeach
                     </tbody>
                 </table>
+             @elseif($transaction->soldCards()->get()->count())
+                <table class="table table-responsive table-transaction">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount Due</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($transaction->soldCards()->get() as $sold_card)
+                        <tr>
+                            <td>Toot Card</td>
+                            <td>P<span id="grand_total">{{ number_format($sold_card->price, 2, '.', ',') }}</span></td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             @elseif($transaction->orders()->get()->count())
                 <table class="table table-responsive table-transaction">
                     <thead>
