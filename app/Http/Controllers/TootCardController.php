@@ -113,4 +113,148 @@ class TootCardController extends Controller
             return redirect()->route('toot_cards.index');
         }
     }
+
+    public function active() {
+        $_toot_cards = TootCard::active();
+
+        if (request()->has('search')) {
+            $results = TootCard::searchFor(request()->get('search'), $_toot_cards);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = TootCard::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = TootCard::sort(request()->get('sort'), $_toot_cards);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $_toot_cards->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $toot_cards->appends(request()->except('page'));
+        return view('dashboard.admin.toot_cards.active', compact('toot_cards'));
+    }
+
+    public function inactive() {
+        $_toot_cards = TootCard::inactive();
+
+        if (request()->has('search')) {
+            $results = TootCard::searchFor(request()->get('search'), $_toot_cards);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = TootCard::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = TootCard::sort(request()->get('sort'), $_toot_cards);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $_toot_cards->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $toot_cards->appends(request()->except('page'));
+        return view('dashboard.admin.toot_cards.active', compact('toot_cards'));
+    }
+
+    public function expired() {
+        $_toot_cards = TootCard::expired();
+
+        if (request()->has('search')) {
+            $results = TootCard::searchFor(request()->get('search'), $_toot_cards);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = TootCard::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = TootCard::sort(request()->get('sort'), $_toot_cards);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $_toot_cards->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $toot_cards->appends(request()->except('page'));
+        return view('dashboard.admin.toot_cards.active', compact('toot_cards'));
+    }
+
+    public function notAssociated() {
+        $_toot_cards = TootCard::notAssociated();
+
+        if (request()->has('search')) {
+            $results = TootCard::searchFor(request()->get('search'), $_toot_cards);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = TootCard::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = TootCard::sort(request()->get('sort'), $_toot_cards);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $toot_cards = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $toot_cards = $_toot_cards->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $toot_cards->appends(request()->except('page'));
+        return view('dashboard.admin.toot_cards.not_associated', compact('toot_cards'));
+    }
 }

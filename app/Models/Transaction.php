@@ -86,7 +86,7 @@ class Transaction extends Model
             ->first();
 
         if ($reloads->_count) {
-            $sales->push([collect($reloads)->put('_item', 'Toot (Reload)')->toArray()]);
+            $sales->push([collect($reloads)->put('_item', 'Toot Card (Reload)')->toArray()]);
         }
 
         $sold_cards = SoldCard::selectRaw('count(id) as _count, sum(price) as _total')
@@ -94,7 +94,7 @@ class Transaction extends Model
             ->first();
 
         if ($sold_cards->_count) {
-            $sales->push([collect($sold_cards)->put('_item', 'Toot (Card)')->toArray()]);
+            $sales->push([collect($sold_cards)->put('_item', 'Toot Card (New)')->toArray()]);
         }
         return $sales->collapse();
     }

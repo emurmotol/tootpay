@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Sofa\Eloquence\Eloquence;
 
@@ -172,5 +173,21 @@ class TootCard extends Model
         $toot_card = TootCard::find($toot_card_id);
         $toot_card->load += $load_amount;
         $toot_card->save();
+    }
+
+    public static function active() {
+        return self::where('is_active', true);
+    }
+
+    public static function inactive() {
+        return self::where('is_active', false);
+    }
+
+    public static function expired() {
+        return self::where('expires_at', '<', Carbon::now());
+    }
+
+    public static function notAssociated() {
+        return self::whereNotIn('id', collect(DB::table('user_toot_card')->get())->pluck('toot_card_id')->toArray());
     }
 }

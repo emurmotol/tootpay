@@ -17,7 +17,7 @@ Route::get('dd', function () {
 //    return dd($_orders->toArray());
 //    return dd($_transactions->toArray());
 
-    return dd(\App\Models\TootCard::find('0001246344')->expires_at->lte(\Carbon\Carbon::now()));
+    return dd(\App\Models\TootCard::expired()->get());
 });
 
 Route::auth();
@@ -102,6 +102,22 @@ Route::group(['middleware' => 'roles'], function () {
         // Toot Cards
         Route::resource('toot_cards', 'TootCardController', [
             'parameters' => 'singular'
+        ]);
+        Route::get('toot_cards/active', [
+            'uses' => 'TootCardController@active',
+            'as' => 'toot_cards.active'
+        ]);
+        Route::get('toot_cards/inactive', [
+            'uses' => 'TootCardController@inactive',
+            'as' => 'toot_cards.inactive'
+        ]);
+        Route::get('toot_cards/expired', [
+            'uses' => 'TootCardController@expired',
+            'as' => 'toot_cards.expired'
+        ]);
+        Route::get('toot_cards/not_associated', [
+            'uses' => 'TootCardController@notAssociated',
+            'as' => 'toot_cards.not_associated'
         ]);
 
         Route::group(['namespace' => 'Merchandise'], function() {
