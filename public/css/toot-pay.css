@@ -7,6 +7,11 @@ a {
     text-decoration: none !important;
 }
 
+.huge-count {
+    margin-top: -5px;
+    font-size: 30px;
+}
+
 #search-form {
     margin-top: 15px;
 }

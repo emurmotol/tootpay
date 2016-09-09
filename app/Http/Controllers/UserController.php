@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Setting;
 use App\Models\TootCard;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -151,6 +152,29 @@ class UserController extends Controller
             return redirect()->to(request()->get('redirect'));
         }
         return redirect()->back();
+    }
+
+    public function proceedTransfer(Request $request, User $user, TootCard $toot_card) {
+        $new_toot_card = TootCard::find($request->get('toot_card_id'));
+        $new_toot_card->load += $toot_card->load;
+        $new_toot_card->points += $toot_card->points;
+        $new_toot_card->is_active = 'on';
+        $new_toot_card->save();
+
+        $toot_card->load = 0;
+        $toot_card->points = 0;
+        $toot_card->is_active = 'off';
+        $toot_card->expires_at = Carbon::now();
+        $toot_card->save();
+
+        $user->tootCards()->detach($toot_card);
+        $user->tootCards()->attach($new_toot_card->id);
+
+        $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
+        $sms->sendMessageToNumber($user->phone_number, 'Toot Card data from (UID: ' . $toot_card->uid . ') was successfully transferred to your account.', config('sms.device'));
+
+        flash()->success('Data transferred successfully!');
+        return redirect()->route('users.show', $user->id);
     }
 
     public function profile(User $user) {
@@ -406,5 +430,9 @@ class UserController extends Controller
         }
         $users->appends(request()->except('page'));
         return view('dashboard.admin.users.guest', compact('users'));
+    }
+
+    public function transfer(User $user, TootCard $toot_card) {
+        return view('dashboard.admin.users.transfer', compact('user', 'toot_card'));
     }
 }

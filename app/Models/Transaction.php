@@ -206,6 +206,12 @@ class Transaction extends Model
             ->get();
     }
 
+    public static function queued() {
+        return self::where('status_response_id', 10)
+            ->orderBy('queue_number', 'desc')
+            ->get();
+    }
+
     public static function setStatusResponse($transaction_id, $status_response_id) {
         $transaction = Transaction::find($transaction_id);
         $reload = $transaction->reloads();
@@ -215,6 +221,8 @@ class Transaction extends Model
             TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
             $transaction->status_response_id = 11;
             $transaction->save();
+            $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
+            $sms->sendMessageToNumber($transaction->users()->first()->phone_number, 'You toot card was successfully loaded with P' . $reload->first()->load_amount, config('sms.device'));
             return StatusResponse::def(11);
         } else if (!is_null($sold_card->first())) {
             $toot_card = TootCard::find($sold_card->first()->tootCard->id);

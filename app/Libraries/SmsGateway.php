@@ -1,21 +1,15 @@
 <?php
-
 namespace App\Libraries;
 
 class SmsGateway
 {
-    private $email;
-
-    private $password;
-
-    private $device;
 
     static $baseUrl = "https://smsgateway.me";
 
-    function __construct() {
-        $this->email = config('mail.from.address');
-        $this->password = config('sms.password');
-        $this->device = config('sms.device');
+
+    function __construct($email, $password) {
+        $this->email = $email;
+        $this->password = $password;
     }
 
     function createContact($name, $number) {
@@ -48,22 +42,22 @@ class SmsGateway
     }
 
     function sendMessageToNumber($to, $message, $device, $options = []) {
-        $query = array_merge(['number' => $to, 'message' => $message, 'device' => $this->$device], $options);
+        $query = array_merge(['number' => $to, 'message' => $message, 'device' => $device], $options);
         return $this->makeRequest('/api/v3/messages/send', 'POST', $query);
     }
 
-    function sendMessageToManyNumbers($to, $message, $options = []) {
-        $query = array_merge(['number' => $to, 'message' => $message, 'device' => $this->device], $options);
+    function sendMessageToManyNumbers($to, $message, $device, $options = []) {
+        $query = array_merge(['number' => $to, 'message' => $message, 'device' => $device], $options);
         return $this->makeRequest('/api/v3/messages/send', 'POST', $query);
     }
 
-    function sendMessageToContact($to, $message, $options = []) {
-        $query = array_merge(['contact' => $to, 'message' => $message, 'device' => $this->device], $options);
+    function sendMessageToContact($to, $message, $device, $options = []) {
+        $query = array_merge(['contact' => $to, 'message' => $message, 'device' => $device], $options);
         return $this->makeRequest('/api/v3/messages/send', 'POST', $query);
     }
 
-    function sendMessageToManyContacts($to, $message, $options = []) {
-        $query = array_merge(['contact' => $to, 'message' => $message, 'device' => $this->device], $options);
+    function sendMessageToManyContacts($to, $message, $device, $options = []) {
+        $query = array_merge(['contact' => $to, 'message' => $message, 'device' => $device], $options);
         return $this->makeRequest('/api/v3/messages/send', 'POST', $query);
     }
 
@@ -110,3 +104,5 @@ class SmsGateway
         return $return;
     }
 }
+
+?>

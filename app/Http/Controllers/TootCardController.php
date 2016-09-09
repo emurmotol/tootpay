@@ -69,7 +69,37 @@ class TootCardController extends Controller
     }
 
     public function show(TootCard $toot_card) {
-        return view('dashboard.admin.toot_cards.show', compact('toot_card'));
+        $_transactions = $toot_card->transactions()->where('status_response_id', 11);
+
+        $transactions = collect();
+        $reloads = collect();
+        $load_shares = collect();
+
+        if ($_transactions->get()->count()) {
+            $_transactions->orderBy('id', 'desc');
+
+            foreach ($_transactions->get() as $transaction) {
+                $_reloads = $transaction->reloads()->get();
+                $_load_shares = $transaction->loadShares()->get();
+
+                if ($_reloads->count()) {
+                    $transactions->push($transaction);
+
+                    foreach ($_reloads as $reload) {
+                        $reloads->push($reload);
+                    }
+                }
+
+                if ($_load_shares->count()) {
+                    $transactions->push($transaction);
+
+                    foreach ($_load_shares as $load_share) {
+                        $load_shares->push($load_share);
+                    }
+                }
+            }
+        }
+        return view('dashboard.admin.toot_cards.show', compact('toot_card', 'load_shares', 'reloads'));
     }
 
     public function edit(TootCard $toot_card) {

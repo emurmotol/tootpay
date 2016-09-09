@@ -78,7 +78,8 @@
                 toot_card_id: $(this).val()
             }, function (response) {
                 if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
-                    userOrder();
+//                    userOrder();
+                    validation(true, timeout_short, '<strong>Hello! <i class="fa fa-smile-o"></i></strong>');
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
                     validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
                 } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
@@ -197,6 +198,10 @@
         tapCard(timeout_long);
         last_resort.val(3);
     });
+    btn_pay_using_toot_points.on("click", function () {
+        tapCard(timeout_long);
+        last_resort.val(6);
+    });
     btn_pay_using_cash.on("click", function () {
         sendOrders(5, 1);
     });
@@ -231,24 +236,24 @@
         }
     });
 
-    function userOrder() {
-        $.post("user_order", {
-            toot_card_id: idle_toot_card_id.val()
-        }, function (response) {
-            load_order.html(response);
-        }, "json").done(function (response) {
-            if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
-                validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
-            } else {
-                if (response.status == "{{ \App\Models\StatusResponse::find(13)->name }}") {
-                    validation(true, timeout_short, '{!! trans('toot_card.empty_user_order') !!}');
-                } else {
-                    userOrders(timeout_long);
-                }
-            }
-            console.log(response);
-        });
-    }
+    {{--function userOrder() {--}}
+        {{--$.post("user_order", {--}}
+            {{--toot_card_id: idle_toot_card_id.val()--}}
+        {{--}, function (response) {--}}
+            {{--load_order.html(response);--}}
+        {{--}, "json").done(function (response) {--}}
+            {{--if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {--}}
+                {{--validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');--}}
+            {{--} else {--}}
+                {{--if (response.status == "{{ \App\Models\StatusResponse::find(13)->name }}") {--}}
+                    {{--validation(true, timeout_short, '{!! trans('toot_card.empty_user_order') !!}');--}}
+                {{--} else {--}}
+                    {{--userOrders(timeout_long);--}}
+                {{--}--}}
+            {{--}--}}
+            {{--console.log(response);--}}
+        {{--});--}}
+    {{--}--}}
 
     function validateUserId(user_id_value) {
         $.post("check_user_id", {
@@ -360,6 +365,12 @@
                 shareLoad(_toot_card_id.val(), user_id.val(), load_amount.val());
                 console.log("LAST_RESORT_SHARE_LOAD");
                 break;
+            case 6:
+                enter_pin.modal("hide");
+                sendOrders(10, 4);
+                console.log("LAST_RESORT_TOOT_POINTS");
+                break
+            default:
         }
     }
 

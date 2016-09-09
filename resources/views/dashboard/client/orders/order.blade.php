@@ -31,20 +31,6 @@
                     <li class="text-right">
                         <ul class="list-inline">
                             <li>
-                                <button class="btn btn-info" id="btn_hold" disabled>
-                                    <strong>Hold Order</strong>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-warning" id="btn_cancel" data-loading-text="{{ trans('loading.default') }}">
-                                    <strong>Cancel Order</strong>
-                                </button>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="text-right payment-method">
-                        <ul class="list-inline">
-                            <li>
                                 <strong>Pay using:</strong>
                             </li>
                             <li>
@@ -60,6 +46,20 @@
                             <li>
                                 <button class="btn btn-success" id="btn_pay_using_cash" disabled>
                                     <strong>Cash</strong>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="text-right payment-method">
+                        <ul class="list-inline">
+                            {{--<li>--}}
+                                {{--<button class="btn btn-info" id="btn_hold" disabled>--}}
+                                    {{--<strong>Hold Order</strong>--}}
+                                {{--</button>--}}
+                            {{--</li>--}}
+                            <li>
+                                <button class="btn btn-warning" id="btn_cancel" data-loading-text="{{ trans('loading.default') }}">
+                                    <strong>Cancel Order</strong>
                                 </button>
                             </li>
                         </ul>

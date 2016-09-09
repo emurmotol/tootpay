@@ -57,13 +57,13 @@
                             <strong>Change: <span class="pull-right">P<span id="transaction_change">0.00</span></span></strong>
                         </li>
                         <li class="text-right cashier-actions">
-                            <button type="button" class="btn btn-success" id="transaction_done" data-loading-text="{{ trans('loading.default') }}" disabled><strong><i class="fa fa-check"></i> Done</strong></button>
+                            <button type="button" class="btn btn-success" id="transaction_done" data-loading-text="{{ trans('loading.default') }}" disabled><strong><i class="fa fa-check"></i> Paid</strong></button>
                             <button type="button" class="btn btn-warning" id="transaction_cancel" data-loading-text="{{ trans('loading.default') }}" disabled><strong><i class="fa fa-times"></i> Cancel</strong></button>
                         </li>
                         <li><hr></li>
                         <li class="text-right">
                             <button type="button" class="btn btn-primary" id="_create_cardholder"><strong>Create Cardholder</strong></button>
-                            <button type="button" class="btn btn-primary" id="queued_orders"><strong>Queued Orders <span class="badge" id="queued_orders_count">0</span></strong></button>
+                            <button type="button" class="btn btn-primary" id="queued_orders"><strong>Queued Orders</strong></button>
                         </li>
                     </ul>
                 </div>
@@ -89,4 +89,5 @@
     @include('dashboard.cashier._partials.modals.validation')
     @include('dashboard.cashier._partials.modals.transaction_complete_with_queue_number')
     @include('dashboard.cashier._partials.modals.create_cardholder')
+    @include('dashboard.cashier._partials.modals.queued')
 @endsection

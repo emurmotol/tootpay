@@ -66,7 +66,7 @@
                                             <tbody>
                                             @foreach($reloads as $reload)
                                                 <tr>
-                                                    <td>P{{ number_format($reload->total, 2, '.', ',') }}</td>
+                                                    <td>P{{ number_format($reload->load_amount, 2, '.', ',') }}</td>
                                                     <td data-livestamp="{{ strtotime($reload->created_at) }}"></td>
                                                 </tr>
                                             @endforeach

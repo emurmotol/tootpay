@@ -73,14 +73,17 @@ class CashierController extends Controller
                 'status_response_id' => 5
             ]);
 
-            $password = bcrypt(str_random(6));
+            $password = str_random(6);
+
+            $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
+            $sms->sendMessageToNumber($request->get('phone_number'), 'Your account was successfully created. Your toot card pin code is: ' . $toot_card->pin_code . '. You can also access your account by logging with these credentials at ' . url('login') . '. User ID: ' . $request->get('user_id') . ', Password: ' . $password, config('sms.device'));
 
             $user = User::create([
                 'id' => $request->get('user_id'),
                 'name' => $request->get('name'),
                 'email' => $request->get('email'),
                 'phone_number' => $request->get('phone_number'),
-                'password' => $password
+                'password' => bcrypt($password)
             ]);
             $user->roles()->attach(cardholder());
             $toot_card->users()->attach($user);
@@ -91,6 +94,39 @@ class CashierController extends Controller
             ]);
             $transaction->soldCards()->attach($sold_card);
             return StatusResponse::def(23);
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function queuedCount(Request $request) {
+        if ($request->ajax()) {
+            return Transaction::queued()->count();
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function queued(Request $request) {
+        if ($request->ajax()) {
+            $transactions = Transaction::queued();
+            return (String)view('dashboard.cashier._partials.queued', compact('transactions'));
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function served(Request $request) {
+        if ($request->ajax()) {
+            $transaction = Transaction::find($request->get('transaction_id'));
+            $transaction->status_response_id = 11;
+            $transaction->save();
+            $toot_card = $transaction->tootCards()->first();
+
+            if (!is_null($toot_card)) {
+                if ($transaction->payment_method_id == 2) {
+                    TootCard::payUsingLoad($toot_card->id, $transaction->orders()->pluck('total')->sum());
+                } elseif ($transaction->payment_method_id == 4) {
+                    TootCard::payUsingPoints($toot_card->id, $transaction->orders()->pluck('total')->sum());
+                }
+            }
         }
         return StatusResponse::find(17)->name;
     }

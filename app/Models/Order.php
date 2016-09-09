@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -41,7 +42,25 @@ class Order extends Model
             }
         }
         $_transaction = Transaction::create($transaction->toArray());
-        $_transaction->users()->attach($user_id);
+
+        $toot_card = User::find($user_id)->tootCards()->first();
+
+        if(!is_null($toot_card)) {
+            $_transaction->users()->attach($user_id, ['toot_card_id' => $toot_card->id]);
+
+            $order_message = 'Digital Purchase Information: ' . Carbon::now()->toDayDateTimeString() . ', Transaction: #' . $_transaction->id . ', Queue: #' .$queue_number . ', Orders: ';
+
+            foreach ($orders as $order) {
+                $msg = Merchandise::find($order["merchandise_id"])->name . ' (Qty: ' . $order["quantity"] . ') (Total: P' . $order["total"] . '), ';
+                $order_message .= $msg;
+            }
+            $order_message .= 'with the total amount of: P' . collect($orders)->pluck('total')->sum() . '. Thank you. Enjoy your meal! Sent from ' . url('/');
+
+            $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
+            $sms->sendMessageToNumber(User::find($user_id)->phone_number, $order_message, config('sms.device'));
+        } else {
+            $_transaction->users()->attach($user_id);
+        }
 
         foreach ($orders as $order) {
             $_order = Order::create($order);

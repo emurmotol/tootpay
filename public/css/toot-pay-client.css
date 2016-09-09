@@ -6,8 +6,9 @@
     border: none !important;
 }
 
-.huge-total, .modal-body, .modal-title {
-    font-size: 25px;
+.huge-total, .modal-body, .modal-title, .order-actions li ul li button {
+    font-size: 20px;
+    height: auto;
 }
 
 .menu-footer {

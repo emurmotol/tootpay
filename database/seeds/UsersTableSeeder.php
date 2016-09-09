@@ -28,8 +28,8 @@ class UsersTableSeeder extends Seeder
                 'id' => '000' . $faker->randomNumber(7),
                 'uid' => '10012' . $faker->randomNumber(7),
                 'pin_code' => $faker->randomNumber(4),
-                'load' => floatval($faker->randomNumber(3)),
-                'points' => floatval($faker->randomNumber(2)),
+                'load' => 80,
+                'points' => 0,
                 'is_active' => 'on',
                 'expires_at' => Carbon::now()->addYear(intval(Setting::value('toot_card_expire_year_count'))),
             ]);

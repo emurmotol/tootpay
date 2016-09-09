@@ -57,6 +57,73 @@
                         </div>
                     </div>
                 </div>
+                @if ($reloads->count() || $load_shares->count())
+                    <div class="panel panel-primary">
+                        <div class="panel-heading clearfix">
+                            <span class="pull-left">History</span>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                @if ($reloads->count())
+                                    <li {{ ($reloads->count() && !$load_shares->count()) ? 'class=active' : '' }}>
+                                        <a data-toggle="tab" href="#reload_activity">Reloads</a>
+                                    </li>
+                                @endif
+
+                                @if ($load_shares->count())
+                                    <li {{ (!$reloads->count() && $load_shares->count()) ? 'class=active' : '' }}>
+                                        <a data-toggle="tab" href="#load_shares_activity">Load Shares</a>
+                                    </li>
+                                @endif
+                            </ul>
+                            <div class="tab-content">
+                                @if ($reloads->count())
+                                    <div id="reload_activity" class="tab-pane fade in {{ ($reloads->count() && !$load_shares->count()) ? 'active' : '' }}">
+                                        <table class="table table-responsive table-transaction">
+                                            <thead>
+                                            <tr>
+                                                <th>Amount Due</th>
+                                                <th>Created</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($reloads as $reload)
+                                                <tr>
+                                                    <td>P{{ number_format($reload->load_amount, 2, '.', ',') }}</td>
+                                                    <td data-livestamp="{{ strtotime($reload->created_at) }}"></td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
+
+                                @if ($load_shares->count())
+                                    <div id="load_shares_activity" class="tab-pane fade in {{ (!$reloads->count() && $load_shares->count()) ? 'active' : '' }}">
+                                        <table class="table table-responsive table-transaction">
+                                            <thead>
+                                            <tr>
+                                                <th>Load Amount</th>
+                                                <th>Shared To</th>
+                                                <th>Created</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($load_shares as $load_share)
+                                                <tr>
+                                                    <td>P{{ number_format($load_share->load_amount, 2, '.', ',') }}</td>
+                                                    <td>{{ \App\Models\TootCard::find($load_share->to_toot_card_id)->users()->first()->name }}</td>
+                                                    <td data-livestamp="{{ strtotime($load_share->created_at) }}"></td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

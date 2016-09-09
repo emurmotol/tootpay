@@ -47,6 +47,7 @@
 
     compute();
     transactionsCount();
+    queued();
 
     cash_suggestion_1.on("click", function () {
         addToCashReceivedValue($(this).text());
@@ -124,7 +125,13 @@
         $(this).find("#toot_card_uid").val("");
     });
 
+    queued_orders.on("click", function () {
+        queued();
+        $("#queued_modal").modal("show");
+    });
+
     create_card_holder.on("click", function () {
+        create_cardholder.modal("hide");
         if (_name.val() == "" && _email.val() == "" && _phone_number.val() == "" && _user_id.val() == "" && _toot_card_uid.val() == "") {
             validation(false, timeout_short, '{!! trans('user.empty_all_fields') !!}');
         } else if (_email.val() == "") {
@@ -155,6 +162,7 @@
             console.log(response);
         }, "json").done(function() {
             resetToDefault();
+            queued()
         });
     });
     transaction_cancel.on("click", function () {
@@ -167,6 +175,7 @@
             console.log(response);
         }, "json").done(function() {
             resetToDefault();
+            queued();
         });
     });
 
@@ -244,6 +253,27 @@
                 }
             });
         }, 1500);
+    }
+
+    function queued() {
+        $.get("transactions/cashier/queued", function (response) {
+            var q = $("#queued_div");
+            q.html(response);
+            q.on("click", ".btn-served", function () {
+                served($(this).data("transaction_id"));
+                location.reload();
+            });
+        });
+    }
+
+    function served(transaction_id) {
+        $.post("served", {
+            transaction_id: transaction_id
+        }, function (response) {
+            $("#queued_modal").modal("hide");
+        }, "json").done(function () {
+            queued();
+        });
     }
 
     function transactions() {

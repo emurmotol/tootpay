@@ -1,23 +1,11 @@
 <?php
 
 Route::get('dd', function () {
-//    $transactions = \App\Models\User::find('12312312312')->transactions()->where('status_response_id', 11)->get();
-//
-//    $_transactions = collect();
-//    $_orders = collect();
-//
-//    foreach ($transactions as $transaction) {
-//        $_transactions->push($transaction);
-//
-//        foreach ($transaction->orders()->get() as $order) {
-//            $_orders->push($order);
-//        }
-//    }
-//
-//    return dd($_orders->toArray());
-//    return dd($_transactions->toArray());
+    $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
+    $sms->sendMessageToNumber('09261951315', 'hello', config('sms.device'));
+    return dd($sms->sendMessageToNumber('09261951315', 'hello', config('sms.device')));
 
-    return dd(\App\Models\TootCard::expired()->get());
+    return dd(\App\Models\TootCard::payUsingLoad('0001246344', 100));
 });
 
 Route::auth();
@@ -114,6 +102,14 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'UserController@guest',
             'as' => 'users.guest'
         ]);
+        Route::get('users/{user}/toot_card/{toot_card}/transfer', [
+            'uses' => 'UserController@transfer',
+            'as' => 'users.transfer'
+        ]);
+        Route::post('users/{user}/toot_card/{toot_card}/transfer', [
+            'uses' => 'UserController@proceedTransfer',
+            'as' => 'users.proceed_transfer'
+        ]);
 
         // Toot Cards
         Route::resource('toot_cards', 'TootCardController', [
@@ -181,9 +177,21 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'CashierController@transactionsCashier',
             'as' => 'cashier.transactions_cashier'
         ]);
+        Route::get('transactions/cashier/queued', [
+            'uses' => 'CashierController@queued',
+            'as' => 'cashier.transactions_cashier_queued'
+        ]);
+        Route::get('transactions/cashier/queued/count', [
+            'uses' => 'CashierController@queuedCount',
+            'as' => 'cashier.transactions_cashier_queued_count'
+        ]);
         Route::post('transaction/done', [
             'uses' => 'CashierController@transactionDone',
             'as' => 'cashier.transaction_done'
+        ]);
+        Route::post('served', [
+            'uses' => 'CashierController@served',
+            'as' => 'cashier.served'
         ]);
         Route::post('transaction/cancel', [
             'uses' => 'CashierController@transactionCancel',

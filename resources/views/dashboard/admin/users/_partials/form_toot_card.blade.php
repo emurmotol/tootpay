@@ -29,6 +29,7 @@
                                 </a>
                             </p>
                         </div>
+                        <a href="{{ route('users.transfer', [$user->id, $user->tootCards()->first()->id]) }}" type="button" class="btn btn-primary">Transfer Card Data</a>
                         <button type="submit" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true" data-loading-text="{{ trans('loading.default') }}"></i> Remove card</button>
                         {!! Form::close() !!}
                     @endif

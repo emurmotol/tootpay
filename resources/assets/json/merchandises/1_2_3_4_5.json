@@ -3,5 +3,30 @@
     "category_id": 4,
     "name": "Rice",
     "price": 10
+  },
+  {
+    "category_id": 2,
+    "name": "Kaldereta + Kangkong + Rice",
+    "price": 45
+  },
+  {
+    "category_id": 2,
+    "name": "Bicol Express + Guisadong Tongue + Rice",
+    "price": 45
+  },
+  {
+    "category_id": 2,
+    "name": "Meatball + Laing + Rice",
+    "price": 45
+  },
+  {
+    "category_id": 2,
+    "name": "Menudo + Pakbet + Rice",
+    "price": 45
+  },
+  {
+    "category_id": 2,
+    "name": "Port Tapa + Monggo + Rice",
+    "price": 45
   }
 ]
