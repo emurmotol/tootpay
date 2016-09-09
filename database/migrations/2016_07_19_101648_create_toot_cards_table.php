@@ -14,7 +14,7 @@ class CreateTootCardsTable extends Migration
             $table->float('load')->nullable();
             $table->float('points')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->timestamp('expires_at');
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }

@@ -14,6 +14,11 @@
     white-space: nowrap;
 }
 
+#queue_number {
+    font-size: 300px;
+    height: auto;
+}
+
 html, body, .cashier-view, .col-md-6, .panel {
     height: 100%;
 }

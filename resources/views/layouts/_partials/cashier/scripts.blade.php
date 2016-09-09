@@ -11,6 +11,8 @@
     var cash_received_backspace = $("#cash_received_backspace");
     var cash_received_clear = $("#cash_received_clear");
 
+    var transaction_complete_with_queue_number = $("#transaction_complete_with_queue_number");
+
     var cash_suggestion_1 = $("#cash_suggestion_1");
     var cash_suggestion_5 = $("#cash_suggestion_5");
     var cash_suggestion_10 = $("#cash_suggestion_10");
@@ -108,6 +110,9 @@
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(11)->name }}") {
                 validation(true, timeout_short, '{!! trans('transaction.done') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
+                $("#queue_number").text(response.queue_number);
+                transactionCompleteWithQueueNumber(timeout_short);
             }
             console.log(response);
         }, "json").done(function() {
@@ -126,6 +131,13 @@
             resetToDefault();
         });
     });
+
+    function transactionCompleteWithQueueNumber(timeout) {
+        transaction_complete_with_queue_number.modal({backdrop: true});
+        _timer = setTimeout(function () {
+            transaction_complete_with_queue_number.modal("hide");
+        }, timeout);
+    }
 
     function resetToDefault() {
         resetCashReceivedValue();
@@ -184,7 +196,7 @@
     }
 
     function compute() {
-        var change = parseFloat(cash_received.val()) - parseFloat(transaction_amount_due.text());
+        var change = parseFloat(cash_received.val()) - parseFloat(transaction_amount_due.text().split(",").join(""));
         transaction_change.text(change.toFixed(decimal_place));
 
         if (parseFloat(transaction_change.text()) < 0.00 || parseInt(transaction_id.text()) == 0) {

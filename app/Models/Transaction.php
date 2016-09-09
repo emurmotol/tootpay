@@ -208,7 +208,18 @@ class Transaction extends Model
 
     public static function setStatusResponse($transaction_id, $status_response_id) {
         $transaction = Transaction::find($transaction_id);
-        $transaction->status_response_id = $status_response_id;
-        $transaction->save();
+        $reload = $transaction->reloads();
+
+        if ($reload->get()->count()) {
+            TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
+            $transaction->status_response_id = $status_response_id;
+            $transaction->save();
+            return StatusResponse::def(11);
+        } else {
+            $transaction->queue_number = self::queueNumber();
+            $transaction->status_response_id = $status_response_id;
+            $transaction->save();
+        }
+        return self::response($status_response_id, $transaction->payment_method_id, $transaction->id, $transaction->queue_number);
     }
 }

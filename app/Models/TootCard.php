@@ -163,4 +163,10 @@ class TootCard extends Model
         Log::debug($status->toArray());
         return response()->make($status->toJson());
     }
+
+    public static function saveLoad($toot_card_id, $load_amount) {
+        $toot_card = TootCard::find($toot_card_id);
+        $toot_card->load += $load_amount;
+        $toot_card->save();
+    }
 }

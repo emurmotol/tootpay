@@ -17,7 +17,7 @@
                     @foreach($transaction->reloads()->get() as $reload)
                         <tr>
                             <td>Reload</td>
-                            <td>P<span id="grand_total">{{ number_format($reload->total, 2, '.', ',') }}</span></td>
+                            <td>P<span id="grand_total">{{ number_format($reload->load_amount, 2, '.', ',') }}</span></td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -3,6 +3,7 @@
     var btn_cancel = $("#btn_cancel");
     var btn_hold = $("#btn_hold");
     var btn_pay_using_toot_card = $("#btn_pay_using_toot_card");
+    var btn_pay_using_toot_points = $("#btn_pay_using_toot_points");
     var btn_pay_using_cash = $("#btn_pay_using_cash");
 
     // input
@@ -463,11 +464,11 @@
             toot_card_id: _toot_card_id.val()
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
-                validation(false, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
+                validation(true, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
-                validation(false, 3000, '{!! trans('toot_card.insufficient_load') !!}');
+                validation(true, 3000, '{!! trans('toot_card.insufficient_load') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
-                validation(false, 3000, '{!! trans('toot_card.insufficient_points') !!}');
+                validation(true, 3000, '{!! trans('toot_card.insufficient_points') !!}');
             } else {
                 if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
                     validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');
@@ -557,10 +558,12 @@
         if (row_count < 1) {
             btn_hold.attr("disabled", "disabled");
             btn_pay_using_toot_card.attr("disabled", "disabled");
+            btn_pay_using_toot_points.attr("disabled", "disabled");
             btn_pay_using_cash.attr("disabled", "disabled");
         } else {
             btn_hold.removeAttr("disabled");
             btn_pay_using_toot_card.removeAttr("disabled");
+            btn_pay_using_toot_points.removeAttr("disabled");
             btn_pay_using_cash.removeAttr("disabled");
         }
     }

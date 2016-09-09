@@ -86,5 +86,6 @@
         </div>
     </div>
 
-    @include('dashboard.cashier._partials.validation')
+    @include('dashboard.cashier._partials.modals.validation')
+    @include('dashboard.cashier._partials.modals.transaction_complete_with_queue_number')
 @endsection

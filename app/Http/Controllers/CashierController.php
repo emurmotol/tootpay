@@ -28,16 +28,14 @@ class CashierController extends Controller
 
     public function transactionDone(Request $request) {
         if ($request->ajax()) {
-            Transaction::setStatusResponse($request->get('transaction_id'), 11);
-            return StatusResponse::def(11);
+            return Transaction::setStatusResponse($request->get('transaction_id'), 10);
         }
         return StatusResponse::find(17)->name;
     }
 
     public function transactionCancel(Request $request) {
         if ($request->ajax()) {
-            Transaction::setStatusResponse($request->get('transaction_id'), 7);
-            return StatusResponse::def(7);
+            return Transaction::setStatusResponse($request->get('transaction_id'), 7);
         }
         return StatusResponse::find(17)->name;
     }
