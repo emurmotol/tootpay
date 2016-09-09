@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Sofa\Eloquence\Eloquence;
 
 class User extends Authenticatable
@@ -143,36 +144,19 @@ class User extends Authenticatable
         return $guest[$field];
     }
 
-//    public static function administrators() {
-//        $administrators = collect();
-//
-//        foreach (self::all() as $user) {
-//            if ($user->hasRole(Role::json(0))) {
-//                $administrators->push($user);
-//            }
-//        }
-//        return $administrators->all();
-//    }
-//
-//    public static function cashiers() {
-//        $cashiers = collect();
-//
-//        foreach (self::all() as $user) {
-//            if ($user->hasRole(Role::json(1))) {
-//                $cashiers->push($user);
-//            }
-//        }
-//        return $cashiers->all();
-//    }
-//
-//    public static function cardholders() {
-//        $cardholders = collect();
-//
-//        foreach (self::all() as $user) {
-//            if ($user->hasRole(Role::json(2))) {
-//                $cardholders->push($user);
-//            }
-//        }
-//        return $cardholders->all();
-//    }
+    public static function admin() {
+        return self::whereIn('id', collect(DB::table('user_role')->where('role_id', admin())->get())->pluck('user_id')->toArray());
+    }
+
+    public static function cardholder() {
+        return self::whereIn('id', collect(DB::table('user_role')->where('role_id', cardholder())->get())->pluck('user_id')->toArray());
+    }
+
+    public static function cashier() {
+        return self::whereIn('id', collect(DB::table('user_role')->where('role_id', cashier())->get())->pluck('user_id')->toArray());
+    }
+
+    public static function guest() {
+        return self::whereIn('id', collect(DB::table('user_role')->where('role_id', guest())->get())->pluck('user_id')->toArray());
+    }
 }

@@ -98,6 +98,22 @@ Route::group(['middleware' => 'roles'], function () {
         Route::resource('users', 'UserController', [
             'parameters' => 'singular'
         ]);
+        Route::get('users/admin', [
+            'uses' => 'UserController@admin',
+            'as' => 'users.admin'
+        ]);
+        Route::get('users/cashier', [
+            'uses' => 'UserController@cashier',
+            'as' => 'users.cashier'
+        ]);
+        Route::get('users/cardholder', [
+            'uses' => 'UserController@cardholder',
+            'as' => 'users.cardholder'
+        ]);
+        Route::get('users/guest', [
+            'uses' => 'UserController@guest',
+            'as' => 'users.guest'
+        ]);
 
         // Toot Cards
         Route::resource('toot_cards', 'TootCardController', [

@@ -263,4 +263,148 @@ class UserController extends Controller
         }
         return redirect()->back();
     }
+
+    public static function admin() {
+        $_users = User::admin();
+
+        if (request()->has('search')) {
+            $results = User::searchFor(request()->get('search'), $_users);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = User::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $users = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = User::sort(request()->get('sort'), $_users);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $users = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $_users->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $users->appends(request()->except('page'));
+        return view('dashboard.admin.users.admin', compact('users'));
+    }
+
+    public static function cardholder() {
+        $_users = User::cardholder();
+
+        if (request()->has('search')) {
+            $results = User::searchFor(request()->get('search'), $_users);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = User::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $users = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = User::sort(request()->get('sort'), $_users);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $users = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $_users->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $users->appends(request()->except('page'));
+        return view('dashboard.admin.users.cardholder', compact('users'));
+    }
+
+    public static function cashier() {
+        $_users = User::cashier();
+
+        if (request()->has('search')) {
+            $results = User::searchFor(request()->get('search'), $_users);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = User::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $users = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = User::sort(request()->get('sort'), $_users);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $users = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $_users->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $users->appends(request()->except('page'));
+        return view('dashboard.admin.users.cashier', compact('users'));
+    }
+
+    public static function guest() {
+        $_users = User::guest();
+
+        if (request()->has('search')) {
+            $results = User::searchFor(request()->get('search'), $_users);
+
+            if (!$results->count()) {
+                flash()->error(trans('search.empty', ['search' => request()->get('search')]))->important();
+            }
+
+            if (request()->has('sort')) {
+                $sorted_results = User::sort(request()->get('sort'), $results);
+
+                if (is_null($sorted_results)) {
+                    return redirect()->back();
+                }
+                $users = $sorted_results->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $results->paginate(intval(Setting::value('per_page')));
+            }
+        } else {
+            if (request()->has('sort')) {
+                $sorted = User::sort(request()->get('sort'), $_users);
+
+                if (is_null($sorted)) {
+                    return redirect()->back();
+                }
+                $users = $sorted->paginate(intval(Setting::value('per_page')));
+            } else {
+                $users = $_users->paginate(intval(Setting::value('per_page')));
+            }
+        }
+        $users->appends(request()->except('page'));
+        return view('dashboard.admin.users.guest', compact('users'));
+    }
 }
