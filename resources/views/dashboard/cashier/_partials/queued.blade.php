@@ -22,7 +22,7 @@
             @endforeach
             <tr class="grand-total">
                 <td>
-                    <button type="button" class="btn btn-success btn-served" data-transaction_id="{{ $transaction->id }}">Served</button>
+                    <button type="button" class="btn btn-success btn-served-order" data-transaction_id="{{ $transaction->id }}">Served</button>
                 </td>
                 <td class="text-right">
                     <strong>Amount Due:</strong>

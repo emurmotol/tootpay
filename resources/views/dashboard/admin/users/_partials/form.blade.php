@@ -34,7 +34,7 @@
         @endif
 
         <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
-            <label for="id">ID:</label>
+            <label for="id">User ID:</label>
             <input type="number" class="form-control" id="id" name="id"
                    value="{{ (Route::is('users.edit')) ? $user->id : old('id') }}">
 

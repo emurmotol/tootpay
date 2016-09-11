@@ -121,7 +121,7 @@ class CashierController extends Controller
             $toot_card = $transaction->tootCards()->first();
 
             if (!is_null($toot_card)) {
-                if ($transaction->payment_method_id == 2) {
+                if ($transaction->payment_method_id == 3) {
                     TootCard::payUsingLoad($toot_card->id, $transaction->orders()->pluck('total')->sum());
                 } elseif ($transaction->payment_method_id == 4) {
                     TootCard::payUsingPoints($toot_card->id, $transaction->orders()->pluck('total')->sum());

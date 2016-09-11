@@ -202,13 +202,13 @@ class Transaction extends Model
     public static function pendingAndCash() {
         return self::where('payment_method_id', 1)
             ->where('status_response_id', 5)
-            ->orderBy('queue_number', 'desc')
+            ->orderBy('queue_number', 'asc')
             ->get();
     }
 
     public static function queued() {
         return self::where('status_response_id', 10)
-            ->orderBy('queue_number', 'desc')
+            ->orderBy('queue_number', 'asc')
             ->get();
     }
 

@@ -257,9 +257,9 @@
 
     function queued() {
         $.get("transactions/cashier/queued", function (response) {
-            var q = $("#queued_div");
-            q.html(response);
-            q.on("click", ".btn-served", function () {
+            $("#queued_div").html(response);
+            $(".queued-entry").on("click", ".btn-served-order", function () {
+                console.log($(this).data("transaction_id"));
                 served($(this).data("transaction_id"));
                 location.reload();
             });

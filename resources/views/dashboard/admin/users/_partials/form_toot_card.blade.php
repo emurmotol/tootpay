@@ -45,7 +45,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6">
-                        @if(\App\Models\TootCard::where('is_active', false)->count())
+                        @if(\App\Models\TootCard::available()->count())
                             @if(request()->has('redirect'))
                                 {!! Form::open([
                                     'route' => ['users.associate_card', $user->id, 'redirect' => request()->get('redirect')],
@@ -57,22 +57,21 @@
                                     'class' => ''
                                 ]) !!}
                             @endif
-
                             <div class="form-group{{ $errors->has('toot_card_id') ? ' has-error' : '' }}">
                                 <label for="toot_card_id">Select Toot Card:</label>
                                 <select id="toot_card_id" name="toot_card_id" class="form-control">
-                                    @foreach(\App\Models\TootCard::where('is_active', false)->get() as $toot_card)
+                                    @foreach(\App\Models\TootCard::available() as $toot_card)
                                         <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->uid }}</option>
                                     @endforeach
                                 </select>
 
                                 @if ($errors->has('toot_card_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('toot_card_id') }}</strong>
-                                    </span>
+                                            <strong>{{ $errors->first('toot_card_id') }}</strong>
+                                        </span>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Associate card</button>
+                                <button type="submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Associate card</button>
                             {!! Form::close() !!}
                         @else
                             <span class="help-block">{{ trans('toot_card.no_available') }}</span>

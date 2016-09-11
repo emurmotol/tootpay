@@ -148,8 +148,8 @@ class UserController extends Controller
         $toot_card->save();
         flash()->success(trans('user.card_associated', ['toot_card_id' => $toot_card->id, 'name' => $user->name]));
 
-        if (request()->has('redirect')) {
-            return redirect()->to(request()->get('redirect'));
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
         }
         return redirect()->back();
     }
@@ -174,6 +174,10 @@ class UserController extends Controller
         $sms->sendMessageToNumber($user->phone_number, 'Toot Card data from (UID: ' . $toot_card->uid . ') was successfully transferred to your account.', config('sms.device'));
 
         flash()->success('Data transferred successfully!');
+
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
+        }
         return redirect()->route('users.show', $user->id);
     }
 

@@ -190,4 +190,8 @@ class TootCard extends Model
     public static function notAssociated() {
         return self::whereNotIn('id', collect(DB::table('user_toot_card')->get())->pluck('toot_card_id')->toArray());
     }
+
+    public static function available() {
+        return self::where('is_active', false)->whereNotIn('id', collect(DB::table('user_toot_card')->get())->pluck('toot_card_id')->toArray())->get();
+    }
 }

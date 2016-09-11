@@ -73,7 +73,6 @@ class OrderController extends Controller
                 case 5:
                     return Order::transaction($transaction, $toot_card->users()->first()->id, $orders);
                     break;
-                default:
             }
             return Order::transaction($transaction, $toot_card->users()->first()->id, $orders);
         }

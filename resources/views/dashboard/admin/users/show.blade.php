@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                @unless(is_null($user->tootCards()->first()))
+                @if(!is_null($user->tootCards()->first()) || $user->hasRole(guest()))
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
                             <span class="pull-left">Order History</span>
@@ -118,7 +118,7 @@
                             @include('_partials.empty')
                         @endif
                     </div>
-                @endunless
+                @endif
             </div>
         </div>
     </div>
