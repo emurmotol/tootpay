@@ -3,11 +3,11 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSerialTable extends Migration
+class CreateSerialsTable extends Migration
 {
     public function up()
     {
-        Schema::create('serial', function (Blueprint $table) {
+        Schema::create('serials', function (Blueprint $table) {
             $table->string('tag');
             $table->timestamp('created_at');
         });
@@ -15,6 +15,6 @@ class CreateSerialTable extends Migration
 
     public function down()
     {
-        Schema::drop('serial');
+        Schema::drop('serials');
     }
 }

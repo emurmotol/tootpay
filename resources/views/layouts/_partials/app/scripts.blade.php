@@ -6,3 +6,4 @@
 <script src="{{ asset('js/livestamp.js') }}"></script>
 <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
 <script src="{{ asset('js/toot-pay.js') }}"></script>
+<script src="{{ asset('js/playsound.js') }}"></script>

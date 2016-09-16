@@ -1,11 +1,19 @@
 <?php
 
 Route::get('dd', function () {
-    $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-    $sms->sendMessageToNumber('09261951315', 'hello', config('sms.device'));
-    return dd($sms->sendMessageToNumber('09261951315', 'hello', config('sms.device')));
+    $serials = \App\Models\Serial::all();
+    $count = $serials->count();
 
-    return dd(\App\Models\TootCard::payUsingLoad('0001246344', 100));
+    if (!session()->has('count')) {
+        session(compact('count'));
+    }
+    $_count = session('count');
+
+    if ($count == $_count) {
+        return dd($count . " == " . $_count);
+    } else {
+        return dd($count . " != " . $_count);
+    }
 });
 
 Route::auth();
