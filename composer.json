@@ -12,7 +12,8 @@
         "sofa/eloquence": "~5.2@dev",
         "laracasts/flash": "^2.0",
         "maatwebsite/excel": "~2.1.0",
-        "laravelcollective/bus": "^5.2"
+        "laravelcollective/bus": "^5.2",
+        "barryvdh/laravel-dompdf": "^0.7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
