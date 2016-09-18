@@ -8,6 +8,10 @@
     "value": 10000
   },
   {
+    "key": "toot_card_min_load_limit",
+    "value": 20
+  },
+  {
     "key": "per_point",
     "value": 50
   },
@@ -22,5 +26,13 @@
   {
     "key": "toot_card_default_load",
     "value": 80
+  },
+  {
+    "key": "serial_count",
+    "value": 0
+  },
+  {
+    "key": "ready",
+    "value": 0
   }
 ]

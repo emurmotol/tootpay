@@ -11,7 +11,7 @@
                 <div class="table-responsive">
                     <div class="input-pin-code">
                         <input type="hidden" id="last_resort" value="0">
-                        <input type="hidden" id="_toot_card_id" name="_toot_card_id">
+                        <input type="hidden" id="toot_card_id" name="toot_card_id">
                         <input id="pin_code" name="pin_code" type="password" class="form-control input-lg text-center huge-md bs-input-unstyled"
                                placeholder="Pin code" pattern="[0-9]{4}" maxlength="4">
                     </div>

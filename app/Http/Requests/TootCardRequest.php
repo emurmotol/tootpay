@@ -14,12 +14,13 @@ class TootCardRequest extends Request
 
     public function rules()
     {
-        $limit = Setting::value('toot_card_max_load_limit');
+        $max = Setting::value('toot_card_max_load_limit');
+        $min = Setting::value('toot_card_min_load_limit');
         if($this->method() == 'POST') {
             return [
                 'id' => 'required|numeric|unique:toot_cards',
                 'uid' => 'required|numeric|unique:toot_cards',
-                'load' => "numeric|max:$limit",
+                'load' => "numeric|max:$max|min:$min",
                 'points' => 'numeric',
                 'pin_code' => 'numeric',
             ];
@@ -27,7 +28,7 @@ class TootCardRequest extends Request
             return [
                 'id' => 'required|numeric',
                 'uid' => 'required|numeric',
-                'load' => "numeric|max:$limit",
+                'load' => "numeric|max:$max|min:$min",
                 'points' => 'numeric',
                 'pin_code' => 'numeric',
                 'is_active' => '',

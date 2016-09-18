@@ -15,7 +15,6 @@
                         </a>
                     </div>
                 </div>
-                <input type="number" class="input-unstyled" id="toot_card_id" pattern="[0-9]{10}" maxlength="10" autofocus>
             </div>
         </div>
     </div>

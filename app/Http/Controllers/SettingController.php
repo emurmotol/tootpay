@@ -28,9 +28,15 @@ class SettingController extends Controller
         }
 
         if ($request->has('toot_card_max_load_limit')) {
-            $reload_limit = Setting::find('toot_card_max_load_limit');
-            $reload_limit->value = $request->get('toot_card_max_load_limit');
-            $reload_limit->save();
+            $toot_card_max_load_limit = Setting::find('toot_card_max_load_limit');
+            $toot_card_max_load_limit->value = $request->get('toot_card_max_load_limit');
+            $toot_card_max_load_limit->save();
+        }
+
+        if ($request->has('toot_card_min_load_limit')) {
+            $toot_card_min_load_limit = Setting::find('toot_card_min_load_limit');
+            $toot_card_min_load_limit->value = $request->get('toot_card_min_load_limit');
+            $toot_card_min_load_limit->save();
         }
 
         if ($request->has('toot_card_default_load')) {

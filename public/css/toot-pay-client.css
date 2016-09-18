@@ -11,6 +11,10 @@
     height: auto;
 }
 
+.input-qty input {
+    width: 80px;
+}
+
 .menu-footer {
     font-size: 20px;
 }

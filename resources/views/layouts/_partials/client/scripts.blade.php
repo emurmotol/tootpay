@@ -8,17 +8,14 @@
 
     // input
     var last_resort = $("#last_resort");
-    var idle_toot_card_id = $("#idle_toot_card_id");
     var pin_code = $("#pin_code");
     var toot_card_id = $("#toot_card_id");
-    var _toot_card_id = $("#_toot_card_id");
     var user_id = $("#user_id");
     var load_amount = $("#load_amount");
 
     // div
     var validation_content = $("#validation_content");
     var toot_card_balance = $("#toot_card_balance");
-    var load_order = $("#load_order");
 
     // modal
     var _validation = $("#validation");
@@ -33,13 +30,11 @@
     var toot_card_details = $("#toot_card_details");
     var tap_card = $("#tap_card");
 
-    // database values
-    var _transaction_id = parseInt("{{ Request::has('transaction_id') ? Request::get('transaction_id') : 0  }}");
-
     // timer
     var timeout_long = 60000;
-    var timeout_short = 1500;
+    var timeout_short = 2000;
     var _timer;
+    var _interval;
 
     // menu
     var menu_reload_toot_card = $("#menu_reload_toot_card");
@@ -58,72 +53,21 @@
         resetPinCodeValue();
     });
     _modal.on("hidden.bs.modal", function () {
-        idleTapCardListener(0);
-        clearTimer();
+        clearTimeout(_timer);
+        console.log("Timer cleared...");
+    });
+    tap_card.on("shown.bs.modal", function () {
+        ready(1);
+        checkCard(1000);
+        console.log("Listening on card tap...");
+    });
+    tap_card.on("hidden.bs.modal", function () {
+        ready(0);
+        clearInterval(_interval);
+        console.log("Not listening on card tap...");
     });
     toot_card_details.on("hidden.bs.modal", function () {
         resetTootCardBalanceHtml();
-    });
-    user_orders.on("hidden.bs.modal", function () {
-        resetLoadOrderHtml();
-    });
-
-    tap_card.on("shown.bs.modal", function () {
-        modalTapCardListener(0);
-    });
-
-    idle_toot_card_id.on("change", function () {
-        if (parseInt($(this).val().length) == 10) {
-            $.post("check_card", {
-                toot_card_id: $(this).val()
-            }, function (response) {
-                if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
-                    validation(true, timeout_short, '<strong>Hello! <i class="fa fa-smile-o"></i></strong>');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
-                    $.playSound("{{ asset('speech/whoops_invalid_toot_card') }}");
-                    validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
-                    $.playSound("{{ asset('speech/whoops_too_many_card_tap') }}");
-                    validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
-                    // inactive toot card sound
-                    validation(true, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(22)->name }}") {
-                    $.playSound("{{ asset('speech/your_toot_card_has_expired') }}");
-                    validation(true, timeout_short, '{!! trans('toot_card.expired_card') !!}');
-                }
-                console.log(response);
-                resetIdleTootCardIdValue();
-            }, "json");
-        }
-    });
-    toot_card_id.on("change", function () {
-        if (parseInt($(this).val().length) == 10) {
-            $.post("check_card", {
-                toot_card_id: $(this).val()
-            }, function (response) {
-                tap_card.modal("hide");
-
-                if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
-                    _toot_card_id.val(toot_card_id.val());
-                    enterPin(timeout_long);
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
-                    $.playSound("{{ asset('speech/whoops_invalid_toot_card') }}");
-                    validation(true, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
-                    $.playSound("{{ asset('speech/whoops_too_many_card_tap') }}");
-                    validation(true, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
-                    // inactive toot card sound
-                    validation(true, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
-                } else if (response.status == "{{ \App\Models\StatusResponse::find(22)->name }}") {
-                    $.playSound("{{ asset('speech/your_toot_card_has_expired') }}");
-                    validation(true, timeout_short, '{!! trans('toot_card.expired_card') !!}');
-                }
-                console.log(response);
-                resetTootCardIdValue();
-            }, "json");
-        }
     });
 
     $(".backspace").on("click", function () {
@@ -168,8 +112,8 @@
         }
     });
     btn_cancel.on("click", function () {
-        $.playSound("{{ asset('speech/transaction_canceled') }}");
         routeToIdle(500);
+        $.playSound("{{ asset('speech/transaction_canceled') }}");
         $(this).button("loading").delay(timeout_short).queue(function () {
             $(this).button("reset");
             $(this).dequeue();
@@ -180,16 +124,19 @@
         resetLoadAmountValue();
         enterLoadAmount(timeout_long);
         last_resort.val(1);
+        console.log("Last resort is set to 1...");
     });
     menu_check_balance.on("click", function () {
         menu.modal("hide");
         tapCard(timeout_long);
         last_resort.val(2);
+        console.log("Last resort is set to 2...");
     });
     menu_order_food.on("click", function () {
         menu.modal("hide");
+        $.playSound("{{ asset('speech/loading_menu_items') }}");
         loading.modal({backdrop: "static"});
-        routeToOrder(500);
+        window.location.replace("{{ route('order.order') }}");
     });
     menu_share_a_load.on("click", function () {
         menu.modal("hide");
@@ -197,18 +144,17 @@
         enterLoadAmount(timeout_long);
         resetUserIdValue();
         last_resort.val(5);
-    });
-    btn_hold.on("click", function () {
-        tapCard(timeout_long);
-        last_resort.val(4);
+        console.log("Last resort is set to 5...");
     });
     btn_pay_using_toot_card.on("click", function () {
         tapCard(timeout_long);
         last_resort.val(3);
+        console.log("Last resort is set to 3...");
     });
     btn_pay_using_toot_points.on("click", function () {
         tapCard(timeout_long);
         last_resort.val(6);
+        console.log("Last resort is set to 6...");
     });
     btn_pay_using_cash.on("click", function () {
         sendOrders(5, 1);
@@ -221,7 +167,7 @@
 
         if (enter_user_id.hasClass("in")) {
             if (parseInt(user_id.val().length) < 1) {
-                // required user id
+                $.playSound("{{ asset('speech/the_user_id_field_is_required') }}");
                 validation(false, timeout_short, '{!! trans('user.empty_user_id') !!}');
             } else {
                 validateUserId(user_id.val());
@@ -233,7 +179,7 @@
                 $.playSound("{{ asset('speech/the_pin_code_field_is_required') }}");
                 validation(false, timeout_short, '{!! trans('toot_card.empty_pin') !!}');
             } else {
-                authCard(_toot_card_id.val(), pin_code.val());
+                authCard(toot_card_id.val(), pin_code.val());
             }
         }
 
@@ -247,6 +193,41 @@
         }
     });
 
+    function checkCard(interval) {
+        _interval = setInterval(function () {
+            $.get("check_card", function (response) {
+                if (response != null) {
+                    if (response.status == "{{ \App\Models\StatusResponse::find(1)->name }}") {
+                        tap_card.modal("hide");
+                        toot_card_id.val(response.toot_card_id);
+                        enterPinCode(timeout_long);
+                    } else if (response.status == "{{ \App\Models\StatusResponse::find(2)->name }}") {
+                        $.playSound("{{ asset('speech/whoops_invalid_toot_card') }}");
+                        validation(false, timeout_short, '{!! trans('toot_card.invalid_card') !!}');
+                    } else if (response.status == "{{ \App\Models\StatusResponse::find(14)->name }}") {
+                        $.playSound("{{ asset('speech/whoops_too_many_card_tap') }}");
+                        validation(false, timeout_short, '{!! trans('toot_card.to_many_card_tap') !!}');
+                    } else if (response.status == "{{ \App\Models\StatusResponse::find(21)->name }}") {
+                        $.playSound("{{ asset('speech/whoops_inactive_toot_card') }}");
+                        validation(false, timeout_short, '{!! trans('toot_card.inactive_card') !!}');
+                    } else if (response.status == "{{ \App\Models\StatusResponse::find(22)->name }}") {
+                        $.playSound("{{ asset('speech/your_toot_card_has_expired') }}");
+                        validation(false, timeout_short, '{!! trans('toot_card.expired_card') !!}');
+                    }
+                    console.log(response);
+                }
+            }, "json");
+        }, interval);
+    }
+
+    function ready(bool) {
+        $.post("ready", {
+            bool: bool
+        }, function (response) {
+            console.log(response);
+        }, "json");
+    }
+
     function validateUserId(user_id_value) {
         $.post("check_user_id", {
             user_id: user_id_value
@@ -255,8 +236,8 @@
                 enter_user_id.modal("hide");
                 tapCard(timeout_long);
             } else if (response.status == "{{ \App\Models\StatusResponse::find(16)->name }}") {
-                // invalid user id sound
-                validation(true, timeout_short, '{!! trans('user.invalid_user_id') !!}');
+                $.playSound("{{ asset('speech/whoops_invalid_user_id') }}");
+                validation(false, timeout_short, '{!! trans('user.invalid_user_id') !!}');
             }
             console.log(response);
         }, "json");
@@ -264,8 +245,11 @@
 
     function validateLoadAmount(load_amount_value) {
         if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value("toot_card_max_load_limit") }}')) {
-            $.playSound("{{ asset('speech/whoops_the_amount_you_enter_exceed_the_load_limit') }}");
-            validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+            $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
+            validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+        } else if (parseFloat(load_amount_value) < parseFloat('{{ \App\Models\Setting::value("toot_card_min_load_limit") }}')) {
+            $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_minimum_load_limit') }}");
+            validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_min_load_limit'), 2, '.', ',')]) !!}');
         } else {
             enter_load_amount.modal("hide");
             if (last_resort.val() == 5) {
@@ -295,13 +279,13 @@
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 $.playSound("{{ asset('speech/you_have_successfully_shared_your_load') }}");
-                validation(true, timeout_short, '{!! trans('toot_card.load_shared') !!}');
+                validation(true, 5000, '{!! trans('toot_card.load_shared') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
-                $.playSound("{{ asset('speech/whoops_the_amount_you_enter_exceed_the_load_limit') }}");
-                validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+                $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
+                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_load_is_not_enough_to_complete_the_load_sharing') }}");
-                validation(false, 3000, '{!! trans('toot_card.insufficient_load_share') !!}');
+                validation(false, 5000, '{!! trans('toot_card.insufficient_load_share') !!}');
             }
             console.log(response);
         }, "json");
@@ -314,10 +298,13 @@
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 $.playSound("{{ asset('speech/your_reload_request_was_successfully_sent') }}");
-                validation(true, timeout_short, '{!! trans('toot_card.reload_request_sent') !!}');
+                validation(true, 5000, '{!! trans('toot_card.reload_request_sent') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
-                $.playSound("{{ asset('speech/whoops_the_amount_you_enter_exceed_the_load_limit') }}");
-                validation(false, 3000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+                $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
+                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}") {
+                $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_minimum_load_limit') }}");
+                validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_min_load_limit'), 2, '.', ',')]) !!}');
             }
             console.log(response);
         }, "json");
@@ -331,7 +318,7 @@
             if (response.status == "{{ \App\Models\StatusResponse::find(3)->name }}") {
                 lastResort(last_resort.val());
             } else if (response.status == "{{ \App\Models\StatusResponse::find(4)->name }}") {
-                $.playSound("{{ asset('speech/whoops_wrong_pin_code_please_try_again') }}");
+                $.playSound("{{ asset('speech/whoops_wrong_pin_code_try_again') }}");
                 validation(false, timeout_short, '{!! trans('toot_card.wrong_pin') !!}');
             }
             resetPinCodeValue();
@@ -340,14 +327,14 @@
     }
 
     function lastResort(last_resort_value) {
-        switch(parseInt(last_resort_value)) {
+        switch (parseInt(last_resort_value)) {
             case 1:
-                reloadRequest(_toot_card_id.val(), load_amount.val());
+                reloadRequest(toot_card_id.val(), load_amount.val());
                 console.log("LAST_RESORT_RELOAD_TOOT_CARD");
                 break;
             case 2:
                 enter_pin.modal("hide");
-                checkBalance(_toot_card_id.val());
+                checkBalance(toot_card_id.val());
                 console.log("LAST_RESORT_CHECK_BALANCE");
                 break;
             case 3:
@@ -355,14 +342,9 @@
                 sendOrders(10, 3);
                 console.log("LAST_RESORT_QUEUED_ORDER");
                 break;
-            case 4:
-                enter_pin.modal("hide");
-                sendOrders(12, 5);
-                console.log("LAST_RESORT_HOLD_ORDER");
-                break;
             case 5:
                 enter_pin.modal("hide");
-                shareLoad(_toot_card_id.val(), user_id.val(), load_amount.val());
+                shareLoad(toot_card_id.val(), user_id.val(), load_amount.val());
                 console.log("LAST_RESORT_SHARE_LOAD");
                 break;
             case 6:
@@ -380,13 +362,7 @@
         }, timeout);
     }
 
-    function routeToOrder(timeout) {
-        _timer = setTimeout(function () {
-            window.location.replace("{{ route('order.order') }}");
-        }, timeout);
-    }
-
-    function todaysMenu() {
+    function menuToday() {
         $.get("order/menu", function (response) {
             $("#todays_menu").html(response);
 
@@ -395,51 +371,31 @@
                 var name = $(this).data("name");
                 var price = $(this).data("price");
                 var element_id = $(this).data("element_id");
-                var qty = $(element_id + " .modal-dialog .modal-content .modal-body .col-md-6 span.qty");
-                addOrder(merchandise_id, name, price, qty.text());
-                qty.text(1);
+                var qty = $(element_id + " .modal-dialog .modal-content .modal-body .col-md-6 input.qty");
+                addOrder(merchandise_id, name, price, qty.val());
+                qty.val(1);
             });
 
             var modal_qty = $(".modal-body .row .col-md-6");
             modal_qty.on("click", "button.plus", function () {
-                var qty = parseInt($(this).prev("span.qty").text());
+                var qty = parseInt($(this).prev("input.qty").val());
                 var new_qty = qty + 1;
-                $(this).prev("span.qty").text(new_qty);
+                $(this).prev("input.qty").val(new_qty);
                 compute();
             });
             modal_qty.on("click", "button.minus", function () {
-                var qty = parseInt($(this).next("span.qty").text());
+                var qty = parseInt($(this).next("input.qty").val());
                 var new_qty = ((qty - 1) < 1) ? 1 : qty - 1;
-                $(this).next("span.qty").text(new_qty);
+                $(this).next("input.qty").val(new_qty);
                 compute();
             });
+            console.log(response);
         });
     }
 
-    function loadOrders(transaction_id) {
-        console.log("transaction_id is " + transaction_id);
-
-        $.post("order/load", {
-            transaction_id: transaction_id
-        }, function (response) {
-            $.each(response, function(key, order) {
-                addOrder(order.merchandise_id, order.name, order.price, order.qty);
-            });
-            console.log(response);
-        }, "json");
-    }
-
     $(function () {
-        if (parseInt("{{ Route::is('transaction.idle') }}")) {
-            idleTapCardListener(0);
-
-            if (_transaction_id > 0) {
-                loadOrders(_transaction_id);
-            }
-        }
-
         if (parseInt("{{ Route::is('order.order') }}")) {
-            todaysMenu();
+            menuToday();
         }
     });
 
@@ -471,18 +427,17 @@
         $.post("order/send", {
             orders: getOrders(),
             transaction: JSON.stringify(transaction),
-            transaction_id: _transaction_id,
-            toot_card_id: _toot_card_id.val()
+            toot_card_id: toot_card_id.val()
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_balance_is_not_enough_to_complete_the_payment') }}");
-                validation(true, 3000, '{!! trans('toot_card.insufficient_balance') !!}');
+                validation(true, 5000, '{!! trans('toot_card.insufficient_balance') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
-                // not enough load sound
-                validation(true, 3000, '{!! trans('toot_card.insufficient_load') !!}');
+                $.playSound("{{ asset('speech/whoops_your_load_is_not_enough_to_complete_the_payment') }}");
+                validation(true, 5000, '{!! trans('toot_card.insufficient_load') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
-                // not enough points sound
-                validation(true, 3000, '{!! trans('toot_card.insufficient_points') !!}');
+                $.playSound("{{ asset('speech/whoops_your_toot_points_is not_enough_to_complete_the_redeem') }}");
+                validation(true, 5000, '{!! trans('toot_card.insufficient_points') !!}');
             } else {
                 if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
                     $.playSound("{{ asset('speech/transaction_complete') }}");
@@ -492,7 +447,6 @@
                     if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(5)->name }}") {
                         validation("static", 10000, '{!! trans('toot_card.order_on_hold') !!}');
                     } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
-                        $.playSound("{{ asset('speech/your_queue_number_is') }}");
                         $("#queue_number").text(response.queue_number);
                         transactionCompleteWithQueueNumber(10000);
                     }
@@ -584,10 +538,6 @@
         }
     }
 
-    function clearTimer() {
-        clearTimeout(_timer);
-    }
-
     function refreshPage(timeout) {
         _timer = setTimeout(function () {
             location.reload();
@@ -602,7 +552,7 @@
                 if (_modal.hasClass("in")) {
                     _modal.modal("hide");
                 }
-                _validation.modal({backdrop: true});
+                _validation.modal("show");
                 break;
             case false:
                 _validation.modal({backdrop: false});
@@ -612,7 +562,7 @@
                 break;
             default:
         }
-        _timer = setTimeout(function () {
+        setTimeout(function () {
             _validation.modal("hide");
         }, timeout);
     }
@@ -626,27 +576,11 @@
     }
 
     function enterUserId(timeout) {
-        // enter user id sound
+        $.playSound("{{ asset('speech/enter_user_id') }}");
         enter_user_id.modal("show");
         _timer = setTimeout(function () {
             enter_user_id.modal("hide");
         }, timeout);
-    }
-
-    function idleTapCardListener(timeout) {
-        idle_toot_card_id.focus();
-        _timer = setTimeout(function () {
-            idle_toot_card_id.focus();
-        }, timeout);
-    }
-
-    function modalTapCardListener(timeout) {
-        toot_card_id.focus();
-        toot_card_id.blur(function () {
-            _timer = setTimeout(function () {
-                toot_card_id.focus();
-            }, timeout);
-        });
     }
 
     function _menu(timeout) {
@@ -657,14 +591,7 @@
         }, timeout);
     }
 
-    function userOrders(timeout) {
-        user_orders.modal("show");
-        _timer = setTimeout(function () {
-            user_orders.modal("hide");
-        }, timeout);
-    }
-
-    function enterPin(timeout) {
+    function enterPinCode(timeout) {
         $.playSound("{{ asset('speech/enter_your_pin_code') }}");
         enter_pin.modal("show");
         _timer = setTimeout(function () {
@@ -673,6 +600,7 @@
     }
 
     function tootCardDetails(timeout) {
+        $.playSound("{{ asset('speech/your_balance_is') }}");
         toot_card_details.modal("show");
         _timer = setTimeout(function () {
             toot_card_details.modal("hide");
@@ -689,15 +617,10 @@
 
     function transactionCompleteWithQueueNumber(timeout) {
         $.playSound("{{ asset('speech/transaction_complete') }}");
-        $.playSound("{{ asset('speech/your_queue_number_is') }}");
         transaction_complete_with_queue_number.modal({backdrop: "static"});
         _timer = setTimeout(function () {
             transaction_complete_with_queue_number.modal("hide");
         }, timeout);
-    }
-
-    function resetTootCardIdValue() {
-        toot_card_id.val("");
     }
 
     function resetValidationContentHtml() {
@@ -716,16 +639,8 @@
         user_id.val("");
     }
 
-    function resetIdleTootCardIdValue() {
-        idle_toot_card_id.val("");
-    }
-
     function resetTootCardBalanceHtml() {
         toot_card_balance.html("");
-    }
-
-    function resetLoadOrderHtml() {
-        load_order.html("");
     }
 
     function resetPinCodeValue() {

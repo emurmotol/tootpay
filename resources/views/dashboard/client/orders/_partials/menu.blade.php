@@ -37,12 +37,12 @@
                                                     </div>
                                                     <div class="col-md-6 huge">
                                                         <p>Price: P{{ number_format($merchandise->price, 2, '.', ',') }}</p>
-                                                        <p>
+                                                        <p class="input-qty">
                                                             Qty:
                                                             <button class="btn btn-default btn-lg minus">
                                                                 <i class="fa fa-minus"></i>
                                                             </button>
-                                                            <span class="qty">1</span>
+                                                            <input type="number" class="qty" value="1">
                                                             <button class="btn btn-default btn-lg plus">
                                                                 <i class="fa fa-plus"></i>
                                                             </button>

@@ -1,19 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    $serials = \App\Models\Serial::all();
-    $count = $serials->count();
-
-    if (!session()->has('count')) {
-        session(compact('count'));
-    }
-    $_count = session('count');
-
-    if ($count == $_count) {
-        return dd($count . " == " . $_count);
-    } else {
-        return dd($count . " != " . $_count);
-    }
+    return dd(\App\Models\Serial::tag());
 });
 
 Route::auth();
@@ -293,9 +281,13 @@ Route::post('check_balance', [
     'uses' => 'TransactionController@checkBalance',
     'as' => 'transaction.check_balance'
 ]);
-Route::post('check_card', [
+Route::get('check_card', [
     'uses' => 'TransactionController@checkCard',
     'as' => 'transaction.check_card'
+]);
+Route::post('ready', [
+    'uses' => 'TransactionController@ready',
+    'as' => 'transaction.ready'
 ]);
 Route::post('check_user_id', [
     'uses' => 'TransactionController@checkUserId',

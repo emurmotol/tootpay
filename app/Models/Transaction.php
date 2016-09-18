@@ -58,12 +58,6 @@ class Transaction extends Model
         return $default;
     }
 
-    public static function createdBy($toot_card_id, $status_response_id, $payment_method_id) {
-        return TootCard::find($toot_card_id)->transactions()
-            ->where('status_response_id', $status_response_id)
-            ->where('payment_method_id', $payment_method_id);
-    }
-
     public static function dailySales($date) {
         $transaction = self::where('status_response_id', 11)
             ->whereDate('created_at', '=', $date)

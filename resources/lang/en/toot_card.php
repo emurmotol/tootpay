@@ -11,7 +11,7 @@ return [
     'delete_fail_active' => 'Unable to delete <strong>:id</strong>. The card is still active!',
     'exception' => ':Error',
     'queue_number_is' => 'Your queue number is:',
-    'details' => '<strong>Your toot card balance</strong>',
+    'details' => '<strong>Your balance is...</strong>',
     'balance' => 'As of :Date, you have <span class="text-success">P:load load</span> with <span class="text-success">:points points</span>.',
     'tap_card' => '<strong>Please tap your toot card!</strong>',
     'enter_pin' => '<strong>Enter your pin code</strong>',
@@ -19,7 +19,8 @@ return [
 
     'empty_load_amount' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The load amount field is required.</strong>',
     'empty_pin' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> The pin code field is required.</strong>',
-    'exceed_max_load_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The amount you entered exceeds the load limit. Maximum reload is P:limit</strong>',
+    'exceed_max_load_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The load amount you entered exceeds the maximum load limit. (P:limit)</strong>',
+    'exceed_min_load_limit' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! The load amount you entered exceeds the minimum load limit. (P:limit)</strong>',
     'insufficient_balance' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your balance is not enough to complete the payment.</strong>',
     'insufficient_load_share' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the load sharing.</strong>',
     'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the payment.</strong>',
@@ -29,12 +30,10 @@ return [
     'already_associated' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Toot card is already taken.</strong>',
     'inactive_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Inactive toot card.</strong>',
     'expired_card' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Your toot card has expired.</strong>',
-    'empty_user_order' => '<strong class="text-info"><i class="fa fa-info-circle"></i> You do not have any orders yet.</strong>',
-    'order_on_hold' => '<strong class="text-info"><i class="fa fa-info-circle"></i> Your orders is now on-hold. To check your order tap your toot card on screen idle.</strong>',
     'to_many_card_tap' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! To many card tap.</strong>',
     'transaction_complete' => '<strong class="text-success"><i class="fa fa-check"></i> Transaction complete!</strong>',
-    'reload_request_sent' => '<strong class="text-success"><i class="fa fa-check"></i> Reload request sent!</strong>',
+    'reload_request_sent' => '<strong class="text-success"><i class="fa fa-check"></i> Reload request was successfully sent!</strong>',
     'load_shared' => '<strong class="text-success"><i class="fa fa-check"></i> You have successfully shared your load!</strong>',
-    'wrong_pin' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Wrong pin. Try again.</strong>',
+    'wrong_pin' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Wrong pin code. Try again.</strong>',
 
 ];

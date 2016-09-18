@@ -21,6 +21,6 @@ function sendSms($phone_number, $message) {
     return $sms->sendMessageToNumber($phone_number, $message, config('sms.device'));
 }
 
-function sendEmail() {
+function sendEmail($email, $message) {
 
 }

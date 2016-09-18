@@ -52,11 +52,6 @@
                     </li>
                     <li class="text-right payment-method">
                         <ul class="list-inline">
-                            {{--<li>--}}
-                                {{--<button class="btn btn-info" id="btn_hold" disabled>--}}
-                                    {{--<strong>Hold Order</strong>--}}
-                                {{--</button>--}}
-                            {{--</li>--}}
                             <li>
                                 <button class="btn btn-warning" id="btn_cancel" data-loading-text="{{ trans('loading.default') }}">
                                     <strong>Cancel Order</strong>

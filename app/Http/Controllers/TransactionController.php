@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\LoadShare;
 use App\Models\Order;
 use App\Models\Reload;
+use App\Models\Serial;
+use App\Models\Setting;
 use App\Models\StatusResponse;
 use App\Models\TootCard;
 use App\Models\Transaction;
@@ -23,34 +25,46 @@ class TransactionController extends Controller
     public function checkBalance(Request $request) {
         if ($request->ajax()) {
             $toot_card = TootCard::find($request->get('toot_card_id'));
-            return (String)view('dashboard.client.transactions._partials.check_balance',
-                compact('toot_card'));
+            return (String)view('dashboard.client.transactions._partials.check_balance', compact('toot_card'));
         }
         return StatusResponse::find(17)->name;
     }
 
+    public function ready(Request $request) {
+        $ready = Setting::find('ready');
+        $ready->value = intval($request->get('bool'));
+        $ready->save();
+        return collect($ready)->toJson();
+    }
+
     public function checkCard(Request $request) {
         if ($request->ajax()) {
-            $toot_card_id = $request->get('toot_card_id');
+            if (Setting::value('ready')) {
+                $tag = Serial::tag();
 
-            if (strlen($toot_card_id) > 10) {
-                return StatusResponse::def(14);
-            }
+                if (!is_null($tag)) {
+                    $toot_card_id = $tag;
 
-            $toot_card = TootCard::find($toot_card_id);
+                    if (strlen($toot_card_id) > 10) {
+                        return StatusResponse::def(14);
+                    }
 
-            if (!is_null($toot_card)) {
+                    $toot_card = TootCard::find($toot_card_id);
 
-                if (!$toot_card->is_active) {
-                    return TootCard::response(21, $toot_card->id);
+                    if (!is_null($toot_card)) {
+
+                        if (!$toot_card->is_active) {
+                            return TootCard::response(21, $toot_card->id);
+                        }
+
+                        if (Carbon::now()->gt($toot_card->expires_at)) {
+                            return TootCard::response(22, $toot_card->id);
+                        }
+                        return TootCard::response(1, $toot_card->id);
+                    }
+                    return StatusResponse::def(2);
                 }
-
-                if (Carbon::now()->gt($toot_card->expires_at)) {
-                    return TootCard::response(22, $toot_card->id);
-                }
-                return TootCard::response(1, $toot_card->id);
             }
-            return StatusResponse::def(2);
         }
         return StatusResponse::find(17)->name;
     }
@@ -88,8 +102,12 @@ class TransactionController extends Controller
             $toot_card_id = $request->get('toot_card_id');
             $load_amount = $request->get('load_amount');
 
-            if (TootCard::loadExceeds($toot_card_id, $load_amount)) {
+            if (TootCard::loadExceedsMax($toot_card_id, $load_amount)) {
                 return TootCard::response(19, $toot_card_id);
+            }
+
+            if (TootCard::loadExceedsMin($toot_card_id, $load_amount)) {
+                return TootCard::response(12, $toot_card_id);
             }
 
             $transaction = Transaction::create([
@@ -116,8 +134,8 @@ class TransactionController extends Controller
 
             $toot_card_id_receiver = User::find($user_id)->tootCards()->first()->id;
 
-            if (TootCard::loadExceeds($toot_card_id_receiver, $load_amount)) {
-                return TootCard::response(19, $toot_card_id_receiver);
+            if (TootCard::loadExceedsMax($toot_card_id_receiver, $load_amount)) {
+                return TootCard::response(19, $toot_card_id);
             }
 
             if (TootCard::hasSufficientLoad($toot_card_id, $load_amount)) {

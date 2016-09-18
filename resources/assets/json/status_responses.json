@@ -33,7 +33,7 @@
     "name": "DONE"
   },
   {
-    "name": "ON_HOLD"
+    "name": "LOAD_EXCEEDS_MIN_LIMIT"
   },
   {
     "name": "EMPTY_USER_ORDER"
@@ -54,7 +54,7 @@
     "name": "INSUFFICIENT_LOAD"
   },
   {
-    "name": "LOAD_EXCEEDS_LIMIT"
+    "name": "LOAD_EXCEEDS_MAX_LIMIT"
   },
   {
     "name": "INSUFFICIENT_POINTS"

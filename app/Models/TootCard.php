@@ -77,11 +77,21 @@ class TootCard extends Model
         return $test[$field];
     }
 
-    public static function loadExceeds($toot_card_id, $amount_due) {
+    public static function loadExceedsMax($toot_card_id, $amount_due) {
         $toot_card = self::find($toot_card_id);
         $temp_load = $toot_card->load + $amount_due;
 
         if ($temp_load > Setting::value('toot_card_max_load_limit')) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function loadExceedsMin($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $temp_load = $toot_card->load + $amount_due;
+
+        if ($temp_load < Setting::value('toot_card_min_load_limit')) {
             return true;
         }
         return false;
@@ -159,14 +169,16 @@ class TootCard extends Model
         $toot_card->save();
     }
 
+    public static function check($toot_card_id) {
+
+    }
+
     public static function response($status_response_id, $toot_card_id) {
         $response = [
             'status' => StatusResponse::find($status_response_id)->name,
-            'toot_card_uid' => self::find($toot_card_id)->uid
+            'toot_card_id' => self::find($toot_card_id)->id
         ];
-        $status = collect($response);
-        Log::debug($status->toArray());
-        return response()->make($status->toJson());
+        return response()->make(collect($response)->toJson());
     }
 
     public static function saveLoad($toot_card_id, $load_amount) {

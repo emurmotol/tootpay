@@ -41,7 +41,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input id="toot_card_load_limit" type="number" class="form-control" name="toot_card_max_load_limit"
+                <input id="toot_card_max_load_limit" type="number" class="form-control" name="toot_card_max_load_limit"
                        value="{{ \App\Models\Setting::value('toot_card_max_load_limit') }}"
                        placeholder="Max load limit">
             </div>
@@ -49,6 +49,23 @@
             @if ($errors->has('toot_card_max_load_limit'))
                 <span class="help-block">
                     <strong>{{ $errors->first('toot_card_max_load_limit') }}</strong>
+                </span>
+            @endif
+        </div>
+
+        <div class="form-group{{ $errors->has('toot_card_min_load_limit') ? ' has-error' : '' }}">
+            <label for="toot_card_min_load_limit">Min Load Limit:</label>
+
+            <div class="input-group">
+                <span class="input-group-addon">P</span>
+                <input id="toot_card_min_load_limit" type="number" class="form-control" name="toot_card_min_load_limit"
+                       value="{{ \App\Models\Setting::value('toot_card_min_load_limit') }}"
+                       placeholder="Min load limit">
+            </div>
+
+            @if ($errors->has('toot_card_min_load_limit'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('toot_card_min_load_limit') }}</strong>
                 </span>
             @endif
         </div>
