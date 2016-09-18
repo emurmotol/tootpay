@@ -270,9 +270,6 @@ Route::post('order/load', [
 ]);
 
 // Transactions
-Route::resource('transactions', 'TransactionController', [
-    'parameters' => 'singular'
-]);
 Route::get('idle', [
     'uses' => 'TransactionController@idle',
     'as' => 'transaction.idle'
