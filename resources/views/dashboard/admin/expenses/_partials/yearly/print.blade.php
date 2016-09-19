@@ -42,13 +42,13 @@
                 </tr>
             @endforeach
             <tr>
-                <td>Total Expenses:</td>
-                <td>{{ number_format(collect($expenses)->pluck('_amount')->sum(), 2, '.', ',') }}</td>
+                <td><strong>Total Expenses:</strong></td>
+                <td><strong>{{ number_format(collect($expenses)->pluck('_amount')->sum(), 2, '.', ',') }}</strong></td>
             </tr>
         </table>
     </div>
 @else
-    <p>Empty</p>
+    <p>Empty.</p>
 @endif
 
 </body>

@@ -42,7 +42,15 @@
                         <label for="toot_card_uid" class="col-md-4 control-label">Toot Card UID:</label>
 
                         <div class="col-md-8">
-                            <input type="number" class="form-control" id="toot_card_uid" name="toot_card_uid">
+                            @if(\App\Models\TootCard::available()->count())
+                                <select id="toot_card_uid" name="toot_card_uid" class="form-control">
+                                    @foreach(\App\Models\TootCard::available() as $toot_card)
+                                        <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->uid }}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <p class="form-control-static text-muted">{{ trans('toot_card.no_available') }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>

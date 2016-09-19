@@ -257,12 +257,16 @@
 
     function queued() {
         $.get("transactions/cashier/queued", function (response) {
-            $("#queued_div").html(response);
-            $(".queued-entry").on("click", ".btn-served-order", function () {
-                console.log($(this).data("transaction_id"));
-                served($(this).data("transaction_id"));
-                location.reload();
-            });
+            if (response != "") {
+                $("#queued_div").html(response);
+                $(".queued-entry").on("click", ".btn-served-order", function () {
+                    console.log($(this).data("transaction_id"));
+                    served($(this).data("transaction_id"));
+                    location.reload();
+                });
+            } else {
+                $("#queued_div").html("<div class='text-muted text-center'>Empty.</div>");
+            }
         });
     }
 
@@ -317,7 +321,7 @@
     }
 
     function resetTransactionIdText() {
-        transaction_id.text(0);
+        transaction_id.text("");
     }
 
     function resetTransactionAmountDueText() {

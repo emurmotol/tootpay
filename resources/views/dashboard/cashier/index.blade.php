@@ -19,7 +19,7 @@
                 <div class="panel-body">
                     <ul class="list-unstyled">
                         <li>
-                            <strong>Transaction: <span class="pull-right">#<span id="transaction_id">0</span></span></strong>
+                            <strong>Transaction: <span class="pull-right">#<span id="transaction_id"></span></span></strong>
                         </li>
                         <li><hr></li>
                         <li>

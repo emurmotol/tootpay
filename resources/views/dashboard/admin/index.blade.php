@@ -80,5 +80,24 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-3 pull-left">
+                            <i class="fa fa-minus-circle fa-4x" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-md-9 pull-right text-right">
+                            <div class="huge-count"><strong>P{{ number_format(collect(\App\Models\Expense::daily(\Carbon\Carbon::now()->toDateString()))->pluck('amount')->sum(), 2, '.', ',') }}</strong></div>
+                            <div>Expenses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <a href="{{ route('expenses.index') }}" target="_blank">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
