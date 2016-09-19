@@ -88,10 +88,13 @@
 
         <div class="form-group{{ $errors->has('toot_card_expire_year_count') ? ' has-error' : '' }}">
             <label for="toot_card_expire_year_count">Expire Year Count:</label>
-            <input id="toot_card_expire_year_count" type="number" class="form-control"
-                   name="toot_card_expire_year_count"
-                   value="{{ \App\Models\Setting::value('toot_card_expire_year_count') }}"
-                   placeholder="Expire year count">
+
+            <div class="input-group">
+                <input id="toot_card_expire_year_count" type="number" class="form-control" name="toot_card_expire_year_count"
+                       value="{{ \App\Models\Setting::value('toot_card_expire_year_count') }}"
+                       placeholder="Expire year count">
+                <span class="input-group-addon">Years</span>
+            </div>
 
             @if ($errors->has('toot_card_expire_year_count'))
                 <span class="help-block">

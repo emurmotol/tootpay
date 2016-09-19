@@ -148,7 +148,7 @@ input[type="number"] {
     color: #fff;
 }
 
-.loading-sales {
+.loading-sales, .loading-expenses {
     padding-top: 20px;
     padding-bottom: 20px;
 }

@@ -5,8 +5,9 @@
             <th>User ID</th>
             <th>Name</th>
             <th>Role</th>
-            <th class="text-center">Toot Card</th>
-            {{--<th class="text-center">Online?</th>--}}
+            @if(Route::is('users.index') || Route::is('users.cardholder'))
+                <th class="text-center">Toot Card</th>
+            @endif
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -24,18 +25,19 @@
                 <td class="text-muted">
                     {{ $user->roles()->first()->name }}
                 </td>
-                <td class="text-center">
-                    @if(is_null($user->tootCards()->first()) && $user->hasRole(cardholder()))
-                        <strong>Not set</strong>
-                    @elseif(!$user->hasRole(cardholder()))
-                        <strong>N/A</strong>
-                    @else
-                        <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
-                            <strong>{{ $user->tootCards()->first()->uid }}</strong>
-                        </a>
-                    @endif
-                </td>
-                {{--<td class="text-center">?</td>--}}
+                @if(Route::is('users.index') || Route::is('users.cardholder'))
+                    <td class="text-center">
+                        @if(is_null($user->tootCards()->first()) && $user->hasRole(cardholder()))
+                            <strong>Not set</strong>
+                        @elseif(!$user->hasRole(cardholder()))
+                            <strong>N/A</strong>
+                        @else
+                            <a href="{{ route('toot_cards.show', [$user->tootCards()->first()->id, 'redirect' => Request::fullUrl()]) }}">
+                                <strong>#{{ $user->tootCards()->first()->uid }}</strong>
+                            </a>
+                        @endif
+                    </td>
+                @endif
                 <td class="text-center">
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'class' => '']) !!}
                     {!! Form::hidden('_method', 'DELETE') !!}

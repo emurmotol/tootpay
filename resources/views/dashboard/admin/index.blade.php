@@ -50,7 +50,7 @@
                             <i class="fa fa-money fa-4x" aria-hidden="true"></i>
                         </div>
                         <div class="col-md-9 pull-right text-right">
-                            <div class="huge-count"><strong>P{{ collect(\App\Models\Transaction::dailySales(\Carbon\Carbon::now()->toDateString()))->pluck('_total')->sum() }}</strong></div>
+                            <div class="huge-count"><strong>P{{ number_format(collect(\App\Models\Transaction::dailySales(\Carbon\Carbon::now()->toDateString()))->pluck('_total')->sum(), 2, '.', ',') }}</strong></div>
                             <div>Sales Today</div>
                         </div>
                     </div>

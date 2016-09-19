@@ -19,7 +19,7 @@
                 </td>
                 <td>
                     <a href="{{ route('toot_cards.show', [$toot_card->id, 'redirect' => Request::fullUrl()]) }}">
-                        <strong>{{ $toot_card->uid }}</strong>
+                        <strong>#{{ $toot_card->uid }}</strong>
                     </a>
                 </td>
                 <td>

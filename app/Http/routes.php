@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\Serial::tag());
+    return view('print_layout');
 });
 
 Route::auth();
@@ -18,6 +18,38 @@ Route::group(['middleware' => 'roles'], function () {
         Route::get('admin', [
             'uses' => 'DashboardController@admin'
         ]);
+
+        // Expenses
+        Route::resource('expenses', 'ExpenseController', [
+            'parameters' => 'singular'
+        ]);
+        Route::post('expenses/daily', [
+            'uses' => 'ExpenseController@daily',
+            'as' => 'expenses.daily'
+        ]);
+        Route::post('expenses/monthly', [
+            'uses' => 'ExpenseController@monthly',
+            'as' => 'expenses.monthly'
+        ]);
+        Route::post('expenses/yearly', [
+            'uses' => 'ExpenseController@yearly',
+            'as' => 'expenses.yearly'
+        ]);
+        Route::post('expenses/export/daily', [
+            'uses' => 'ExpenseController@exportDaily',
+            'as' => 'expenses.export_daily'
+        ]);
+        Route::post('expenses/export/monthly', [
+            'uses' => 'ExpenseController@exportMonthly',
+            'as' => 'expenses.export_monthly'
+        ]);
+        Route::post('expenses/export/yearly', [
+            'uses' => 'ExpenseController@exportYearly',
+            'as' => 'expenses.export_yearly'
+        ]);
+        Route::get('expenses/download/daily/{file_name}', 'ExpenseController@downloadDaily');
+        Route::get('expenses/download/monthly/{file_name}', 'ExpenseController@downloadMonthly');
+        Route::get('expenses/download/yearly/{file_name}', 'ExpenseController@downloadYearly');
 
         // Settings
         Route::get('settings/toot_card', [
@@ -65,6 +97,18 @@ Route::group(['middleware' => 'roles'], function () {
         Route::post('sales_report/export/yearly', [
             'uses' => 'SalesReportController@exportYearly',
             'as' => 'sales_report.export_yearly'
+        ]);
+        Route::post('sales_report/print/daily', [
+            'uses' => 'SalesReportController@printDaily',
+            'as' => 'sales_report.print_daily'
+        ]);
+        Route::post('sales_report/print/monthly', [
+            'uses' => 'SalesReportController@printMonthly',
+            'as' => 'sales_report.print_monthly'
+        ]);
+        Route::post('sales_report/print/yearly', [
+            'uses' => 'SalesReportController@printYearly',
+            'as' => 'sales_report.print_yearly'
         ]);
         Route::get('sales_report/download/daily/{file_name}', 'SalesReportController@downloadDaily');
         Route::get('sales_report/download/monthly/{file_name}', 'SalesReportController@downloadMonthly');

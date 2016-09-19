@@ -45,8 +45,12 @@
 
         <div class="form-group{{ $errors->has('uid') ? ' has-error' : '' }}">
             <label for="id">UID:</label>
-            <input type="number" class="form-control" id="uid" name="uid"
-                   value="{{ (Route::is('toot_cards.edit')) ? $toot_card->uid : old('uid') }}">
+
+            <div class="input-group">
+                <span class="input-group-addon">#</span>
+                <input type="number" class="form-control" id="uid" name="uid"
+                       value="{{ (Route::is('toot_cards.edit')) ? $toot_card->uid : old('uid') }}" placeholder="">
+            </div>
 
             @if ($errors->has('uid'))
                 <span class="help-block">

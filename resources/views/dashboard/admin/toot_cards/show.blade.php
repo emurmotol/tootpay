@@ -45,7 +45,7 @@
                                         </h4>
                                     </li>
                                     <li><h4>ID: <strong>{{ $toot_card->id }}</strong></h4></li>
-                                    <li><h4>UID: <strong>{{ $toot_card->uid }}</strong></h4></li>
+                                    <li><h4>UID: <strong>#{{ $toot_card->uid }}</strong></h4></li>
                                     <li><h4>Load: <strong>P{{ number_format($toot_card->load, 2, '.', ',') }}</strong></h4></li>
                                     <li><h4>Points: <strong>{{ number_format($toot_card->points, 2, '.', ',') }}</strong></h4></li>
                                     <li><h4>Active? {!! $toot_card->is_active ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>' !!}</h4></li>
