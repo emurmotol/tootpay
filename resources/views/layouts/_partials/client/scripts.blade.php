@@ -19,7 +19,7 @@
 
     // modal
     var _validation = $("#validation");
-    var _modal = $(".modal");
+    var _modal = $("._modal");
     var menu = $("#menu");
     var user_orders = $("#user_orders");
     var enter_load_amount = $("#enter_load_amount");

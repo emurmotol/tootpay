@@ -1,4 +1,4 @@
-<div id="toot_card_details" class="modal fade" role="dialog">
+<div id="toot_card_details" class="modal _modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
