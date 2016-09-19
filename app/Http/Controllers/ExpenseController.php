@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use App\Models\StatusResponse;
 use Illuminate\Http\Request;
-
+use PDF;
 use App\Http\Requests;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -37,6 +37,30 @@ class ExpenseController extends Controller
             return (String)view('dashboard.admin.expenses._partials.yearly.index', compact('expenses'));
         }
         return StatusResponse::find(17)->name;
+    }
+
+    public function printDaily($date) {
+        $expenses = Expense::daily($date);
+        $title = 'Daily Expenses (' . $date . ')';
+        $file_name = strtolower(config('static.app.name')) . '-expenses-' . $date;
+        $pdf = PDF::loadView('dashboard.admin.expenses._partials.daily.print', compact('expenses', 'title'));
+        return $pdf->stream("$file_name.pdf");
+    }
+
+    public function printMonthly($month) {
+        $expenses = Expense::monthly($month);
+        $title = 'Monthly Expenses (' . $month . ')';
+        $file_name = strtolower(config('static.app.name')) . '-expenses-' . $month;
+        $pdf = PDF::loadView('dashboard.admin.expenses._partials.monthly.print', compact('expenses', 'title'));
+        return $pdf->stream("$file_name.pdf");
+    }
+
+    public function printYearly($year) {
+        $expenses = Expense::yearly($year);
+        $title = 'Yearly Expenses (' . $year . ')';
+        $file_name = strtolower(config('static.app.name')) . '-expenses-' . $year;
+        $pdf = PDF::loadView('dashboard.admin.expenses._partials.yearly.print', compact('expenses', 'title'));
+        return $pdf->stream("$file_name.pdf");
     }
 
     public function downloadDaily($file_name) {

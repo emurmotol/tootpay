@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use App\Models\Merchandise;
 use App\Models\Order;
 use App\Models\StatusResponse;
 use App\Models\Transaction;
+use PDF;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Maatwebsite\Excel\Facades\Excel;
@@ -38,6 +40,33 @@ class SalesReportController extends Controller
             return (String)view('dashboard.admin.sales_report._partials.yearly.index', compact('sales'));
         }
         return StatusResponse::find(17)->name;
+    }
+
+    public function printDaily($date) {
+        $sales = Transaction::dailySales($date);
+        $expenses = Expense::daily($date);
+        $title = 'Daily Sales Report (' . $date . ')';
+        $file_name = strtolower(config('static.app.name')) . '-sales-report-' . $date;
+        $pdf = PDF::loadView('dashboard.admin.sales_report._partials.daily.print', compact('sales', 'expenses', 'title'));
+        return $pdf->stream("$file_name.pdf");
+    }
+
+    public function printMonthly($month) {
+        $sales = Transaction::monthlySales($month);
+        $expenses = Expense::monthly($month);
+        $title = 'Monthly Sales Report (' . $month . ')';
+        $file_name = strtolower(config('static.app.name')) . '-sales-report-' . $month;
+        $pdf = PDF::loadView('dashboard.admin.sales_report._partials.monthly.print', compact('sales', 'expenses', 'title'));
+        return $pdf->stream("$file_name.pdf");
+    }
+
+    public function printYearly($year) {
+        $sales = Transaction::yearlySales($year);
+        $expenses = Expense::yearly($year);
+        $title = 'Yearly Sales Report (' . $year . ')';
+        $file_name = strtolower(config('static.app.name')) . '-sales-report-' . $year;
+        $pdf = PDF::loadView('dashboard.admin.sales_report._partials.yearly.print', compact('sales', 'expenses', 'title'));
+        return $pdf->stream("$file_name.pdf");
     }
 
     public function downloadDaily($file_name) {

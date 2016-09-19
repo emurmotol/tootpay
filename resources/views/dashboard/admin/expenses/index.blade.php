@@ -23,7 +23,9 @@
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_date"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs" id="export_daily_expenses">Export</button>
+                            {{--<button class="btn btn-success btn-xs" id="export_daily_expenses">Export</button>--}}
+                            <a href="{{ route('expenses.create') }}" class="btn btn-success btn-xs">Create expense</a>
+                            <button class="btn btn-default btn-xs" id="print_daily_expenses">Export to PDF</button>
                         </span>
                             </div>
                             <div id="daily_expenses"></div>
@@ -43,7 +45,9 @@
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_month"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs" id="export_monthly_expenses">Export</button>
+                            {{--<button class="btn btn-success btn-xs" id="export_monthly_expenses">Export</button>--}}
+                            <a href="{{ route('expenses.create') }}" class="btn btn-success btn-xs">Create expense</a>
+                            <button class="btn btn-default btn-xs" id="print_monthly_expenses">Export to PDF</button>
                         </span>
                             </div>
                             <div id="monthly_expenses"></div>
@@ -63,7 +67,9 @@
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_year"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs" id="export_yearly_expenses">Export</button>
+                            {{--<button class="btn btn-success btn-xs" id="export_yearly_expenses">Export</button>--}}
+                            <a href="{{ route('expenses.create') }}" class="btn btn-success btn-xs">Create expense</a>
+                            <button class="btn btn-default btn-xs" id="print_yearly_expenses">Export to PDF</button>
                         </span>
                             </div>
                             <div id="yearly_expenses"></div>
@@ -102,6 +108,16 @@
             });
             $('#export_yearly_expenses').on("click", function () {
                 exportYearlyExpenses(yearly.data("DateTimePicker").date().format("YYYY"));
+            });
+
+            $('#print_daily_expenses').on("click", function () {
+                window.open("{{ url('expenses/print/daily') }}/" + daily.data("DateTimePicker").date().format("YYYY-MM-DD"), '_blank');
+            });
+            $('#print_monthly_expenses').on("click", function () {
+                window.open("{{ url('expenses/print/monthly') }}/" + monthly.data("DateTimePicker").date().format("YYYY-MM"), '_blank');
+            });
+            $('#print_yearly_expenses').on("click", function () {
+                window.open("{{ url('expenses/print/yearly') }}/" + yearly.data("DateTimePicker").date().format("YYYY"), '_blank');
             });
 
             daily.on("dp.change", function (moment) {

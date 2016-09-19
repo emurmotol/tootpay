@@ -47,6 +47,18 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'ExpenseController@exportYearly',
             'as' => 'expenses.export_yearly'
         ]);
+        Route::get('expenses/print/daily/{date}', [
+            'uses' => 'ExpenseController@printDaily',
+            'as' => 'expenses.print_daily'
+        ]);
+        Route::get('expenses/print/monthly/{month}', [
+            'uses' => 'ExpenseController@printMonthly',
+            'as' => 'expenses.print_monthly'
+        ]);
+        Route::get('expenses/print/yearly/{year}', [
+            'uses' => 'ExpenseController@printYearly',
+            'as' => 'expenses.print_yearly'
+        ]);
         Route::get('expenses/download/daily/{file_name}', 'ExpenseController@downloadDaily');
         Route::get('expenses/download/monthly/{file_name}', 'ExpenseController@downloadMonthly');
         Route::get('expenses/download/yearly/{file_name}', 'ExpenseController@downloadYearly');
@@ -98,15 +110,15 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'SalesReportController@exportYearly',
             'as' => 'sales_report.export_yearly'
         ]);
-        Route::post('sales_report/print/daily', [
+        Route::get('sales_report/print/daily/{date}', [
             'uses' => 'SalesReportController@printDaily',
             'as' => 'sales_report.print_daily'
         ]);
-        Route::post('sales_report/print/monthly', [
+        Route::get('sales_report/print/monthly/{month}', [
             'uses' => 'SalesReportController@printMonthly',
             'as' => 'sales_report.print_monthly'
         ]);
-        Route::post('sales_report/print/yearly', [
+        Route::get('sales_report/print/yearly/{year}', [
             'uses' => 'SalesReportController@printYearly',
             'as' => 'sales_report.print_yearly'
         ]);

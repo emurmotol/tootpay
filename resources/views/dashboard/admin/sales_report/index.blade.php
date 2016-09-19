@@ -23,7 +23,8 @@
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_date"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs" id="export_daily_sales">Export</button>
+                            {{--<button class="btn btn-success btn-xs" id="export_daily_sales">Export</button>--}}
+                            <button class="btn btn-success btn-xs" id="print_daily_sales">Generate sales report</button>
                         </span>
                             </div>
                             <div id="daily_sales"></div>
@@ -43,7 +44,8 @@
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_month"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs" id="export_monthly_sales">Export</button>
+                            {{--<button class="btn btn-success btn-xs" id="export_monthly_sales">Export</button>--}}
+                            <button class="btn btn-success btn-xs" id="print_monthly_sales">Generate sales report</button>
                         </span>
                             </div>
                             <div id="monthly_sales"></div>
@@ -63,7 +65,8 @@
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_year"></span>
                         <span class="pull-right">
-                            <button class="btn btn-success btn-xs" id="export_yearly_sales">Export</button>
+                            {{--<button class="btn btn-success btn-xs" id="export_yearly_sales">Export</button>--}}
+                            <button class="btn btn-success btn-xs" id="print_yearly_sales">Generate sales report</button>
                         </span>
                             </div>
                             <div id="yearly_sales"></div>
@@ -102,6 +105,16 @@
             });
             $('#export_yearly_sales').on("click", function () {
                 exportYearlySales(yearly.data("DateTimePicker").date().format("YYYY"));
+            });
+
+            $('#print_daily_sales').on("click", function () {
+                window.open("{{ url('sales_report/print/daily') }}/" + daily.data("DateTimePicker").date().format("YYYY-MM-DD"), '_blank');
+            });
+            $('#print_monthly_sales').on("click", function () {
+                window.open("{{ url('sales_report/print/monthly') }}/" + monthly.data("DateTimePicker").date().format("YYYY-MM"), '_blank');
+            });
+            $('#print_yearly_sales').on("click", function () {
+                window.open("{{ url('sales_report/print/yearly') }}/" + yearly.data("DateTimePicker").date().format("YYYY"), '_blank');
             });
 
             daily.on("dp.change", function (moment) {

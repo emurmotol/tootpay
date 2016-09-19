@@ -1,10 +1,13 @@
-<!doctype html>
 <html>
 <head>
-    <title>Document</title>
+    <title>{{ $title }}</title>
     <style>
-        .header {
+        .header, p {
             text-align: center;
+        }
+
+        .section {
+            margin-bottom: 20px;
         }
 
         table, th, td {
@@ -15,10 +18,6 @@
         table {
             width: 100%;
         }
-
-        #total_text {
-            text-align: right;
-        }
     </style>
 </head>
 <body>
@@ -26,35 +25,83 @@
 <div class="header">
     <h3>{{ config('static.app.company') . ' - ' . ucfirst(config('static.app.name')) }}</h3>
     <h3>{{ config('static.app.meta.description') }}</h3>
-    <h3>Sales Report</h3>
+    <h3>{{ $title }}</h3>
 </div>
 
-<table>
-    <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-    </tr>
-    <tr>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
-    </tr>
-    <tr>
-        <td>Eve</td>
-        <td>Jackson</td>
-        <td>94</td>
-    </tr>
-    <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>80</td>
-    </tr>
-    <tr>
-        <td colspan="2" id="total_text">Total:</td>
-        <td>P90.00</td>
-    </tr>
-</table>
+@if($sales->count())
+    <div class="section">
+        <table>
+            <caption>Sales</caption>
+            <tr>
+                <th>Date</th>
+                <th>Total</th>
+            </tr>
+            @foreach($sales as $sale)
+                <tr>
+                    <td>{{ date('F d Y', strtotime($sale['_date'])) }}</td>
+                    <td>{{ number_format($sale['_total'], 2, '.', ',') }}</td>
+                </tr>
+            @endforeach
+            <tr>
+                <td>Total Sales:</td>
+                <td>{{ number_format(collect($sales)->pluck('_total')->sum(), 2, '.', ',') }}</td>
+            </tr>
+        </table>
+    </div>
+@endif
+
+@if($expenses->count())
+    <div class="section">
+        <table>
+            <caption>Expenses</caption>
+            <tr>
+                <th>Date</th>
+                <th>Total</th>
+            </tr>
+            @foreach($expenses as $expense)
+                <tr>
+                    <td>{{ date('F d Y', strtotime($expense->_date)) }}</td>
+                    <td>{{ number_format($expense->_amount, 2, '.', ',') }}</td>
+                </tr>
+            @endforeach
+            <tr>
+                <td>Total Expenses:</td>
+                <td>{{ number_format(collect($expenses)->pluck('_amount')->sum(), 2, '.', ',') }}</td>
+            </tr>
+        </table>
+    </div>
+@endif
+
+@if($sales->count() || $expenses->count())
+    <div class="section">
+        <table>
+            <caption>Total</caption>
+            <tr>
+                <th>Name</th>
+                <th>Total</th>
+            </tr>
+            @if($sales->count())
+                <tr>
+                    <td>Sales</td>
+                    <td>{{ number_format(collect($sales)->pluck('_total')->sum(), 2, '.', ',') }}</td>
+                </tr>
+            @endif
+
+            @if($expenses->count())
+                <tr>
+                    <td>Expenses</td>
+                    <td>{{ number_format(collect($expenses)->pluck('_amount')->sum(), 2, '.', ',') }}</td>
+                </tr>
+            @endif
+            <tr>
+                <td>Net Total:</td>
+                <td>{{ number_format(collect($sales)->pluck('_total')->sum() - collect($expenses)->pluck('_amount')->sum(), 2, '.', ',') }}</td>
+            </tr>
+        </table>
+    </div>
+@else
+    <p>Empty</p>
+@endif
 
 </body>
 </html>
