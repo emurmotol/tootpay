@@ -99,5 +99,24 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-3 pull-left">
+                            <i class="fa fa-hashtag fa-4x" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-md-9 pull-right text-right">
+                            <div class="huge-count"><strong>{{ \App\Models\Transaction::queued()->count() }}</strong></div>
+                            <div>Queued Orders</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <a href="#next_queue_number">Next queue: <span class="pull-right"><strong>#{{ \App\Models\Transaction::queueNumber() }}</strong></span></a>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
