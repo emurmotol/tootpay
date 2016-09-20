@@ -88,6 +88,9 @@
             });
         }
     });
+    $("#forgot").on("click", function() {
+        validation(true, 10000, 'Please login to your account at ' + '<span class="text-primary">{{ url('login') }}</span>' + ' to reset your pin code.');
+    });
     edit_orders_help.on("click", function () {
         $("#orders_help").modal("show");
     });

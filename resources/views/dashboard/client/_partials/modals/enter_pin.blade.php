@@ -93,6 +93,9 @@
                     </table>
                 </div>
             </div>
+            <div class="modal-footer huge forgot">
+                <div class="text-center text-primary" id="forgot">Forgot pin code?</div>
+            </div>
         </div>
     </div>
 </div>

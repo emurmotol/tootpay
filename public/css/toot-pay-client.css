@@ -29,6 +29,10 @@
     margin: 0 auto;
 }
 
+.forgot {
+    margin-top: -20px;
+}
+
 .grand-total {
     margin-bottom: 15px;
 }

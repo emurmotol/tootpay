@@ -22,7 +22,7 @@ function sendToPhoneNumber($phone_number, $message) {
 }
 
 function sendToEmail($email, $message) {
-    \Illuminate\Support\Facades\Mail::send($message, null, function ($msg) use ($email) {
+    \Illuminate\Support\Facades\Mail::raw($message, function ($msg) use ($email) {
         $msg->from(config('mail.from.address'), config('mail.from.name'));
         $msg->to($email);
     });
