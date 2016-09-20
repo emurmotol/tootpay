@@ -8,6 +8,7 @@ use App\Models\StatusResponse;
 use App\Models\TootCard;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -76,7 +77,7 @@ class CashierController extends Controller
             $password = str_random(6);
 
             $message = 'Your account was successfully created. Your toot card pin code is: ' . $toot_card->pin_code . '. You can also access your account by logging with these credentials at ' . url('login') . '. User ID: ' . $request->get('user_id') . ', Password: ' . $password;
-            sendSms($request->get('phone_number'), $message);
+            sendToPhoneNumberAndEmail($request->get('phone_number'), $request->get('email'), $message);
 
             $user = User::create([
                 'id' => $request->get('user_id'),
@@ -130,8 +131,8 @@ class CashierController extends Controller
 
     public function reports(Request $request) {
         if ($request->ajax()) {
-            $transactions = Transaction::reports();
-            return (String)view('dashboard.cashier._partials.reports', compact('transactions'));
+            $sales = Transaction::dailySales(Carbon::now()->toDateString());
+            return (String)view('dashboard.cashier._partials.reports', compact('sales'));
         }
         return StatusResponse::find(17)->name;
     }

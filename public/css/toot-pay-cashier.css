@@ -23,6 +23,10 @@ html, body, .cashier-view, .col-md-6, .panel {
     overflow-y: scroll;
 }
 
+.grand-total strong {
+    font-size: 30px;
+}
+
 .panel-body {
     height: calc(100% - 50px);
 }

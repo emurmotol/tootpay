@@ -47,7 +47,6 @@
 
     // help
     var edit_orders_help = $("#edit_orders_help");
-    var select_orders_help = $("#select_orders_help");
 
     enter_pin.on("hidden.bs.modal", function () {
         resetPinCodeValue();
@@ -89,11 +88,8 @@
             });
         }
     });
-    select_orders_help.on("click", function () {
-        alert("select_orders_help gif");
-    });
     edit_orders_help.on("click", function () {
-        alert("edit_orders_help gif");
+        $("#orders_help").modal("show");
     });
     toot_idle.on("click", function () {
         _menu(timeout_long);

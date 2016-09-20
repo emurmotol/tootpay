@@ -205,11 +205,7 @@ class Transaction extends Model
     }
 
     public static function history() {
-        return self::where('status_response_id', 11)->orderBy('updated_at', 'asc')->get();
-    }
-
-    public static function reports() {
-//        return self::where('status_response_id', 10)->get();
+        return self::where('status_response_id', 11)->orderBy('updated_at', 'desc')->get();
     }
 
     public static function setStatusResponse($transaction_id, $status_response_id) {

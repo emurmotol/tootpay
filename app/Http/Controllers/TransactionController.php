@@ -154,9 +154,9 @@ class TransactionController extends Controller
                 $transaction->loadShares()->attach($load_share);
 
                 $message1 = 'You have successfully shared P' . $load_amount . ' to ' . User::find($user_id)->name;
-                sendSms(TootCard::find($toot_card_id)->users()->first()->phone_number, $message1);
+                sendToPhoneNumberAndEmail(TootCard::find($toot_card_id)->users()->first()->phone_number, TootCard::find($toot_card_id)->users()->first()->email, $message1);
                 $message2 = 'You have received P' . $load_amount . ' from ' . TootCard::find($toot_card_id)->users()->first()->name;
-                sendSms(User::find($user_id)->phone_number, $message2);
+                sendToPhoneNumberAndEmail(User::find($user_id)->phone_number, User::find($user_id)->email, $message2);
                 return TootCard::response(9, $toot_card_id);
             }
             return TootCard::response(18, $toot_card_id);

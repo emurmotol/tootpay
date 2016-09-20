@@ -171,7 +171,7 @@ class UserController extends Controller
         $user->tootCards()->attach($new_toot_card->id);
 
         $message = 'Toot Card data from (UID: ' . $toot_card->uid . ') was successfully transferred to your account.';
-        sendSms($user->phone_number, $message);
+        sendToPhoneNumberAndEmail($user->phone_number, $user->email, $message);
 
         flash()->success('Data transferred successfully!');
 

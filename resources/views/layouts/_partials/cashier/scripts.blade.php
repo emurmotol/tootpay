@@ -309,6 +309,7 @@
             transaction_id: transaction_id
         }, function (response) {
             $("#queued_modal").modal("hide");
+            console.log(response);
         }, "json").done(function () {
             queued();
         });
@@ -330,7 +331,7 @@
         var change = parseFloat(cash_received.val()) - parseFloat(transaction_amount_due.text().split(",").join(""));
         transaction_change.text(change.toFixed(decimal_place));
 
-        if (parseFloat(transaction_change.text()) < 0.00 || parseInt(transaction_id.text()) == 0) {
+        if (parseFloat(transaction_change.text()) <= 0) {
             transaction_done.attr("disabled", "disabled");
             transaction_cancel.attr("disabled", "disabled");
         } else {

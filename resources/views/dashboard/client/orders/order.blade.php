@@ -8,7 +8,7 @@
             <div class="panel-heading clearfix">
                 <span class="pull-left"><strong>Orders</strong></span>
                     <span class="pull-right">
-                        <i class="fa fa-question-circle" aria-hidden="true" id="edit_orders_help"></i>
+                        <div id="edit_orders_help">Help <i class="fa fa-question-circle" aria-hidden="true"></i></div>
                     </span>
             </div>
             <table class="table table-responsive table-striped" id="table_orders">
@@ -69,9 +69,6 @@
                     <span class="pull-left">
                         <strong>Today's Menu ({{ date('l') }})</strong>
                     </span>
-                    <span class="pull-right">
-                        <i class="fa fa-question-circle" aria-hidden="true" id="select_orders_help"></i>
-                    </span>
             </div>
             <div class="panel-body merchandise-list" id="todays_menu"></div>
         </div>
@@ -81,4 +78,5 @@
     @include('dashboard.client._partials.modals.enter_pin')
     @include('dashboard.client._partials.modals.validation')
     @include('dashboard.client.orders._partials.modals.transaction_complete_with_queue_number')
+    @include('dashboard.client.orders._partials.modals.orders_help')
 @endsection
