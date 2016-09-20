@@ -36,6 +36,9 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('user', 'App\Models\User');
         $router->pattern('user', '[0-9]+');
 
+        $router->model('expense', 'App\Models\Expense');
+        $router->pattern('expense', '[0-9]+');
+
         parent::boot($router);
     }
 

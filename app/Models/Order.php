@@ -55,9 +55,7 @@ class Order extends Model
                 $order_message .= $msg;
             }
             $order_message .= 'with the total amount of: P' . collect($orders)->pluck('total')->sum() . '. Thank you. Enjoy your meal! Sent from ' . url('/');
-
-            $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-            $sms->sendMessageToNumber(User::find($user_id)->phone_number, $order_message, config('sms.device'));
+            sendSms(User::find($user_id)->phone_number, $order_message);
         } else {
             $_transaction->users()->attach($user_id);
         }

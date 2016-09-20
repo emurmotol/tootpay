@@ -215,8 +215,8 @@ class Transaction extends Model
             TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
             $transaction->status_response_id = 11;
             $transaction->save();
-            $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-            $sms->sendMessageToNumber($transaction->users()->first()->phone_number, 'You toot card was successfully loaded with P' . $reload->first()->load_amount, config('sms.device'));
+            $message = 'You toot card was successfully loaded with P' . $reload->first()->load_amount;
+            sendEmail($transaction->users()->first()->phone_number, $message);
             return StatusResponse::def(11);
         } else if (!is_null($sold_card->first())) {
             $toot_card = TootCard::find($sold_card->first()->tootCard->id);

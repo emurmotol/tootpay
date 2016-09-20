@@ -75,8 +75,8 @@ class CashierController extends Controller
 
             $password = str_random(6);
 
-            $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-            $sms->sendMessageToNumber($request->get('phone_number'), 'Your account was successfully created. Your toot card pin code is: ' . $toot_card->pin_code . '. You can also access your account by logging with these credentials at ' . url('login') . '. User ID: ' . $request->get('user_id') . ', Password: ' . $password, config('sms.device'));
+            $message = 'Your account was successfully created. Your toot card pin code is: ' . $toot_card->pin_code . '. You can also access your account by logging with these credentials at ' . url('login') . '. User ID: ' . $request->get('user_id') . ', Password: ' . $password;
+            sendSms($request->get('phone_number'), $message);
 
             $user = User::create([
                 'id' => $request->get('user_id'),

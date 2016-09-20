@@ -170,8 +170,8 @@ class UserController extends Controller
         $user->tootCards()->detach($toot_card);
         $user->tootCards()->attach($new_toot_card->id);
 
-        $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-        $sms->sendMessageToNumber($user->phone_number, 'Toot Card data from (UID: ' . $toot_card->uid . ') was successfully transferred to your account.', config('sms.device'));
+        $message = 'Toot Card data from (UID: ' . $toot_card->uid . ') was successfully transferred to your account.';
+        sendSms($user->phone_number, $message);
 
         flash()->success('Data transferred successfully!');
 

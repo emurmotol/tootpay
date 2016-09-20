@@ -168,33 +168,41 @@ class ExpenseController extends Controller
         return StatusResponse::find(17)->name;
     }
 
-    public function create()
-    {
-        //
+    public function create() {
+        return view('dashboard.admin.expenses.create');
     }
 
-    public function store(Request $request)
-    {
-        //
+    public function store(Requests\ExpenseRequest $request) {
+        $expense = Expense::create($request->all());
+        flash()->success(trans('expense.created', ['name' => $expense->name]));
+
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
+        }
+        return redirect()->route('expenses.index');
     }
 
-    public function show($id)
-    {
-        //
+    public function edit(Expense $expense) {
+        return view('dashboard.admin.expenses.edit', compact('expense'));
     }
 
-    public function edit($id)
-    {
-        //
+    public function update(Requests\ExpenseRequest $request, Expense $expense) {
+        $expense->update($request->all());
+        flash()->success(trans('expenses.updated', ['name' => $expense->name]));
+
+        if ($request->has('redirect')) {
+            return redirect()->to($request->get('redirect'));
+        }
+        return redirect()->route('expenses.index');
     }
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    public function destroy(Expense $expense) {
+        $expense->delete();
+        flash()->success(trans('expense.deleted', ['name' => $expense->name]));
 
-    public function destroy($id)
-    {
-        //
+        if (request()->has('redirect')) {
+            return redirect()->to(request()->get('redirect'));
+        }
+        return redirect()->back();
     }
 }

@@ -153,10 +153,10 @@ class TransactionController extends Controller
                 LoadShare::fromTo($toot_card_id, $user_id, $load_amount);
                 $transaction->loadShares()->attach($load_share);
 
-                $sms1 = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-                $sms1->sendMessageToNumber(TootCard::find($toot_card_id)->users()->first()->phone_number, 'You have successfully shared P' . $load_amount . ' to ' . User::find($user_id)->name, config('sms.device'));
-                $sms2 = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-                $sms2->sendMessageToNumber(User::find($user_id)->phone_number, 'You have received P' . $load_amount . ' from ' . TootCard::find($toot_card_id)->users()->first()->name, config('sms.device'));
+                $message1 = 'You have successfully shared P' . $load_amount . ' to ' . User::find($user_id)->name;
+                sendSms(TootCard::find($toot_card_id)->users()->first()->phone_number, $message1);
+                $message2 = 'You have received P' . $load_amount . ' from ' . TootCard::find($toot_card_id)->users()->first()->name;
+                sendSms(User::find($user_id)->phone_number, $message2);
                 return TootCard::response(9, $toot_card_id);
             }
             return TootCard::response(18, $toot_card_id);
