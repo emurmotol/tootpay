@@ -237,6 +237,18 @@ Route::group(['middleware' => 'roles'], function () {
             'uses' => 'CashierController@queuedCount',
             'as' => 'cashier.transactions_cashier_queued_count'
         ]);
+        Route::get('transactions/cashier/history', [
+            'uses' => 'CashierController@history',
+            'as' => 'cashier.transactions_cashier_history'
+        ]);
+        Route::get('transactions/cashier/history/count', [
+            'uses' => 'CashierController@historyCount',
+            'as' => 'cashier.transactions_cashier_history_count'
+        ]);
+        Route::get('transactions/cashier/reports', [
+            'uses' => 'CashierController@reports',
+            'as' => 'cashier.transactions_cashier_reports'
+        ]);
         Route::post('transaction/done', [
             'uses' => 'CashierController@transactionDone',
             'as' => 'cashier.transaction_done'

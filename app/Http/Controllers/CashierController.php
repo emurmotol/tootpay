@@ -113,6 +113,29 @@ class CashierController extends Controller
         return StatusResponse::find(17)->name;
     }
 
+    public function historyCount(Request $request) {
+        if ($request->ajax()) {
+            return Transaction::history()->count();
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function history(Request $request) {
+        if ($request->ajax()) {
+            $transactions = Transaction::history();
+            return (String)view('dashboard.cashier._partials.history', compact('transactions'));
+        }
+        return StatusResponse::find(17)->name;
+    }
+
+    public function reports(Request $request) {
+        if ($request->ajax()) {
+            $transactions = Transaction::reports();
+            return (String)view('dashboard.cashier._partials.reports', compact('transactions'));
+        }
+        return StatusResponse::find(17)->name;
+    }
+
     public function served(Request $request) {
         if ($request->ajax()) {
             $transaction = Transaction::find($request->get('transaction_id'));

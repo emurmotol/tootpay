@@ -62,8 +62,10 @@
                         </li>
                         <li><hr></li>
                         <li class="text-right">
-                            <button type="button" class="btn btn-primary" id="_create_cardholder"><strong>Create Cardholder</strong></button>
-                            <button type="button" class="btn btn-primary" id="queued_orders"><strong>Queued Orders</strong></button>
+                            <button type="button" class="btn btn-primary" id="_create_cardholder"><strong><i class="fa fa-plus"></i> Cardholder</strong></button>
+                            <button type="button" class="btn btn-primary" id="queued_orders"><strong>Queued</strong></button>
+                            <button type="button" class="btn btn-primary" id="history"><strong>History</strong></button>
+                            <button type="button" class="btn btn-primary" id="reports"><strong>Reports</strong></button>
                         </li>
                     </ul>
                 </div>
@@ -90,4 +92,6 @@
     @include('dashboard.cashier._partials.modals.transaction_complete_with_queue_number')
     @include('dashboard.cashier._partials.modals.create_cardholder')
     @include('dashboard.cashier._partials.modals.queued')
+    @include('dashboard.cashier._partials.modals.history')
+    @include('dashboard.cashier._partials.modals.reports')
 @endsection

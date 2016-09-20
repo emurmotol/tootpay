@@ -27,6 +27,8 @@
 
     var _create_cardholder = $("#_create_cardholder");
     var queued_orders = $("#queued_orders");
+    var _history = $("#history");
+    var _reports = $("#reports");
     var queued_orders_count = $("#queued_orders_count");
 
     var _name = $("#name");
@@ -48,6 +50,8 @@
     compute();
     transactionsCount();
     queued();
+    __history();
+    reports();
 
     cash_suggestion_1.on("click", function () {
         addToCashReceivedValue($(this).text());
@@ -123,6 +127,16 @@
         $(this).find("#phone_number").val("");
         $(this).find("#user_id").val("");
         $(this).find("#toot_card_uid").val("");
+    });
+
+    _history.on("click", function () {
+        __history();
+        $("#history_modal").modal("show");
+    });
+
+    _reports.on("click", function () {
+        reports();
+        $("#reports_modal").modal("show");
     });
 
     queued_orders.on("click", function () {
@@ -266,6 +280,26 @@
                 });
             } else {
                 $("#queued_div").html("<div class='text-muted text-center'>Empty.</div>");
+            }
+        });
+    }
+
+    function __history() {
+        $.get("transactions/cashier/history", function (response) {
+            if (response != "") {
+                $("#history_div").html(response);
+            } else {
+                $("#history_div").html("<div class='text-muted text-center'>Empty.</div>");
+            }
+        });
+    }
+
+    function reports() {
+        $.get("transactions/cashier/reports", function (response) {
+            if (response != "") {
+                $("#reports_div").html(response);
+            } else {
+                $("#reports_div").html("<div class='text-muted text-center'>Empty.</div>");
             }
         });
     }
