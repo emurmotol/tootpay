@@ -40,7 +40,8 @@ class OrderController extends Controller
                     break;
                 case 3:
                     if (!TootCard::hasSufficientLoad($toot_card->id, $amount_due)) {
-                        return StatusResponse::def(18);
+                        $lack_cash = $amount_due - $toot_card->load;
+                        return StatusResponse::def(18, number_format($lack_cash, 2, '.', ','));
                     }
                     break;
                 case 4:
@@ -50,6 +51,9 @@ class OrderController extends Controller
                     break;
                 case 5:
                     return Order::transaction($transaction, $toot_card->users()->first()->id, $orders);
+                    break;
+                case 6:
+                    return Order::transaction($transaction, $toot_card->users()->first()->id, $orders, $request->get('lack_cash'));
                     break;
             }
             return Order::transaction($transaction, $toot_card->users()->first()->id, $orders);

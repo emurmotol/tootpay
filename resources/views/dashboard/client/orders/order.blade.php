@@ -74,6 +74,7 @@
         </div>
     </div>
 
+    @include('dashboard.client._partials.modals.ask_for_cash')
     @include('dashboard.client._partials.modals.tap_card')
     @include('dashboard.client._partials.modals.enter_pin')
     @include('dashboard.client._partials.modals.validation')

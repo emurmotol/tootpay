@@ -37,6 +37,10 @@ class Transaction extends Model
         return $this->belongsToMany(SoldCard::class, 'sold_card_transaction')->withTimestamps();
     }
 
+    public function cashExtensions() {
+        return $this->belongsToMany(CashExtension::class, 'cash_extension_transaction')->withTimestamps();
+    }
+
     public function paymentMethod() {
         return $this->belongsTo(PaymentMethod::class);
     }
@@ -194,8 +198,9 @@ class Transaction extends Model
     }
 
     public static function pendingAndCash() {
-        return self::where('payment_method_id', 1)
-            ->where('status_response_id', 5)
+        return self::where('status_response_id', 5)
+            ->orWhere('payment_method_id', 6)
+            ->where('payment_method_id', 1)
             ->orderBy('queue_number', 'asc')
             ->get();
     }
@@ -212,6 +217,7 @@ class Transaction extends Model
         $transaction = Transaction::find($transaction_id);
         $reload = $transaction->reloads();
         $sold_card = $transaction->soldCards();
+        $cash_extension = $transaction->cashExtensions();
 
         if (!is_null($reload->first())) {
             TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
@@ -224,6 +230,10 @@ class Transaction extends Model
             $toot_card = TootCard::find($sold_card->first()->tootCard->id);
             $toot_card->is_active = true;
             $toot_card->save();
+            $transaction->status_response_id = 11;
+            $transaction->save();
+            return StatusResponse::def(11);
+        }  else if (!is_null($cash_extension->first())) {
             $transaction->status_response_id = 11;
             $transaction->save();
             return StatusResponse::def(11);

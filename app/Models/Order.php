@@ -29,7 +29,7 @@ class Order extends Model
         return self::whereNotIn('id', $ids)->get();
     }
 
-    public static function transaction($transaction, $user_id, $orders) {
+    public static function transaction($transaction, $user_id, $orders, $other = null) {
         $queue_number = null;
         $status_response_id = $transaction->get('status_response_id');
         $payment_method_id = $transaction->get('payment_method_id');
@@ -47,6 +47,14 @@ class Order extends Model
 
         if(!is_null($toot_card)) {
             $_transaction->users()->attach($user_id, ['toot_card_id' => $toot_card->id]);
+
+            if ($payment_method_id == 6 && !is_null($other)) {
+                $cash_extension = CashExtension::create([
+                    'toot_card_id' => $toot_card->id,
+                    'amount' => $other
+                ]);
+                $_transaction->cashExtensions()->attach($cash_extension);
+            }
 
             $order_message = 'Digital Purchase Information: ' . Carbon::now()->toDayDateTimeString() . ', Transaction: #' . $_transaction->id . ', Queue: #' .$queue_number . ', Orders: ';
 

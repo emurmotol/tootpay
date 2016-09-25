@@ -27,9 +27,9 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123456')
         ]);
         $john_card = TootCard::create([
-            'id' => '0001246344',
+            'id' => '0005976112',
             'uid' => '1409883099794111',
-            'pin_code' => '0404',
+            'pin_code' => '1111',
             'load' => 80,
             'points' => 0,
             'is_active' => 'on',

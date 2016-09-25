@@ -118,6 +118,9 @@
             $(this).dequeue();
         });
     });
+    $("#yes").on("click", function () {
+        sendOrders(5, 6);
+    });
     menu_reload_toot_card.on("click", function () {
         menu.modal("hide");
         resetLoadAmountValue();
@@ -429,24 +432,46 @@
         transaction["payment_method_id"] = payment_method_id;
         transaction["status_response_id"] = status_response_id;
 
-        $.post("order/send", {
-            orders: getOrders(),
-            transaction: JSON.stringify(transaction),
-            toot_card_id: toot_card_id.val()
-        }, function (response) {
+        var _data = "";
+        if (payment_method_id == 6) {
+            _data = {
+                lack_cash: $("#lack_cash").text(),
+                orders: getOrders(),
+                transaction: JSON.stringify(transaction),
+                toot_card_id: toot_card_id.val()
+            };
+        } else {
+            _data = {
+                orders: getOrders(),
+                transaction: JSON.stringify(transaction),
+                toot_card_id: toot_card_id.val()
+            };
+        }
+
+        $.post("order/send", _data, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_balance_is_not_enough_to_complete_the_payment') }}");
                 validation(true, 5000, '{!! trans('toot_card.insufficient_balance') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_load_is_not_enough_to_complete_the_payment') }}");
-                validation(true, 5000, '{!! trans('toot_card.insufficient_load') !!}');
+                validation("static", 5000, '{!! trans('toot_card.insufficient_load') !!}');
+                $("#lack_cash").text(response.other);
+                askForCash(5000);
             } else if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_toot_points_is not_enough_to_complete_the_redeem') }}");
                 validation(true, 5000, '{!! trans('toot_card.insufficient_points') !!}');
             } else {
-                if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
+                if (response.status == "{{ \App\Models\StatusResponse::find(5)->name }}") {
                     $.playSound("{{ asset('speech/transaction_complete') }}");
-                    validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');
+
+                    if (response.payment_method == "{{ \App\Models\PaymentMethod::find(1)->name }}") {
+                        validation("static", 10000, '{!! trans('toot_card.transaction_complete') !!}');
+                    }
+
+                    if (response.payment_method == "{{ \App\Models\PaymentMethod::find(6)->name }}") {
+                        $("#ask_for_cash").modal("hide");
+                        validation(true, 10000, '{!! trans('toot_card.transaction_complete') !!}');
+                    }
                     routeToIdle(1000);
                 } else {
                     if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}" && response.payment_method == "{{ \App\Models\PaymentMethod::find(5)->name }}") {
@@ -602,6 +627,15 @@
         _timer = setTimeout(function () {
             enter_pin.modal("hide");
         }, timeout);
+    }
+
+    function askForCash(timeout) {
+        setTimeout(function () {
+            $("#ask_for_cash").modal({backdrop: "static"});
+        }, timeout);
+        _timer = setTimeout(function () {
+            $("#ask_for_cash").modal("hide");
+        }, timeout_long);
     }
 
     function tootCardDetails(timeout) {

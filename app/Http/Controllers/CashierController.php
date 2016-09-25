@@ -149,6 +149,8 @@ class CashierController extends Controller
                     TootCard::payUsingLoad($toot_card->id, $transaction->orders()->pluck('total')->sum());
                 } elseif ($transaction->payment_method_id == 4) {
                     TootCard::payUsingPoints($toot_card->id, $transaction->orders()->pluck('total')->sum());
+                } elseif ($transaction->payment_method_id == 6) {
+                    TootCard::payUsingLoadAndCash($toot_card->id, $transaction->orders()->pluck('total')->sum());
                 }
             }
         }

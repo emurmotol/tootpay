@@ -44,6 +44,10 @@ class TootCard extends Model
         return $this->hasMany(SoldCard::class);
     }
 
+    public function cashExtensions() {
+        return $this->hasMany(CashExtension::class);
+    }
+
     public function setIsActiveAttribute($value) {
         $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
@@ -135,6 +139,18 @@ class TootCard extends Model
             return false;
         }
         return true;
+    }
+
+    public static function payUsingLoadAndCash($toot_card_id, $amount_due) {
+        $toot_card = self::find($toot_card_id);
+        $per_point = intval(Setting::value('per_point'));
+        $load = $toot_card->load;
+        $points = $toot_card->points;
+        $lack_cash = $amount_due - $load;
+
+        $toot_card->points = $points + ($load / $per_point);
+        $toot_card->load = 0;
+        $toot_card->save();
     }
 
     public static function payUsingLoad($toot_card_id, $amount_due) {

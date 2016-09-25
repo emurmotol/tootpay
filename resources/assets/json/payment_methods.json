@@ -13,5 +13,8 @@
   },
   {
     "name": "NOT_SPECIFIED"
+  },
+  {
+    "name": "TOOT_CARD_LOAD_CASH"
   }
 ]

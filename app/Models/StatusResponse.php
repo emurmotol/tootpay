@@ -25,10 +25,17 @@ class StatusResponse extends Model
         return $status_responses[$index]['id'];
     }
 
-    public static function def($status_response_id) {
-        $response = [
-            'status' => self::find($status_response_id)->name
-        ];
+    public static function def($status_response_id, $other = null) {
+        if (is_null($other)) {
+            $response = [
+                'status' => self::find($status_response_id)->name
+            ];
+        } else {
+            $response = [
+                'status' => self::find($status_response_id)->name,
+                'other' => $other,
+            ];
+        }
         $status = collect($response);
         Log::debug($status->toArray());
         return response()->make($status->toJson());

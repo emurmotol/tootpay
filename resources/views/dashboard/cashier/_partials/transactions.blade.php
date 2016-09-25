@@ -39,6 +39,23 @@
                     @endforeach
                     </tbody>
                 </table>
+            @elseif($transaction->cashExtensions()->get()->count())
+                <table class="table table-responsive table-transaction">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount Due</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($transaction->cashExtensions()->get() as $cash_extension)
+                        <tr>
+                            <td>Cash Extension</td>
+                            <td>P<span id="grand_total">{{ number_format($cash_extension->amount, 2, '.', ',') }}</span></td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             @elseif($transaction->orders()->get()->count())
                 <table class="table table-responsive table-transaction">
                     <thead>
