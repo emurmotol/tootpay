@@ -16,7 +16,7 @@
             @endforeach
             <tr class="grand-total">
                 <td class="text-right">
-                    <strong>Net Total:</strong>
+                    <strong>Total:</strong>
                 </td>
                 <td>
                     <strong>P{{ number_format(collect($sales)->pluck('_total')->sum(), 2, '.', ',') }}</strong>

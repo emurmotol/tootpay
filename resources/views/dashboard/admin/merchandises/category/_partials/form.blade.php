@@ -29,9 +29,8 @@
         </div>
 
         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-            <label for="description">Description:</label>
-            <input type="text" class="form-control" id="description" name="description"
-                   value="{{ (Route::is('merchandise.categories.edit')) ? $category->description : old('description') }}">
+            <label for="description">Description (optional):</label>
+            <textarea class="form-control" rows="3" id="description">{{ (Route::is('expenses.edit')) ? $category->description : old('description') }}</textarea>
 
             @if ($errors->has('description'))
                 <span class="help-block">

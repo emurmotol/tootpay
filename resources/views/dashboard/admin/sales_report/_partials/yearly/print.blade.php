@@ -94,7 +94,7 @@
                 </tr>
             @endif
             <tr>
-                <td><strong>Net Total:</strong></td>
+                <td><strong>Total:</strong></td>
                 <td><strong>{{ number_format(collect($sales)->pluck('_total')->sum() - collect($expenses)->pluck('_amount')->sum(), 2, '.', ',') }}</strong></td>
             </tr>
         </table>

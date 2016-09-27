@@ -27,7 +27,7 @@
             <tr class="grand-total">
                 <td></td>
                 <td class="text-right">
-                    <strong>Net Total:</strong>
+                    <strong>Total:</strong>
                 </td>
                 <td>
                     <strong>P{{ number_format(collect($expenses)->pluck('amount')->sum(), 2, '.', ',') }}</strong>
