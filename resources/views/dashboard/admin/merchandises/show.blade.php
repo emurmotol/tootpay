@@ -12,17 +12,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
-                        <span class="pull-right">
-                            {!! Form::open([
-                                'route' => ['merchandises.destroy', $merchandise->id,
-                                'redirect=' . request()->get('redirect')],
-                                'class' => '']) !!}
-                            {!! Form::hidden('_method', 'DELETE') !!}
-                            <a href="{{ route('merchandises.edit', [$merchandise->id, 'redirect' => Request::fullUrl()]) }}"
-                               class="btn btn-default btn-xs">Edit</a>
-                                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
-                            {!! Form::close() !!}
-                        </span>
+                        <span class="pull-right"></span>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -67,6 +57,15 @@
                                         <h4>Updated: <strong data-livestamp="{{ strtotime($merchandise->updated_at) }}"></strong></h4>
                                     </li>
                                 </ul>
+                                {!! Form::open([
+                                'route' => ['merchandises.destroy', $merchandise->id,
+                                'redirect=' . request()->get('redirect')],
+                                'class' => '']) !!}
+                                {!! Form::hidden('_method', 'DELETE') !!}
+                                <a href="{{ route('merchandises.edit', [$merchandise->id, 'redirect' => Request::fullUrl()]) }}"
+                                   class="btn btn-default">Edit</a>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>

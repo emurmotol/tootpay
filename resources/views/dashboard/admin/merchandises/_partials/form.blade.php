@@ -113,6 +113,7 @@
                 data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('merchandises.edit')) ? 'Update' : 'Create' }} merchandise
         </button>
+        @include('_partials.cancel', ['url' => route('merchandises.index')])
     </div>
     {!! Form::close() !!}
 </div>

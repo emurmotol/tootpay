@@ -1,0 +1,1 @@
+Your account was successfully created. Your toot card pin code is: {{ $data['pin_code'] }}. You can also access your account by logging with these credentials at {{ url('login') }}. User ID: {{ $data['user_id'] }}, Password: {{ $data['password'] }}

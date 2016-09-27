@@ -1,0 +1,1 @@
+You toot card was successfully loaded with P{{ number_format($data, 2, '.', ',') }}

@@ -22,11 +22,12 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_date"></span>
-                        <span class="pull-right">
-                            {{--<button class="btn btn-success btn-xs" id="export_daily_expenses">Export</button>--}}
-                            <a href="{{ route('expenses.create') }}" class="btn btn-success btn-xs">Create expense</a>
-                            <button class="btn btn-default btn-xs" id="print_daily_expenses">Export to PDF</button>
-                        </span>
+                                <span class="pull-right"></span>
+                            </div>
+                            <div class="panel-body">
+                                {{--<button class="btn btn-success btn-xs" id="export_daily_expenses">Export</button>--}}
+                                @include('_partials.create', ['url' => route('expenses.create'), 'what' => 'expense'])
+                                <button class="btn btn-success" id="print_daily_expenses">Export to PDF</button>
                             </div>
                             <div id="daily_expenses"></div>
                         </div>
@@ -44,11 +45,12 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_month"></span>
-                        <span class="pull-right">
-                            {{--<button class="btn btn-success btn-xs" id="export_monthly_expenses">Export</button>--}}
-                            <a href="{{ route('expenses.create') }}" class="btn btn-success btn-xs">Create expense</a>
-                            <button class="btn btn-default btn-xs" id="print_monthly_expenses">Export to PDF</button>
-                        </span>
+                                <span class="pull-right"></span>
+                            </div>
+                            <div class="panel-body">
+                                {{--<button class="btn btn-success btn-xs" id="export_monthly_expenses">Export</button>--}}
+                                @include('_partials.create', ['url' => route('expenses.create'), 'what' => 'expense'])
+                                <button class="btn btn-success" id="print_monthly_expenses">Export to PDF</button>
                             </div>
                             <div id="monthly_expenses"></div>
                         </div>
@@ -66,11 +68,12 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_year"></span>
-                        <span class="pull-right">
-                            {{--<button class="btn btn-success btn-xs" id="export_yearly_expenses">Export</button>--}}
-                            <a href="{{ route('expenses.create') }}" class="btn btn-success btn-xs">Create expense</a>
-                            <button class="btn btn-default btn-xs" id="print_yearly_expenses">Export to PDF</button>
-                        </span>
+                                <span class="pull-right"></span>
+                            </div>
+                            <div class="panel-body">
+                                {{--<button class="btn btn-success btn-xs" id="export_yearly_expenses">Export</button>--}}
+                                @include('_partials.create', ['url' => route('expenses.create'), 'what' => 'expense'])
+                                <button class="btn btn-success" id="print_yearly_expenses">Export to PDF</button>
                             </div>
                             <div id="yearly_expenses"></div>
                         </div>

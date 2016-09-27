@@ -1,0 +1,1 @@
+You have successfully shared P{{ number_format($data['load_amount'], 2, '.', ',') }} to {{ $data['name'] }}

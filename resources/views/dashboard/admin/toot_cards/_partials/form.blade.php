@@ -117,6 +117,7 @@
                 data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('toot_cards.edit')) ? 'Update' : 'Create' }} toot card
         </button>
+        @include('_partials.cancel', ['url' => route('toot_cards.index')])
     </div>
     {!! Form::close() !!}
 </div>

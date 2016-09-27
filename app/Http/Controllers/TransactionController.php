@@ -153,10 +153,17 @@ class TransactionController extends Controller
                 LoadShare::fromTo($toot_card_id, $user_id, $load_amount);
                 $transaction->loadShares()->attach($load_share);
 
-                $message1 = 'You have successfully shared P' . $load_amount . ' to ' . User::find($user_id)->name;
-                sendToPhoneNumberAndEmail(TootCard::find($toot_card_id)->users()->first()->phone_number, TootCard::find($toot_card_id)->users()->first()->email, $message1);
-                $message2 = 'You have received P' . $load_amount . ' from ' . TootCard::find($toot_card_id)->users()->first()->name;
-                sendToPhoneNumberAndEmail(User::find($user_id)->phone_number, User::find($user_id)->email, $message2);
+                $sender = [
+                    'load_amount' => $load_amount,
+                    'name' => User::find($user_id)->name
+                ];
+                sendToPhoneNumber(TootCard::find($toot_card_id)->users()->first()->phone_number, 'dashboard.client._partials.notifications.text.load_shared', $sender);
+
+                $receiver = [
+                    'load_amount' => $load_amount,
+                    'name' => TootCard::find($toot_card_id)->users()->first()->name
+                ];
+                sendToPhoneNumber(User::find($user_id)->phone_number, 'dashboard.client._partials.notifications.text.load_received', $receiver);
                 return TootCard::response(9, $toot_card_id);
             }
             return TootCard::response(18, $toot_card_id);

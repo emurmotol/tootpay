@@ -85,6 +85,7 @@
                 data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('users.edit')) ? 'Update' : 'Create' }} user
         </button>
+        @include('_partials.cancel', ['url' => route('users.index')])
     </div>
     {!! Form::close() !!}
 </div>

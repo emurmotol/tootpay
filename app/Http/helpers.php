@@ -16,19 +16,19 @@ function guest() {
     return \App\Models\Role::json(3);
 }
 
-function sendToPhoneNumber($phone_number, $message) {
+function sendToPhoneNumber($phone_number, $view, $data = null) {
     $sms = new \App\Libraries\SmsGateway(config('mail.from.address'), config('sms.password'));
-    return $sms->sendMessageToNumber($phone_number, $message, config('sms.device'));
+    return $sms->sendMessageToNumber($phone_number, (String)view($view, compact('data')), config('sms.device'));
 }
 
-function sendToEmail($email, $message) {
-    \Illuminate\Support\Facades\Mail::raw($message, function ($msg) use ($email) {
-        $msg->from(config('mail.from.address'), config('mail.from.name'));
-        $msg->to($email);
+function sendToEmail($email, $view, $data = null) {
+    return \Illuminate\Support\Facades\Mail::send($view, compact('data'), function ($message) use ($email) {
+        $message->from(config('mail.from.address'), config('mail.from.name'));
+        $message->to($email);
     });
 }
 
-function sendToPhoneNumberAndEmail($phone_number, $email, $message) {
-    sendToPhoneNumber($phone_number, $message);
-    sendToEmail($email, $message);
+function sendToPhoneNumberAndEmail($phone_number, $email, $view, $data = null) {
+    sendToPhoneNumber($phone_number, $view, $data);
+    sendToEmail($email, $view, $data);
 }

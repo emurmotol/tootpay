@@ -3,7 +3,7 @@
 return [
 
     'password' => 'secret',
-    'device' => '24395',
+    'device' => '29962',
     'number' => '09261951315',
 
 ];

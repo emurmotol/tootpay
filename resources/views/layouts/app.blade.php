@@ -56,6 +56,12 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 @if(Auth::user()->hasRole(admin()))
+                                    <li><a href="{{ route('users.show', Auth::user()->id) }}">Your Profile</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{{ route('sales_report.print_daily', \Carbon\Carbon::now()->toDateString()) }}" target="_blank">Sales Report</a></li>
+                                    <li><a href="{{ route('expenses.print_daily', \Carbon\Carbon::now()->toDateString()) }}" target="_blank">Expenses</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{{ route('settings.toot_card') }}">Settings</a></li>
                                 @elseif(Auth::user()->hasRole(cashier()))
                                 @elseif(Auth::user()->hasRole(cardholder()))
                                     <li><a href="{{ url('faq') }}">FAQ</a></li>

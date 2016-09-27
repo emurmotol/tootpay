@@ -113,7 +113,7 @@ class UserController extends Controller
             if(!is_null($toot_card)) {
                 flash()->error(trans('user.delete_fail_card_is_set', [
                     'name' => $user->name,
-                    'toot_card_link' => '<a href="' . route('toot_cards.edit', $toot_card->id) . '"><strong>' . $toot_card->id . '</strong></a>'
+                    'toot_card_link' => '<a href="' . route('users.edit', $user->id) . '"><strong>#' . $toot_card->uid . '</strong></a>'
                 ]))->important();
             } else {
                 $user->delete();
@@ -133,7 +133,7 @@ class UserController extends Controller
         $user->tootCards()->detach($toot_card);
         $toot_card->is_active = 'off';
         $toot_card->save();
-        flash()->success(trans('user.card_removed', ['toot_card_id' => $toot_card->id, 'name' => $user->name]));
+        flash()->success(trans('user.card_removed', ['toot_card_uid' => $toot_card->uid, 'name' => $user->name]));
 
         if (request()->has('redirect')) {
             return redirect()->to(request()->get('redirect'));
@@ -146,7 +146,7 @@ class UserController extends Controller
         $toot_card = TootCard::find($request->input('toot_card_id'));
         $toot_card->is_active = 'on';
         $toot_card->save();
-        flash()->success(trans('user.card_associated', ['toot_card_id' => $toot_card->id, 'name' => $user->name]));
+        flash()->success(trans('user.card_associated', ['toot_card_uid' => $toot_card->uid, 'name' => $user->name]));
 
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
@@ -159,19 +159,20 @@ class UserController extends Controller
         $new_toot_card->load += $toot_card->load;
         $new_toot_card->points += $toot_card->points;
         $new_toot_card->is_active = 'on';
+        $new_toot_card->pin_code = $toot_card->pin_code;
         $new_toot_card->save();
 
         $toot_card->load = 0;
         $toot_card->points = 0;
         $toot_card->is_active = 'off';
         $toot_card->expires_at = Carbon::now();
+        $toot_card->pin_code = null;
         $toot_card->save();
 
         $user->tootCards()->detach($toot_card);
-        $user->tootCards()->attach($new_toot_card->id);
+        $user->tootCards()->attach($new_toot_card);
 
-        $message = 'Toot Card data from (UID: ' . $toot_card->uid . ') was successfully transferred to your account.';
-        sendToPhoneNumberAndEmail($user->phone_number, $user->email, $message);
+        sendToEmail($user->email, 'dashboard.client._partials.notifications.email.data_transferred', $toot_card);
 
         flash()->success('Data transferred successfully!');
 

@@ -12,9 +12,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
-                        <span class="pull-right">
-                            @include('_partials.cancel', ['url' => route('merchandises.index')])
-                        </span>
+                        <span class="pull-right"></span>
                     </div>
                     <div class="panel-body">
                         @include('dashboard.admin.merchandises._partials.form')

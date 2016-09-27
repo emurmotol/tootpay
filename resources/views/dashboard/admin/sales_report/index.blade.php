@@ -22,10 +22,11 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_date"></span>
-                        <span class="pull-right">
-                            {{--<button class="btn btn-success btn-xs" id="export_daily_sales">Export</button>--}}
-                            <button class="btn btn-success btn-xs" id="print_daily_sales">Generate sales report</button>
-                        </span>
+                                <span class="pull-right"></span>
+                            </div>
+                            <div class="panel-body">
+                                {{--<button class="btn btn-success btn-xs" id="export_daily_sales">Export</button>--}}
+                                <button class="btn btn-success" id="print_daily_sales">Generate sales report</button>
                             </div>
                             <div id="daily_sales"></div>
                         </div>
@@ -43,10 +44,11 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_month"></span>
-                        <span class="pull-right">
-                            {{--<button class="btn btn-success btn-xs" id="export_monthly_sales">Export</button>--}}
-                            <button class="btn btn-success btn-xs" id="print_monthly_sales">Generate sales report</button>
-                        </span>
+                                <span class="pull-right"></span>
+                            </div>
+                            <div class="panel-body">
+                                {{--<button class="btn btn-success btn-xs" id="export_monthly_sales">Export</button>--}}
+                                <button class="btn btn-success" id="print_monthly_sales">Generate sales report</button>
                             </div>
                             <div id="monthly_sales"></div>
                         </div>
@@ -64,10 +66,11 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading clearfix">
                                 <span class="pull-left" id="selected_year"></span>
-                        <span class="pull-right">
-                            {{--<button class="btn btn-success btn-xs" id="export_yearly_sales">Export</button>--}}
-                            <button class="btn btn-success btn-xs" id="print_yearly_sales">Generate sales report</button>
-                        </span>
+                                <span class="pull-right"></span>
+                            </div>
+                            <div class="panel-body">
+                                {{--<button class="btn btn-success btn-xs" id="export_yearly_sales">Export</button>--}}
+                                <button class="btn btn-success" id="print_yearly_sales">Generate sales report</button>
                             </div>
                             <div id="yearly_sales"></div>
                         </div>

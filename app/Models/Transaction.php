@@ -94,6 +94,14 @@ class Transaction extends Model
         if ($sold_cards->_count) {
             $sales->push([collect($sold_cards)->put('_item', 'Toot Card (New)')->toArray()]);
         }
+
+        $cash_extensions = CashExtension::selectRaw('count(id) as _count, sum(amount) as _total')
+            ->whereIn('id', CashExtension::ids($transaction))
+            ->first();
+
+        if ($cash_extensions->_count) {
+            $sales->push([collect($cash_extensions)->put('_item', 'Cash Extension')->toArray()]);
+        }
         return $sales->collapse();
     }
 
@@ -130,6 +138,13 @@ class Transaction extends Model
             $sales->push([$sold_cards->toArray()]);
         }
 
+        $cash_extensions = CashExtension::selectRaw('date(created_at) as _date, sum(amount) as _total')
+            ->whereIn('id', CashExtension::ids($transaction))
+            ->first();
+
+        if (intval($cash_extensions->_total)) {
+            $sales->push([$cash_extensions->toArray()]);
+        }
         $_sales = collect();
 
         foreach ($sales->collapse()->groupBy('_date')->toArray() as $key => $value) {
@@ -174,6 +189,13 @@ class Transaction extends Model
             $sales->push([$sold_cards->toArray()]);
         }
 
+        $cash_extensions = CashExtension::selectRaw("sum(amount) as _total, DATE_FORMAT(created_at, '%m') as _month, DATE_FORMAT(created_at, '%Y') as _year")
+            ->whereIn('id', CashExtension::ids($transaction))
+            ->first();
+
+        if (intval($cash_extensions->_total)) {
+            $sales->push([$cash_extensions->toArray()]);
+        }
         $_sales = collect();
 
         foreach ($sales->collapse()->groupBy('_month')->toArray() as $key => $value) {
@@ -223,8 +245,7 @@ class Transaction extends Model
             TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
             $transaction->status_response_id = 11;
             $transaction->save();
-            $message = 'You toot card was successfully loaded with P' . $reload->first()->load_amount;
-            sendEmail($transaction->users()->first()->phone_number, $message);
+            sendToPhoneNumber($transaction->users()->first()->phone_number, 'dashboard.client._partials.notifications.text.reload_success', $reload->first()->load_amount);
             return StatusResponse::def(11);
         } else if (!is_null($sold_card->first())) {
             $toot_card = TootCard::find($sold_card->first()->tootCard->id);

@@ -1,0 +1,1 @@
+You have received P{{ number_format($data['load_amount'], 2, '.', ',') }} from {{ $data['name'] }}

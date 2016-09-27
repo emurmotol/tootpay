@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return view('print_layout');
+
 });
 
 Route::auth();

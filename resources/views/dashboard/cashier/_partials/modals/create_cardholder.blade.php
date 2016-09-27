@@ -45,7 +45,7 @@
                             @if(\App\Models\TootCard::available()->count())
                                 <select id="toot_card_uid" name="toot_card_uid" class="form-control">
                                     @foreach(\App\Models\TootCard::available() as $toot_card)
-                                        <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->uid }}</option>
+                                        <option value="{{ $toot_card->uid }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->uid }}</option>
                                     @endforeach
                                 </select>
                             @else

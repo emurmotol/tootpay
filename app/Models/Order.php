@@ -43,7 +43,13 @@ class Order extends Model
         }
         $_transaction = Transaction::create($transaction->toArray());
 
-        $toot_card = User::find($user_id)->tootCards()->first();
+        $user = User::find($user_id);
+
+        foreach ($orders as $order) {
+            $_order = Order::create($order);
+            $_transaction->orders()->attach($_order);
+        }
+        $toot_card = $user->tootCards()->first();
 
         if(!is_null($toot_card)) {
             $_transaction->users()->attach($user_id, ['toot_card_id' => $toot_card->id]);
@@ -55,22 +61,9 @@ class Order extends Model
                 ]);
                 $_transaction->cashExtensions()->attach($cash_extension);
             }
-
-            $order_message = 'Digital Purchase Information: ' . Carbon::now()->toDayDateTimeString() . ', Transaction: #' . $_transaction->id . ', Queue: #' .$queue_number . ', Orders: ';
-
-            foreach ($orders as $order) {
-                $msg = Merchandise::find($order["merchandise_id"])->name . ' (Qty: ' . $order["quantity"] . ') (Total: P' . $order["total"] . '), ';
-                $order_message .= $msg;
-            }
-            $order_message .= 'with the total amount of: P' . collect($orders)->pluck('total')->sum() . '. Thank you. Enjoy your meal! Sent from ' . url('/');
-            sendToPhoneNumberAndEmail(User::find($user_id)->phone_number, User::find($user_id)->email, $order_message);
+            sendToEmail($user->email, 'dashboard.client._partials.notifications.email.purchase_information', $_transaction);
         } else {
             $_transaction->users()->attach($user_id);
-        }
-
-        foreach ($orders as $order) {
-            $_order = Order::create($order);
-            $_transaction->orders()->attach($_order);
         }
         return Transaction::response($status_response_id, $payment_method_id, $_transaction->id, $queue_number);
     }

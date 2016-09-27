@@ -46,7 +46,7 @@
 
         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
             <label for="description">Description (optional):</label>
-            <textarea class="form-control" rows="3" id="description">{{ (Route::is('expenses.edit')) ? $expense->description : old('description') }}</textarea>
+            <textarea class="form-control" name="description" rows="3" id="description">{{ (Route::is('expenses.edit')) ? $expense->description : old('description') }}</textarea>
 
             @if ($errors->has('description'))
                 <span class="help-block">
@@ -59,6 +59,7 @@
                 data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('expenses.edit')) ? 'Update ' : 'Create ' }}expense
         </button>
+        @include('_partials.cancel', ['url' => route('expenses.index')])
     </div>
     {!! Form::close() !!}
 </div>

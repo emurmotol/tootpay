@@ -76,9 +76,6 @@ class CashierController extends Controller
 
             $password = str_random(6);
 
-            $message = 'Your account was successfully created. Your toot card pin code is: ' . $toot_card->pin_code . '. You can also access your account by logging with these credentials at ' . url('login') . '. User ID: ' . $request->get('user_id') . ', Password: ' . $password;
-            sendToPhoneNumberAndEmail($request->get('phone_number'), $request->get('email'), $message);
-
             $user = User::create([
                 'id' => $request->get('user_id'),
                 'name' => $request->get('name'),
@@ -94,6 +91,13 @@ class CashierController extends Controller
                 'price' => floatval(Setting::value('toot_card_price'))
             ]);
             $transaction->soldCards()->attach($sold_card);
+
+            $data = [
+                'pin_code' => $toot_card->pin_code,
+                'user_id' => $request->get('user_id'),
+                'password' => $password
+            ];
+            sendToPhoneNumberAndEmail($request->get('phone_number'), $request->get('email'), 'dashboard.client._partials.notifications.common.account_created', $data);
             return StatusResponse::def(23);
         }
         return StatusResponse::find(17)->name;

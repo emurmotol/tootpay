@@ -12,11 +12,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <span class="pull-left">@yield('title')</span>
-                        <span class="pull-right">
-                            Results: {{ $merchandises->total() }}
-                            <a href="{{ route('merchandise.categories.edit', [$category->id, 'redirect' => Request::fullUrl()]) }}"
-                               class="btn btn-default btn-xs">Edit</a>
-                        </span>
+                        <span class="pull-right">Results: {{ $merchandises->total() }}</span>
                     </div>
                     @if($merchandises->total())
                         <div class="panel-body">

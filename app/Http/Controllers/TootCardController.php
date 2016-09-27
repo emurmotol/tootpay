@@ -60,7 +60,7 @@ class TootCardController extends Controller
             'is_active' => $request->get('is_active'),
             'expires_at' => Carbon::now()->addYear(intval(Setting::value('toot_card_expire_year_count'))),
         ]);
-        flash()->success(trans('toot_card.created', ['id' => $toot_card->id]));
+        flash()->success(trans('toot_card.created', ['uid' => $toot_card->uid]));
 
         if ($request->has('redirect')) {
             return redirect()->to($request->get('redirect'));
@@ -109,7 +109,7 @@ class TootCardController extends Controller
     public function update(Requests\TootCardRequest $request, TootCard $toot_card) {
         try {
             $toot_card->update($request->all());
-            flash()->success(trans('toot_card.updated', ['id' => $toot_card->id]));
+            flash()->success(trans('toot_card.updated', ['uid' => $toot_card->uid]));
         } catch (\Exception $e) {
             flash()->error(trans('toot_card.exception', ['error' => $e->getMessage()]))->important();
         } finally {
@@ -129,10 +129,10 @@ class TootCardController extends Controller
                     'user_link' => '<a href="' . route('users.edit', $user->id) . '"><strong>' . $user->name . '</strong></a>'
                 ]))->important();
             } elseif ($toot_card->is_active) {
-                flash()->error(trans('toot_card.delete_fail_active', ['id' => $toot_card->id]))->important();
+                flash()->error(trans('toot_card.delete_fail_active', ['uid' => $toot_card->uid]))->important();
             } else {
                 $toot_card->delete();
-                flash()->success(trans('toot_card.deleted', ['id' => $toot_card->id]));
+                flash()->success(trans('toot_card.deleted', ['uid' => $toot_card->uid]));
             }
         } catch (\Exception $e) {
             flash()->error(trans('toot_card.exception', ['error' => $e->getMessage()]))->important();

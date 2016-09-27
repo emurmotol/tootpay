@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <a href="{{ route('users.index') }}" target="_blank">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
+                    <a href="{{ route('users.index') }}">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -31,14 +31,14 @@
                             <i class="fa fa-cutlery fa-4x" aria-hidden="true"></i>
                         </div>
                         <div class="col-md-9 pull-right text-right">
-                            <div class="huge-count"><strong>{{ \App\Models\Merchandise::available()->get()->count() }}</strong></div>
-                            <div>Available Merchandises</div>
+                            <div class="huge-count"><strong>{{ \App\Models\Merchandise::count() }}</strong></div>
+                            <div>Merchandises</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel-body">
-                    <a href="{{ route('merchandises.available.index') }}" target="_blank">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
+                    <a href="{{ route('merchandises.available.index') }}">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -51,13 +51,13 @@
                         </div>
                         <div class="col-md-9 pull-right text-right">
                             <div class="huge-count"><strong>P{{ number_format(collect(\App\Models\Transaction::dailySales(\Carbon\Carbon::now()->toDateString()))->pluck('_total')->sum(), 0, '.', ',') }}</strong></div>
-                            <div>Sales Today</div>
+                            <div>Sales</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel-body">
-                    <a href="{{ route('sales_report.index') }}" target="_blank">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
+                    <a href="{{ route('sales_report.index') }}">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <a href="{{ route('toot_cards.index') }}" target="_blank">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
+                    <a href="{{ route('toot_cards.index') }}">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -88,14 +88,14 @@
                             <i class="fa fa-minus-circle fa-4x" aria-hidden="true"></i>
                         </div>
                         <div class="col-md-9 pull-right text-right">
-                            <div class="huge-count"><strong>P{{ number_format(collect(\App\Models\Expense::daily(\Carbon\Carbon::now()->toDateString()))->pluck('amount')->sum(), 2, '.', ',') }}</strong></div>
+                            <div class="huge-count"><strong>P{{ collect(\App\Models\Expense::daily(\Carbon\Carbon::now()->toDateString()))->pluck('amount')->sum() }}</strong></div>
                             <div>Expenses</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel-body">
-                    <a href="{{ route('expenses.index') }}" target="_blank">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
+                    <a href="{{ route('expenses.index') }}">View Details<i class="fa fa-arrow-right pull-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
