@@ -249,7 +249,7 @@
         if (last_resort.val() == 5) {
             if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value("toot_card_max_load_limit") }}')) {
                 $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
-                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => \App\Models\Setting::value('toot_card_max_load_limit')]) !!}');
             } else {
                 enter_load_amount.modal("hide");
                 enterUserId(timeout_long);
@@ -257,10 +257,10 @@
         } else if (last_resort.val() == 1) {
             if (parseFloat(load_amount_value) > parseFloat('{{ \App\Models\Setting::value("toot_card_max_load_limit") }}')) {
                 $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
-                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => \App\Models\Setting::value('toot_card_max_load_limit')]) !!}');
             } else if (parseFloat(load_amount_value) < parseFloat('{{ \App\Models\Setting::value("toot_card_min_load_limit") }}')) {
                 $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_minimum_load_limit') }}");
-                validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_min_load_limit'), 2, '.', ',')]) !!}');
+                validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => \App\Models\Setting::value('toot_card_min_load_limit')]) !!}');
             } else {
                 enter_load_amount.modal("hide");
                 tapCard(timeout_long);
@@ -290,7 +290,7 @@
                 validation(true, 5000, '{!! trans('toot_card.load_shared') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
                 $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
-                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => \App\Models\Setting::value('toot_card_max_load_limit')]) !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_load_is_not_enough_to_complete_the_load_sharing') }}");
                 validation(false, 5000, '{!! trans('toot_card.insufficient_load_share') !!}');
@@ -309,10 +309,10 @@
                 validation(true, 5000, '{!! trans('toot_card.reload_request_sent') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(19)->name }}") {
                 $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_maximum_load_limit') }}");
-                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_max_load_limit'), 2, '.', ',')]) !!}');
+                validation(false, 5000, '{!! trans('toot_card.exceed_max_load_limit', ['limit' => \App\Models\Setting::value('toot_card_max_load_limit')]) !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(12)->name }}") {
                 $.playSound("{{ asset('speech/whoops_the_load_amount_you_entered_exceed_the_minimum_load_limit') }}");
-                validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_min_load_limit'), 2, '.', ',')]) !!}');
+                validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => \App\Models\Setting::value('toot_card_min_load_limit')]) !!}');
             }
             console.log(response);
         }, "json");
