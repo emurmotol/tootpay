@@ -228,11 +228,17 @@ class Transaction extends Model
     }
 
     public static function queued() {
-        return self::where('status_response_id', 10)->orderBy('queue_number', 'asc')->get();
+        return self::where('status_response_id', 10)
+            ->whereDate('created_at', '=', Carbon::now()->toDateString())
+            ->orderBy('queue_number', 'asc')
+            ->get();
     }
 
     public static function history() {
-        return self::where('status_response_id', 11)->orderBy('updated_at', 'desc')->get();
+        return self::where('status_response_id', 11)
+            ->whereDate('created_at', '=', Carbon::now()->toDateString())
+            ->orderBy('updated_at', 'desc')
+            ->get();
     }
 
     public static function setStatusResponse($transaction_id, $status_response_id) {
