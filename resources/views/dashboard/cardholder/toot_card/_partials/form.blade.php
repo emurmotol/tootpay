@@ -19,6 +19,7 @@
         </div>
 
         <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Update pin code</button>
+        @include('_partials.cancel', ['url' => route('users.toot_card', $user->id)])
     </div>
     {!! Form::close() !!}
 </div>

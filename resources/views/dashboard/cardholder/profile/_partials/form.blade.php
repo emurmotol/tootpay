@@ -48,6 +48,7 @@
         </div>
 
         <button type="submit" id="btn-submit" class="btn btn-primary" data-loading-text="{{ trans('loading.default') }}">Update profile</button>
+        @include('_partials.cancel', ['url' => route('users.profile_index', $user->id)])
     </div>
     {!! Form::close() !!}
 </div>

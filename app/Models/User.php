@@ -33,7 +33,7 @@ class User extends Authenticatable
     }
 
     public function transactions() {
-        return $this->belongsToMany(Transaction::class, 'user_toot_card_transaction');
+        return $this->belongsToMany(Transaction::class, 'user_toot_card_transaction')->withTimestamps();
     }
 
     public function setNameAttribute($value) {

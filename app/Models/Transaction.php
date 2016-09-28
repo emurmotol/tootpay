@@ -237,12 +237,17 @@ class Transaction extends Model
 
     public static function setStatusResponse($transaction_id, $status_response_id) {
         $transaction = Transaction::find($transaction_id);
+        $orders = $transaction->orders();
         $reloads = $transaction->reloads();
         $sold_cards = $transaction->soldCards();
         $cash_extensions = $transaction->cashExtensions();
 
         if (!is_null($reloads->first())) {
             if ($status_response_id == 7) {
+                $reload = $reloads->first();
+                $reload->transactions()->detach($transaction);
+                $reload->delete();
+
                 $transaction->status_response_id = $status_response_id;
                 $transaction->save();
                 return StatusResponse::def($status_response_id);
@@ -275,10 +280,33 @@ class Transaction extends Model
             $transaction->save();
             return StatusResponse::def(11);
         }  else if (!is_null($cash_extensions->first())) {
+            if ($status_response_id == 7) {
+                foreach ($orders->get() as $order) {
+                    $order->transactions()->detach($transaction);
+                    $order->delete();
+                }
+
+                $cash_extension = $cash_extensions->first();
+                $cash_extension->transactions()->detach($transaction);
+                $cash_extension->delete();
+
+                $transaction->status_response_id = $status_response_id;
+                $transaction->save();
+                return StatusResponse::def($status_response_id);
+            }
             $transaction->queue_number = self::queueNumber();
             $transaction->status_response_id = $status_response_id;
             $transaction->save();
         } else {
+            if ($status_response_id == 7) {
+                foreach ($orders->get() as $order) {
+                    $order->transactions()->detach($transaction);
+                    $order->delete();
+                }
+                $transaction->status_response_id = $status_response_id;
+                $transaction->save();
+                return StatusResponse::def($status_response_id);
+            }
             $transaction->queue_number = self::queueNumber();
             $transaction->status_response_id = $status_response_id;
             $transaction->save();
