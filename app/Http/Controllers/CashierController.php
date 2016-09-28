@@ -92,6 +92,8 @@ class CashierController extends Controller
             ]);
             $transaction->soldCards()->attach($sold_card);
 
+            $user->transactions()->attach($transaction, ['toot_card_id' => $toot_card->id]);
+
             $data = [
                 'pin_code' => $toot_card->pin_code,
                 'user_id' => $request->get('user_id'),

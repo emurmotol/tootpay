@@ -176,13 +176,13 @@
         $.post("transaction/done", {
             transaction_id: transaction_id.text()
         }, function (response) {
-            resetToDefault();
             if (response.status == "{{ \App\Models\StatusResponse::find(11)->name }}") {
                 validation(true, timeout_short, '{!! trans('transaction.done') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
                 $("#queue_number").text(response.queue_number);
                 transactionCompleteWithQueueNumber(3000);
             }
+            resetToDefault();
             console.log(response);
         }, "json");
     });
@@ -196,12 +196,12 @@
         $.post("transaction/cancel", {
             transaction_id: transaction_id.text()
         }, function (response) {
-            resetToDefault();
             if (response.status == "{{ \App\Models\StatusResponse::find(7)->name }}") {
                 validation(true, timeout_short, '{!! trans('transaction.canceled') !!}');
             }
+            resetToDefault();
             console.log(response);
-        });
+        }, "json");
     });
 
     function createCardHolder() {

@@ -242,12 +242,32 @@ class Transaction extends Model
         $cash_extensions = $transaction->cashExtensions();
 
         if (!is_null($reloads->first())) {
+            if ($status_response_id == 7) {
+                $transaction->status_response_id = $status_response_id;
+                $transaction->save();
+                return StatusResponse::def($status_response_id);
+            }
             TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reloads->first()->load_amount);
             $transaction->status_response_id = 11;
             $transaction->save();
             sendSms($transaction->users()->first()->phone_number, 'dashboard.client._partials.notifications.text.reload_success', $reloads->first()->load_amount);
             return StatusResponse::def(11);
         } else if (!is_null($sold_cards->first())) {
+            if ($status_response_id == 7) {
+                $user = $transaction->users()->first();
+                $user->transactions()->detach($transaction);
+                $user->tootCards()->detach($transaction->tootCards()->first());
+                $user->roles()->detach(cardholder());
+                $user->delete();
+
+                $sold_card = $sold_cards->first();
+                $sold_card->transactions()->detach($transaction);
+                $sold_card->delete();
+
+                $transaction->status_response_id = $status_response_id;
+                $transaction->save();
+                return StatusResponse::def($status_response_id);
+            }
             $toot_card = TootCard::find($sold_cards->first()->tootCard->id);
             $toot_card->is_active = true;
             $toot_card->save();
@@ -255,9 +275,9 @@ class Transaction extends Model
             $transaction->save();
             return StatusResponse::def(11);
         }  else if (!is_null($cash_extensions->first())) {
-            $transaction->status_response_id = 10;
+            $transaction->queue_number = self::queueNumber();
+            $transaction->status_response_id = $status_response_id;
             $transaction->save();
-            return StatusResponse::def(11);
         } else {
             $transaction->queue_number = self::queueNumber();
             $transaction->status_response_id = $status_response_id;
