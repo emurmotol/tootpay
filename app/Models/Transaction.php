@@ -237,24 +237,24 @@ class Transaction extends Model
 
     public static function setStatusResponse($transaction_id, $status_response_id) {
         $transaction = Transaction::find($transaction_id);
-        $reload = $transaction->reloads();
-        $sold_card = $transaction->soldCards();
-        $cash_extension = $transaction->cashExtensions();
+        $reloads = $transaction->reloads();
+        $sold_cards = $transaction->soldCards();
+        $cash_extensions = $transaction->cashExtensions();
 
-        if (!is_null($reload->first())) {
-            TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reload->first()->load_amount);
+        if (!is_null($reloads->first())) {
+            TootCard::saveLoad($transaction->users()->first()->tootCards()->first()->id, $reloads->first()->load_amount);
             $transaction->status_response_id = 11;
             $transaction->save();
-            sendSms($transaction->users()->first()->phone_number, 'dashboard.client._partials.notifications.text.reload_success', $reload->first()->load_amount);
+            sendSms($transaction->users()->first()->phone_number, 'dashboard.client._partials.notifications.text.reload_success', $reloads->first()->load_amount);
             return StatusResponse::def(11);
-        } else if (!is_null($sold_card->first())) {
-            $toot_card = TootCard::find($sold_card->first()->tootCard->id);
+        } else if (!is_null($sold_cards->first())) {
+            $toot_card = TootCard::find($sold_cards->first()->tootCard->id);
             $toot_card->is_active = true;
             $toot_card->save();
             $transaction->status_response_id = 11;
             $transaction->save();
             return StatusResponse::def(11);
-        }  else if (!is_null($cash_extension->first())) {
+        }  else if (!is_null($cash_extensions->first())) {
             $transaction->status_response_id = 10;
             $transaction->save();
             return StatusResponse::def(11);

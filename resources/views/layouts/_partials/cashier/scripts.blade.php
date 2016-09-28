@@ -144,6 +144,10 @@
         $("#queued_modal").modal("show");
     });
 
+    $("#refresh").on("click", function () {
+        location.reload();
+    });
+
     create_card_holder.on("click", function () {
         create_cardholder.modal("hide");
         if (_name.val() == "" && _email.val() == "" && _phone_number.val() == "" && _user_id.val() == "" && _toot_card_uid.val() == "") {
@@ -164,9 +168,15 @@
     });
 
     transaction_done.on("click", function () {
+        $("#amount_done").text(transaction_amount_due.text());
+        $("#confirm_done").modal("show");
+    });
+
+    $("#yes_done").on("click", function () {
         $.post("transaction/done", {
             transaction_id: transaction_id.text()
         }, function (response) {
+            resetToDefault();
             if (response.status == "{{ \App\Models\StatusResponse::find(11)->name }}") {
                 validation(true, timeout_short, '{!! trans('transaction.done') !!}');
             } else if (response.status == "{{ \App\Models\StatusResponse::find(10)->name }}") {
@@ -174,22 +184,23 @@
                 transactionCompleteWithQueueNumber(3000);
             }
             console.log(response);
-        }, "json").done(function() {
-            resetToDefault();
-            queued()
-        });
+        }, "json");
     });
+
     transaction_cancel.on("click", function () {
+        $("#amount_cancel").text(transaction_amount_due.text());
+        $("#confirm_cancel").modal("show");
+    });
+
+    $("#yes_cancel").on("click", function () {
         $.post("transaction/cancel", {
             transaction_id: transaction_id.text()
         }, function (response) {
+            resetToDefault();
             if (response.status == "{{ \App\Models\StatusResponse::find(7)->name }}") {
                 validation(true, timeout_short, '{!! trans('transaction.canceled') !!}');
             }
             console.log(response);
-        }, "json").done(function() {
-            resetToDefault();
-            queued();
         });
     });
 
@@ -331,7 +342,7 @@
         var change = parseFloat(cash_received.val()) - parseFloat(transaction_amount_due.text().split(",").join(""));
         transaction_change.text(change.toFixed(decimal_place));
 
-        if (parseFloat(transaction_change.text()) <= 0) {
+        if (parseFloat(transaction_change.text()) < 0 || parseFloat(transaction_amount_due.text()) == 0) {
             transaction_done.attr("disabled", "disabled");
             transaction_cancel.attr("disabled", "disabled");
         } else {

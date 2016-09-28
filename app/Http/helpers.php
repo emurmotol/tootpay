@@ -44,7 +44,6 @@ function sendEmail($email, $view, $data = null) {
         });
     } catch (\Exception $e) {
         \Illuminate\Support\Facades\Log::error($e);
-        sendSms(\App\Models\User::where('email', $email)->first()->phone_number, $view, $data);
     } finally {
         \Illuminate\Support\Facades\Log::info((String)view($view, compact('data')));
     }

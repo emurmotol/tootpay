@@ -59,6 +59,7 @@
                         <li class="text-right cashier-actions">
                             <button type="button" class="btn btn-success" id="transaction_done" data-loading-text="{{ trans('loading.default') }}" disabled><strong><i class="fa fa-check"></i> Paid</strong></button>
                             <button type="button" class="btn btn-warning" id="transaction_cancel" data-loading-text="{{ trans('loading.default') }}" disabled><strong><i class="fa fa-times"></i> Cancel</strong></button>
+                            <button type="button" class="btn btn-default" id="refresh"><i class="fa fa-refresh"></i> Refresh</button>
                         </li>
                         <li><hr></li>
                         <li class="text-right">
@@ -88,6 +89,8 @@
         </div>
     </div>
 
+    @include('dashboard.cashier._partials.modals.confirm_cancel')
+    @include('dashboard.cashier._partials.modals.confirm_done')
     @include('dashboard.cashier._partials.modals.validation')
     @include('dashboard.cashier._partials.modals.transaction_complete_with_queue_number')
     @include('dashboard.cashier._partials.modals.create_cardholder')

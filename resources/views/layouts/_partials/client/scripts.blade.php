@@ -55,11 +55,6 @@
         clearTimeout(_timer);
         console.log("Timer cleared...");
     });
-    tap_card.on("shown.bs.modal", function () {
-        ready(1);
-        checkCard(1000);
-        console.log("Listening on card tap...");
-    });
     tap_card.on("hidden.bs.modal", function () {
         ready(0);
         clearInterval(_interval);
@@ -130,7 +125,7 @@
     });
     menu_check_balance.on("click", function () {
         menu.modal("hide");
-        tapCard(timeout_long);
+        ready(1);
         last_resort.val(2);
         console.log("Last resort is set to 2...");
     });
@@ -149,12 +144,12 @@
         console.log("Last resort is set to 5...");
     });
     btn_pay_using_toot_card.on("click", function () {
-        tapCard(timeout_long);
+        ready(1);
         last_resort.val(3);
         console.log("Last resort is set to 3...");
     });
     btn_pay_using_toot_points.on("click", function () {
-        tapCard(timeout_long);
+        ready(1);
         last_resort.val(6);
         console.log("Last resort is set to 6...");
     });
@@ -227,7 +222,13 @@
             bool: bool
         }, function (response) {
             console.log(response);
-        }, "json");
+        }, "json").done(function (response) {
+            if (response.value == 1) {
+                tapCard(timeout_long);
+                checkCard(1000);
+                console.log("Listening on card tap...");
+            }
+        });
     }
 
     function validateUserId(user_id_value) {
@@ -236,7 +237,7 @@
         }, function (response) {
             if (response.status == "{{ \App\Models\StatusResponse::find(15)->name }}") {
                 enter_user_id.modal("hide");
-                tapCard(timeout_long);
+                ready(1);
             } else if (response.status == "{{ \App\Models\StatusResponse::find(16)->name }}") {
                 $.playSound("{{ asset('speech/whoops_invalid_user_id') }}");
                 validation(false, timeout_short, '{!! trans('user.invalid_user_id') !!}');
@@ -263,7 +264,7 @@
                 validation(false, 5000, '{!! trans('toot_card.exceed_min_load_limit', ['limit' => number_format(\App\Models\Setting::value('toot_card_min_load_limit'), 0, '.', ',')]) !!}');
             } else {
                 enter_load_amount.modal("hide");
-                tapCard(timeout_long);
+                ready(1);
             }
         }
     }
