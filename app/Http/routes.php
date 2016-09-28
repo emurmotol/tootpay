@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-
+    return dd(\Illuminate\Support\Facades\Log::error('sdf'));
 });
 
 Route::auth();

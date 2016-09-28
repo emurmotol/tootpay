@@ -43,11 +43,11 @@
                     @if(filter_var($sale['_item'], FILTER_VALIDATE_INT))
                         <td>{{ \App\Models\Merchandise::find($sale['_item'])->name }}</td>
                         <td>{{ $sale['_count'] }}</td>
-                        <td>order</td>
+                        <td>Order</td>
                     @else
                         <td>{{ $sale['_item'] }}</td>
                         <td>{{ $sale['_count'] }}</td>
-                        <td>transaction</td>
+                        <td>Transaction</td>
                     @endif
                     <td>{{ number_format($sale['_total'], 2, '.', ',') }}</td>
                 </tr>

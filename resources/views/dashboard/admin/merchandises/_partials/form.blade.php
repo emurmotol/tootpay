@@ -76,7 +76,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input type="number" class="form-control" id="price" name="price"
+                <input type="text" class="form-control" id="price" name="price"
                        value="{{ (Route::is('merchandises.edit')) ? $merchandise->price : old('price') }}" placeholder="">
             </div>
 

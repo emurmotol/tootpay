@@ -20,12 +20,12 @@
                     <td>P{{ number_format($order->total, 2, '.', ',') }}</td>
                 </tr>
             @endforeach
-            <tr class="grand-total">
+            <tr>
                 <td>
-                    <button type="button" class="btn btn-success btn-served-order" data-transaction_id="{{ $transaction->id }}">Served</button>
+                    <button type="button" class="btn btn-success btn-lg btn-served-order" data-transaction_id="{{ $transaction->id }}"><strong>Served</strong></button>
                 </td>
                 <td class="text-right">
-                    <strong>Amount Due:</strong>
+                    <strong>Total:</strong>
                 </td>
                 <td>
                     <strong>P<span>{{ number_format($transaction->orders()->pluck('total')->sum(), 2, '.', ',') }}</span></strong>

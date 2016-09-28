@@ -15,11 +15,15 @@ class Category extends Model
     ];
 
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'manage_inventory'
     ];
 
     public function merchandises() {
         return $this->hasMany(Merchandise::class);
+    }
+
+    public function setManageInventoryAttribute($value) {
+        $this->attributes['manage_inventory'] = ($value == 'on') ? 1 : 0;
     }
 
     public function setNameAttribute($value) {

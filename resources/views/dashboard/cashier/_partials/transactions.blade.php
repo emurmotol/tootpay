@@ -10,13 +10,13 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Amount Due</th>
+                        <th>Total</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($transaction->reloads()->get() as $reload)
                         <tr>
-                            <td>Reload</td>
+                            <td><strong>Toot Card (Reload)</strong></td>
                             <td>P<span id="grand_total">{{ number_format($reload->load_amount, 2, '.', ',') }}</span></td>
                         </tr>
                     @endforeach
@@ -27,13 +27,13 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Amount Due</th>
+                        <th>Total</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($transaction->soldCards()->get() as $sold_card)
                         <tr>
-                            <td>Toot Card</td>
+                            <td><strong>Toot Card (New)</strong></td>
                             <td>P<span id="grand_total">{{ number_format($sold_card->price, 2, '.', ',') }}</span></td>
                         </tr>
                     @endforeach
@@ -44,13 +44,13 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Amount Due</th>
+                        <th>Total</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($transaction->cashExtensions()->get() as $cash_extension)
                         <tr>
-                            <td>Cash Extension</td>
+                            <td><strong>Cash Extension</strong></td>
                             <td>P<span id="grand_total">{{ number_format($cash_extension->amount, 2, '.', ',') }}</span></td>
                         </tr>
                     @endforeach
@@ -73,10 +73,10 @@
                             <td>P{{ number_format($order->total, 2, '.', ',') }}</td>
                         </tr>
                     @endforeach
-                    <tr class="grand-total">
+                    <tr>
                         <td></td>
                         <td  class="text-right">
-                            <strong>Amount Due:</strong>
+                            <strong>Total:</strong>
                         </td>
                         <td>
                             <strong>P<span id="grand_total">{{ number_format($transaction->orders()->pluck('total')->sum(), 2, '.', ',') }}</span></strong>

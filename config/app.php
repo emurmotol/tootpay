@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://toot.pay'),
+    'url' => env('APP_URL', 'http://tootpay.tigrimigri.com'),
 
     /*
     |--------------------------------------------------------------------------

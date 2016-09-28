@@ -17,22 +17,20 @@
                             <strong>{{ \App\Models\Merchandise::find($sale['_item'])->name }}</strong>
                         </td>
                         <td>{{ $sale['_count'] }}</td>
-                        <td>order</td>
+                        <td>Order</td>
                     @else
-                        <td>
-                            <a href=""><strong>{{ $sale['_item'] }}</strong></a>
-                        </td>
+                        <td><strong>{{ $sale['_item'] }}</strong></td>
                         <td>{{ $sale['_count'] }}</td>
-                        <td>transaction</td>
+                        <td>Transaction</td>
                     @endif
-                    <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
+                    <td><strong>P{{ number_format($sale['_total'], 2, '.', ',') }}</strong></td>
                 </tr>
             @endforeach
             <tr class="grand-total">
                 <td></td>
                 <td></td>
                 <td class="text-right">
-                    <strong>Net Total:</strong>
+                    <strong>Total:</strong>
                 </td>
                 <td>
                     <strong>P{{ number_format(collect($sales)->pluck('_total')->sum(), 2, '.', ',') }}</strong>

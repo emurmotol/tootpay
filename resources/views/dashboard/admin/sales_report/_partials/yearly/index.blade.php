@@ -11,7 +11,7 @@
             @foreach($sales as $sale)
                 <tr>
                     <td>{{ date('F', mktime(0, 0, 0, $sale['_month'])) }}</td>
-                    <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
+                    <td><strong>P{{ number_format($sale['_total'], 2, '.', ',') }}</strong></td>
                 </tr>
             @endforeach
             <tr class="grand-total">

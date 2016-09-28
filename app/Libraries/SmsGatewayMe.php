@@ -1,7 +1,7 @@
 <?php
 namespace App\Libraries;
 
-class SmsGateway
+class SmsGatewayMe
 {
     static $baseUrl = "https://smsgateway.me";
 

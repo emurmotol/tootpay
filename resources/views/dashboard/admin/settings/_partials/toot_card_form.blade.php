@@ -8,7 +8,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input id="toot_card_price" type="number" class="form-control" name="toot_card_price"
+                <input id="toot_card_price" type="text" class="form-control" name="toot_card_price"
                        value="{{ \App\Models\Setting::value('toot_card_price') }}" placeholder="Toot card price">
             </div>
 
@@ -24,7 +24,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input id="toot_card_default_load" type="number" class="form-control" name="toot_card_default_load"
+                <input id="toot_card_default_load" type="text" class="form-control" name="toot_card_default_load"
                        value="{{ \App\Models\Setting::value('toot_card_default_load') }}"
                        placeholder="Default toot load">
             </div>
@@ -41,7 +41,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input id="toot_card_max_load_limit" type="number" class="form-control" name="toot_card_max_load_limit"
+                <input id="toot_card_max_load_limit" type="text" class="form-control" name="toot_card_max_load_limit"
                        value="{{ \App\Models\Setting::value('toot_card_max_load_limit') }}"
                        placeholder="Max load limit">
             </div>
@@ -58,7 +58,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input id="toot_card_min_load_limit" type="number" class="form-control" name="toot_card_min_load_limit"
+                <input id="toot_card_min_load_limit" type="text" class="form-control" name="toot_card_min_load_limit"
                        value="{{ \App\Models\Setting::value('toot_card_min_load_limit') }}"
                        placeholder="Min load limit">
             </div>
@@ -75,7 +75,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input id="per_point" type="number" class="form-control" name="per_point"
+                <input id="per_point" type="text" class="form-control" name="per_point"
                        value="{{ \App\Models\Setting::value('per_point') }}" placeholder="Per toot points">
             </div>
 

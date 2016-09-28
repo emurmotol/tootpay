@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title huge text-center text-info">
-                    <i class="fa fa-info-circle"></i> Would you like to cash-in P<span id="lack_cash"></span>.
+                    <i class="fa fa-info-circle"></i> Would you like to cash-in P<span id="lack_cash"></span>?
                 </div>
             </div>
             <div class="modal-footer">

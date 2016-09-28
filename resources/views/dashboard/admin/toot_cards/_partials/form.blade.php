@@ -64,7 +64,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input type="number" class="form-control" id="load" name="load"
+                <input type="text" class="form-control" id="load" name="load"
                        value="{{ (Route::is('toot_cards.edit')) ? $toot_card->load : old('load') }}" placeholder="">
             </div>
 
@@ -78,7 +78,7 @@
         <div class="form-group{{ $errors->has('points') ? ' has-error' : '' }}">
             <label for="points">Points:</label>
 
-            <input type="number" class="form-control" id="points" name="points"
+            <input type="text" class="form-control" id="points" name="points"
                    value="{{ (Route::is('toot_cards.edit')) ? $toot_card->points : old('points') }}" placeholder="">
 
             @if ($errors->has('points'))

@@ -12,9 +12,9 @@
             <tbody>
             @foreach($expenses as $expense)
                 <tr>
-                    <td>{{ $expense->name }}</td>
+                    <td><strong>{{ $expense->name }}</strong></td>
                     <td>{{ $expense->description }}</td>
-                    <td>P{{ number_format($expense->amount, 2, '.', ',') }}</td>
+                    <td><strong>P{{ number_format($expense->amount, 2, '.', ',') }}</strong></td>
                     <td class="text-center">
                         {!! Form::open(['route' => ['expenses.destroy', $expense->id], 'class' => '']) !!}
                         {!! Form::hidden('_method', 'DELETE') !!}

@@ -146,10 +146,9 @@ class TootCard extends Model
         $per_point = intval(Setting::value('per_point'));
         $load = $toot_card->load;
         $points = $toot_card->points;
-        $lack_cash = $amount_due - $load;
 
+        $toot_card->load = $load - $amount_due;
         $toot_card->points = $points + ($load / $per_point);
-        $toot_card->load = 0;
         $toot_card->save();
     }
 

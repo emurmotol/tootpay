@@ -33,7 +33,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">P</span>
-                <input type="number" class="form-control" id="amount" name="amount"
+                <input type="text" class="form-control" id="amount" name="amount"
                        value="{{ (Route::is('expenses.edit')) ? $expense->amount : old('amount') }}" placeholder="">
             </div>
 

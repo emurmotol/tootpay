@@ -61,7 +61,7 @@ class Order extends Model
                 ]);
                 $_transaction->cashExtensions()->attach($cash_extension);
             }
-            sendToEmail($user->email, 'dashboard.client._partials.notifications.email.purchase_information', $_transaction);
+            sendEmail($user->email, 'dashboard.client._partials.notifications.email.purchase_information', $_transaction);
         } else {
             $_transaction->users()->attach($user_id);
         }

@@ -97,7 +97,7 @@ class CashierController extends Controller
                 'user_id' => $request->get('user_id'),
                 'password' => $password
             ];
-            sendToPhoneNumberAndEmail($request->get('phone_number'), $request->get('email'), 'dashboard.client._partials.notifications.common.account_created', $data);
+            sendSmsAndEmail($request->get('phone_number'), $request->get('email'), 'dashboard.client._partials.notifications.common.account_created', $data);
             return StatusResponse::def(23);
         }
         return StatusResponse::find(17)->name;
@@ -154,7 +154,8 @@ class CashierController extends Controller
                 } elseif ($transaction->payment_method_id == 4) {
                     TootCard::payUsingPoints($toot_card->id, $transaction->orders()->pluck('total')->sum());
                 } elseif ($transaction->payment_method_id == 6) {
-                    TootCard::payUsingLoadAndCash($toot_card->id, $transaction->orders()->pluck('total')->sum());
+                    $amount_due = $transaction->orders()->pluck('total')->sum() - $transaction->cashExtensions()->first()->amount;
+                    TootCard::payUsingLoadAndCash($toot_card->id, $amount_due);
                 }
             }
         }

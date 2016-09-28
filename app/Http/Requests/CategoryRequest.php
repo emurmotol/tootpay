@@ -16,6 +16,7 @@ class CategoryRequest extends Request
         return [
             'name' => 'required',
             'description' => '',
+            'manage_inventory' => '',
         ];
     }
 }

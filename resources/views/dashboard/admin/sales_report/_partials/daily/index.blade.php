@@ -19,15 +19,15 @@
                             </a>
                         </td>
                         <td>{{ $sale['_count'] }}</td>
-                        <td>order</td>
+                        <td>Order</td>
                     @else
                         <td>
                             <a href=""><strong>{{ $sale['_item'] }}</strong></a>
                         </td>
                         <td>{{ $sale['_count'] }}</td>
-                        <td>transaction</td>
+                        <td>Transaction</td>
                     @endif
-                    <td>P{{ number_format($sale['_total'], 2, '.', ',') }}</td>
+                    <td><strong>P{{ number_format($sale['_total'], 2, '.', ',') }}</strong></td>
                 </tr>
             @endforeach
             <tr class="grand-total">

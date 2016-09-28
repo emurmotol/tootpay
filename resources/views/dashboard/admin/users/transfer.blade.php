@@ -15,27 +15,27 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            @if(\App\Models\TootCard::available()->count())
+                            @if(\App\Models\TootCard::all()->except($toot_card->id)->count())
                                 <div class="col-md-6">
-                                    <h4><strong>From:</strong></h4>
+                                    <label>From:</label>
                                     <ul class="list-unstyled">
-                                        <li><strong>Cardholder Information:</strong></li>
+                                        <li><strong>Cardholder:</strong></li>
                                         <li>User ID: {{ $user->id }}</li>
                                         <li>Name: <a href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a></li>
-                                        <li><strong>Toot Card Information:</strong></li>
+                                        <li><strong>Toot Card:</strong></li>
                                         <li>UID: <a href="{{ route('toot_cards.show', $toot_card->id) }}">#{{ $toot_card->uid }}</a></li>
                                         <li>Load: P{{ number_format($toot_card->load, 2, '.', ',') }}</li>
                                         <li>Points: {{ number_format($toot_card->points, 2, '.', ',') }}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
-                                    <h4><strong>To:</strong></h4>
+                                    <label>To:</label>
                                     {!! Form::open(['route' => ['users.proceed_transfer', $user->id, $toot_card->id]]) !!}
                                     <div class="form-group{{ $errors->has('toot_card_id') ? ' has-error' : '' }}">
-                                        <label for="toot_card_id">Select Toot Card:</label>
+                                        <label for="toot_card_id">Toot Card:</label>
                                         <select id="toot_card_id" name="toot_card_id" class="form-control">
-                                            @foreach(\App\Models\TootCard::available() as $toot_card)
-                                                <option value="{{ $toot_card->id }}" {{ (old('toot_card_id') == $toot_card->id) ? 'selected' : '' }}>{{ $toot_card->uid }}</option>
+                                            @foreach(\App\Models\TootCard::all()->except($toot_card->id) as $_toot_card)
+                                                <option value="{{ $_toot_card->id }}" {{ (old('toot_card_id') == $_toot_card->id) ? 'selected' : '' }}>{{ $_toot_card->uid }}</option>
                                             @endforeach
                                         </select>
 

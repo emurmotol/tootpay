@@ -11,7 +11,7 @@
             @foreach($expenses as $expense)
                 <tr>
                     <td>{{ date('F d Y', strtotime($expense->_date)) }}</td>
-                    <td>P{{ number_format($expense->_amount, 2, '.', ',') }}</td>
+                    <td><strong>P{{ number_format($expense->_amount, 2, '.', ',') }}</strong></td>
                 </tr>
             @endforeach
             <tr class="grand-total">

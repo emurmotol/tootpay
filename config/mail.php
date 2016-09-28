@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mailtrap.io'),
+    'host' => env('MAIL_HOST', 'tootpay.tigrimigri.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 2525),
+    'port' => env('MAIL_PORT', 465),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'tootpay@mailinator.com', 'name' => 'Kuya Franz'],
+    'from' => ['address' => 'kuyafranz@tootpay.tigrimigri.com', 'name' => 'Kuya Franz'],
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', '2d69d509a6b94f'),
+    'username' => env('MAIL_USERNAME', 'tootpay@mailinator.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD', '6a5f987e5ed068'),
+    'password' => env('MAIL_PASSWORD', 'Q8ZHtU4J'),
 
     /*
     |--------------------------------------------------------------------------

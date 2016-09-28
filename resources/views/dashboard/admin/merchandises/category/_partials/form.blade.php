@@ -39,6 +39,17 @@
             @endif
         </div>
 
+        <div class="checkbox">
+            <input type="hidden" value="off" name="manage_inventory">
+            <label for="manage_inventory">
+            @if(Route::is('merchandise.categories.edit'))
+                <input type="checkbox" value="on" name="manage_inventory" id="manage_inventory" {{ $category->manage_inventory ? 'checked' : '' }}>
+            @else
+                <input type="checkbox" value="on" name="manage_inventory" id="manage_inventory" {{ old('manage_inventory') ? 'checked' : '' }}>
+            @endif Manage inventory?
+            </label>
+        </div>
+
         <button type="submit" id="btn-submit" class="btn btn-primary"
                 data-loading-text="{{ trans('loading.default') }}">
             {{ (Route::is('merchandise.categories.edit')) ? 'Update ' : 'Create ' }}category
