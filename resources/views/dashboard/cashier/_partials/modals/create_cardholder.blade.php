@@ -1,13 +1,9 @@
 <div id="create_cardholder" class="modal fade" role="dialog">
-
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-horizontal">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-                    </button>
-                    <div class="modal-title text-center"><strong>Create Cardholder</strong></div>
+                    <div class="modal-title huge text-center"><strong>Create Cardholder</strong></div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group form-group-lg">

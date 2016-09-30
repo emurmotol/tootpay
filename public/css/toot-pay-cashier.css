@@ -32,13 +32,11 @@ html, body, .cashier-view, .col-md-6, .panel {
 }
 
 body {
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.modal-body,
-.modal-footer,
-.modal-title,
-.modal-header,
+.transaction-heading .pull-left,
 .control-label,
 .col-md-8 input,
 .modal-footer span button,
@@ -49,11 +47,15 @@ body {
 .list-unstyled li form label,
 .list-unstyled li form button,
 .list-unstyled li form div div input,
-.list-unstyled li form div div span,
-.modal-body,
-.modal-title {
+.list-unstyled li form div div span {
     font-size: 20px !important;
-    height: auto;
+    font-weight: 600 !important;
+    height: auto !important;
+}
+
+.transaction-heading .pull-right {
+    font-size: 20px !important;
+    height: auto !important;
 }
 
 .list-unstyled li form div .input-group {
@@ -70,4 +72,10 @@ body {
 
 .logout:hover {
     color: #ddd;
+}
+
+.huge {
+    font-size: 30px !important;
+    font-weight: 600 !important;
+    height: auto !important;
 }

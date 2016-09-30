@@ -5,7 +5,7 @@
                 <div class="modal-title huge text-center">{!! trans('transaction.done') !!}</div>
             </div>
             <div class="modal-body text-center text-success">
-                <div><strong>{!! trans('transaction.queue_number_is') !!}</strong></div>
+                <div class="huge">{!! trans('transaction.queue_number_is') !!}</div>
                 <strong><span id="queue_number"></span></strong>
             </div>
         </div>

@@ -26,12 +26,3 @@
     @include('dashboard.client._partials.modals.validation')
     @include('dashboard.client.transactions._partials.modals.toot_card_details')
 @endsection
-
-@section('style')
-    <style>
-        body {
-            padding-top: 0px;
-            padding-bottom: 0px;
-        }
-    </style>
-@endsection

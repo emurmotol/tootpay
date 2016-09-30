@@ -11,11 +11,11 @@
         @include('layouts._partials.cashier.stylesheets')
     @endif
 
+    {{--todo css breaks when idle while cashier is logged-in--}}
+
     @if(Route::is('order.order') || Route::is('transaction.idle'))
         @include('layouts._partials.client.stylesheets')
     @endif
-
-    @yield('style')
 </head>
 <body>
 @if(Route::is('order.order') || Route::is('transaction.idle'))

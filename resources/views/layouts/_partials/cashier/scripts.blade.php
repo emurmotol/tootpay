@@ -290,8 +290,6 @@
                     served($(this).data("transaction_id"));
                     location.reload();
                 });
-            } else {
-                $("#queued_div").html("<div class='text-muted text-center'>Empty.</div>");
             }
         });
     }
@@ -300,8 +298,6 @@
         $.get("transactions/cashier/history", function (response) {
             if (response != "") {
                 $("#history_div").html(response);
-            } else {
-                $("#history_div").html("<div class='text-muted text-center'>Empty.</div>");
             }
         });
     }
@@ -310,8 +306,6 @@
         $.get("transactions/cashier/reports", function (response) {
             if (response != "") {
                 $("#reports_div").html(response);
-            } else {
-                $("#reports_div").html("<div class='text-muted text-center'>Empty.</div>");
             }
         });
     }

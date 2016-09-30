@@ -6,7 +6,7 @@
     border: none !important;
 }
 
-.huge-total, .modal-body, .modal-title, .order-actions li ul li button {
+.huge-total, .order-actions li ul li button {
     font-size: 20px;
     height: auto;
 }
@@ -96,7 +96,8 @@ html, body, .col-md-6, .panel, .carousel, .item, .active, .carousel-inner {
 }
 
 body {
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .carousel-inner .item img {
@@ -109,11 +110,6 @@ body {
     padding-bottom: 130px;
     display: block;
     margin: auto;
-}
-
-.huge {
-    font-size: 30px;
-    height: auto;
 }
 
 .huge-md {
@@ -140,10 +136,6 @@ body {
     margin-bottom: 15px;
 }
 
-/*.input-qty input {*/
-    /*width: 10px;*/
-/*}*/
-
 .menu {
     padding: 30px;
 }
@@ -160,4 +152,10 @@ body {
 
 .user-orders {
     padding: 10px;
+}
+
+.huge {
+    font-size: 30px !important;
+    font-weight: 600 !important;
+    height: auto !important;
 }

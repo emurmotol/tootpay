@@ -39,4 +39,6 @@
             </tbody>
         </table>
     </div>
+@else
+    @include('_partials.empty')
 @endif
