@@ -25,6 +25,7 @@ return [
     'insufficient_load_share' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the load sharing.</strong>',
     'insufficient_load' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your load is not enough to complete the payment.</strong>',
     'insufficient_points' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Your points are not enough to complete the redeem.</strong>',
+    'cant_share_load_to_yourself' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Cant share load to yourself.</strong>',
     'invalid_card' => '<strong class="text-danger"><i class="fa fa-times"></i> Whoops! Invalid toot card.</strong>',
     'active' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Toot card is active.</strong>',
     'already_associated' => '<strong class="text-danger"><i class="fa fa-exclamation-triangle"></i> Toot card is already taken.</strong>',

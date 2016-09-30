@@ -27,8 +27,8 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123456')
         ]);
         $john_card = TootCard::create([
-            'id' => '0005976112',
-            'uid' => '1409883099794111',
+            'id' => '0004249518',
+            'uid' => '000424951806455214',
             'pin_code' => '1111',
             'load' => 80,
             'points' => 0,
@@ -46,8 +46,8 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123456')
         ]);
         $fara_card = TootCard::create([
-            'id' => '0015074440',
-            'uid' => '1001000006536116',
+            'id' => '0004250635',
+            'uid' => '000425063506456331',
             'pin_code' => '1234',
             'load' => 80,
             'points' => 0,
@@ -56,25 +56,6 @@ class UsersTableSeeder extends Seeder
         ]);
         $fara->roles()->attach(Role::find(cardholder()));
         $fara->tootCards()->attach($fara_card);
-
-        $jr = User::create([
-            'id' => '00420130148',
-            'name' => 'Joseph Renato Malabag',
-            'email' => 'malabagpoginga@gmail.com',
-            'phone_number' => '09753143025',
-            'password' => bcrypt('123456')
-        ]);
-        $jr_card = TootCard::create([
-            'id' => '0014812296',
-            'uid' => '1001000006640510',
-            'pin_code' => '1213',
-            'points' => 0,
-            'load' => 80,
-            'is_active' => 'on',
-            'expires_at' => Carbon::now()->addYear(intval(Setting::value('toot_card_expire_year_count')))
-        ]);
-        $jr->roles()->attach(Role::find(cardholder()));
-        $jr->tootCards()->attach($jr_card);
 
 //        foreach (User::cardholdersJson() as $cardholder) {
 //            $user = User::create($cardholder);

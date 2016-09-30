@@ -295,6 +295,9 @@
             } else if (response.status == "{{ \App\Models\StatusResponse::find(18)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_load_is_not_enough_to_complete_the_load_sharing') }}");
                 validation(false, 5000, '{!! trans('toot_card.insufficient_load_share') !!}');
+            } else if (response.status == "{{ \App\Models\StatusResponse::find(28)->name }}") {
+                $.playSound("{{ asset('speech/whoops_cant_share_load_to_yourself') }}");
+                validation(false, 5000, '{!! trans('toot_card.cant_share_load_to_yourself') !!}');
             }
             console.log(response);
         }, "json");

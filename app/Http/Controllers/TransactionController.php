@@ -134,6 +134,10 @@ class TransactionController extends Controller
 
             $toot_card_id_receiver = User::find($user_id)->tootCards()->first()->id;
 
+            if (TootCard::find($toot_card_id)->users()->first()->id == $user_id) {
+                return StatusResponse::def(28);
+            }
+
             if (TootCard::loadExceedsMax($toot_card_id_receiver, $load_amount)) {
                 return TootCard::response(19, $toot_card_id);
             }
