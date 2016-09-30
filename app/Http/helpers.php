@@ -16,24 +16,25 @@ function guest() {
     return \App\Models\Role::json(3);
 }
 
-function sendSms($phone_number, $view, $data = null, $online = false) {
-//    try {
-//        if ($online) {
-//            (new \App\Libraries\SmsGatewayMe(config('mail.from.address'),
-//                config('smsgatewayme.password')))->sendMessageToNumber($phone_number,
-//                (String)view($view, compact('data')),
-//                config('smsgatewayme.device'));
-//        } else {
-//            (new \App\Libraries\RESTSmsGateway(config('restsmsgateway.host'),
-//                config('restsmsgateway.port')))->sendMessageToNumber($phone_number,
-//                (String)view($view, compact('data')));
-//        }
-//    } catch (\Exception $e) {
-//        \Illuminate\Support\Facades\Log::error($e);
-//        sendEmail(\App\Models\User::where('phone_number', $phone_number)->first()->email, $view, $data);
-//    } finally {
-//        \Illuminate\Support\Facades\Log::info((String)view($view, compact('data')));
-//    }
+function sendSms($phone_number, $view, $data = null, $online = true) {
+    try {
+        if ($online) {
+            $sms = (new \App\Libraries\SmsGatewayMe(config('smsgatewayme.email'),
+                config('smsgatewayme.password')))->sendMessageToNumber($phone_number,
+                (String)view($view, compact('data')),
+                config('smsgatewayme.device'));
+            \Illuminate\Support\Facades\Log::debug(compact('sms'));
+        } else {
+            (new \App\Libraries\RESTSmsGateway(config('restsmsgateway.host'),
+                config('restsmsgateway.port')))->sendMessageToNumber($phone_number,
+                (String)view($view, compact('data')));
+        }
+    } catch (\Exception $e) {
+        \Illuminate\Support\Facades\Log::error($e);
+        sendEmail(\App\Models\User::where('phone_number', $phone_number)->first()->email, $view, $data);
+    } finally {
+        \Illuminate\Support\Facades\Log::info((String)view($view, compact('data')));
+    }
 }
 
 function sendEmail($email, $view, $data = null) {

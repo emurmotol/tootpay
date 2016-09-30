@@ -67,7 +67,7 @@ class SmsGatewayMe
     private function makeRequest($url, $method, $fields = []) {
         $fields['email'] = $this->email;
         $fields['password'] = $this->password;
-        $url = smsGateway::$baseUrl . $url;
+        $url = SmsGatewayMe::$baseUrl . $url;
         $fieldsString = http_build_query($fields);
         $ch = curl_init();
 

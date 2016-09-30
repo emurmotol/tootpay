@@ -1,7 +1,7 @@
 <?php
 
 Route::get('dd', function () {
-    return dd(\App\Models\TootCard::find());
+    return dd(config('smsgatewayme.email'));
 });
 
 Route::auth();

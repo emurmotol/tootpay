@@ -99,7 +99,8 @@ class CashierController extends Controller
                 'user_id' => $request->get('user_id'),
                 'password' => $password
             ];
-            sendSmsAndEmail($request->get('phone_number'), $request->get('email'), 'dashboard.client._partials.notifications.common.account_created', $data);
+            sendSms($request->get('phone_number'), 'dashboard.client._partials.notifications.text.account_created', $data);
+            sendEmail($request->get('email'), 'dashboard.client._partials.notifications.email.account_created', $data);
             return StatusResponse::def(23);
         }
         return StatusResponse::find(17)->name;
