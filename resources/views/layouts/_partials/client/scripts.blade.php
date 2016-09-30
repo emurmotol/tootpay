@@ -84,7 +84,8 @@
         }
     });
     $("#forgot").on("click", function() {
-        validation(true, 10000, 'Please login to your account at ' + '<span class="text-primary">{{ url('login') }}</span>' + ' to reset your pin code.');
+        $.playSound("{{ asset('speech/please_login_to_your_account_to_reset_your_pin_code') }}");
+        validation(true, 10000, 'Please login to your account to reset your pin code. ' + '<span class="text-primary">{{ url('login') }}</span>');
     });
     edit_orders_help.on("click", function () {
         $("#orders_help").modal("show");
@@ -309,12 +310,10 @@
     }
 
     function reloadRequest(toot_card_id, load_amount) {
-        pleaseWait();
         $.post("reload_request", {
             toot_card_id: toot_card_id,
             load_amount: load_amount
         }, function (response) {
-            $("#please_wait").modal("hide");
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 $.playSound("{{ asset('speech/your_reload_request_was_successfully_sent') }}");
                 validation(true, 5000, '{!! trans('toot_card.reload_request_sent') !!}');

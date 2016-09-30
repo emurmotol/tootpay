@@ -42,7 +42,7 @@
                                                             <button class="btn btn-default btn-lg minus">
                                                                 <i class="fa fa-minus"></i>
                                                             </button>
-                                                            <input type="number" class="form-control-lg bs-input-unstyled qty" value="1">
+                                                            <input type="number" class="form-control-lg bs-input-unstyled qty text-center" value="1">
                                                             <button class="btn btn-default btn-lg plus">
                                                                 <i class="fa fa-plus"></i>
                                                             </button>

@@ -12,7 +12,7 @@ return [
     'exception' => ':Error',
     'queue_number_is' => 'Your queue number is:',
     'details' => '<strong>Your balance is...</strong>',
-    'balance' => 'As of :Date, you have <span class="text-success">P:load load</span> with <span class="text-success">:points points</span>.',
+    'balance' => '<span class="text-primary huge-md">P:load load</span> with <span class="text-primary huge-md">:points points</span> as of :Date.',
     'tap_card' => '<strong>Please tap your toot card!</strong>',
     'enter_pin' => '<strong>Enter your pin code</strong>',
     'enter_load_amount' => '<strong>Enter load amount</strong>',

@@ -275,6 +275,7 @@
 
                 if (count != $('.well-transaction').length) {
                     transactions();
+                    resetToDefault();
                 }
             });
         }, 1500);
