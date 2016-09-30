@@ -20,6 +20,7 @@
 }
 
 .category-list {
+    margin-right: -10px;
     overflow-x: scroll;
 }
 
@@ -55,6 +56,7 @@
 }
 
 .merchandise-list {
+    height: calc(100% - 50px);
     padding-top: 5px;
     overflow-y: scroll;
 }

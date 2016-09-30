@@ -1,0 +1,92 @@
+[
+  {
+    "category_id": 2,
+    "name": "Rice",
+    "price": 10
+  },
+  {
+    "category_id": 1,
+    "name": "Bicol Express",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Caldereta",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Monggo",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Pancit",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Pork Adobo",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Sinabawang Isda",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Siomai",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Sitaw Na Giniling",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Sweet Porkchop",
+    "price": 40
+  },
+  {
+    "category_id": 1,
+    "name": "Tapa",
+    "price": 40
+  },
+  {
+    "category_id": 3,
+    "name": "Coke Mismo",
+    "price": 15
+  },
+  {
+    "category_id": 3,
+    "name": "Zesto",
+    "price": 10
+  },
+  {
+    "category_id": 3,
+    "name": "Wilkins",
+    "price": 10
+  },
+  {
+    "category_id": 4,
+    "name": "Piattos",
+    "price": 20
+  },
+  {
+    "category_id": 4,
+    "name": "V Cut",
+    "price": 20
+  },
+  {
+    "category_id": 4,
+    "name": "Oreo",
+    "price": 10
+  },
+  {
+    "category_id": 5,
+    "name": "Mentos",
+    "price": 10
+  }
+]

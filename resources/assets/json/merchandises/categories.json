@@ -1,18 +1,22 @@
 [
   {
-    "name": "DISH",
-    "description": ""
+    "name": "Dish",
+    "description": "Ulam"
   },
   {
-    "name": "COMBO MEALS",
-    "description": "Ulam + Kanin + Sabaw + Tinidor"
+    "name": "Others",
+    "description": "Laman tyan"
   },
   {
-    "name": "BEVERAGES",
-    "description": ""
+    "name": "Beverages",
+    "description": "Panulak"
   },
   {
-    "name": "OTHERS",
-    "description": ""
+    "name": "Snacks",
+    "description": "Halo halong laman tyan"
+  },
+  {
+    "name": "Sweets",
+    "description": "Matamis"
   }
 ]

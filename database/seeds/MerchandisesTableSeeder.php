@@ -8,36 +8,22 @@ class MerchandisesTableSeeder extends Seeder
 {
     public function run()
     {
-        $monday_friday = explode('_', '1_5');
-        $week_days = explode('_', '1_2_3_4_5');
+        $days = explode('_', '1_2_3_4_5_6');
 
-        foreach (Merchandise::json('1_2_3_4_5') as $m) {
+        foreach (Merchandise::json('1_2_3_4_5_6') as $m) {
             $merchandise = Merchandise::create($m);
             app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
 
-            foreach($week_days as $day) {
+            foreach($days as $day) {
                 $merchandise->operationDays()->attach($day);
             }
         }
 
         foreach(OperationDay::hasOperation(true) as $day) {
-            if ($day->id == 6 || $day->id == 0) {
-                continue;
-            }
-
             foreach (Merchandise::json($day->id) as $m) {
                 $merchandise = Merchandise::create($m);
                 app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
                 $merchandise->operationDays()->attach($day->id);
-            }
-        }
-
-        foreach (Merchandise::json('1_5') as $m) {
-            $merchandise = Merchandise::create($m);
-            app('App\Http\Controllers\Merchandise\MerchandiseController')->makeImage(resource_path('assets/img/merchandises/' . str_slug($merchandise->name) . '.jpg'), $merchandise);
-
-            foreach($monday_friday as $day) {
-                $merchandise->operationDays()->attach($day);
             }
         }
     }

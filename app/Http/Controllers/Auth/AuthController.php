@@ -17,6 +17,8 @@ class AuthController extends Controller
 
     protected $username = 'id';
 
+    protected $maxLoginAttempts = 3;
+
     public function __construct() {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
