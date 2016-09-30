@@ -140,6 +140,10 @@ body {
     margin-bottom: 15px;
 }
 
+/*.input-qty input {*/
+    /*width: 10px;*/
+/*}*/
+
 .menu {
     padding: 30px;
 }

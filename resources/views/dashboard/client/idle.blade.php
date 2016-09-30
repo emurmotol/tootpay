@@ -16,6 +16,7 @@
         </div>
     </div>
 
+    @include('dashboard.client._partials.modals.please_wait')
     @include('dashboard.client._partials.modals.tap_card')
     @include('dashboard.client._partials.modals.enter_pin')
     @include('dashboard.client._partials.modals.menu')

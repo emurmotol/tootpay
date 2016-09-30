@@ -114,6 +114,7 @@
         });
     });
     $("#yes").on("click", function () {
+        $("#ask_for_cash").modal("hide");
         sendOrders(5, 6);
     });
     menu_reload_toot_card.on("click", function () {
@@ -270,22 +271,26 @@
     }
 
     function checkBalance(toot_card_id) {
+        pleaseWait();
         $.post("check_balance", {
             toot_card_id: toot_card_id
         }, function (response) {
             $("#check_balance").html(response);
             console.log(response);
         }).done(function () {
+            $("#please_wait").modal("hide");
             tootCardDetails(timeout_long);
         });
     }
 
     function shareLoad(toot_card_id, user_id, load_amount) {
+        pleaseWait();
         $.post("share_load", {
             toot_card_id: toot_card_id,
             user_id: user_id,
             load_amount: load_amount
         }, function (response) {
+            $("#please_wait").modal("hide");
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 $.playSound("{{ asset('speech/you_have_successfully_shared_your_load') }}");
                 validation(true, 5000, '{!! trans('toot_card.load_shared') !!}');
@@ -304,10 +309,12 @@
     }
 
     function reloadRequest(toot_card_id, load_amount) {
+        pleaseWait();
         $.post("reload_request", {
             toot_card_id: toot_card_id,
             load_amount: load_amount
         }, function (response) {
+            $("#please_wait").modal("hide");
             if (response.status == "{{ \App\Models\StatusResponse::find(9)->name }}") {
                 $.playSound("{{ asset('speech/your_reload_request_was_successfully_sent') }}");
                 validation(true, 5000, '{!! trans('toot_card.reload_request_sent') !!}');
@@ -452,7 +459,10 @@
             };
         }
 
+        pleaseWait();
+
         $.post("order/send", _data, function (response) {
+            $("#please_wait").modal("hide");
             if (response.status == "{{ \App\Models\StatusResponse::find(8)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_balance_is_not_enough_to_complete_the_payment') }}");
                 validation(true, 5000, '{!! trans('toot_card.insufficient_balance') !!}');
@@ -460,7 +470,7 @@
                 $.playSound("{{ asset('speech/whoops_your_load_is_not_enough_to_complete_the_payment') }}");
                 validation("static", 5000, '{!! trans('toot_card.insufficient_load') !!}');
                 $("#lack_cash").text(response.other);
-                askForCash(5000);
+                askForCash(5000).delay(5000);
             } else if (response.status == "{{ \App\Models\StatusResponse::find(20)->name }}") {
                 $.playSound("{{ asset('speech/whoops_your_toot_points_is not_enough_to_complete_the_redeem') }}");
                 validation(true, 5000, '{!! trans('toot_card.insufficient_points') !!}');
@@ -509,6 +519,11 @@
             $(this).closest("tr").remove();
             compute();
         });
+    }
+
+    function pleaseWait() {
+        $.playSound("{{ asset('speech/please_wait') }}");
+        $("#please_wait").modal("show");
     }
 
     function addOrder(merchandise_id, name, price, qty) {
@@ -635,6 +650,7 @@
 
     function askForCash(timeout) {
         setTimeout(function () {
+            $.playSound("{{ asset('speech/would_you_like_to_cash_in') }}");
             $("#ask_for_cash").modal({backdrop: "static"});
         }, timeout);
         _timer = setTimeout(function () {
