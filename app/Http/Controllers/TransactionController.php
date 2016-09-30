@@ -147,7 +147,7 @@ class TransactionController extends Controller
                     'payment_method_id' => 3,
                     'status_response_id' => 11
                 ]);
-                $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first());
+                $transaction->users()->attach(TootCard::find($toot_card_id)->users()->first(), compact('toot_card_id'));
 
                 $load_share = LoadShare::create([
                     'from_toot_card_id' => $toot_card_id,

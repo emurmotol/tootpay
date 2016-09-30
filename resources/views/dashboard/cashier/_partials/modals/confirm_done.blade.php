@@ -8,10 +8,10 @@
             </div>
             <div class="modal-footer">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-success btn-lg" id="yes_done" data-dismiss="modal"><strong>Yes</strong></button>
+                    <button type="button" class="btn btn-success huge" id="yes_done" data-dismiss="modal"><strong>Yes</strong></button>
                 </div>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-danger btn-lg" id="no_done" data-dismiss="modal"><strong>No</strong></button>
+                    <button type="button" class="btn btn-danger huge" id="no_done" data-dismiss="modal"><strong>No</strong></button>
                 </div>
             </div>
         </div>

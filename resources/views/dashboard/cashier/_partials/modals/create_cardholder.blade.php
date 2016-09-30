@@ -52,10 +52,10 @@
                 </div>
                 <div class="modal-footer">
                     <span class="pull-left">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-warning huge" data-dismiss="modal">Cancel</button>
                     </span>
                     <span class="pull-right">
-                        <button type="button" class="btn btn-primary" id="create_card_holder">Create</button>
+                        <button type="button" class="btn btn-primary huge" id="create_card_holder">Create</button>
                     </span>
                 </div>
             </form>
