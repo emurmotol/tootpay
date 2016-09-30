@@ -103,12 +103,20 @@ class TootCard extends Model
 
     public static function hasSufficientLoad($toot_card_id, $amount_due) {
         $toot_card = self::find($toot_card_id);
+        $balance = 0;
+        $transactions = $toot_card->transactions()->where('status_response_id', 10)->get();
 
-        if (!count($toot_card->load)) {
+        if ($transactions->count()) {
+            // add sum total orders from transactions
+        } else {
+            $balance = $toot_card->load;
+        }
+
+        if (!count($balance)) {
             return false;
         }
 
-        if ($toot_card->load < $amount_due) {
+        if ($balance < $amount_due) {
             return false;
         }
         return true;

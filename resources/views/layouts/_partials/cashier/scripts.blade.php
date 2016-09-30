@@ -108,7 +108,13 @@
 
     cash_received_backspace.on("click", function () {
         cash_received.val(function (index, value) {
-            return value.substr(0, value.length - 1);
+            var _value = value.substr(0, value.length - 1);
+
+            if (_value == "") {
+                return 0;
+            } else {
+                return _value;
+            }
         });
         compute();
     });

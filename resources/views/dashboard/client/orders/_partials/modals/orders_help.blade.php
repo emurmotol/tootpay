@@ -1,9 +1,9 @@
 <div id="orders_help" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                 </button>
                 <div class="modal-title huge text-center">Help <i class="fa fa-question-circle-o"></i></div>
             </div>

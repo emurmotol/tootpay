@@ -4,7 +4,7 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th class="text-center">Manage Inventory?</th>
+            {{--<th class="text-center">Manage Inventory?</th>--}}
             <th class="text-center"># Of Entries</th>
             <th class="text-center">Actions</th>
         </tr>
@@ -18,9 +18,9 @@
                     </a>
                 </td>
                 <td>{{ $category->description }}</td>
-                <td class="text-center">
-                    {!! $category->manage_inventory ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>' !!}
-                </td>
+                {{--<td class="text-center">--}}
+                    {{--{!! $category->manage_inventory ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>' !!}--}}
+                {{--</td>--}}
                 <td class="text-center">{{ \App\Models\Merchandise::byCategory($category->id)->get()->count() }}</td>
                 <td class="text-center">
                     {!! Form::open(['route' => ['merchandise.categories.destroy', $category->id], 'class' => '']) !!}
