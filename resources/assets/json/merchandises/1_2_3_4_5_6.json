@@ -31,7 +31,7 @@
   },
   {
     "category_id": 1,
-    "name": "Sinabawang Isda",
+    "name": "Bisugong Paksiw",
     "price": 40
   },
   {
@@ -46,7 +46,7 @@
   },
   {
     "category_id": 1,
-    "name": "Sweet Porkchop",
+    "name": "Sweet And Sour Meatballs",
     "price": 40
   },
   {
@@ -57,27 +57,27 @@
   {
     "category_id": 3,
     "name": "Coke Mismo",
-    "price": 15
+    "price": 12
   },
   {
     "category_id": 3,
     "name": "Zesto",
-    "price": 10
+    "price": 12
   },
   {
     "category_id": 3,
     "name": "Wilkins",
-    "price": 10
+    "price": 15
   },
   {
     "category_id": 4,
     "name": "Piattos",
-    "price": 20
+    "price": 15
   },
   {
     "category_id": 4,
     "name": "V Cut",
-    "price": 20
+    "price": 15
   },
   {
     "category_id": 4,
@@ -87,6 +87,6 @@
   {
     "category_id": 5,
     "name": "Mentos",
-    "price": 10
+    "price": 1
   }
 ]

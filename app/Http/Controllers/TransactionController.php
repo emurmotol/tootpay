@@ -89,7 +89,12 @@ class TransactionController extends Controller
             $toot_card = TootCard::find($request->get('toot_card_id'));
             $toot_card_id = $toot_card->id;
 
+            // session has value?
+            // increment
+            // value equals 3
+            // response
             if ($toot_card->pin_code == $request->get('pin_code')) {
+                // forget session
                 return TootCard::response(3, $toot_card_id);
             }
             return TootCard::response(4, $toot_card_id);
