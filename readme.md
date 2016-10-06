@@ -1,17 +1,11 @@
 ## Cashless Payment System using Digital Wallet (Toot Card)
 
-**Administrator**
-User ID: _12312341234_
-Password: _123qwe_
+| Role          | User ID     | Password |
+| ------------- |:-----------:|:--------:|
+| Administrator | 12312341234 |  123qwe  |
+| Cashier       | 01987654321 |  123qwe  |
+| Cardholder    | 00420130015 |  123456  |
 
-**Cashier**
-User ID: _01987654321_
-Password: _123qwe_
-
-**Cardholder**
-User ID: _00420130015_
-Password: _123456_
-
-Check it out [here](http://tootpay.epizy.com/).
-Ordering starts [here](http://tootpay.epizy.com/idle).
-Source code are found [here](https//github.com/zneyrl/tootpay).
+##### Check it out [here](http://tootpay.epizy.com/).
+##### Ordering starts [here](http://tootpay.epizy.com/idle).
+##### Source code are found [here](https//github.com/zneyrl/tootpay).
