@@ -15,7 +15,7 @@
                             <label for="id" class="col-md-4 control-label">User ID:</label>
 
                             <div class="col-md-6">
-                                <input id="id" type="number" class="form-control" name="id" value="{{ old('id') }}" placeholder="Your user id or school id or student number">
+                                <input id="id" type="number" class="form-control" name="id" value="{{ old('id') }}" placeholder="Your user id">
 
                                 @if ($errors->has('id'))
                                     <span class="help-block">
