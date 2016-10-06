@@ -1,14 +1,14 @@
 ## Cashless Payment System using Digital Wallet (Toot Card)
 
-Administrator
+(Administrator)
 User ID: 12312341234
 Password: 123qwe
 
-Cashier
+(Cashier)
 User ID: 01987654321
 Password: 123qwe
 
-Cardholder
+(Cardholder)
 User ID: 00420130015
 Password: 123456
 
