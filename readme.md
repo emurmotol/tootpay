@@ -10,3 +10,4 @@
 ##### Ordering starts [here](http://tootpay.epizy.com/idle).
 ##### Source code are found [here](https://github.com/zneyrl/tootpay).
 ##### RFID reader is found [here](https://github.com/zneyrl/TootPayRfid).
+##### This project is built with Laravel. [Learn more](https://laravel.com/docs/5.2).
