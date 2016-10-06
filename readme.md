@@ -1,16 +1,16 @@
 ## Cashless Payment System using Digital Wallet (Toot Card)
 
-(Administrator)
-User ID: 12312341234
-Password: 123qwe
+**Administrator**
+User ID: _12312341234_
+Password: _123qwe_
 
-(Cashier)
-User ID: 01987654321
-Password: 123qwe
+**Cashier**
+User ID: _01987654321_
+Password: _123qwe_
 
-(Cardholder)
-User ID: 00420130015
-Password: 123456
+**Cardholder**
+User ID: _00420130015_
+Password: _123456_
 
-Check it out -> http://tootpay.epizy.com/
-Ordering starts here -> http://tootpay.epizy.com/idle
+Check it out [here](http://tootpay.epizy.com/).
+Ordering starts [here](http://tootpay.epizy.com/idle).
